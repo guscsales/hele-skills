@@ -49,7 +49,7 @@ A feature-delivery harness for Claude Code, named after Helena. Every skill star
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on Sonnet. Change per project: `hele config set agents.models.cho opus`. Hightower and Lisbon run in the main session, so their model = the session model — run planning/build sessions on Fable 5.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on Sonnet. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`). Change per project: `hele config set agents.models.backend-cho opus`. Hightower and Lisbon run in the main session, so their model = the session model — run planning/build sessions on Fable 5.
 
 ## Project layout (created by /hele-init)
 

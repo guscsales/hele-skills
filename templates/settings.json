@@ -8,16 +8,16 @@
   "agents": {
     "maxParallel": 4,
     "models": {
-      "hightower": "fable",
-      "lisbon": "fable",
-      "vega": "opus",
-      "red-john": "sonnet",
-      "cho": "sonnet",
-      "van-pelt": "sonnet",
-      "jane": "fable",
-      "rigsby": "sonnet",
-      "wylie-stubs": "fable",
-      "wylie-qa": "sonnet"
+      "pm-hightower": "fable",
+      "staff-lisbon": "fable",
+      "design-vega": "opus",
+      "dba-red-john": "sonnet",
+      "backend-cho": "sonnet",
+      "frontend-van-pelt": "sonnet",
+      "security-jane": "fable",
+      "infra-rigsby": "sonnet",
+      "qa-wylie-stubs": "fable",
+      "qa-wylie-run": "sonnet"
     }
   },
   "beads": {

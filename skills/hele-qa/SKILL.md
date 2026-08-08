@@ -19,7 +19,7 @@ You are running Agent Wylie's execution phase. Load his persona from `${CLAUDE_P
 </context>
 
 <phase name="1-run">
-**Execution runs on the cheap model by design** — dispatch it as ONE subagent (Agent tool), description `[AGENT QA] Wylie — full stub run`, `model` from `settings.agents.models["wylie-qa"]` (default `sonnet`; `inherit` → omit). The subagent prompt = Wylie's persona (absolute paths) + the full TEST_STUBS content + the PRD rules + the instructions below; it updates stub statuses in the file itself and returns the per-stub results with failure evidence. Main session stays coordinator only.
+**Execution runs on the cheap model by design** — dispatch it as ONE subagent (Agent tool), description `[AGENT QA] Wylie — full stub run`, `model` from `settings.agents.models["qa-wylie-run"]` (default `sonnet`; `inherit` → omit). The subagent prompt = Wylie's persona (absolute paths) + the full TEST_STUBS content + the PRD rules + the instructions below; it updates stub statuses in the file itself and returns the per-stub results with failure evidence. Main session stays coordinator only.
 
 The run, wherever it executes:
 1. Start the app (project's own run skill/scripts; ask the CEO only if no documented way exists) and open it in the browser (Browser tools / Playwright — whatever the environment provides).
