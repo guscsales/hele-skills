@@ -3079,6 +3079,15 @@ function resolveHeleDir() {
   for (; ; ) {
     const candidate = import_node_path.default.join(cur, ".hele");
     if (import_node_fs.default.existsSync(candidate) && import_node_fs.default.statSync(candidate).isDirectory()) return candidate;
+    const rc = import_node_path.default.join(cur, ".helerc");
+    if (import_node_fs.default.existsSync(rc)) {
+      try {
+        const { dirName } = JSON.parse(import_node_fs.default.readFileSync(rc, "utf8"));
+        const custom = import_node_path.default.join(cur, dirName);
+        if (dirName && import_node_fs.default.existsSync(custom) && import_node_fs.default.statSync(custom).isDirectory()) return custom;
+      } catch {
+      }
+    }
     const parent = import_node_path.default.dirname(cur);
     if (parent === cur) return null;
     cur = parent;

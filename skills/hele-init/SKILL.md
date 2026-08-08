@@ -26,9 +26,14 @@ Plugin resources referenced below live at `${CLAUDE_PLUGIN_ROOT}` (templates in 
 </phase>
 
 <phase name="1-interview">
-Ask the CEO before creating anything (AskUserQuestion):
+Ask the CEO before creating anything (AskUserQuestion — one call, both questions):
 
-1. "Does this project have a design system Agent Vega should learn?"
+1. "What should the harness folder be called?" (skip when the directory already exists)
+   - ".hele (Recommended)" — the default; the CLI and docs assume it
+   - ".harness"
+   - ".memory"
+   (the CEO can always type another name via Other)
+2. "Does this project have a design system Agent Vega should learn?"
    - "Yes — I'll provide the path(s)" (follow up: collect the path(s), store as array in `designSystem.paths`)
    - "No design system yet"
 
@@ -45,6 +50,7 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
      LEARNINGS.md       ← header only (see below)
      features/          ← empty dir (add .gitkeep)
    ```
+   Use the chosen folder name everywhere `.hele/` appears; set `settings.dirName` to it. **Name other than `.hele`** → also write `.helerc` at the project root: `{"dirName": "<name>"}` — the pointer the CLI and every skill use to find the harness dir.
 2. `LEARNINGS.md` header:
    ```markdown
    # Learnings

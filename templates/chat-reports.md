@@ -13,6 +13,7 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 - **Suggest `/clear` between phases.** When a phase is fully closed — approval given, every artifact and status written to disk, nothing pending — the NEXT line leads with it: `▶ NEXT: /clear (everything is saved on disk — fresh context is cheaper) → /hele-plan`. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet.
 - File artifacts are exempt: markdown docs stay clean, no dividers or emoji inside `.hele/` files.
 - Chat language follows the CEO (pt-BR in, pt-BR out). Artifacts are always English.
+- **`.hele/` is a placeholder, not a hardcoded path.** The harness folder is `.hele/` at the project root by default, but the CEO may have named it differently at init: a `.helerc` file at the root (`{"dirName": "<name>"}`) points to the real folder. Every skill resolves the dir first (`.hele` → else `.helerc`) and uses the resolved name in paths and links.
 </rules>
 
 <canonical-blocks>
