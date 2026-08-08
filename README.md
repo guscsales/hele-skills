@@ -2,40 +2,66 @@
   <img src="assets/banner.svg" alt="hele — agents with memory · by Inventra" width="560" />
 </p>
 
-# hele-skills
-
 A feature-delivery harness for Claude Code, named after Helena. Every skill starts with `/hele-*`.
 
 **Core belief:** agents have no memory — we build it for them. Every feature leaves behind documents that explain WHAT it is and WHY it exists, HOW it was built, and HOW to validate it. Future sessions read those documents instead of guessing.
 
+Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-aware issue tracker built for agents: every planned task becomes a beads issue, the build loop dispatches whatever `bd ready` unblocks, and an interrupted session resumes exactly where it stopped — the state lives in beads, not in the chat.
+
 ## The flow
 
 ```
- Human idea
+ ╭─ Human idea ───────────────────────────────── START ─╮
+ │ You bring the input; the agents own the middle.      │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-feature ──► PRODUCT_DESCRIPTION.md   (Agent Hightower interviews you)
+ ╭─ /hele-feature ───────────────────────── WHAT & WHY ─╮
+ │ Agent Hightower                                      │
+ │ ▸ PRODUCT_DESCRIPTION.md                             │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-design ───► DESIGN_SPEC.md            (Agent Vega — when UI is involved)
+ ╭─ /hele-design ──────────────────────── HOW IT LOOKS ─╮
+ │ Agent Vega                                           │
+ │ ▸ DESIGN_SPEC.md                                     │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-plan ─────► EXECUTION_PLAN.md         (Agent Lisbon + beads epic/tasks)
+ ╭─ /hele-plan ────────────────────────── HOW TO BUILD ─╮
+ │ Agent Lisbon                                         │
+ │ ▸ EXECUTION_PLAN.md + beads                          │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-stubs ────► TEST_STUBS.md             (Agent Wylie — plain-english contract)
+ ╭─ /hele-stubs ────────────────────── HOW TO VALIDATE ─╮
+ │ Agent Wylie                                          │
+ │ ▸ TEST_STUBS.md                                      │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-build ────► code, TDD                 (Agent Cho, Agent Van Pelt, Agent Jane, Agent Rigsby)
+ ╭─ /hele-build ───────────────────── THE CONSTRUCTION ─╮
+ │ Agents Cho, Van Pelt, Jane, Rigsby                   │
+ │ ▸ code + passing tests                               │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-qa ───────► browser E2E vs stubs      (Agent Wylie)
+ ╭─ /hele-qa ──────────────────────────── SECOND LAYER ─╮
+ │ Agent Wylie                                          │
+ │ ▸ browser E2E vs stubs                               │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
- /hele-retro ────► RETRO.md + LEARNINGS.md
-```
+ ╭─ /hele-retro ────────────────────── WHAT TO IMPROVE ─╮
+ │ Agent Hightower                                      │
+ │ ▸ RETRO.md + LEARNINGS.md                            │
+ ╰──────────────────────────────────────────────────────╯
 
-`/hele-init` bootstraps a project; `/hele-status` shows where everything stands.
+ ╭─ anytime ────────────────────────────────────────────╮
+ │ /hele-init    bootstraps .hele/ (run once)           │
+ │ /hele-status  the board: versions, drift, next       │
+ ╰──────────────────────────────────────────────────────╯
+```
 
 ## The team
 
