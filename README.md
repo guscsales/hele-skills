@@ -82,10 +82,17 @@ The human is the CEO/CTO: answers what agents cannot, unblocks the real world, o
 
 Skills never grep ad hoc. They search through `hele find` against `index.json` (slug, title, aliases in EN/PT, summary) with content fallback — and `/hele-feature` has a hard gate: no new feature is created before searching and confirming with the CEO that it is not an update to an existing one.
 
-## Install (local)
+## Install
 
 ```bash
-claude plugin marketplace add /Users/guscsales/workspace/codegus/hele-skills
+claude plugin marketplace add guscsales/hele-skills
+claude plugin install hele-skills@hele
+```
+
+Working from a local clone (contributors):
+
+```bash
+claude plugin marketplace add /path/to/hele-skills
 claude plugin install hele-skills@hele
 ```
 
