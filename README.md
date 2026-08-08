@@ -161,3 +161,9 @@ cd cli && npm link        # dev setup — `hele <command>` anywhere
 ```
 
 Contributing to the CLI: edit `cli/src/`, then `npm run build` (esbuild, single-file bundle).
+
+---
+
+<p align="center">
+  Created by <a href="https://inventra.sh"><strong>Inventra</strong> — Management for Small Business</a>
+</p>
