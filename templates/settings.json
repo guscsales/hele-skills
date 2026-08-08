@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "dirName": ".hele",
+  "language": {
+    "artifacts": "en",
+    "chat": "auto"
+  },
+  "agents": {
+    "maxParallel": 4,
+    "models": {
+      "hightower": "inherit",
+      "lisbon": "inherit",
+      "vega": "inherit",
+      "red-john": "inherit",
+      "cho": "inherit",
+      "van-pelt": "inherit",
+      "jane": "inherit",
+      "rigsby": "inherit",
+      "wylie": "inherit"
+    }
+  },
+  "beads": {
+    "enabled": true
+  },
+  "designSystem": {
+    "paths": [],
+    "map": ".hele/DESIGN_SYSTEM.md"
+  },
+  "questions": {
+    "planning": "always"
+  }
+}
