@@ -19,6 +19,9 @@ You are running Agent Wylie's execution phase. Load his persona from `${CLAUDE_P
 </context>
 
 <phase name="1-run">
+**Execution runs on the cheap model by design** — dispatch it as ONE subagent (Agent tool), description `[AGENT QA] Wylie — full stub run`, `model` from `settings.agents.models["wylie-qa"]` (default `sonnet`; `inherit` → omit). The subagent prompt = Wylie's persona (absolute paths) + the full TEST_STUBS content + the PRD rules + the instructions below; it updates stub statuses in the file itself and returns the per-stub results with failure evidence. Main session stays coordinator only.
+
+The run, wherever it executes:
 1. Start the app (project's own run skill/scripts; ask the CEO only if no documented way exists) and open it in the browser (Browser tools / Playwright — whatever the environment provides).
 2. Execute **the whole suite** — every stub, all increments, regression included. Never just the newest increment.
 3. Per stub: drive the Given, perform the When, verify the Then against what the app actually shows. `kind: api` stubs → exercise at request level. `unit-expectation` stubs → verify via the automated test suite results, and say so.
@@ -27,7 +30,7 @@ You are running Agent Wylie's execution phase. Load his persona from `${CLAUDE_P
 </phase>
 
 <phase name="2-record-and-route">
-1. Update every executed stub's `status` in TEST_STUBS.md — the file is the record.
+1. Verify the subagent updated every executed stub's `status` in TEST_STUBS.md — the file is the record; fill any it missed.
 2. Each failure → a beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with reproduction steps + evidence + the stub and rule ids. Owner per Lisbon's task mapping (backend/frontend/infra); unclear → tag for Lisbon to route in /hele-build.
 3. Wylie never fixes product code — routing is his fix.
 </phase>

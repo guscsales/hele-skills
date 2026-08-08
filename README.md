@@ -35,19 +35,21 @@ A feature-delivery harness for Claude Code, named after Helena. Every skill star
 
 ## The team
 
-| Tag | Agent | Role |
-|---|---|---|
-| `[AGENT PM]` | Hightower | Product Manager — owns PRDs, chases delivery, reports to the CEO |
-| `[AGENT STAFF]` | Lisbon | Staff Engineer — architecture, plans, staffs and routes the team |
-| `[AGENT DESIGN]` | Vega | UI/UX Designer — design-system map, design specs |
-| `[AGENT BE]` | Cho | Backend Engineer — TDD executor |
-| `[AGENT FE]` | Van Pelt | Frontend Engineer — implements from design specs, TDD |
-| `[AGENT DBA]` | Red John | DBA — schema guardian: DB change specs need your approval before any migration |
-| `[AGENT SEC]` | Jane | Security Engineer — threat-models risky increments |
-| `[AGENT INFRA]` | Rigsby | Infra Engineer — CI, environments, deploys |
-| `[AGENT QA]` | Wylie | QA — runs TEST_STUBS end to end in the browser |
+| Tag | Agent | Role | Default model |
+|---|---|---|---|
+| `[AGENT PM]` | Hightower | Product Manager — owns PRDs, chases delivery, reports to the CEO | Fable 5 |
+| `[AGENT STAFF]` | Lisbon | Staff Engineer — architecture, plans, staffs and routes the team | Fable 5 |
+| `[AGENT DESIGN]` | Vega | UI/UX Designer — design-system map, design specs | Opus 5 |
+| `[AGENT BE]` | Cho | Backend Engineer — TDD executor | Sonnet 5 |
+| `[AGENT FE]` | Van Pelt | Frontend Engineer — implements from design specs, TDD | Sonnet 5 |
+| `[AGENT DBA]` | Red John | DBA — schema guardian: DB change specs need your approval before any migration | Sonnet 5 |
+| `[AGENT SEC]` | Jane | Security Engineer — threat-models risky increments | Fable 5 |
+| `[AGENT INFRA]` | Rigsby | Infra Engineer — CI, environments, deploys | Sonnet 5 |
+| `[AGENT QA]` | Wylie | QA — writes TEST_STUBS (Fable 5), runs them in the browser (Sonnet 5) | split |
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
+
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on Sonnet. Change per project: `hele config set agents.models.cho opus`. Hightower and Lisbon run in the main session, so their model = the session model — run planning/build sessions on Fable 5.
 
 ## Project layout (created by /hele-init)
 

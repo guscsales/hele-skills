@@ -8,15 +8,16 @@
   "agents": {
     "maxParallel": 4,
     "models": {
-      "hightower": "inherit",
-      "lisbon": "inherit",
-      "vega": "inherit",
-      "red-john": "inherit",
-      "cho": "inherit",
-      "van-pelt": "inherit",
-      "jane": "inherit",
-      "rigsby": "inherit",
-      "wylie": "inherit"
+      "hightower": "fable",
+      "lisbon": "fable",
+      "vega": "opus",
+      "red-john": "sonnet",
+      "cho": "sonnet",
+      "van-pelt": "sonnet",
+      "jane": "fable",
+      "rigsby": "sonnet",
+      "wylie-stubs": "fable",
+      "wylie-qa": "sonnet"
     }
   },
   "beads": {
