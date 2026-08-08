@@ -1,0 +1,13 @@
+{
+  "name": "hele",
+  "owner": {
+    "name": "Gustavo Sales"
+  },
+  "plugins": [
+    {
+      "name": "hele-skills",
+      "source": "./",
+      "description": "Feature-delivery harness — PRDs, execution plans, design specs, test stubs, build, QA, and retros, run by a named agent team with beads task tracking."
+    }
+  ]
+}
