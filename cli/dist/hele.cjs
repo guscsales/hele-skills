@@ -3448,6 +3448,20 @@ promoted to .hele/LEARNINGS.md with stable L-nnn ids \u2014 every skill loads
 that file at start, so retros actually change future behavior.`
   },
   {
+    name: "fast",
+    agent: "Agents Hightower & Lisbon",
+    artifact: "FAST.md (one artifact)",
+    question: "THE FAST LANE",
+    detail: `Small, low-risk change? The fast lane ships it with proportional
+ceremony: triage (hard disqualifiers: DB schema, security surface, new
+user-facing flow, cross-feature impact \u2014 any of those exits to the full
+flow), a 1\u20133 task micro-plan in beads, TDD build, memory sync (a behavior
+change still patches the PRD and stubs \u2014 living docs never lie), full test
+suite once, affected stubs in the browser, and a single FAST.md instead of
+four documents. /hele-feature suggests it automatically when a request
+smells fast-lane sized.`
+  },
+  {
     name: "status",
     agent: "the harness",
     artifact: "read-only board",
@@ -3495,7 +3509,7 @@ function aiCommand(skillName) {
   console.log(boxTop("Human idea", "START"));
   console.log(boxRow("You bring the input; the agents own the middle.", dim));
   console.log(boxBottom());
-  for (const s of SKILLS.filter((x) => x.name !== "init" && x.name !== "status")) {
+  for (const s of SKILLS.filter((x) => !["init", "status", "fast"].includes(x.name))) {
     for (const c of CONNECTOR) console.log(c);
     console.log(boxTop(`/hele-${s.name}`, s.question));
     console.log(boxRow(s.agent, bold));
@@ -3506,6 +3520,7 @@ function aiCommand(skillName) {
   console.log(boxTop("anytime", ""));
   console.log(boxRow("/hele-init    bootstraps .hele/ (run once)"));
   console.log(boxRow("/hele-status  the board: versions, drift, next"));
+  console.log(boxRow("/hele-fast    small low-risk change, one artifact"));
   console.log(boxBottom());
   console.log("");
   console.log(boxTop("memory", ""));

@@ -60,8 +60,13 @@ Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-
  ╭─ anytime ────────────────────────────────────────────╮
  │ /hele-init    bootstraps .hele/ (run once)           │
  │ /hele-status  the board: versions, drift, next       │
+ │ /hele-fast    small low-risk change, one artifact    │
  ╰──────────────────────────────────────────────────────╯
 ```
+
+### The fast lane
+
+Not every change deserves seven phases. `/hele-fast` ships small, low-risk changes with proportional ceremony: triage → 1–3 beads tasks → TDD build → memory sync → full test suite once + affected stubs in the browser → a single `FAST.md` instead of four documents. Hard disqualifiers keep it honest — DB schema, security surface, new user-facing flows, or cross-feature impact exit to the full flow automatically. A behavior change still patches the PRD and stubs: the living docs never lie, no matter the lane.
 
 ## The vision
 
