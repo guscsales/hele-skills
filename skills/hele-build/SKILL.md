@@ -23,7 +23,8 @@ Repeat until no tasks remain:
 1. `bd ready` → tasks whose dependencies are done. Dispatch up to `agents.maxParallel` in parallel.
 2. Each engineer task = one subagent (Agent tool), prompt assembled from:
    - the persona file content (`agents/backend-cho.md` / `frontend-van-pelt.md` / `security-jane.md` / `infra-rigsby.md`) — paths rewritten absolute;
-   - the task block from the plan (description, files, tests, beads id) + the relevant PRD rules + DESIGN_SPEC screens (for Van Pelt) + relevant LEARNINGS;
+   - the task block from the plan (description, files, tests, beads id) + the relevant PRD rules + relevant LEARNINGS;
+   - for Van Pelt: the DESIGN_SPEC screens for her task, its `tool` value, and the artboard links/ids — with the explicit instruction to fetch the artboards through that tool (Paper/Figma MCP) and implement from what they actually show, per her persona's fidelity rules;
    - the contract: **TDD — failing test first where the task defines behavior; done = tests pass; report files touched + test results; never widen scope.**
    Model per agent from `settings.agents.models` (`inherit` → omit). Announce each dispatch in one line (chat-reports.md style).
 3. On return: Lisbon reviews shape (placement, patterns, simplicity — fix-ups become follow-up dispatches, not her commits); Hightower checks the output against the PRD rules the task serves. Task done → close the beads issue.
