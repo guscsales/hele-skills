@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="hele — agents with memory · by Inventra" width="560" />
+</p>
+
 # hele-skills
 
 A feature-delivery harness for Claude Code, named after Helena. Every skill starts with `/hele-*`.

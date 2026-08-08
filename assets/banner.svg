@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="216" viewBox="0 0 560 216" role="img" aria-label="hele — agents with memory, by Inventra">
+  <rect width="560" height="216" rx="12" fill="#0a0a0a"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" text-anchor="middle">
+    <g fill="#ffffff" font-weight="bold">
+      <text x="280" y="52" xml:space="preserve">██╗  ██╗███████╗██╗     ███████╗</text>
+      <text x="280" y="71" xml:space="preserve">██║  ██║██╔════╝██║     ██╔════╝</text>
+      <text x="280" y="90" xml:space="preserve">███████║█████╗  ██║     █████╗  </text>
+      <text x="280" y="109" xml:space="preserve">██╔══██║██╔══╝  ██║     ██╔══╝  </text>
+      <text x="280" y="128" xml:space="preserve">██║  ██║███████╗███████╗███████╗</text>
+      <text x="280" y="147" xml:space="preserve">╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝</text>
+    </g>
+    <text x="280" y="182" fill="#8a8a8a" font-size="14">agents with memory · by Inventra</text>
+  </g>
+</svg>
