@@ -3104,7 +3104,7 @@ function requireHeleDir() {
 
 // src/find.js
 var THRESHOLD = 40;
-var norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+var norm = (s) => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 function fuzzy(a, b) {
   const x = norm(a).replace(/ /g, "");
   const y = norm(b).replace(/ /g, "");

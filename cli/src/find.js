@@ -4,10 +4,17 @@ import { requireHeleDir } from './dir.js';
 
 const THRESHOLD = 40;
 
-const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+// Diacritics fold BEFORE stripping, so "promoção" → "promocao", not "promo o".
+export const norm = (s) =>
+  String(s)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
 
 /** Bigram Dice coefficient — cheap fuzzy similarity in [0, 1]. */
-function fuzzy(a, b) {
+export function fuzzy(a, b) {
   const x = norm(a).replace(/ /g, '');
   const y = norm(b).replace(/ /g, '');
   if (!x || !y) return 0;
@@ -38,7 +45,7 @@ function loadIndex(heleDir) {
   }
 }
 
-function scoreFeature(query, feat) {
+export function scoreFeature(query, feat) {
   const q = norm(query);
   const qKebab = q.replace(/ /g, '-');
   let best = { score: 0, matchedOn: '' };
