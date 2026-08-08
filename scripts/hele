@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# hele — thin shim so skills can call ${CLAUDE_PLUGIN_ROOT}/scripts/hele.
+# The real CLI is Node (cli/dist/hele.cjs, bundled — no npm install needed).
+# For direct terminal use, prefer: cd cli && npm link  →  `hele <command>` anywhere.
+set -euo pipefail
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+exec node "$DIR/../cli/dist/hele.cjs" "$@"

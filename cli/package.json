@@ -1,0 +1,23 @@
+{
+  "name": "hele-cli",
+  "version": "0.1.0",
+  "description": "hele — feature-delivery harness CLI (find, config, install)",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "hele": "./dist/hele.cjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.js --bundle --platform=node --format=cjs --outfile=dist/hele.cjs --banner:js='#!/usr/bin/env node' && chmod +x dist/hele.cjs",
+    "dev": "node src/index.js"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
+}
