@@ -3053,7 +3053,7 @@ function banner() {
     "",
     ...LINES.map((l) => `  ${bold2}${l}${reset}`),
     `  ${"\u2500".repeat(32)}`,
-    `  ${dim2}agents with memory \xB7 by Inventra${reset}`,
+    `  ${dim2}agents with memory${reset}`,
     ""
   ].join("\n");
 }
