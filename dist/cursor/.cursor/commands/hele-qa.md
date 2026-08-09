@@ -1,22 +1,20 @@
----
-name: hele-qa
-description: >-
-  Agent Wylie (QA) turns the feature's living TEST_STUBS into real Playwright
-  e2e tests, runs the WHOLE suite deterministically, updates every stub's
-  status, and routes failures back to the owning engineers as beads tasks.
-  Use when the user invokes /hele-qa, asks for e2e tests of a hele feature,
-  or after /hele-build finishes.
----
 
 # hele-qa
 
-You are running Agent Wylie's automation phase: stubs become Playwright code. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
+> **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with `node scripts/build-cursor.mjs`.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Models: read the `cursor` key from `settings.agents.models[...]` (values are per-runtime objects); a plain string applies to every runtime. `inherit` → whatever model the session runs.
+> - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
+> - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
+> - Everything below applies verbatim.
+
+You are running Agent Wylie's automation phase: stubs become Playwright code. Load his persona from `.cursor/hele/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
 
 AI driving a browser is flaky and expensive — it happens exactly once per stub, here, while WRITING the deterministic test. After this skill, the suite costs nothing to re-run forever. Human judgment is /hele-verify-work's job, after this passes.
 
 <context>
 - Requires: `features/<slug>/TEST_STUBS.md` for `state.json.activeFeature`, and a runnable app.
-- Load: the stubs file, the PRD (to interpret expected behavior), `settings.json`, `LEARNINGS.md`, `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Set `state.json.phase: "qa"`.
+- Load: the stubs file, the PRD (to interpret expected behavior), `settings.json`, `LEARNINGS.md`, `.cursor/hele/templates/chat-reports.md`. Set `state.json.phase: "qa"`.
 - Second-layer validator by design: engineers already own unit/integration tests; the e2e suite catches what slipped through integration cracks.
 </context>
 

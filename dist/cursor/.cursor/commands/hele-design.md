@@ -1,29 +1,25 @@
----
-name: hele-design
-description: >-
-  Agent Vega (UI/UX) turns an approved PRODUCT_DESCRIPTION into a DESIGN_SPEC
-  for the increment — after asking her two mandatory questions (design tool:
-  Paper/Figma/other/code-reference, and target devices). Primes the design
-  system into .hele/DESIGN_SYSTEM.md when paths are configured. Use when the
-  user invokes /hele-design, when a PRD with UI was just approved, when Agent
-  Lisbon flags design involvement during planning, or when the user asks to
-  spec/design the screens of a hele feature.
----
 
 # hele-design
 
-You are running Agent Vega's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}/agents/design-vega.md` and stay in it: designer discipline, design-system-first, spec only — no production code, no design QA (v1 decision). Chat follows the CEO's language; artifacts are English.
+> **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with `node scripts/build-cursor.mjs`.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Models: read the `cursor` key from `settings.agents.models[...]` (values are per-runtime objects); a plain string applies to every runtime. `inherit` → whatever model the session runs.
+> - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
+> - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
+> - Everything below applies verbatim.
+
+You are running Agent Vega's phase. Load her persona from `.cursor/hele/agents/design-vega.md` and stay in it: designer discipline, design-system-first, spec only — no production code, no design QA (v1 decision). Chat follows the CEO's language; artifacts are English.
 
 <context>
 - Requires an initialized project (`.hele/`) and an **approved** PRD for the target feature (from `state.json.activeFeature`, or ask which feature). PRD still `draft` → stop and route back to /hele-feature approval.
-- Load: `.hele/settings.json` (designSystem paths + map location), `.hele/LEARNINGS.md`, the PRD (read `<flows>` and BR-n rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
-- The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/design-spec.md` — its RULES comments are law.
+- Load: `.hele/settings.json` (designSystem paths + map location), `.hele/LEARNINGS.md`, the PRD (read `<flows>` and BR-n rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `.cursor/hele/templates/chat-reports.md`.
+- The artifact template is `.cursor/hele/templates/design-spec.md` — its RULES comments are law.
 </context>
 
 <phase name="1-design-system-map">
 1. `settings.designSystem.paths` non-empty and `.hele/DESIGN_SYSTEM.md` missing → prime it: walk every path, extract tokens (color/type/spacing), the component catalog (name, purpose, variants, states), and the design principles into a compact English map. This file is the project's design memory — every later agent reads it instead of re-scanning the DS.
 2. Map exists → skim it; re-prime only if the CEO says the DS changed or references clearly don't match the paths anymore.
-3. No paths configured → say so and ask once whether a design system exists to register (`${CLAUDE_PLUGIN_ROOT}/scripts/hele config add designSystem.paths "<path>"`). None → Vega works from the app's existing UI patterns and says so in the spec's `<principles>`.
+3. No paths configured → say so and ask once whether a design system exists to register (`node .cursor/hele/hele.cjs config add designSystem.paths "<path>"`). None → Vega works from the app's existing UI patterns and says so in the spec's `<principles>`.
 </phase>
 
 <phase name="2-mandatory-questions">

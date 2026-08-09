@@ -1,20 +1,18 @@
----
-name: hele-stubs
-description: >-
-  Agent Wylie (QA) writes plain-English test stubs (Given/When/Then) from the
-  approved PRODUCT_DESCRIPTION into the feature's living TEST_STUBS.md — the
-  regression contract /hele-qa executes. Use when the user invokes /hele-stubs,
-  asks for the test plan/contract of a hele feature, or after the execution
-  plan is approved.
----
 
 # hele-stubs
 
-You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
+> **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with `node scripts/build-cursor.mjs`.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Models: read the `cursor` key from `settings.agents.models[...]` (values are per-runtime objects); a plain string applies to every runtime. `inherit` → whatever model the session runs.
+> - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
+> - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
+> - Everything below applies verbatim.
+
+You are running Agent Wylie's authoring phase. Load his persona from `.cursor/hele/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
 
 <context>
 - Requires `.hele/` and an **approved** PRD for `state.json.activeFeature`.
-- Load: the PRD (business rules + flows are the source), `LEARNINGS.md`, the existing `features/<slug>/TEST_STUBS.md` (living file — never recreate), and `${CLAUDE_PLUGIN_ROOT}/templates/test-stubs.md` (RULES comments are law) + `templates/chat-reports.md`.
+- Load: the PRD (business rules + flows are the source), `LEARNINGS.md`, the existing `features/<slug>/TEST_STUBS.md` (living file — never recreate), and `.cursor/hele/templates/test-stubs.md` (RULES comments are law) + `templates/chat-reports.md`.
 - **Never read the EXECUTION_PLAN to write stubs.** Stubs validate product behavior from the PRD; reading the implementation plan contaminates them. (Jane may add abuse-case stubs separately during build.)
 </context>
 
@@ -29,7 +27,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 
 <phase name="2-write-and-approve">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
-2. **Also draft the guided-verification script:** distill the increment's main human flows (3–8 journeys — happy paths first, riskiest unhappy paths next; not one entry per stub) into `increments/NNN-<slug>/VERIFY.md` from `${CLAUDE_PLUGIN_ROOT}/templates/verify.md`, all verdicts `pending`, `based_on` the stubs version just written. /hele-verify-work executes this script later — it should not have to invent it.
+2. **Also draft the guided-verification script:** distill the increment's main human flows (3–8 journeys — happy paths first, riskiest unhappy paths next; not one entry per stub) into `increments/NNN-<slug>/VERIFY.md` from `.cursor/hele/templates/verify.md`, all verdicts `pending`, `based_on` the stubs version just written. /hele-verify-work executes this script later — it should not have to invent it.
 3. Report as chat text (never fenced): suite size before → after, new stubs per rule, rewritten stubs, uncovered rules (should be none — justify any), VERIFY.md flow count.
 
 🗳️ YOUR CALL — 1. ✅ Approve contract · 2. ✏️ Adjust · 3. 🔍 Show stubs for a specific rule

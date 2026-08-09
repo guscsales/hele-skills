@@ -106,7 +106,17 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on Sonnet. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`). Change per project: `hele config set agents.models.backend-cho opus`. Hightower and Lisbon run in the main session, so their model = the session model — run planning/build sessions on Fable 5.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon run in the main session, so their model = the session model — run planning/build sessions on the strong model.
+
+## Cursor
+
+The harness also runs in Cursor — same skills, same memory, generated as a native adapter. `node scripts/build-cursor.mjs` produces `dist/cursor/.cursor/`: every `/hele-*` skill as a Cursor command, every persona as a native agent definition (`.cursor/agents/`, model preconfigured — strong work on fable/opus, execution volume on grok), templates and the hele CLI bundled under `.cursor/hele/`. Install by copying into your project root:
+
+```bash
+cp -r dist/cursor/.cursor /path/to/your/project/
+```
+
+`.hele/` is shared between runtimes — start a feature in Claude Code, continue it in Cursor, same memory. The adapter is generated from the core: never edit `dist/cursor` by hand.
 
 ## Project layout (created by /hele-init)
 
@@ -166,6 +176,8 @@ templates/          output templates — file artifacts AND chat report formats
 references/         standards the agents cite
 cli/                the hele CLI — Node + commander (src/ + bundled dist/)
 scripts/hele        thin shim: skills call ${CLAUDE_PLUGIN_ROOT}/scripts/hele
+scripts/build-cursor.mjs   generates the Cursor adapter from the core
+dist/cursor/        generated Cursor adapter (.cursor/ to copy into a project)
 ```
 
 ## CLI
