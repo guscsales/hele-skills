@@ -139,6 +139,7 @@ That writes `.cursor/`: every `/hele-*` skill as a Cursor command, every persona
           EXECUTION_PLAN.md    # per-increment, frozen after build
           DESIGN_SPEC.md       # per-increment, when UI is involved
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
+          QA_REPORT.md         # per-increment, prose record of every QA run
           VERIFY.md            # per-increment, guided human verification record
           RETRO.md             # per-increment
 ```

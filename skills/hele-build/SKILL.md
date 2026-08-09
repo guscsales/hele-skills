@@ -5,12 +5,21 @@ description: >-
   Van Pelt, Jane, Rigsby) on ready beads tasks with TDD, coordinated by Agents
   Hightower and Lisbon, until the increment is built and automated tests pass.
   Use when the user invokes /hele-build, says "build it / bora construir" for
-  a planned hele increment, or wants to resume a partially built increment.
+  a planned hele increment, wants to resume a partially built increment, or
+  invokes /hele-build --from-qa to fix what a QA run found.
 ---
 
 # hele-build
 
 You are the coordination loop: Agent Hightower (delivery pressure, PRD conformance) + Agent Lisbon (dispatch, structural review). Load both personas (`${CLAUDE_PLUGIN_ROOT}/agents/pm-hightower.md`, `agents/staff-lisbon.md`). Engineers are subagents. Chat follows the CEO's language.
+
+<mode name="--from-qa">
+Invoked as `/hele-build --from-qa` (or right after the CEO approves the QA gate): a FIX round, not a plan round.
+- Scope = ONLY the open `QA:` beads tasks on the increment + any contract-decisions the CEO made at the gate (a PRD change decided there goes through /hele-feature first — never patched silently here).
+- Load `increments/NNN/QA_REPORT.md` and put each failure's narrative (expected/happened/impact) into the owning engineer's dispatch prompt alongside the stub and rule — the engineer fixes the CONTRACT violation, not the symptom.
+- Same loop otherwise: overlap guard, TDD, test economy, Lisbon review, Red John gate if a fix touches schema (it exits to /hele-plan if it needs a DB_CHANGES).
+- Exit: fixed tasks closed + the affected Playwright specs green → ▶ NEXT: /hele-qa (full suite re-run confirms; the report gets its next run entry).
+</mode>
 
 <context>
 - Requires: approved EXECUTION_PLAN for `state.json.activeIncrement`, beads epic registered, TEST_STUBS approved (missing → offer /hele-stubs first; the CEO may build anyway).

@@ -38,15 +38,25 @@ Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie �
 2. Echo results live as they come, one line per stub: 🧪 TS-012 ✅ · 🧪 TS-013 ❌ expected empty-state, got blank screen.
 3. Flaky on first pass → retry once; still flaky → the TEST is wrong, fix the test, not the retry count.
 4. Update every stub's `status` in TEST_STUBS.md from the run results — the file is the record. A stub whose test cannot run (missing env, data, dependency) → `status: blocked` with the blocker named — never skipped silently.
-5. Each failure → a beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with the spec path, failure output, and the stub + rule ids. Owner per Lisbon's task mapping; unclear → tag for Lisbon to route in /hele-build. Wylie never fixes product code — routing is his fix.
+5. **Classify every failure** — the class decides where it goes:
+   - `product-bug` — the app breaks the stub's contract → beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with the spec path, failure output, stub + rule ids. Owner per Lisbon's task mapping; unclear → tag for Lisbon to route.
+   - `contract-question` — stub and product disagree and neither is obviously wrong → NO beads task yet; the CEO decides in phase 4.
+   - `polish` — real observation, breaks no stub → listed for the CEO's now-or-backlog call.
+   - `blocked` — couldn't run; the blocker named.
+   Wylie never fixes product code — routing is his fix.
+6. Write `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. Prose in product terms, no code: expected vs happened vs impact per failure, the classification, beads ids. State-not-history: latest run is the content, previous runs shrink to one line in `<history>`.
 </phase>
 
-<phase name="4-report">
-Wylie's QA Run block (persona), as chat text — specs written vs reused, passing/failing/blocked counts, each failure in one line with its beads id and owner.
+<phase name="4-report-and-route">
+Wylie's QA Run block (persona), as chat text — specs written vs reused, passing/failing/blocked counts, each failure in one line with its class, beads id and owner. 📄 Files includes QA_REPORT.md.
 
 Route by outcome:
 - **All passing** → ▶ NEXT: /hele-verify-work — guided human verification of the main flows.
-- **Failures** → ▶ NEXT: /hele-build — the failure tasks are already in beads, ready for dispatch.
+- **Failures** → approval gate, never silent hand-back:
+
+  🗳️ YOUR CALL — 1. ✅ Approve fixes → /hele-build --from-qa · 2. ⚖️ Decide the contract-questions first (each becomes: fix product, or PRD change via /hele-feature + stub rewrite) · 3. 🔍 Walk me through a failure
+
+  Contract-questions MUST be decided before or together with approval — a build dispatched on an undecided contract builds the wrong thing.
 - **Blocked stubs** → name what the CEO must unblock (real-world actions are his job).
 </phase>
 
