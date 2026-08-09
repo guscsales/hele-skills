@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 // Generates the Cursor adapter from the core (skills/, agents/, templates/, cli/dist).
-// Output: dist/cursor/.cursor/** — copy that .cursor folder into any project root.
+//
+// Modes:
+//   node scripts/build-cursor.mjs                      → writes dist/cursor/ (full adapter)
+//   node scripts/build-cursor.mjs --assets-only <out>  → writes only the JSON asset map
+//                                                        (all files except hele.cjs) — the
+//                                                        CLI embeds it so `hele cursor` can
+//                                                        install the adapter anywhere.
+//
 // The repo root stays the Claude Code adapter; this is a generated view. Do not
-// edit dist/cursor by hand — edit the core and re-run: node scripts/build-cursor.mjs
+// edit dist/cursor by hand — edit the core and re-run.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -10,7 +17,6 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'dist', 'cursor');
-const CURSOR = path.join(OUT, '.cursor');
 
 // Cursor model per persona — mirrors templates/settings.json "cursor" keys.
 const CURSOR_MODELS = JSON.parse(
@@ -40,42 +46,18 @@ function rewrite(content) {
     .replace(/\$\{CLAUDE_PLUGIN_ROOT\}/g, '.cursor/hele');
 }
 
-function clean() {
-  fs.rmSync(OUT, { recursive: true, force: true });
-  for (const dir of ['commands', 'agents', 'hele/agents', 'hele/templates']) {
-    fs.mkdirSync(path.join(CURSOR, dir), { recursive: true });
-  }
-}
+/** Every adapter file EXCEPT the CLI bundle, as { relativePath: content }. */
+export function collectFiles() {
+  const files = {};
+  const commands = [];
+  const agents = [];
 
-function buildCommands() {
-  const skillsDir = path.join(ROOT, 'skills');
-  const names = [];
-  for (const entry of fs.readdirSync(skillsDir)) {
-    const skillPath = path.join(skillsDir, entry, 'SKILL.md');
-    if (!fs.existsSync(skillPath)) continue;
-    const raw = fs.readFileSync(skillPath, 'utf8');
-    // strip the Claude Code plugin frontmatter; keep the body from the H1 on.
-    // rewrite BEFORE inserting the preamble — the preamble's own mention of
-    // CLAUDE_PLUGIN_ROOT must survive untouched.
-    const body = rewrite(raw.replace(/^---\n[\s\S]*?\n---\n/, ''));
-    const h1End = body.indexOf('\n', body.indexOf('# '));
-    const withPreamble = `${body.slice(0, h1End + 1)}\n${PREAMBLE}${body.slice(h1End + 1)}`;
-    fs.writeFileSync(path.join(CURSOR, 'commands', `${entry}.md`), withPreamble);
-    names.push(entry);
-  }
-  return names;
-}
-
-function buildAgents() {
-  const agentsDir = path.join(ROOT, 'agents');
-  const names = [];
-  for (const file of fs.readdirSync(agentsDir).filter((f) => f.endsWith('.md'))) {
+  for (const file of fs.readdirSync(path.join(ROOT, 'agents')).filter((f) => f.endsWith('.md'))) {
     const name = file.replace(/\.md$/, '');
-    const content = fs.readFileSync(path.join(agentsDir, file), 'utf8');
+    const content = fs.readFileSync(path.join(ROOT, 'agents', file), 'utf8');
     const title = content.split('\n')[0].replace(/^#\s*/, '');
     const model = cursorModelFor(name);
-    // native Cursor agent definition: frontmatter + full persona
-    const def = [
+    files[`.cursor/agents/${file}`] = [
       '---',
       `name: ${name}`,
       `description: ${JSON.stringify(title)}`,
@@ -84,32 +66,39 @@ function buildAgents() {
       '',
       rewrite(content),
     ].join('\n');
-    fs.writeFileSync(path.join(CURSOR, 'agents', `${name}.md`), def);
-    // raw persona copy for skills that inject persona content into prompts
-    fs.writeFileSync(path.join(CURSOR, 'hele', 'agents', file), rewrite(content));
-    names.push(name);
+    files[`.cursor/hele/agents/${file}`] = rewrite(content);
+    agents.push(name);
   }
-  return names;
+
+  for (const entry of fs.readdirSync(path.join(ROOT, 'skills'))) {
+    const skillPath = path.join(ROOT, 'skills', entry, 'SKILL.md');
+    if (!fs.existsSync(skillPath)) continue;
+    const raw = fs.readFileSync(skillPath, 'utf8');
+    // rewrite BEFORE inserting the preamble — the preamble's own mention of
+    // CLAUDE_PLUGIN_ROOT must survive untouched.
+    const body = rewrite(raw.replace(/^---\n[\s\S]*?\n---\n/, ''));
+    const h1End = body.indexOf('\n', body.indexOf('# '));
+    files[`.cursor/commands/${entry}.md`] = `${body.slice(0, h1End + 1)}\n${PREAMBLE}${body.slice(h1End + 1)}`;
+    commands.push(entry);
+  }
+
+  for (const file of fs.readdirSync(path.join(ROOT, 'templates'))) {
+    files[`.cursor/hele/templates/${file}`] = rewrite(
+      fs.readFileSync(path.join(ROOT, 'templates', file), 'utf8')
+    );
+  }
+
+  return { files, commands, agents };
 }
 
-function buildResources() {
-  const templatesDir = path.join(ROOT, 'templates');
-  for (const file of fs.readdirSync(templatesDir)) {
-    const content = fs.readFileSync(path.join(templatesDir, file), 'utf8');
-    fs.writeFileSync(path.join(CURSOR, 'hele', 'templates', file), rewrite(content));
-  }
-  fs.copyFileSync(path.join(ROOT, 'cli', 'dist', 'hele.cjs'), path.join(CURSOR, 'hele', 'hele.cjs'));
-}
+function adapterReadme(commands, agents) {
+  return `# hele-skills — Cursor adapter (generated)
 
-function buildReadme(commands, agents) {
-  fs.writeFileSync(
-    path.join(OUT, 'README.md'),
-    `# hele-skills — Cursor adapter (generated)
-
-Copy the \`.cursor/\` folder into your project root:
+Install into a project (either way):
 
 \`\`\`bash
-cp -r dist/cursor/.cursor /path/to/your/project/
+hele cursor                # from the project root, using the hele CLI
+cp -r dist/cursor/.cursor /path/to/your/project/   # or manually, from this repo
 \`\`\`
 
 Then use the commands in Cursor chat: ${commands.map((c) => `\`/${c}\``).join(' · ')}.
@@ -119,13 +108,30 @@ Then use the commands in Cursor chat: ${commands.map((c) => `\`/${c}\``).join(' 
 - The hele CLI is bundled: \`node .cursor/hele/hele.cjs --help\`.
 
 Generated from the core — do not edit by hand. Regenerate: \`node scripts/build-cursor.mjs\`.
-`
-  );
+`;
 }
 
-clean();
-const agents = buildAgents();
-const commands = buildCommands();
-buildResources();
-buildReadme(commands, agents);
-console.log(`cursor adapter: ${commands.length} commands, ${agents.length} agents → ${path.relative(ROOT, OUT)}`);
+// ── CLI modes ────────────────────────────────────────────────────────────────
+const assetsIdx = process.argv.indexOf('--assets-only');
+if (assetsIdx !== -1) {
+  const outFile = process.argv[assetsIdx + 1];
+  if (!outFile) {
+    console.error('usage: build-cursor.mjs --assets-only <out.json>');
+    process.exit(2);
+  }
+  const { files, commands, agents } = collectFiles();
+  fs.mkdirSync(path.dirname(path.resolve(outFile)), { recursive: true });
+  fs.writeFileSync(path.resolve(outFile), JSON.stringify({ files, commands, agents }));
+  console.log(`cursor assets: ${Object.keys(files).length} files → ${outFile}`);
+} else {
+  const { files, commands, agents } = collectFiles();
+  fs.rmSync(OUT, { recursive: true, force: true });
+  for (const [rel, content] of Object.entries(files)) {
+    const full = path.join(OUT, rel);
+    fs.mkdirSync(path.dirname(full), { recursive: true });
+    fs.writeFileSync(full, content);
+  }
+  fs.copyFileSync(path.join(ROOT, 'cli', 'dist', 'hele.cjs'), path.join(OUT, '.cursor', 'hele', 'hele.cjs'));
+  fs.writeFileSync(path.join(OUT, 'README.md'), adapterReadme(commands, agents));
+  console.log(`cursor adapter: ${commands.length} commands, ${agents.length} agents → ${path.relative(ROOT, OUT)}`);
+}

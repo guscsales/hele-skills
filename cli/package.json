@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "esbuild src/index.js --bundle --platform=node --format=cjs --tsconfig-raw={} --outfile=dist/hele.cjs --banner:js='#!/usr/bin/env node' && chmod +x dist/hele.cjs",
+    "build": "node ../scripts/build-cursor.mjs --assets-only src/cursor-assets.json && esbuild src/index.js --bundle --platform=node --format=cjs --tsconfig-raw={} --outfile=dist/hele.cjs --banner:js='#!/usr/bin/env node' && chmod +x dist/hele.cjs",
     "dev": "node src/index.js",
     "test": "node --test \"test/*.test.js\""
   },

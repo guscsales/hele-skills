@@ -1,9 +1,10 @@
 # hele-skills — Cursor adapter (generated)
 
-Copy the `.cursor/` folder into your project root:
+Install into a project (either way):
 
 ```bash
-cp -r dist/cursor/.cursor /path/to/your/project/
+hele cursor                # from the project root, using the hele CLI
+cp -r dist/cursor/.cursor /path/to/your/project/   # or manually, from this repo
 ```
 
 Then use the commands in Cursor chat: `/hele-build` · `/hele-design` · `/hele-fast` · `/hele-feature` · `/hele-init` · `/hele-paper-to-code` · `/hele-plan` · `/hele-qa` · `/hele-retro` · `/hele-status` · `/hele-stubs` · `/hele-verify-work`.

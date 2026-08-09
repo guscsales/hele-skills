@@ -78,6 +78,20 @@ test('config set / get / add round-trip', () => {
   assert.deepEqual(JSON.parse(hele(root, 'config', 'get', 'designSystem.paths')), ['src/design']);
 });
 
+test('cursor installs the adapter into a project', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-cursor-')));
+  const out = hele(root, 'cursor');
+  assert.match(out, /Cursor adapter installed/);
+  assert.ok(fs.existsSync(path.join(root, '.cursor', 'commands', 'hele-feature.md')));
+  assert.ok(fs.existsSync(path.join(root, '.cursor', 'agents', 'backend-cho.md')));
+  assert.ok(fs.existsSync(path.join(root, '.cursor', 'hele', 'templates', 'settings.json')));
+  const cho = fs.readFileSync(path.join(root, '.cursor', 'agents', 'backend-cho.md'), 'utf8');
+  assert.match(cho, /model: grok/);
+  const cmd = fs.readFileSync(path.join(root, '.cursor', 'commands', 'hele-build.md'), 'utf8');
+  assert.match(cmd, /CURSOR RUNTIME/);
+  assert.doesNotMatch(cmd, /\$\{CLAUDE_PLUGIN_ROOT\}\/agents/);
+});
+
 test('errors with exit code 2 when no .hele exists', () => {
   const empty = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-empty-')));
   assert.throws(
