@@ -29,7 +29,8 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 
 <phase name="2-write-and-approve">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
-2. Report as chat text (never fenced): suite size before → after, new stubs per rule, rewritten stubs, uncovered rules (should be none — justify any).
+2. **Also draft the guided-verification script:** distill the increment's main human flows (3–8 journeys — happy paths first, riskiest unhappy paths next; not one entry per stub) into `increments/NNN-<slug>/VERIFY.md` from `${CLAUDE_PLUGIN_ROOT}/templates/verify.md`, all verdicts `pending`, `based_on` the stubs version just written. /hele-verify-work executes this script later — it should not have to invent it.
+3. Report as chat text (never fenced): suite size before → after, new stubs per rule, rewritten stubs, uncovered rules (should be none — justify any), VERIFY.md flow count.
 
 🗳️ YOUR CALL — 1. ✅ Approve contract · 2. ✏️ Adjust · 3. 🔍 Show stubs for a specific rule
 ▶ AFTER APPROVAL: /hele-build — the engineering team executes the plan

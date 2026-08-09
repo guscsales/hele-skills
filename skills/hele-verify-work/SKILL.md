@@ -19,11 +19,10 @@ Automation (/hele-qa) proves the rules; the CEO's eyes catch what code can't —
 - Load: the stubs, the PRD (`<flows>` + BR-n), the DESIGN_SPEC if any, `${CLAUDE_PLUGIN_ROOT}/templates/verify.md` + `templates/chat-reports.md`. Set `state.json.phase: "verifying"`.
 </context>
 
-<phase name="1-distill">
-1. From the PRD flows and the increment's stubs, distill the **main flows** — the 3–8 journeys a real user actually walks, not one entry per stub. Each flow: numbered human steps (click this, type that), the expected result per step, and the BR-n/TS-nnn it exercises.
-2. Prioritize: happy paths of every user-facing flow first, then the riskiest unhappy paths (permissions, limits, empty states). Skip what only automation can see.
-3. Write `increments/NNN-<slug>/VERIFY.md` from the template — status `pending` per flow.
-4. Prep the ground: app running (start it if there's a documented way), test data/logins the CEO will need listed at the top of VERIFY.md.
+<phase name="1-load">
+1. `increments/NNN-<slug>/VERIFY.md` already exists — /hele-stubs drafts it when the stubs are written. Load it. Stubs changed since (`based_on` older than TEST_STUBS version)? Refresh the affected flows first, keep recorded verdicts.
+2. Missing (older increment, stubs skipped)? Distill it now from the PRD flows + stubs: 3–8 main human journeys — numbered steps, expected result per step, the BR-n/TS-nnn each exercises; happy paths first, riskiest unhappy paths next; skip what only automation can see.
+3. Prep the ground: app running (start it if there's a documented way), test data/logins the CEO will need listed in `<setup>`.
 </phase>
 
 <phase name="2-guided-walk">
