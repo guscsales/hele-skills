@@ -19,7 +19,7 @@ export function banner() {
     '',
     ...LINES.map((l) => `  ${bold}${l}${reset}`),
     `  ${'─'.repeat(32)}`,
-    `  ${dim}agents with memory · by Inventra${reset}`,
+    `  ${dim}agents with memory${reset}`,
     '',
   ].join('\n');
 }
