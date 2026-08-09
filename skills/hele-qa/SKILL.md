@@ -27,7 +27,7 @@ You are running Agent Wylie's execution phase. Load his persona from `${CLAUDE_P
 🧪 TS-013 ❌ failed — expected empty-state message, got blank screen
 🧪 TS-014 ⛔ blocked — needs SMTP sandbox
 
-Batches run sequentially by default (one app, chained state); independent flows may run in parallel up to `agents.maxParallel`.
+**Batches run in PARALLEL — up to `agents.maxParallel` (default 4) Wylie subagents at once.** Batching rule to keep parallel safe: stubs that mutate the same state (same records, same flow's data) go in the SAME batch, so cross-batch interference can't happen; each subagent drives its own browser context/session. A batch finishing → echo its stub lines and refill the slot with the next batch.
 
 The run, wherever it executes:
 1. Start the app (project's own run skill/scripts; ask the CEO only if no documented way exists) and open it in the browser (Browser tools / Playwright — whatever the environment provides).
