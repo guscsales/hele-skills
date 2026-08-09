@@ -19,7 +19,15 @@ You are running Agent Wylie's execution phase. Load his persona from `${CLAUDE_P
 </context>
 
 <phase name="1-run">
-**Execution runs on the cheap model by design** — dispatch it as ONE subagent (Agent tool), description `[AGENT QA] Wylie — full stub run`, `model` from `settings.agents.models["qa-wylie-run"]` (default `sonnet`; `inherit` → omit). The subagent prompt = Wylie's persona (absolute paths) + the full TEST_STUBS content + the PRD rules + the instructions below; it updates stub statuses in the file itself and returns the per-stub results with failure evidence. Main session stays coordinator only.
+**Execution runs on the cheap model, in batches, with live results.** Split the suite into batches (~8 stubs each, grouped by increment/flow so app state chains sensibly). Per batch, dispatch ONE subagent (Agent tool), description `[AGENT QA] Wylie — stubs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (default `sonnet`; `inherit` → omit). The subagent prompt = Wylie's persona (absolute paths) + its batch of stubs + the PRD rules + the instructions below; it updates each stub's status in TEST_STUBS.md **immediately after running it** (an interrupted run keeps its partial record) and returns per-stub results with failure evidence.
+
+**The CEO watches the run live:** as each batch returns, echo one line per stub in chat before dispatching the next batch — never sit silent until the end:
+
+🧪 TS-012 ✅ passing
+🧪 TS-013 ❌ failed — expected empty-state message, got blank screen
+🧪 TS-014 ⛔ blocked — needs SMTP sandbox
+
+Batches run sequentially by default (one app, chained state); independent flows may run in parallel up to `agents.maxParallel`.
 
 The run, wherever it executes:
 1. Start the app (project's own run skill/scripts; ask the CEO only if no documented way exists) and open it in the browser (Browser tools / Playwright — whatever the environment provides).

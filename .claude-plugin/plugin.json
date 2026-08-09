@@ -1,7 +1,7 @@
 {
   "name": "hele-skills",
   "description": "Feature-delivery harness — PRDs, execution plans, design specs, test stubs, build, QA, and retros, run by a named agent team with beads task tracking.",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "author": {
     "name": "Gustavo Sales"
   }
