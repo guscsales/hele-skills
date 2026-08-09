@@ -37,7 +37,7 @@ Lisbon, inline — no EXECUTION_PLAN.md:
 </phase>
 
 <phase name="3-build">
-Per task, dispatch ONE engineer subagent exactly like /hele-build: description `[AGENT BE] Cho — FAST: <task>`, persona file + task + relevant PRD rules + LEARNINGS in the prompt, `model` from `settings.agents.models` (role-prefixed keys, `inherit` → omit). Contract: TDD — failing test first where behavior is defined; targeted tests ONLY; report files touched + results. Lisbon reviews shape on return; close the beads issue.
+Per task, dispatch ONE engineer subagent exactly like /hele-build: description `[AGENT BE] Cho — FAST: <task>`, persona file + task + relevant PRD rules + LEARNINGS in the prompt, `model` from `settings.agents.models` (role-prefixed keys, `inherit` → omit). Contract: TDD — failing test first where behavior is defined; targeted tests ONLY; test economy — iterate red→green on cheap unit tests, expensive suites (containers, migrations, servers) run at most once at the end; report files touched + results. Lisbon reviews shape on return; close the beads issue.
 </phase>
 
 <phase name="4-memory-sync">
