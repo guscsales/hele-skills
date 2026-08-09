@@ -29,7 +29,7 @@ AI driving a browser is flaky and expensive — it happens exactly once per stub
 Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie — specs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (default `sonnet`; `inherit` → omit), up to `agents.maxParallel` in parallel, grouped by flow. Prompt = persona + the stubs + the PRD rules + project conventions. Rules:
 1. Cover every stub not yet implemented as a test: `kind: e2e` → browser spec; `kind: api` → Playwright request-context spec; `kind: unit-expectation` → NOT Playwright's job — verify the engineers' suite covers it and record which test does.
 2. The stub is the contract — Given/When/Then maps to arrange/act/assert. Test what the stub says, not what the code does.
-3. Deterministic by construction: proper waits (no sleeps), test data seeded/cleaned per test, no cross-test state leaks, stable selectors (roles/test-ids per project convention).
+3. Deterministic by construction: proper waits (no sleeps), test data seeded/cleaned per test, no cross-test state leaks, stable selectors (roles/test-ids per project convention). Always headless — never `--headed`/`--ui`; failures explain themselves through traces and screenshots, not through a human watching a window.
 4. Stubs already implemented (title `TS-nnn` exists in the e2e folder) are NOT rewritten — the suite accumulates like the stubs file does; a stub whose body changed → rewrite its test to match.
 </phase>
 
