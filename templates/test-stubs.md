@@ -15,7 +15,7 @@ RULES FOR THIS DOCUMENT
   they validate BEHAVIOR, never implementation details.
 - Every stub cites the business rule (BR-n) it protects and the increment
   that introduced it. IDs (TS-nnn) are stable forever.
-- status is updated by Wylie after each /hele-qa run.
+- status is updated by Wylie after each /hele-qa run (from Playwright results).
 -->
 
 # Test Stubs — <Feature Title>
@@ -33,6 +33,6 @@ RULES FOR THIS DOCUMENT
 </stub>
 
 <!--
-kind: e2e (browser, Wylie) | api (request-level) | unit-expectation (engineers' TDD anchor)
+kind: e2e (Playwright browser test) | api (Playwright request-level) | unit-expectation (engineers' TDD anchor)
 status: pending | passing | failing | blocked
 -->

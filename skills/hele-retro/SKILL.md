@@ -4,7 +4,7 @@ description: >-
   Close a hele increment with a retrospective: what went well, what must
   improve, root causes, and learnings promoted to .hele/LEARNINGS.md so
   future sessions actually behave differently. Use when the user invokes
-  /hele-retro, after /hele-qa passes, when an increment is abandoned, or
+  /hele-retro, after /hele-qa and /hele-verify-work pass, when an increment is abandoned, or
   when the user asks to "arrumar a casa" / close out the work.
 ---
 

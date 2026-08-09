@@ -30,7 +30,7 @@ updated: <YYYY-MM-DD>
 <tests>
 - targeted: <what ran during build, results>
 - full suite: <pass/fail + counts>
-- browser stubs: TS-nnn, TS-nnn re-run | none (no UI impact)
+- e2e specs: TS-nnn, TS-nnn re-run | none (no e2e coverage touched)
 </tests>
 
 <memory-sync>

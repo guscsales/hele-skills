@@ -41,7 +41,7 @@ Repeat until no tasks remain:
 <phase name="3-pm-report">
 Hightower's PM Report (persona block), as chat text — outcome, what was verified how (test counts per task), what the CEO should try manually, remaining/blocked items with owners.
 
-▶ NEXT: /hele-qa — Agent Wylie runs the full stub suite in the browser
+▶ NEXT: /hele-qa — Agent Wylie turns the stubs into Playwright e2e tests and runs the whole suite
 </phase>
 
 <rules>

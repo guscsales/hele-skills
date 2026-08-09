@@ -23,7 +23,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 
 1. Walk every BR-n and every `<flows>` branch of the PRD version being covered. Each testable behavior → one stub: **Given** (starting state) / **When** (action) / **Then** (observable outcome).
 2. Cover the unhappy paths the rules imply — empty states, limits, permission denials, the `no` branches of the flow diagrams. A rules-only suite that tests happy paths is not a contract.
-3. IDs continue the file's sequence (TS-nnn, stable forever). Tag each stub with `increment` and `rule`. `kind`: e2e (browser) / api / unit-expectation. `status: pending`.
+3. IDs continue the file's sequence (TS-nnn, stable forever). Tag each stub with `increment` and `rule`. `kind`: e2e (Playwright browser test) / api (Playwright request-level) / unit-expectation. `status: pending`.
 4. Existing stubs whose behavior a PRD patch changed → rewrite their body (state-not-history), keep the id; behavior removed from the product → mark the stub `status: blocked` with a note, never delete silently.
 </phase>
 

@@ -48,7 +48,13 @@ Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-
     ▼
  ╭─ /hele-qa ──────────────────────────── SECOND LAYER ─╮
  │ Agent Wylie                                          │
- │ ▸ browser E2E vs stubs                               │
+ │ ▸ Playwright e2e suite                               │
+ ╰──────────────────────────────────────────────────────╯
+    │
+    ▼
+ ╭─ /hele-verify-work ───────────────────── HUMAN EYES ─╮
+ │ Agent Wylie + you                                    │
+ │ ▸ VERIFY.md                                          │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -66,7 +72,7 @@ Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-
 
 ### The fast lane
 
-Not every change deserves seven phases. `/hele-fast` ships small, low-risk changes with proportional ceremony: triage → 1–3 beads tasks → TDD build → memory sync → full test suite once + affected stubs in the browser → a single `FAST.md` instead of four documents. Hard disqualifiers keep it honest — DB schema, security surface, new user-facing flows, or cross-feature impact exit to the full flow automatically. A behavior change still patches the PRD and stubs: the living docs never lie, no matter the lane.
+Not every change deserves seven phases. `/hele-fast` ships small, low-risk changes with proportional ceremony: triage → 1–3 beads tasks → TDD build → memory sync → full test suite once + affected e2e specs → a single `FAST.md` instead of four documents. Hard disqualifiers keep it honest — DB schema, security surface, new user-facing flows, or cross-feature impact exit to the full flow automatically. A behavior change still patches the PRD and stubs: the living docs never lie, no matter the lane.
 
 ## The vision
 
@@ -96,7 +102,7 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 | `[AGENT DBA]` | Red John | DBA — schema guardian: DB change specs need your approval before any migration | Sonnet 5 |
 | `[AGENT SEC]` | Jane | Security Engineer — threat-models risky increments | Fable 5 |
 | `[AGENT INFRA]` | Rigsby | Infra Engineer — CI, environments, deploys | Sonnet 5 |
-| `[AGENT QA]` | Wylie | QA — writes TEST_STUBS (Fable 5), runs them in the browser (Sonnet 5) | split |
+| `[AGENT QA]` | Wylie | QA — writes TEST_STUBS (Fable 5), turns them into Playwright e2e tests (Sonnet 5), hosts your guided verification | split |
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
@@ -121,6 +127,7 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
           EXECUTION_PLAN.md    # per-increment, frozen after build
           DESIGN_SPEC.md       # per-increment, when UI is involved
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
+          VERIFY.md            # per-increment, guided human verification record
           RETRO.md             # per-increment
 ```
 

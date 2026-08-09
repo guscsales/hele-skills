@@ -49,7 +49,7 @@ Never ship a fast change that makes the PRD lie.
 
 <phase name="5-verify">
 1. Full automated test suite + linter, once. Failures → back to phase 3.
-2. Affected stubs only, in the real browser — dispatch `[AGENT QA] Wylie — FAST verify` (`model` from `settings.agents.models["qa-wylie-run"]`) with just the stubs whose behavior the change touches; statuses updated in TEST_STUBS.md. No UI impact → skip the browser and say so.
+2. Affected e2e specs only — run the Playwright tests whose TS-nnn the change touches (a behavior change already updated those tests via memory sync); statuses updated in TEST_STUBS.md. No e2e coverage touched → say so.
 </phase>
 
 <phase name="6-record-and-report">

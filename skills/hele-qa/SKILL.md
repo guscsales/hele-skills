@@ -1,59 +1,58 @@
 ---
 name: hele-qa
 description: >-
-  Agent Wylie (QA) runs the feature's FULL living TEST_STUBS suite end to end
-  in the real browser against the running app, updates every stub's status,
-  and routes failures back to the owning engineers as beads tasks. Use when
-  the user invokes /hele-qa, asks to test/validate a hele feature end to end,
+  Agent Wylie (QA) turns the feature's living TEST_STUBS into real Playwright
+  e2e tests, runs the WHOLE suite deterministically, updates every stub's
+  status, and routes failures back to the owning engineers as beads tasks.
+  Use when the user invokes /hele-qa, asks for e2e tests of a hele feature,
   or after /hele-build finishes.
 ---
 
 # hele-qa
 
-You are running Agent Wylie's execution phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
+You are running Agent Wylie's automation phase: stubs become Playwright code. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
+
+AI driving a browser is flaky and expensive — it happens exactly once per stub, here, while WRITING the deterministic test. After this skill, the suite costs nothing to re-run forever. Human judgment is /hele-verify-work's job, after this passes.
 
 <context>
 - Requires: `features/<slug>/TEST_STUBS.md` for `state.json.activeFeature`, and a runnable app.
-- Load: the stubs file, the PRD (to interpret expected behavior), `settings.json`, `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Set `state.json.phase: "qa"`.
-- Second-layer validator by design: engineers already own automated tests; Wylie catches what slipped through integration cracks.
+- Load: the stubs file, the PRD (to interpret expected behavior), `settings.json`, `LEARNINGS.md`, `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Set `state.json.phase: "qa"`.
+- Second-layer validator by design: engineers already own unit/integration tests; the e2e suite catches what slipped through integration cracks.
 </context>
 
-<phase name="1-run">
-**Execution runs on the cheap model, in batches, with live results.** Split the suite into batches (~8 stubs each, grouped by increment/flow so app state chains sensibly). Per batch, dispatch ONE subagent (Agent tool), description `[AGENT QA] Wylie — stubs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (default `sonnet`; `inherit` → omit). The subagent prompt = Wylie's persona (absolute paths) + its batch of stubs + the PRD rules + the instructions below; it updates each stub's status in TEST_STUBS.md **immediately after running it** (an interrupted run keeps its partial record) and returns per-stub results with failure evidence.
-
-**The CEO watches the run live:** as each batch returns, echo one line per stub in chat before dispatching the next batch — never sit silent until the end:
-
-🧪 TS-012 ✅ passing
-🧪 TS-013 ❌ failed — expected empty-state message, got blank screen
-🧪 TS-014 ⛔ blocked — needs SMTP sandbox
-
-**Batches run in PARALLEL — up to `agents.maxParallel` (default 4) Wylie subagents at once.** Batching rule to keep parallel safe: stubs that mutate the same state (same records, same flow's data) go in the SAME batch, so cross-batch interference can't happen; each subagent drives its own browser context/session. A batch finishing → echo its stub lines and refill the slot with the next batch.
-
-The run, wherever it executes:
-1. Start the app (project's own run skill/scripts; ask the CEO only if no documented way exists) and open it in the browser (Browser tools / Playwright — whatever the environment provides).
-2. Execute **the whole suite** — every stub, all increments, regression included. Never just the newest increment.
-3. Per stub: drive the Given, perform the When, verify the Then against what the app actually shows. `kind: api` stubs → exercise at request level. `unit-expectation` stubs → verify via the automated test suite results, and say so.
-4. Record evidence for failures: what was expected (quote the stub + BR-n), what happened, screenshot/console/network where useful.
-5. A stub that cannot run (missing data, env, dependency) → `status: blocked` with the blocker named — never skipped silently, never faked as passing.
+<phase name="1-setup">
+1. Detect the project's Playwright setup (`playwright.config.*`, e2e folder, npm scripts). Present → follow its conventions (folders, fixtures, auth helpers, naming). Absent → INSTALL IT, no asking: packages + browsers via the project's package manager (`npm init playwright@latest` equivalent), a `playwright.config` pointing at the project's dev server (`webServer` so the suite boots the app itself), an `e2e/` folder per project convention, and an `npm run test:e2e` script. Announce what was set up in one line.
+2. Map stubs → spec files: one spec per flow/screen area, one `test()` per stub, the stub id ALWAYS in the title — `test('TS-012: seller cannot see other org inventory', ...)`. That title is the contract between the suite and TEST_STUBS.md.
 </phase>
 
-<phase name="2-record-and-route">
-1. Verify the subagent updated every executed stub's `status` in TEST_STUBS.md — the file is the record; fill any it missed.
-2. Each failure → a beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with reproduction steps + evidence + the stub and rule ids. Owner per Lisbon's task mapping (backend/frontend/infra); unclear → tag for Lisbon to route in /hele-build.
-3. Wylie never fixes product code — routing is his fix.
+<phase name="2-write">
+Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie — specs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (default `sonnet`; `inherit` → omit), up to `agents.maxParallel` in parallel, grouped by flow. Prompt = persona + the stubs + the PRD rules + project conventions. Rules:
+1. Cover every stub not yet implemented as a test: `kind: e2e` → browser spec; `kind: api` → Playwright request-context spec; `kind: unit-expectation` → NOT Playwright's job — verify the engineers' suite covers it and record which test does.
+2. The stub is the contract — Given/When/Then maps to arrange/act/assert. Test what the stub says, not what the code does.
+3. Deterministic by construction: proper waits (no sleeps), test data seeded/cleaned per test, no cross-test state leaks, stable selectors (roles/test-ids per project convention).
+4. Stubs already implemented (title `TS-nnn` exists in the e2e folder) are NOT rewritten — the suite accumulates like the stubs file does; a stub whose body changed → rewrite its test to match.
 </phase>
 
-<phase name="3-report">
-Wylie's QA Run block (persona), as chat text — passing/failing/blocked counts, each failure in one line with its beads id and owner.
+<phase name="3-run-and-record">
+1. Run the FULL Playwright suite — every spec, all increments, regression included (Playwright parallelizes itself; never a subagent per test at runtime).
+2. Echo results live as they come, one line per stub: 🧪 TS-012 ✅ · 🧪 TS-013 ❌ expected empty-state, got blank screen.
+3. Flaky on first pass → retry once; still flaky → the TEST is wrong, fix the test, not the retry count.
+4. Update every stub's `status` in TEST_STUBS.md from the run results — the file is the record. A stub whose test cannot run (missing env, data, dependency) → `status: blocked` with the blocker named — never skipped silently.
+5. Each failure → a beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with the spec path, failure output, and the stub + rule ids. Owner per Lisbon's task mapping; unclear → tag for Lisbon to route in /hele-build. Wylie never fixes product code — routing is his fix.
+</phase>
+
+<phase name="4-report">
+Wylie's QA Run block (persona), as chat text — specs written vs reused, passing/failing/blocked counts, each failure in one line with its beads id and owner.
 
 Route by outcome:
-- **All passing** → ▶ NEXT: /hele-retro — close the increment properly.
+- **All passing** → ▶ NEXT: /hele-verify-work — guided human verification of the main flows.
 - **Failures** → ▶ NEXT: /hele-build — the failure tasks are already in beads, ready for dispatch.
 - **Blocked stubs** → name what the CEO must unblock (real-world actions are his job).
 </phase>
 
 <rules>
-- A stub is `passing` only if Wylie exercised it in the real app this run — stale statuses are lies.
+- The e2e suite lives in the PROJECT (committed code, runnable in CI) — hele generates it, the repo owns it.
+- A stub is `passing` only if its Playwright test ran green THIS run — stale statuses are lies.
 - PRD/stubs drift (`based_on` older than the PRD) → warn before running; the CEO decides run-anyway or fix the contract first.
 - Artifacts English; chat in the CEO's language.
 </rules>

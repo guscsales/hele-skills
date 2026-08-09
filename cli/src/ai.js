@@ -80,12 +80,26 @@ state.`,
   {
     name: 'qa',
     agent: 'Agent Wylie',
-    artifact: 'browser E2E vs stubs',
+    artifact: 'Playwright e2e suite',
     question: 'SECOND LAYER',
-    detail: `Agent Wylie opens the real app in the browser and runs the ENTIRE
-stub suite — regression included. Every stub gets its status updated in the
-file. Failures become beads tasks with reproduction steps and evidence,
-routed to the owning engineer. He never fixes code; routing is his fix.`,
+    detail: `Agent Wylie turns the stubs into real Playwright tests — one test
+per stub, TS-nnn in the title, deterministic by construction. Missing
+Playwright? He installs and configures it. Then he runs the ENTIRE suite,
+regression included, updates every stub's status in the file, and routes
+failures to the owning engineers as beads tasks. AI touches the browser
+once — while writing the test; after that the suite is free forever.`,
+  },
+  {
+    name: 'verify-work',
+    agent: 'Agent Wylie + you',
+    artifact: 'VERIFY.md',
+    question: 'HUMAN EYES',
+    detail: `Automation proves the rules; your eyes catch what code can't.
+Wylie distills the increment's main flows (3–8 human journeys, not one per
+stub) into VERIFY.md, preps the app and test data, then walks you through
+it step by step — you act, you report, he records every verdict verbatim.
+Issues become beads tasks (bugs) or PRD notes (behavior changes). Partial
+runs keep their record and resume where you stopped.`,
   },
   {
     name: 'retro',
@@ -190,7 +204,7 @@ export function aiCommand(skillName) {
   console.log('');
   console.log(boxTop('memory', ''));
   console.log(boxRow('living: PRD · TEST_STUBS · DATABASE · LEARNINGS'));
-  console.log(boxRow('frozen: PLAN · DESIGN · DB_CHANGES · RETRO'));
+  console.log(boxRow('frozen: PLAN · DESIGN · DB_CHANGES · VERIFY · RETRO'));
   console.log(boxBottom());
   console.log('');
   console.log(` ${dim('detail per skill:')} hele ai <name> ${dim('(e.g. hele ai plan)')}`);
