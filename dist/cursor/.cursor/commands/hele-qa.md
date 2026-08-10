@@ -12,6 +12,14 @@ You are running Agent Wylie's automation phase: stubs become Playwright code. Lo
 
 AI driving a browser is flaky and expensive — it happens exactly once per stub, here, while WRITING the deterministic test. After this skill, the suite costs nothing to re-run forever. Human judgment is /hele-verify-work's job, after this passes.
 
+<mode name="--generate-fixes-report">
+Invoked as `/hele-qa --generate-fixes-report`: a QA run already happened but `increments/NNN/QA_REPORT.md` is missing or stale (older skill version, interrupted session). Do NOT re-run the suite — reconstruct:
+1. Gather what exists: stub statuses in TEST_STUBS.md, open `QA:`-titled beads tasks (`bd list`), the last Playwright results/traces if present.
+2. Classify every failing/blocked stub per phase-3 rules (product-bug / contract-question / polish / blocked). Evidence missing for a classification → ask the CEO, never guess.
+3. Failing stubs with no beads task → create them now (product-bugs only), phase-3 format.
+4. Write QA_REPORT.md from the template (this counts as the run's record), then run the phase-4 approval gate → `/hele-build --from-qa`.
+</mode>
+
 <context>
 - Requires: `features/<slug>/TEST_STUBS.md` for `state.json.activeFeature`, and a runnable app.
 - Load: the stubs file, the PRD (to interpret expected behavior), `settings.json`, `LEARNINGS.md`, `.cursor/hele/templates/chat-reports.md`. Set `state.json.phase: "qa"`.
