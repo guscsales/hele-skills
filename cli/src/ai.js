@@ -1,4 +1,5 @@
 import { printBanner } from './banner.js';
+import { FLOW_DIAGRAM } from './flow-diagram.js';
 
 const SKILLS = [
   {
@@ -68,6 +69,7 @@ across increments and /hele-qa always runs the whole suite.`,
     agent: 'Agents Cho, Van Pelt, Jane, Rigsby',
     artifact: 'code + passing tests',
     question: 'THE CONSTRUCTION',
+    extras: ['▸ --from-qa → fixes the QA report'],
     detail: `The coordination loop: bd ready → dispatch Agent Cho (backend),
 Agent Van Pelt (frontend), Agent Jane (security), Agent Rigsby (infra) in
 parallel on ready tasks, TDD enforced, Agent Lisbon reviews structure,
@@ -75,19 +77,30 @@ Agent Hightower checks PRD conformance. Blockers become questions to you
 immediately. Migrations only run against an approved DB_CHANGES, and Agent
 Red John checks the written migration against it before the task closes.
 Exit condition: the full automated suite is green. Resumable via beads
-state.`,
+state.
+
+/hele-build --from-qa is a FIX round, not a plan round: scope = open QA:
+beads tasks + contract decisions from the QA gate. Engineers fix the
+contract violation (report narrative in the prompt), then ▶ NEXT: /hele-qa
+to confirm.`,
   },
   {
     name: 'qa',
     agent: 'Agent Wylie',
     artifact: 'Playwright e2e suite',
     question: 'SECOND LAYER',
+    extras: ['▸ --generate-fixes-report → approve → --from-qa'],
     detail: `Agent Wylie turns the stubs into real Playwright tests — one test
 per stub, TS-nnn in the title, deterministic by construction. Missing
 Playwright? He installs and configures it. Then he runs the ENTIRE suite,
-regression included, updates every stub's status in the file, and routes
-failures to the owning engineers as beads tasks. AI touches the browser
-once — while writing the test; after that the suite is free forever.`,
+regression included, updates every stub's status in the file, classifies
+failures into QA_REPORT.md, and (on red) runs the approval gate →
+/hele-build --from-qa. AI touches the browser once — while writing the
+test; after that the suite is free forever.
+
+/hele-qa --generate-fixes-report: the run already happened but the report
+is missing or stale — reconstruct QA_REPORT from stub statuses, beads, and
+traces (no re-run), then the same approval gate back to build.`,
   },
   {
     name: 'verify-work',
@@ -158,8 +171,6 @@ function boxBottom() {
   return ` ╰${'─'.repeat(INNER + 2)}╯`;
 }
 
-const CONNECTOR = ['    │', '    ▼'];
-
 // ── commands ─────────────────────────────────────────────────────────────────
 export function aiCommand(skillName) {
   printBanner();
@@ -173,6 +184,7 @@ export function aiCommand(skillName) {
     console.log(boxTop(`/hele-${skill.name}`, skill.question));
     console.log(boxRow(skill.agent, bold));
     console.log(boxRow(`▸ ${skill.artifact}`, dim));
+    for (const extra of skill.extras ?? []) console.log(boxRow(extra, dim));
     console.log(boxBottom());
     console.log('');
     for (const line of skill.detail.split('\n')) console.log(`  ${line}`);
@@ -183,24 +195,7 @@ export function aiCommand(skillName) {
   console.log(` ${dim('Agents have no memory — every feature leaves docs behind,')}`);
   console.log(` ${dim('so future sessions read instead of guessing.')}`);
   console.log('');
-  console.log(boxTop('Human idea', 'START'));
-  console.log(boxRow('You bring the input; the agents own the middle.', dim));
-  console.log(boxBottom());
-
-  for (const s of SKILLS.filter((x) => !['init', 'status', 'fast'].includes(x.name))) {
-    for (const c of CONNECTOR) console.log(c);
-    console.log(boxTop(`/hele-${s.name}`, s.question));
-    console.log(boxRow(s.agent, bold));
-    console.log(boxRow(`▸ ${s.artifact}`, dim));
-    console.log(boxBottom());
-  }
-
-  console.log('');
-  console.log(boxTop('anytime', ''));
-  console.log(boxRow('/hele-init    bootstraps .hele/ (run once)'));
-  console.log(boxRow('/hele-status  the board: versions, drift, next'));
-  console.log(boxRow('/hele-fast    small low-risk change, one artifact'));
-  console.log(boxBottom());
+  console.log(FLOW_DIAGRAM);
   console.log('');
   console.log(boxTop('memory', ''));
   console.log(boxRow('living: PRD · TEST_STUBS · DATABASE · LEARNINGS'));

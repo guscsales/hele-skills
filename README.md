@@ -43,16 +43,21 @@ Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-
     │
     ▼
  ╭─ /hele-build ───────────────────── THE CONSTRUCTION ─╮
- │ Agents Cho, Van Pelt, Jane, Rigsby                   │
- │ ▸ code + passing tests                               │
- ╰──────────────────────────────────────────────────────╯
-    │
-    ▼
- ╭─ /hele-qa ──────────────────────────── SECOND LAYER ─╮
- │ Agent Wylie                                          │
- │ ▸ Playwright e2e suite                               │
- ╰──────────────────────────────────────────────────────╯
-    │
+ │ Agents Cho, Van Pelt, Jane, Rigsby                   │◄──┐
+ │ ▸ code + passing tests                               │   │
+ │ ▸ --from-qa → fixes the QA report                    │   │
+ ╰──────────────────────────────────────────────────────╯   │
+    │                                                       │
+    ▼                                                       │
+ ╭─ /hele-qa ──────────────────── SECOND LAYER ─╮           │
+ │ Agent Wylie                                  │           │
+ │ ▸ Playwright e2e suite                       │──┐        │
+ ╰──────────────────────────────────────────────╯  │        │
+    │                                              │        │
+    │     ╭─ /hele-qa --generate-fixes-report ─╮   │        │
+    │     │ reconstruct QA_REPORT → approve    │◄──┘        │
+    │     ╰──────────────────┬─────────────────╯            │
+    │                        └──────────────────────────────┘
     ▼
  ╭─ /hele-verify-work ───────────────────── HUMAN EYES ─╮
  │ Agent Wylie + you                                    │

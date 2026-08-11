@@ -52,7 +52,7 @@ Agent Wylie derives plain-English Given/When/Then test stubs from the PRD (never
 The coordination loop: ready tasks dispatch to engineer agents in parallel (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), TDD enforced, targeted tests only, Lisbon reviewing structure, Hightower checking PRD conformance. Blockers become questions to you immediately. Exit: full suite green.
 
 **6. Validate it** — `/hele-qa`, then `/hele-verify-work`
-Wylie turns the stubs into real Playwright e2e tests (installing Playwright if needed) and runs the whole suite — regression included. Failures are classified in a QA report and, with your approval, flow back via `/hele-build --from-qa`. When automation is green, `/hele-verify-work` walks you through the main flows in the real app, step by step.
+Wylie turns the stubs into real Playwright e2e tests (installing Playwright if needed) and runs the whole suite — regression included. Failures are classified in a QA report and, with your approval, flow back via `/hele-build --from-qa`. Missing or stale report after a run already happened? `/hele-qa --generate-fixes-report` reconstructs it (no re-run) and opens the same gate. When automation is green, `/hele-verify-work` walks you through the main flows in the real app, step by step.
 
 **7. Close it** — `/hele-retro`
 Root causes with evidence, lessons promoted to LEARNINGS.md — which every future skill loads. Retros actually change behavior.

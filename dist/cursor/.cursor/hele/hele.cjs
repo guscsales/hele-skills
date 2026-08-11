@@ -3349,6 +3349,72 @@ function installCommand(opts) {
   }
 }
 
+// src/flow-diagram.js
+var FLOW_DIAGRAM = `
+ \u256D\u2500 Human idea \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 START \u2500\u256E
+ \u2502 You bring the input; the agents own the middle.      \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502
+    \u25BC
+ \u256D\u2500 /hele-feature \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 WHAT & WHY \u2500\u256E
+ \u2502 Agent Hightower                                      \u2502
+ \u2502 \u25B8 PRODUCT_DESCRIPTION.md                             \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502
+    \u25BC
+ \u256D\u2500 /hele-design \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 HOW IT LOOKS \u2500\u256E
+ \u2502 Agent Vega                                           \u2502
+ \u2502 \u25B8 DESIGN_SPEC.md                                     \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502
+    \u25BC
+ \u256D\u2500 /hele-plan \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 HOW TO BUILD \u2500\u256E
+ \u2502 Agent Lisbon                                         \u2502
+ \u2502 \u25B8 EXECUTION_PLAN.md + beads                          \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502
+    \u25BC
+ \u256D\u2500 /hele-stubs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 HOW TO VALIDATE \u2500\u256E
+ \u2502 Agent Wylie                                          \u2502
+ \u2502 \u25B8 TEST_STUBS.md                                      \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502
+    \u25BC
+ \u256D\u2500 /hele-build \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 THE CONSTRUCTION \u2500\u256E
+ \u2502 Agents Cho, Van Pelt, Jane, Rigsby                   \u2502\u25C4\u2500\u2500\u2510
+ \u2502 \u25B8 code + passing tests                               \u2502   \u2502
+ \u2502 \u25B8 --from-qa \u2192 fixes the QA report                    \u2502   \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F   \u2502
+    \u2502                                                       \u2502
+    \u25BC                                                       \u2502
+ \u256D\u2500 /hele-qa \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SECOND LAYER \u2500\u256E           \u2502
+ \u2502 Agent Wylie                                  \u2502           \u2502
+ \u2502 \u25B8 Playwright e2e suite                       \u2502\u2500\u2500\u2510        \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F  \u2502        \u2502
+    \u2502                                              \u2502        \u2502
+    \u2502     \u256D\u2500 /hele-qa --generate-fixes-report \u2500\u256E   \u2502        \u2502
+    \u2502     \u2502 reconstruct QA_REPORT \u2192 approve    \u2502\u25C4\u2500\u2500\u2518        \u2502
+    \u2502     \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F            \u2502
+    \u2502                        \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518
+    \u25BC
+ \u256D\u2500 /hele-verify-work \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 HUMAN EYES \u2500\u256E
+ \u2502 Agent Wylie + you                                    \u2502
+ \u2502 \u25B8 VERIFY.md                                          \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502
+    \u25BC
+ \u256D\u2500 /hele-retro \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 WHAT TO IMPROVE \u2500\u256E
+ \u2502 Agent Hightower                                      \u2502
+ \u2502 \u25B8 RETRO.md + LEARNINGS.md                            \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+
+ \u256D\u2500 anytime \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
+ \u2502 /hele-init    bootstraps .hele/ (run once)           \u2502
+ \u2502 /hele-status  the board: versions, drift, next       \u2502
+ \u2502 /hele-fast    small low-risk change, one artifact    \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+`.replace(/^\n/, "").replace(/\n$/, "");
+
 // src/ai.js
 var SKILLS = [
   {
@@ -3418,6 +3484,7 @@ across increments and /hele-qa always runs the whole suite.`
     agent: "Agents Cho, Van Pelt, Jane, Rigsby",
     artifact: "code + passing tests",
     question: "THE CONSTRUCTION",
+    extras: ["\u25B8 --from-qa \u2192 fixes the QA report"],
     detail: `The coordination loop: bd ready \u2192 dispatch Agent Cho (backend),
 Agent Van Pelt (frontend), Agent Jane (security), Agent Rigsby (infra) in
 parallel on ready tasks, TDD enforced, Agent Lisbon reviews structure,
@@ -3425,19 +3492,30 @@ Agent Hightower checks PRD conformance. Blockers become questions to you
 immediately. Migrations only run against an approved DB_CHANGES, and Agent
 Red John checks the written migration against it before the task closes.
 Exit condition: the full automated suite is green. Resumable via beads
-state.`
+state.
+
+/hele-build --from-qa is a FIX round, not a plan round: scope = open QA:
+beads tasks + contract decisions from the QA gate. Engineers fix the
+contract violation (report narrative in the prompt), then \u25B6 NEXT: /hele-qa
+to confirm.`
   },
   {
     name: "qa",
     agent: "Agent Wylie",
     artifact: "Playwright e2e suite",
     question: "SECOND LAYER",
+    extras: ["\u25B8 --generate-fixes-report \u2192 approve \u2192 --from-qa"],
     detail: `Agent Wylie turns the stubs into real Playwright tests \u2014 one test
 per stub, TS-nnn in the title, deterministic by construction. Missing
 Playwright? He installs and configures it. Then he runs the ENTIRE suite,
-regression included, updates every stub's status in the file, and routes
-failures to the owning engineers as beads tasks. AI touches the browser
-once \u2014 while writing the test; after that the suite is free forever.`
+regression included, updates every stub's status in the file, classifies
+failures into QA_REPORT.md, and (on red) runs the approval gate \u2192
+/hele-build --from-qa. AI touches the browser once \u2014 while writing the
+test; after that the suite is free forever.
+
+/hele-qa --generate-fixes-report: the run already happened but the report
+is missing or stale \u2014 reconstruct QA_REPORT from stub statuses, beads, and
+traces (no re-run), then the same approval gate back to build.`
   },
   {
     name: "verify-work",
@@ -3499,7 +3577,6 @@ function boxRow(text, style = (s) => s) {
 function boxBottom() {
   return ` \u2570${"\u2500".repeat(INNER + 2)}\u256F`;
 }
-var CONNECTOR = ["    \u2502", "    \u25BC"];
 function aiCommand(skillName) {
   printBanner();
   if (skillName) {
@@ -3511,6 +3588,7 @@ function aiCommand(skillName) {
     console.log(boxTop(`/hele-${skill.name}`, skill.question));
     console.log(boxRow(skill.agent, bold));
     console.log(boxRow(`\u25B8 ${skill.artifact}`, dim));
+    for (const extra of skill.extras ?? []) console.log(boxRow(extra, dim));
     console.log(boxBottom());
     console.log("");
     for (const line of skill.detail.split("\n")) console.log(`  ${line}`);
@@ -3520,22 +3598,7 @@ function aiCommand(skillName) {
   console.log(` ${dim("Agents have no memory \u2014 every feature leaves docs behind,")}`);
   console.log(` ${dim("so future sessions read instead of guessing.")}`);
   console.log("");
-  console.log(boxTop("Human idea", "START"));
-  console.log(boxRow("You bring the input; the agents own the middle.", dim));
-  console.log(boxBottom());
-  for (const s of SKILLS.filter((x) => !["init", "status", "fast"].includes(x.name))) {
-    for (const c of CONNECTOR) console.log(c);
-    console.log(boxTop(`/hele-${s.name}`, s.question));
-    console.log(boxRow(s.agent, bold));
-    console.log(boxRow(`\u25B8 ${s.artifact}`, dim));
-    console.log(boxBottom());
-  }
-  console.log("");
-  console.log(boxTop("anytime", ""));
-  console.log(boxRow("/hele-init    bootstraps .hele/ (run once)"));
-  console.log(boxRow("/hele-status  the board: versions, drift, next"));
-  console.log(boxRow("/hele-fast    small low-risk change, one artifact"));
-  console.log(boxBottom());
+  console.log(FLOW_DIAGRAM);
   console.log("");
   console.log(boxTop("memory", ""));
   console.log(boxRow("living: PRD \xB7 TEST_STUBS \xB7 DATABASE \xB7 LEARNINGS"));

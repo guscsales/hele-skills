@@ -64,12 +64,13 @@ Writes `.cursor/`: every skill as a Cursor command, every persona as a native ag
 
 ## hele ai
 
-The interactive explainer — what the workflow is, who the agents are, what each phase produces.
+The interactive explainer — what the workflow is, who the agents are, what each phase produces. The overview diagram (including the QA ↔ build fix loop: `--generate-fixes-report` → `--from-qa`) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
 
 ```bash
 hele ai            # the full pipeline, boxed
 hele ai plan       # deep dive into one skill
 hele ai qa
+hele ai build
 ```
 
 New to the harness? This is the guided tour.
