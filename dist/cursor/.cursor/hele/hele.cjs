@@ -3755,6 +3755,81 @@ updated: <YYYY-MM-DD>
 ` }, commands: ["hele-build", "hele-design", "hele-fast", "hele-feature", "hele-init", "hele-paper-to-code", "hele-plan", "hele-qa", "hele-retro", "hele-status", "hele-stubs", "hele-verify-work"], agents: ["backend-cho", "dba-red-john", "design-vega", "frontend-van-pelt", "infra-rigsby", "pm-hightower", "qa-wylie", "security-jane", "staff-lisbon"] };
 
 // src/cursor.js
+function resolveHeleDirAt(projectRoot) {
+  const defaultDir = import_node_path4.default.join(projectRoot, ".hele");
+  if (import_node_fs4.default.existsSync(defaultDir) && import_node_fs4.default.statSync(defaultDir).isDirectory()) return defaultDir;
+  const rc = import_node_path4.default.join(projectRoot, ".helerc");
+  if (!import_node_fs4.default.existsSync(rc)) return null;
+  try {
+    const { dirName } = JSON.parse(import_node_fs4.default.readFileSync(rc, "utf8"));
+    const custom = import_node_path4.default.join(projectRoot, dirName);
+    if (dirName && import_node_fs4.default.existsSync(custom) && import_node_fs4.default.statSync(custom).isDirectory()) return custom;
+  } catch {
+  }
+  return null;
+}
+function cursorDefaultFor(def) {
+  if (typeof def === "object" && def !== null) return def.cursor;
+  return def;
+}
+function mergeCursorModels(models, defaults) {
+  const next = { ...models };
+  const touched = [];
+  for (const [key, def] of Object.entries(defaults)) {
+    const cursorDef = cursorDefaultFor(def);
+    const current = next[key];
+    if (current === void 0) {
+      next[key] = typeof def === "object" && def !== null ? { ...def } : def;
+      touched.push(key);
+      continue;
+    }
+    if (typeof current === "string") {
+      next[key] = { "claude-code": current, cursor: cursorDef };
+      touched.push(key);
+      continue;
+    }
+    if (typeof current === "object" && current !== null && !("cursor" in current)) {
+      next[key] = { ...current, cursor: cursorDef };
+      touched.push(key);
+    }
+  }
+  return { models: next, touched };
+}
+function syncSettingsModels(projectRoot) {
+  const heleDir = resolveHeleDirAt(projectRoot);
+  if (!heleDir) {
+    console.log("No harness folder under project \u2014 skipped settings sync (run /hele-init first).");
+    return;
+  }
+  const settingsPath = import_node_path4.default.join(heleDir, "settings.json");
+  if (!import_node_fs4.default.existsSync(settingsPath)) {
+    console.log(`No ${settingsPath} \u2014 skipped settings sync.`);
+    return;
+  }
+  const templateRaw = cursor_assets_default.files[".cursor/hele/templates/settings.json"];
+  if (!templateRaw) {
+    console.error("ERROR: cursor assets missing templates/settings.json");
+    process.exit(2);
+  }
+  const defaults = JSON.parse(templateRaw).agents?.models ?? {};
+  let settings;
+  try {
+    settings = JSON.parse(import_node_fs4.default.readFileSync(settingsPath, "utf8"));
+  } catch (err) {
+    console.error(`ERROR: cannot parse ${settingsPath}: ${err.message}`);
+    process.exit(2);
+  }
+  settings.agents ??= {};
+  settings.agents.models ??= {};
+  const { models, touched } = mergeCursorModels(settings.agents.models, defaults);
+  if (touched.length === 0) {
+    console.log(`Settings already have cursor models: ${settingsPath}`);
+    return;
+  }
+  settings.agents.models = models;
+  import_node_fs4.default.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
+  console.log(`Updated agents.models (cursor) in ${settingsPath}: ${touched.join(", ")}`);
+}
 function cursorCommand(opts) {
   const target = import_node_path4.default.resolve(opts.dir ?? ".");
   if (!import_node_fs4.default.existsSync(target)) {
@@ -3777,7 +3852,8 @@ function cursorCommand(opts) {
   }
   console.log(`OK: Cursor adapter installed at ${import_node_path4.default.join(target, ".cursor")} (${written} files)`);
   console.log(`Commands available in Cursor chat: ${cursor_assets_default.commands.map((c) => `/${c}`).join(" \xB7 ")}`);
-  console.log("Next: run /hele-init inside Cursor (or keep using an existing .hele/ \u2014 the runtimes share it).");
+  syncSettingsModels(target);
+  console.log("Next: run /hele-init inside Cursor if this project has no .hele/ yet \u2014 otherwise keep using the shared harness folder.");
 }
 
 // src/index.js
@@ -3789,6 +3865,8 @@ program2.name("hele").description("hele \u2014 feature-delivery harness CLI").ve
 program2.command("find").description("search the feature index (anti-duplicate gate; agents MUST use this, never ad-hoc grep)").argument("[query...]", "search terms").option("--list", "list all registered features").option("--json", "machine-readable output").action((query, opts) => findCommand(query, opts));
 program2.command("config").description("read/write .hele/settings.json by dot path").argument("<action>", "get | set | add | list").argument("[path]", "dot path, e.g. agents.maxParallel").argument("[value]", "value (JSON parsed when possible)").action((action, dotPath, value) => configCommand(action, dotPath, value));
 program2.command("install").description("install the beads CLI (bd) via brew or the official script").option("--check", "only report whether bd is installed").action((opts) => installCommand(opts));
-program2.command("cursor").description("install the Cursor adapter (.cursor/ commands + agents + resources) into a project").option("--dir <path>", "target project root (default: current directory)").action((opts) => cursorCommand(opts));
+program2.command("cursor").description(
+  "install the Cursor adapter (.cursor/ commands + agents + resources) and sync agents.models cursor keys in settings.json"
+).option("--dir <path>", "target project root (default: current directory)").action((opts) => cursorCommand(opts));
 program2.command("ai").description("understand the AI workflow \u2014 skills, agents, and what each phase produces").argument("[skill]", "skill name for details (e.g. plan, feature, qa)").action((skill) => aiCommand(skill));
 program2.parse();

@@ -17,6 +17,8 @@ For Cursor, install the adapter into your project (after setting up the CLI belo
 hele cursor
 ```
 
+On an existing project this also syncs `agents.models` in `.hele/settings.json` with Cursor runtime defaults (missing keys / missing `cursor` values only).
+
 Optional but recommended — the `hele` CLI available everywhere:
 
 ```bash

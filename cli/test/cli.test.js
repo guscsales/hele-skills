@@ -5,8 +5,12 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { mergeCursorModels } from '../src/cursor.js';
 
 const ENTRY = fileURLToPath(new URL('../src/index.js', import.meta.url));
+const DEFAULT_MODELS = JSON.parse(
+  fs.readFileSync(new URL('../../templates/settings.json', import.meta.url), 'utf8')
+).agents.models;
 
 function fixtureProject() {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-cli-test-')));
@@ -78,10 +82,31 @@ test('config set / get / add round-trip', () => {
   assert.deepEqual(JSON.parse(hele(root, 'config', 'get', 'designSystem.paths')), ['src/design']);
 });
 
+test('mergeCursorModels expands strings and fills missing cursor keys', () => {
+  const { models, touched } = mergeCursorModels(
+    {
+      'backend-cho': 'sonnet',
+      'security-jane': { 'claude-code': 'fable' },
+      'design-vega': { 'claude-code': 'opus', cursor: 'opus' },
+    },
+    DEFAULT_MODELS
+  );
+
+  assert.deepEqual(models['backend-cho'], { 'claude-code': 'sonnet', cursor: 'grok' });
+  assert.deepEqual(models['security-jane'], { 'claude-code': 'fable', cursor: 'fable' });
+  assert.deepEqual(models['design-vega'], { 'claude-code': 'opus', cursor: 'opus' });
+  assert.deepEqual(models['frontend-van-pelt'], DEFAULT_MODELS['frontend-van-pelt']);
+  assert.ok(touched.includes('backend-cho'));
+  assert.ok(touched.includes('security-jane'));
+  assert.ok(touched.includes('frontend-van-pelt'));
+  assert.ok(!touched.includes('design-vega'));
+});
+
 test('cursor installs the adapter into a project', () => {
   const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-cursor-')));
   const out = hele(root, 'cursor');
   assert.match(out, /Cursor adapter installed/);
+  assert.match(out, /skipped settings sync/);
   assert.ok(fs.existsSync(path.join(root, '.cursor', 'commands', 'hele-feature.md')));
   assert.ok(fs.existsSync(path.join(root, '.cursor', 'agents', 'backend-cho.md')));
   assert.ok(fs.existsSync(path.join(root, '.cursor', 'hele', 'templates', 'settings.json')));
@@ -90,6 +115,65 @@ test('cursor installs the adapter into a project', () => {
   const cmd = fs.readFileSync(path.join(root, '.cursor', 'commands', 'hele-build.md'), 'utf8');
   assert.match(cmd, /CURSOR RUNTIME/);
   assert.doesNotMatch(cmd, /\$\{CLAUDE_PLUGIN_ROOT\}\/agents/);
+});
+
+test('cursor syncs agents.models cursor keys into existing settings.json', () => {
+  const root = fixtureProject();
+  fs.writeFileSync(
+    path.join(root, '.hele', 'settings.json'),
+    JSON.stringify(
+      {
+        version: 1,
+        agents: {
+          maxParallel: 4,
+          models: {
+            'backend-cho': 'sonnet',
+            'security-jane': { 'claude-code': 'fable' },
+          },
+        },
+      },
+      null,
+      2
+    )
+  );
+
+  const out = hele(root, 'cursor');
+  assert.match(out, /Updated agents\.models \(cursor\)/);
+  assert.match(out, /backend-cho/);
+
+  const settings = JSON.parse(fs.readFileSync(path.join(root, '.hele', 'settings.json'), 'utf8'));
+  assert.deepEqual(settings.agents.models['backend-cho'], {
+    'claude-code': 'sonnet',
+    cursor: 'grok',
+  });
+  assert.deepEqual(settings.agents.models['security-jane'], {
+    'claude-code': 'fable',
+    cursor: 'fable',
+  });
+  assert.equal(settings.agents.models['frontend-van-pelt'].cursor, 'grok');
+  assert.equal(settings.agents.maxParallel, 4);
+
+  const again = hele(root, 'cursor');
+  assert.match(again, /Settings already have cursor models/);
+});
+
+test('cursor syncs settings under a custom .helerc dirName', () => {
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-cursor-rc-')));
+  const harness = path.join(root, '.harness');
+  fs.mkdirSync(harness);
+  fs.writeFileSync(path.join(root, '.helerc'), JSON.stringify({ dirName: '.harness' }));
+  fs.writeFileSync(
+    path.join(harness, 'settings.json'),
+    JSON.stringify({ version: 1, agents: { models: { 'backend-cho': 'sonnet' } } }, null, 2)
+  );
+
+  const out = hele(root, 'cursor');
+  assert.match(out, /Updated agents\.models \(cursor\)/);
+  const settings = JSON.parse(fs.readFileSync(path.join(harness, 'settings.json'), 'utf8'));
+  assert.deepEqual(settings.agents.models['backend-cho'], {
+    'claude-code': 'sonnet',
+    cursor: 'grok',
+  });
 });
 
 test('errors with exit code 2 when no .hele exists', () => {

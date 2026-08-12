@@ -42,7 +42,9 @@ program
 
 program
   .command('cursor')
-  .description('install the Cursor adapter (.cursor/ commands + agents + resources) into a project')
+  .description(
+    'install the Cursor adapter (.cursor/ commands + agents + resources) and sync agents.models cursor keys in settings.json'
+  )
   .option('--dir <path>', 'target project root (default: current directory)')
   .action((opts) => cursorCommand(opts));
 

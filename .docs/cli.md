@@ -62,6 +62,8 @@ hele cursor --dir ~/my-app      # into another project
 
 Writes `.cursor/`: every skill as a Cursor command, every persona as a native agent definition with its model preconfigured, templates and the CLI itself under `.cursor/hele/`. The assets ship embedded in the CLI bundle — no network, no repo checkout needed. Both runtimes share the same `.hele/` folder; you can switch tools mid-feature.
 
+If the project already has a harness folder (`.hele/` or the dir from `.helerc`), also syncs `settings.json` `agents.models`: adds missing agent keys from the template defaults, expands plain-string model values to per-runtime objects, and fills a missing `cursor` key — never overwrites an existing `cursor` value. No harness folder → adapter only (run `/hele-init` first).
+
 ## hele ai
 
 The interactive explainer — what the workflow is, who the agents are, what each phase produces. The overview diagram (including the QA ↔ build fix loop: `--generate-fixes-report` → `--from-qa`) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
