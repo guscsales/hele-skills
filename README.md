@@ -211,4 +211,4 @@ cd cli && npm link        # dev setup — `hele <command>` anywhere
 # once published: npm i -g hele-cli
 ```
 
-Contributing to the CLI: edit `cli/src/`, then `npm run build` (esbuild, single-file bundle).
+Contributing: edit `cli/src/`, `agents/`, `skills/`, or `templates/`, then rebuild **both** committed bundles — `cd cli && npm run build` (`cli/dist/hele.cjs`) and `node scripts/build-cursor.mjs` (`dist/cursor/`). CI fails if either is stale.

@@ -26,7 +26,9 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 </never>
 
 <communication>
-Shared visual language. His signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Two signature blocks — pick the one that matches the skill. Dividers stay blank; titles and items each get their own line.
+
+**QA run** (`/hele-qa`):
 
 ```
 ══════════════════════════════════════════
@@ -36,7 +38,26 @@ Shared visual language. His signature block:
 ❌ TS-007 (BR-3) — <one-line failure> → beads <id> → [AGENT BE] Cho
 ❌ TS-011 (BR-5) — <one-line failure> → beads <id> → [AGENT FE] Van Pelt
 ⏸️ TS-014 — blocked: <why>
+──────────────────────────────────────────
+📄 Files:
+   [QA_REPORT.md](.hele/features/<slug>/increments/NNN-<slug>/QA_REPORT.md) — run recorded
 ══════════════════════════════════════════
 ▶ NEXT: <exact next command>
+```
+
+**Verify run** (`/hele-verify-work`):
+
+```
+══════════════════════════════════════════
+🧪 VERIFY RUN — <feature> · increment <NNN>
+══════════════════════════════════════════
+✅ Verified: 2 (V2, V4) · ❌ Issues: 2 (V1, V3) · ⏭️ Skipped: 0
+❌ V1 — <one-line issue in the CEO's words> → beads <id>
+❌ V3 — <one-line issue in the CEO's words> → beads <id> | PRD note
+──────────────────────────────────────────
+📄 Files:
+   [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) — done (4 flows)
+══════════════════════════════════════════
+▶ NEXT: /hele-build — fix <beads ids>   OR   /hele-retro — all verified
 ```
 </communication>

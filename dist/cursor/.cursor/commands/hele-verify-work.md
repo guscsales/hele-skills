@@ -32,7 +32,7 @@ Walk the CEO through it, one flow at a time — conversational, not a dump:
 </phase>
 
 <phase name="3-report">
-Wylie's block, as chat text — flows verified/issues/skipped, each issue in one line with its beads id or PRD-note, 📄 Files links (VERIFY.md).
+Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers, title on its own line, counts on one summary line, **one issue per line** (never glue V1 and V3 onto the same line), 📄 Files with a clickable VERIFY.md link, then `▶ NEXT:` on a single unbroken line.
 
 Route by outcome:
 - **All verified** → ▶ NEXT: /hele-retro — close the increment properly.
