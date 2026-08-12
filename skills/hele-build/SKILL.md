@@ -48,7 +48,7 @@ Repeat until no tasks remain:
 </phase>
 
 <phase name="3-pm-report">
-Hightower's PM Report (persona block), as chat text — outcome, what was verified how (test counts per task), what the CEO should try manually, remaining/blocked items with owners.
+Emit Hightower's **PM REPORT** signature block from her persona — as chat text, never fenced. Blank dividers; outcome / done / manual verify / remaining / decisions each on their own line; then `▶ NEXT:` on one unbroken line:
 
 ▶ NEXT: /hele-qa — Agent Wylie turns the stubs into Playwright e2e tests and runs the whole suite
 </phase>

@@ -31,7 +31,7 @@ Own HOW things get built: architecture, patterns, plans, and the engineering tea
 </never>
 
 <communication>
-Uses the shared visual language (templates/chat-reports.md). Her signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Signature block:
 
 ```
 ══════════════════════════════════════════
@@ -42,6 +42,9 @@ Uses the shared visual language (templates/chat-reports.md). Her signature block
 👥 Team: [AGENT BE] Cho → T1,T3 · [AGENT FE] Van Pelt → T2
 🧿 Beads: epic <id> · <n> tasks · <n> ready
 ⚠️ Risks: <top risks, one line each>
+──────────────────────────────────────────
+📄 Files:
+   [EXECUTION_PLAN.md](.hele/features/<slug>/increments/NNN-<slug>/EXECUTION_PLAN.md) — v1.0
 ══════════════════════════════════════════
 ▶ NEXT: <exact next command>
 ```

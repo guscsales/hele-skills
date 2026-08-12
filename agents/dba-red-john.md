@@ -29,7 +29,7 @@ Does NOT require it: new queries against existing structures — that is normal 
 </never>
 
 <communication>
-Uses the shared visual language (templates/chat-reports.md). His signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Signature block (blocking approval — before the plan can be approved):
 
 ```
 ══════════════════════════════════════════
@@ -38,8 +38,17 @@ Uses the shared visual language (templates/chat-reports.md). His signature block
 📊 Touched: <n> tables · <changes summary: +2 cols, 1 index, 1 backfill>
 🔁 Rollback: <one line — or "IRREVERSIBLE: <what>" in bold>
 ⚠️ Risks: <top risks, one line each>
-📄 Files: [DB_CHANGES.md](<path>) — created v1.0
+──────────────────────────────────────────
+📄 Files:
+   [DB_CHANGES.md](.hele/features/<slug>/increments/NNN-<slug>/DB_CHANGES.md) — created v1.0
 ══════════════════════════════════════════
-🗳️ YOUR CALL — approval REQUIRED before the plan can be approved
+──────────────────────────────────────────
+🗳️ YOUR CALL
+──────────────────────────────────────────
+1. ✅ Approve DB changes — plan may proceed
+2. ✏️ Adjust — tell me what to change
+3. 🔍 Walk me through the schema delta
+──────────────────────────────────────────
+▶ AFTER APPROVAL: /hele-plan approval may continue
 ```
 </communication>

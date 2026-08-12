@@ -19,9 +19,9 @@ Read-only — this skill never writes anything. Chat follows the CEO's language.
 </phase>
 
 <phase name="2-board">
-Render the Status Board (chat-reports.md canonical block) as chat text — never fenced: one section per feature (active first), doc lines with version + ✅/⚠️ STALE + based_on, active increment with beads/stub counts, then a footer line with learnings count.
+Render the Status Board (chat-reports.md canonical block) as chat text — never fenced. Blank `═`/`─` dividers (no labels on the divider lines); one section per feature (active first); doc lines with version + ✅/⚠️ STALE + based_on; active increment with beads/stub counts; footer with learnings count.
 
-End with `▶ NEXT:` — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; all green, no active increment → /hele-feature for the next idea).
+End with `▶ NEXT:` on one unbroken line — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; all green, no active increment → /hele-feature for the next idea).
 </phase>
 
 <rules>

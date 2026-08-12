@@ -79,7 +79,9 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 
 ## Approval block (MANDATORY at the end of every interactive phase)
 
-Whenever a skill produces an artifact the CEO must sign off on (PRD, plan, design spec, stubs), it ends the report with numbered options — approval first, adjustments second, context-specific extras after — and ALWAYS states what the next phase will be:
+Whenever a skill produces an artifact the CEO must sign off on (PRD, plan, design spec, stubs, DB changes), it ends the report with numbered options — approval first, adjustments second, context-specific extras after — and ALWAYS states what the next phase will be.
+
+**Never compress this into one line.** Forbidden: `🗳️ YOUR CALL — 1. ✅ Approve · 2. ✏️ Adjust · 3. …`. Options wrap and become unreadable. Always use the multi-line shape below (blank dividers, one option per line):
 
 ```
 ──────────────────────────────────────────

@@ -71,12 +71,17 @@ Present the Feature Brief, then the mandatory approval block. Never mark approve
 ══════════════════════════════════════════
 🎯 WHAT: <one line>
 💡 WHY: <one line>
-📏 Business rules: <n> (BR-1..BR-n) · 🔀 Flows: <n>
+📏 Business rules: <n> (BR-1..BR-n)
+🔀 Flows: <n>
 📦 In scope: <n> · 🚫 Out of scope: <n>
 ❓ Open questions: <n> (owner: CEO)
-🗂️ index.json: registered · aliases: <list>
 ⚠️ Stale derived docs: <list | none>
+──────────────────────────────────────────
+📄 Files:
+   [PRODUCT_DESCRIPTION.md](.hele/features/<slug>/PRODUCT_DESCRIPTION.md) — v<X.Y> draft
+   [index.json](.hele/index.json) — registered · aliases: <list>
 ══════════════════════════════════════════
+──────────────────────────────────────────
 🗳️ YOUR CALL
 ──────────────────────────────────────────
 1. ✅ Approve — PRD v<X.Y> goes to approved

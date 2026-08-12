@@ -57,13 +57,21 @@ Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie �
 </phase>
 
 <phase name="4-report-and-route">
-Wylie's QA Run block (persona), as chat text — specs written vs reused, passing/failing/blocked counts, each failure in one line with its class, beads id and owner. 📄 Files includes QA_REPORT.md.
+Emit Wylie's **QA RUN** signature block from his persona — as chat text, never fenced. Match the shape: blank dividers, counts on one summary line, **one failure/blocked stub per line**, 📄 Files with QA_REPORT.md, then route.
 
 Route by outcome:
 - **All passing** → ▶ NEXT: /hele-verify-work — guided human verification of the main flows.
-- **Failures** → approval gate, never silent hand-back:
+- **Failures** → approval gate, never silent hand-back. Use the canonical multi-line `🗳️ YOUR CALL` (never one line):
 
-  🗳️ YOUR CALL — 1. ✅ Approve fixes → /hele-build --from-qa · 2. ⚖️ Decide the contract-questions first (each becomes: fix product, or PRD change via /hele-feature + stub rewrite) · 3. 🔍 Walk me through a failure
+```
+──────────────────────────────────────────
+🗳️ YOUR CALL
+──────────────────────────────────────────
+1. ✅ Approve fixes → /hele-build --from-qa
+2. ⚖️ Decide the contract-questions first (each: fix product, or PRD change via /hele-feature + stub rewrite)
+3. 🔍 Walk me through a failure
+──────────────────────────────────────────
+```
 
   Contract-questions MUST be decided before or together with approval — a build dispatched on an undecided contract builds the wrong thing.
 - **Blocked stubs** → name what the CEO must unblock (real-world actions are his job).

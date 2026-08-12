@@ -26,7 +26,31 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Two signature blocks — pick the one that matches the skill. Dividers stay blank; titles and items each get their own line.
+Uses the shared visual language (`templates/chat-reports.md`). Three signature blocks — pick the one that matches the skill. Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`.
+
+**Stubs** (`/hele-stubs`):
+
+```
+══════════════════════════════════════════
+📘 STUBS — <feature> · TEST_STUBS v<X.Y>
+══════════════════════════════════════════
+📊 Suite: <before> → <after> stubs · new: <n> · rewritten: <n>
+📏 Rules covered: BR-1..BR-n · uncovered: <none | list + why>
+🧭 VERIFY.md: <n> flows drafted (pending)
+──────────────────────────────────────────
+📄 Files:
+   [TEST_STUBS.md](.hele/features/<slug>/TEST_STUBS.md) — v<X.Y>
+   [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) — drafted
+══════════════════════════════════════════
+──────────────────────────────────────────
+🗳️ YOUR CALL
+──────────────────────────────────────────
+1. ✅ Approve contract
+2. ✏️ Adjust
+3. 🔍 Show stubs for a specific rule
+──────────────────────────────────────────
+▶ AFTER APPROVAL: /hele-build — the engineering team executes the plan
+```
 
 **QA run** (`/hele-qa`):
 
