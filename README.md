@@ -125,6 +125,8 @@ hele cursor
 
 That writes `.cursor/`: every `/hele-*` skill as a Cursor command, every persona as a native agent definition (`.cursor/agents/`, model preconfigured — strong work on fable/opus, execution volume on grok), templates and the hele CLI itself bundled under `.cursor/hele/`. (`node scripts/build-cursor.mjs` regenerates the same adapter into `dist/cursor/` for contributors; copying that `.cursor` folder works too.)
 
+If `.hele/settings.json` already exists, `hele cursor` also syncs `agents.models` for the Cursor runtime (adds missing agent keys / `cursor` values from template defaults; expands plain strings to per-runtime objects; never overwrites an existing `cursor` choice).
+
 `.hele/` is shared between runtimes — start a feature in Claude Code, continue it in Cursor, same memory. The adapter is generated from the core: never edit `dist/cursor` by hand.
 
 ## Project layout (created by /hele-init)
