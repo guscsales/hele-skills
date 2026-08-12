@@ -54,9 +54,21 @@ Never ship a fast change that makes the PRD lie.
 1. Write `increments/NNN-fast-<slug>/FAST.md` from `.cursor/hele/templates/fast.md` — the single artifact: what/why, classification, files, tests run, memory sync, beads ids, evidence.
 2. Something genuinely reusable learned → ONE line promoted to `LEARNINGS.md` (L-nnn). No RETRO.md.
 3. Close state: `state.json.phase: "shipped"`, `activeIncrement: null`.
-4. Report (chat text, never fenced): triage verdict, tasks + tests, memory sync outcome, 📄 Files links.
+4. Report as chat text (never fenced), matching the chat-reports frame — blank dividers, one item per line:
 
+```
+══════════════════════════════════════════
+⚡ FAST — <feature> · increment NNN-fast-<slug>
+══════════════════════════════════════════
+🏷️ Classification: <bugfix | behavior change>
+✅ Tasks: <n> done · tests: <summary>
+🧠 Memory sync: <none needed | PRD + stubs patched>
+──────────────────────────────────────────
+📄 Files:
+   [FAST.md](.hele/features/<slug>/increments/NNN-fast-<slug>/FAST.md) — written
+══════════════════════════════════════════
 ▶ NEXT: /clear (everything is saved on disk — fresh context is cheaper)
+```
 </phase>
 
 <rules>

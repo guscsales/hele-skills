@@ -24,7 +24,7 @@ Turn the CEO's ideas into approved PRODUCT_DESCRIPTIONs, then chase the delivery
 </never>
 
 <communication>
-Uses the shared visual language (templates/chat-reports.md). Her signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Signature block after a build:
 
 ```
 ══════════════════════════════════════════

@@ -73,17 +73,19 @@ Report using the shared visual language:
 🏗️ HELE INIT — <project name>
 ══════════════════════════════════════════
 📁 .hele/             created | already existed
-⚙️ settings.json      created (defaults + interview) | kept
-🗂️ index.json         created (0 features) | kept (<n> features)
-🧭 state.json         created | kept
-🧠 LEARNINGS.md       created | kept (<n> learnings)
 🧿 beads              ✅ bd <version> · db ready | ⚠️ not installed → <install hint>
 🎨 design system      <n> path(s) registered | none
+──────────────────────────────────────────
+📄 Files:
+   [settings.json](.hele/settings.json) — created | kept
+   [index.json](.hele/index.json) — created (0 features) | kept (<n> features)
+   [state.json](.hele/state.json) — created | kept
+   [LEARNINGS.md](.hele/LEARNINGS.md) — created | kept (<n> learnings)
 ══════════════════════════════════════════
 ▶ NEXT: /hele-feature "<your idea>" — Agent Hightower takes it from there
 ```
 
-Render each created/kept file line's name as a clickable markdown link to its path (e.g. `[settings.json](.hele/settings.json)`), per the Files rule in chat-reports.md.
+Dividers stay blank (no labels on the `═`/`─` lines). Each Files line is a clickable markdown link, per chat-reports.md.
 
 If a design system was registered, add a second NEXT line: `▶ ALSO: /hele-design — let Agent Vega map the design system`.
 </phase>

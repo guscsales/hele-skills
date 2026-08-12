@@ -31,9 +31,22 @@ Run as Agent Hightower facilitating the team's retrospective. Chat follows the C
 
 <phase name="3-close">
 1. Close out: plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming), `state.json` → `activeIncrement: null`, `phase: null` (or next).
-2. Report as chat text: went-well / to-improve counts, root causes in one line each, learnings promoted with their L-nnn ids, what was closed.
+2. Report as chat text (never fenced), matching the chat-reports frame — blank dividers, one root cause / learning per line:
 
+```
+══════════════════════════════════════════
+🔁 RETRO — <feature> · increment <NNN>
+══════════════════════════════════════════
+✅ Went well: <n> · 🔧 To improve: <n>
+🔧 <root cause one-liner> — evidence: <task/stub/version>
+🧠 Promoted: L-nnn <imperative lesson> · …
+──────────────────────────────────────────
+📄 Files:
+   [RETRO.md](.hele/features/<slug>/increments/NNN-<slug>/RETRO.md) — written
+   [LEARNINGS.md](.hele/LEARNINGS.md) — <n> promoted | none
+══════════════════════════════════════════
 ▶ NEXT: /hele-feature — next idea · or /hele-status to see the board
+```
 </phase>
 
 <rules>

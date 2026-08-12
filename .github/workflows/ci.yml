@@ -19,8 +19,22 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      - name: dist bundle is committed and current
-        run: git diff --exit-code dist/
+      - name: cli dist bundle is committed and current
+        run: |
+          if git diff --exit-code dist/; then
+            exit 0
+          fi
+          echo "::error::cli/dist/hele.cjs is stale — agents/, skills/, templates/, and cli/src/ are embedded in the bundle. Rebuild and commit: cd cli && npm run build"
+          exit 1
+      - name: cursor adapter is committed and current
+        working-directory: .
+        run: |
+          node scripts/build-cursor.mjs
+          if git diff --exit-code dist/cursor; then
+            exit 0
+          fi
+          echo "::error::dist/cursor is stale — agents/, skills/, and templates/ generate the Cursor adapter. Rebuild and commit: node scripts/build-cursor.mjs"
+          exit 1
 
   manifests:
     runs-on: ubuntu-latest
@@ -64,7 +78,3 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "v$V" -m "hele-skills v$V"
           git push origin "v$V"
-      - name: cursor adapter is committed and current
-        run: |
-          node scripts/build-cursor.mjs
-          git diff --exit-code dist/cursor

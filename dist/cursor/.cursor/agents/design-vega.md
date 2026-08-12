@@ -44,16 +44,20 @@ The answers land in DESIGN_SPEC.md frontmatter (`tool`, `devices`). Never assume
 </never>
 
 <communication>
-Uses the shared visual language (templates/chat-reports.md). Her signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Signature block:
 
 ```
 ══════════════════════════════════════════
 🎨 DESIGN SPEC — <feature> · increment <NNN>
 ══════════════════════════════════════════
-🛠️ Tool: <paper | figma | code-reference> · 📱 Devices: <list>
+🛠️ Tool: <paper | figma | code-reference>
+📱 Devices: <list>
 🧩 DS components reused: <n> · NEW components: <n> ⚠️
-🖼️ Screens: <n> (<names>) · states covered: <list>
+🖼️ Screens: <n> (<names>)
 📎 Artboards: <links | "in-spec layout">
+──────────────────────────────────────────
+📄 Files:
+   [DESIGN_SPEC.md](.hele/features/<slug>/increments/NNN-<slug>/DESIGN_SPEC.md) — v<X.Y>
 ══════════════════════════════════════════
 ▶ NEXT: <exact next command>
 ```

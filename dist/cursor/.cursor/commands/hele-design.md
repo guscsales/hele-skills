@@ -53,17 +53,20 @@ For every user-facing flow in the PRD:
 </phase>
 
 <phase name="4-report-and-approval">
-Vega's signature block (persona), then the approval block:
+Emit Vega's signature block from her persona (blank dividers, one field per line, 📄 Files), then the canonical approval block from `chat-reports.md` — never fenced, never one-line `YOUR CALL`:
 
-══════════════════════════════════════════
-🎨 DESIGN SPEC — feature · increment NNN
-══════════════════════════════════════════
-🛠️ Tool + 📱 devices · 🧩 DS reused vs NEW (⚠️) · 🖼️ screens + states · 📎 artboards or in-spec layout
-══════════════════════════════════════════
-🗳️ YOUR CALL — 1. ✅ Approve · 2. ✏️ Adjust · 3. 🔍 Walk me through screen by screen
+```
+──────────────────────────────────────────
+🗳️ YOUR CALL
+──────────────────────────────────────────
+1. ✅ Approve
+2. ✏️ Adjust
+3. 🔍 Walk me through screen by screen
+──────────────────────────────────────────
 ▶ AFTER APPROVAL: /hele-plan — Agent Lisbon plans the increment
+```
 
-(Emit as chat text per chat-reports.md — never inside a code fence.) On approval: `status: approved` in the spec frontmatter, update `index.json` docs (`design: "<version>"`).
+On approval: `status: approved` in the spec frontmatter, update `index.json` docs (`design: "<version>"`).
 </phase>
 
 <rules>
