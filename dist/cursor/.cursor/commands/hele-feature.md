@@ -13,7 +13,7 @@ You are running Agent Hightower's phase. Load her persona from `.cursor/hele/age
 <context>
 - Requires an initialized project: resolve the hele dir (`$HELE_DIR` or walk up for `.hele/`). Missing → stop and point to `/hele-init`.
 - Load at start: `.hele/settings.json`, `.hele/LEARNINGS.md` (respect every L-nnn relevant to product definition), and the visual language `.cursor/hele/templates/chat-reports.md`.
-- The artifact template is `.cursor/hele/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions).
+- The artifact template is `.cursor/hele/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions, markdown inside XML section tags).
 </context>
 
 <phase name="1-anti-duplicate-gate">
@@ -48,12 +48,16 @@ Rules:
 <phase name="3-write">
 **New feature:**
 1. Slug: kebab-case English, product-meaningful (`checkout-discount`, not `feature-1`).
-2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. The `<flows>` section gets at least one mermaid diagram (the happy path); add more when rules branch — reference BR-n ids on the branches. Flows are drawn from the interview, and updates re-draw the affected flow, never leave a diagram contradicting a rule.
+2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. Follow the template RULES: XML section tags stay (the AI contract); inside them write markdown a CEO can read in preview.
+   - `<flows>`: at least one mermaid (the happy path), each diagram under a `###` caption; add more when rules branch — reference BR-n ids on the branches. Flows are drawn from the interview, and updates re-draw the affected flow, never leave a diagram contradicting a rule.
+   - `<business-rules>`: each rule is `### BR-n — <short title>` plus prose — not a one-line bullet. Numbered steps for sequences; a markdown table when the rule is a matrix (status × action, role × permission).
+   - `<scope>`: `### In scope` as bullets; `### Out of scope` as a two-column table (`Left out` | `Why`).
+   - `<glossary>`: two-column table (`Term` | `Meaning`) when terms exist.
 3. Register in `index.json`: slug, title, `status: "defining"`, one-line summary, aliases — MUST include the CEO's own words from the conversation (both languages) — and `docs: {prd: "1.0"}`.
 4. Update `state.json`: `activeFeature: <slug>`, `phase: "defining"`.
 
 **Update:**
-1. Patch `PRODUCT_DESCRIPTION.md` as STATE — rewrite superseded rules in place, never append history. Bump patch version, add a one-line changelog entry, set `status: draft` until re-approved.
+1. Patch `PRODUCT_DESCRIPTION.md` as STATE — rewrite superseded rules in place (keep the `### BR-n` heading + prose shape), never append history. Bump patch version, add a one-line changelog entry, set `status: draft` until re-approved.
 2. Sync `index.json` (docs.prd version, summary/aliases if they changed) and `state.json`.
 3. Check derived docs' `based_on`: any EXECUTION_PLAN / DESIGN_SPEC / TEST_STUBS now stale → list them in the brief (⚠️ STALE) so nothing builds against the old truth.
 </phase>

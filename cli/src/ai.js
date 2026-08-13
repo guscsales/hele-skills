@@ -19,7 +19,9 @@ Idempotent — safe to re-run, never overwrites.`,
     question: 'WHAT & WHY',
     detail: `Agent Hightower (PM) interviews you until scope and business rules
 are unambiguous, then writes (or patches) the PRD: what the feature is, why
-it exists, numbered business rules (BR-n), mermaid flows, in/out of scope.
+it exists, numbered business rules (each BR-n as a heading with prose),
+named mermaid flows, in/out of scope. Markdown inside stable XML section
+tags — humans read it in preview, agents still find <business-rules>.
 Guards the anti-duplicate gate: searches the index before creating anything.
 The PRD is a LIVING doc — written as current state, patch versions only.
 Your technical hints go to NOTES.md for Agent Lisbon; the PRD stays pure

@@ -14,7 +14,7 @@ Automation (/hele-qa) proves the rules; the CEO's eyes catch what code can't —
 
 <context>
 - Requires: `state.json.activeIncrement`, TEST_STUBS with statuses from a /hele-qa run (not run yet → recommend it first; the CEO may verify anyway), and a runnable app.
-- Load: the stubs, the PRD (`<flows>` + BR-n), the DESIGN_SPEC if any, `.cursor/hele/templates/verify.md` + `templates/chat-reports.md`. Set `state.json.phase: "verifying"`.
+- Load: the stubs, the PRD (`<flows>` diagrams + `### BR-n` rules), the DESIGN_SPEC if any, `.cursor/hele/templates/verify.md` + `templates/chat-reports.md`. Set `state.json.phase: "verifying"`.
 </context>
 
 <phase name="1-load">

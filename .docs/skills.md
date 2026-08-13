@@ -18,7 +18,7 @@ Agent Hightower (PM) turns your idea into an approved PRODUCT_DESCRIPTION — or
 
 - **Anti-duplicate gate first:** searches the index (`hele find`) with your own words before creating anything. Matches found → you decide: update or genuinely new.
 - Interviews you in short rounds (max 4 questions each) until scope and business rules are unambiguous.
-- Writes the PRD: WHAT/WHY, numbered business rules (BR-n), mermaid flow diagrams, in/out of scope, glossary. Technical hints you drop go to NOTES.md for the planner — the PRD stays pure product.
+- Writes the PRD: WHAT/WHY, numbered business rules (each `BR-n` as a heading with prose — tables for matrices), named mermaid flows, in/out of scope, glossary. XML section tags stay so agents can find sections; the markdown inside is for you. Technical hints you drop go to NOTES.md for the planner — the PRD stays pure product.
 - Living document: patch versions only (1.0 → 1.1), written as current state, superseded rules rewritten not appended. A ground-up rebuild is a new feature folder, never a major bump.
 - Suggests the [fast lane](#hele-fast) when your request smells small.
 

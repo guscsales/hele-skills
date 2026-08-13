@@ -73,7 +73,7 @@ Root causes with evidence, lessons promoted to LEARNINGS.md — which every futu
   index.json               # registry of every feature (the anti-duplicate gate)
   LEARNINGS.md             # memory promoted from retros
   features/<slug>/
-    PRODUCT_DESCRIPTION.md # living PRD — current state, patch versions
+    PRODUCT_DESCRIPTION.md # living PRD — markdown inside XML tags, patch versions
     TEST_STUBS.md          # living regression contract
     increments/001-<name>/ # frozen per increment: plan, design, DB changes,
                            # QA report, verify record, retro

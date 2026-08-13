@@ -158,7 +158,7 @@ If `.hele/settings.json` already exists, `hele cursor` also syncs `agents.models
 - Docs carry `version` in frontmatter plus a `## Changelog` section. **Patch-only** (1.0 → 1.1 → 1.2).
 - A ground-up rebuild is **a new feature folder** (`checkout-discount-v2`), never a major bump.
 - Derived docs carry `based_on: PRODUCT_DESCRIPTION vX.Y` — `/hele-status` flags stale docs mechanically.
-- `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git.
+- `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git. XML section tags are the AI contract; inside them the PRD is markdown (headings, tables, named mermaid) so a human can review it in preview. Other living/per-increment artifacts (plans, specs, stubs, DB changes) stay XML-first — those are for agents.
 
 ## Finding features (anti-duplicate)
 

@@ -42,7 +42,7 @@ Per task, dispatch ONE engineer subagent exactly like /hele-build: description `
 
 <phase name="4-memory-sync">
 The living docs must stay true:
-- **Behavior change** → rewrite the affected BR-n / flow in PRODUCT_DESCRIPTION.md (state-not-history), bump patch version, changelog line; update the affected stubs in TEST_STUBS.md (`based_on` bump). Update `index.json` doc versions.
+- **Behavior change** → rewrite the affected `### BR-n` heading + prose / named flow in PRODUCT_DESCRIPTION.md (state-not-history; keep the markdown-inside-XML shape), bump patch version, changelog line; update the affected stubs in TEST_STUBS.md (`based_on` bump). Update `index.json` doc versions.
 - **Bugfix** → docs untouched; FAST.md records "memory sync: none needed (bugfix — rules already correct)".
 Never ship a fast change that makes the PRD lie.
 </phase>
