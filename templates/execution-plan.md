@@ -17,6 +17,11 @@ RULES FOR THIS DOCUMENT
 - Every task maps to a beads issue once /hele-plan registers the epic.
 - based_on MUST point at the PRD version this plan was written against —
   /hele-status uses it to detect drift.
+- Required when DESIGN_SPEC.tool is paper: include <paper-to-code>
+  (skill /hele-paper-to-code, file id + page, artboard ids per Van Pelt
+  task). Pixels from get_jsx; plan/DESIGN_SPEC prose is behavior and
+  structure only. Screenshots = verification. MCP down → stop.
+  Figma twin: <figma-to-code> when tool is figma (same rule, Figma MCP).
 -->
 
 # Execution Plan — <increment title>
@@ -33,6 +38,24 @@ Facts about the codebase this plan builds on: key files (paths), existing patter
 The chosen technical approach and why it beats the alternatives considered.
 </approach>
 
+<paper-to-code>
+<!-- required when DESIGN_SPEC.tool is paper -->
+skill: /hele-paper-to-code
+file: <paper file id>
+page: <page>
+<!-- per Van Pelt task: exact node/artboard ids — never "see DESIGN_SPEC" -->
+T2: mobile <id> · desktop <id>
+rule: plan/DESIGN_SPEC prose = behavior and structure; pixels from get_jsx. Screenshots = verification only. MCP/tool down → stop, do not invent UI from the plan.
+</paper-to-code>
+
+<figma-to-code>
+<!-- required when DESIGN_SPEC.tool is figma -->
+file: <figma file id>
+page: <page>
+T2: mobile <node id> · desktop <node id>
+rule: plan/DESIGN_SPEC prose = behavior and structure; pixels from Figma MCP. Screenshots = verification only. MCP/tool down → stop, do not invent UI from the plan.
+</figma-to-code>
+
 <tasks>
   <task id="T1" agent="cho" beads="">
     <description>...</description>
@@ -41,7 +64,7 @@ The chosen technical approach and why it beats the alternatives considered.
     <depends-on></depends-on>
   </task>
   <task id="T2" agent="van-pelt" beads="">
-    <description>...</description>
+    <description><paper-to-code> file <id> · page <page> · artboards mobile:<id> desktop:<id> — ...</description>
     <files>...</files>
     <tests>...</tests>
     <depends-on>T1</depends-on>
