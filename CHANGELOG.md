@@ -4,7 +4,7 @@ Every released version, newest first. Each entry lists the commits that shipped 
 
 ## v0.12.2 — 2026-08-13
 
-- feat(prd): PRODUCT_DESCRIPTION is markdown-inside-XML — humans get headings/tables/named mermaid; agents still locate `<business-rules>` / `<flows>` tags. Other artifacts stay XML-first.
+- df2c474 feat(prd): PRODUCT_DESCRIPTION is markdown-inside-XML — humans get headings/tables/named mermaid; agents still locate `<business-rules>` / `<flows>` tags. Other artifacts stay XML-first.
 
 ## v0.12.1 — 2026-08-13
 
