@@ -57,18 +57,15 @@ For every user-facing flow in the PRD:
 </phase>
 
 <phase name="4-report-and-approval">
-Emit Vega's signature block from her persona (blank dividers, one field per line, 📄 Files), then the canonical approval block from `chat-reports.md` — never fenced, never one-line `YOUR CALL`:
+Emit Vega's signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🎨 DESIGN SPEC` on the divider line), title on its own line, tool / devices / DS / screens / artboards each on their own line, 📄 Files with a clickable DESIGN_SPEC.md link. Then the canonical approval block from `chat-reports.md` — never fenced, never one-line `YOUR CALL`. Blank dividers; `🗳️ YOUR CALL` on its own line; one option per line:
 
-```
-──────────────────────────────────────────
-🗳️ YOUR CALL
-──────────────────────────────────────────
 1. ✅ Approve
 2. ✏️ Adjust
 3. 🔍 Walk me through screen by screen
-──────────────────────────────────────────
+
 ▶ AFTER APPROVAL: /hele-plan — Agent Lisbon plans the increment
-```
+
+Forbidden: wrapping the report or YOUR CALL in a markdown code fence; gluing the title onto the `═` line.
 
 On approval: `status: approved` in the spec frontmatter, update `index.json` docs (`design: "<version>"`).
 </phase>

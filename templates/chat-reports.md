@@ -3,7 +3,8 @@
 Every hele skill reports in chat using this shared visual language. The CEO is a visual person — reports must be scannable at a glance. Content stays king: formatting makes it readable, never replaces substance.
 
 <rules>
-- **NEVER wrap a report in a code fence.** Reports are emitted as normal chat text — markdown prose with divider lines. The ``` fences in THIS file only delimit the examples; copying them into chat makes reports unreadable. Code fences in chat are reserved for actual code, commands, and file contents.
+- **NEVER wrap a report in a code fence.** Reports are emitted as normal chat text — markdown prose with divider lines. The ``` fences in THIS file and in persona `<communication>` blocks only delimit the shape; copying them into chat makes reports unreadable. Code fences in chat are reserved for actual code, commands, and file contents.
+- **Skills must not paste a fenced copy of the report the agent should emit.** A skill that says "report as chat text" and then shows the whole block inside ``` is why agents wrap the output. Point to the persona signature block and describe the shape in prose (see `/hele-verify-work`).
 - Section blocks framed by `──────────────────────────────` dividers; `══════════════════════════════` for top-level report frames.
 - **Divider lines are blank.** A divider is ONLY `─` or `═` characters — never append an emoji, title, count, or label on the same line (no `──── 🧪 VERIFY RUN`, no `──── ▶ NEXT:`). Titles, section headers, and `▶ NEXT:` sit on their own lines between the dividers.
 - One emoji per section header — never per sentence.
@@ -50,6 +51,25 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 📦 user-onboarding              [idea]
 ══════════════════════════════════════════
 ▶ NEXT: /hele-plan — refresh stale plan for checkout-discount
+```
+
+## Init report (used by /hele-init)
+
+```
+══════════════════════════════════════════
+🏗️ HELE INIT — <project name>
+══════════════════════════════════════════
+📁 .hele/             created | already existed
+🧿 beads              ✅ bd <version> · db ready | ⚠️ not installed → <install hint>
+🎨 design system      <n> path(s) registered | none
+──────────────────────────────────────────
+📄 Files:
+   [settings.json](.hele/settings.json) — created | kept
+   [index.json](.hele/index.json) — created (0 features) | kept (<n> features)
+   [state.json](.hele/state.json) — created | kept
+   [LEARNINGS.md](.hele/LEARNINGS.md) — created | kept (<n> learnings)
+══════════════════════════════════════════
+▶ NEXT: /hele-feature "<your idea>" — Agent Hightower takes it from there
 ```
 
 ## Files block (inside any report that wrote to disk)

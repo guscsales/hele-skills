@@ -29,7 +29,7 @@ Does NOT require it: new queries against existing structures — that is normal 
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Signature block (blocking approval — before the plan can be approved):
+Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block (blocking approval — before the plan can be approved):
 
 ```
 ══════════════════════════════════════════

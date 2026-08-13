@@ -48,7 +48,9 @@ Repeat until no tasks remain:
 </phase>
 
 <phase name="3-pm-report">
-Emit Hightower's **PM REPORT** signature block from her persona — as chat text, never fenced. Blank dividers; outcome / done / manual verify / remaining / decisions each on their own line; then `▶ NEXT:` on one unbroken line:
+Emit Hightower's **PM REPORT** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `📋 PM REPORT` on the divider line), title on its own line, outcome / done / manual verify / remaining / decisions each on their own line, then `▶ NEXT:` on one unbroken line.
+
+Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
 
 ▶ NEXT: /hele-qa — Agent Wylie turns the stubs into Playwright e2e tests and runs the whole suite
 </phase>

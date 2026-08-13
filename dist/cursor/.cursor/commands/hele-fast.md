@@ -54,21 +54,9 @@ Never ship a fast change that makes the PRD lie.
 1. Write `increments/NNN-fast-<slug>/FAST.md` from `.cursor/hele/templates/fast.md` — the single artifact: what/why, classification, files, tests run, memory sync, beads ids, evidence.
 2. Something genuinely reusable learned → ONE line promoted to `LEARNINGS.md` (L-nnn). No RETRO.md.
 3. Close state: `state.json.phase: "shipped"`, `activeIncrement: null`.
-4. Report as chat text (never fenced), matching the chat-reports frame — blank dividers, one item per line:
+4. Emit Hightower's **FAST** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (a divider is ONLY those characters — never put `⚡ FAST` or any label on the same line), title on its own line, Classification / Tasks / Memory sync each on their own line, **one file per line** as a clickable markdown link, then `▶ NEXT:` on a single unbroken line.
 
-```
-══════════════════════════════════════════
-⚡ FAST — <feature> · increment NNN-fast-<slug>
-══════════════════════════════════════════
-🏷️ Classification: <bugfix | behavior change>
-✅ Tasks: <n> done · tests: <summary>
-🧠 Memory sync: <none needed | PRD + stubs patched>
-──────────────────────────────────────────
-📄 Files:
-   [FAST.md](.hele/features/<slug>/increments/NNN-fast-<slug>/FAST.md) — written
-══════════════════════════════════════════
-▶ NEXT: /clear (everything is saved on disk — fresh context is cheaper)
-```
+Forbidden (this is what mangles Cursor chat): wrapping the report in a markdown code fence; gluing the title onto the `═` line; concatenating Files onto one line.
 </phase>
 
 <rules>

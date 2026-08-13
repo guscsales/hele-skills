@@ -54,21 +54,19 @@ Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie �
 </phase>
 
 <phase name="4-report-and-route">
-Emit Wylie's **QA RUN** signature block from his persona — as chat text, never fenced. Match the shape: blank dividers, counts on one summary line, **one failure/blocked stub per line**, 📄 Files with QA_REPORT.md, then route.
+Emit Wylie's **QA RUN** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🧪 QA RUN` on the divider line), title on its own line, counts on one summary line, **one failure/blocked stub per line**, 📄 Files with a clickable QA_REPORT.md link, then route.
+
+Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
 
 Route by outcome:
 - **All passing** → ▶ NEXT: /hele-verify-work — guided human verification of the main flows.
-- **Failures** → approval gate, never silent hand-back. Use the canonical multi-line `🗳️ YOUR CALL` (never one line):
+- **Failures** → approval gate, never silent hand-back. Use the canonical multi-line `🗳️ YOUR CALL` from `chat-reports.md` — never fenced, never one line. Blank dividers; `🗳️ YOUR CALL` on its own line; one option per line:
 
-```
-──────────────────────────────────────────
-🗳️ YOUR CALL
-──────────────────────────────────────────
-1. ✅ Approve fixes → /hele-build --from-qa
-2. ⚖️ Decide the contract-questions first (each: fix product, or PRD change via /hele-feature + stub rewrite)
-3. 🔍 Walk me through a failure
-──────────────────────────────────────────
-```
+  1. ✅ Approve fixes → /hele-build --from-qa
+  2. ⚖️ Decide the contract-questions first (each: fix product, or PRD change via /hele-feature + stub rewrite)
+  3. 🔍 Walk me through a failure
+
+  Forbidden: wrapping YOUR CALL in a markdown code fence.
 
   Contract-questions MUST be decided before or together with approval — a build dispatched on an undecided contract builds the wrong thing.
 - **Blocked stubs** → name what the CEO must unblock (real-world actions are his job).
