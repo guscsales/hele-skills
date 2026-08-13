@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## Unreleased
+
+- fix(plan): Paper/Figma EXECUTION_PLAN gate — Van Pelt tasks carry artboard ids; pixels from MCP `get_jsx`, not layout prose
+
 ## v0.12.0 — 2026-08-10
 
 - docs: `.docs/` documentation — introduction, getting started, skills reference, CLI reference

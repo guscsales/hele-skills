@@ -38,6 +38,7 @@ Agent Lisbon (Staff Engineer) writes the EXECUTION_PLAN — how to build the inc
 - Reads the actual code, your conventions, NOTES.md, and LEARNINGS.md before planning. The plan cites real files.
 - Small dependency-ordered tasks, each with an owner agent, files, and a TDD definition of done. Every task becomes a beads issue; ids are written back into the plan, making builds resumable.
 - **Database gate:** any task touching schema, indexes, migrations, or production data brings in Agent Red John (DBA). He writes DB_CHANGES.md — current vs proposed schema, rollback plan, risks — and its approval is SEPARATE and BLOCKING: the plan cannot be approved while DB_CHANGES is a draft.
+- **Paper/Figma gate:** an approved DESIGN_SPEC with `tool: paper` or `tool: figma` requires a `<paper-to-code>` / `<figma-to-code>` section and Van Pelt task descriptions that start with the exact artboard ids. Pixels come from the design tool (`get_jsx`); plan prose is behavior and structure only.
 - Frozen after the build — per-increment history, not a living doc.
 
 ## /hele-stubs
