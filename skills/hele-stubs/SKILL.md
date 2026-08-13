@@ -30,7 +30,9 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 <phase name="2-write-and-approve">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
 2. **Also draft the guided-verification script:** distill the increment's main human flows (3–8 journeys — happy paths first, riskiest unhappy paths next; not one entry per stub) into `increments/NNN-<slug>/VERIFY.md` from `${CLAUDE_PLUGIN_ROOT}/templates/verify.md`, all verdicts `pending`, `based_on` the stubs version just written. /hele-verify-work executes this script later — it should not have to invent it.
-3. Emit Wylie's **STUBS** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank dividers, suite delta + VERIFY flow count, 📄 Files links, then the multi-line `🗳️ YOUR CALL` (never `YOUR CALL — 1. · 2. · 3.` on one line).
+3. Emit Wylie's **STUBS** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `📘 STUBS` on the divider line), title on its own line, suite delta + VERIFY flow count, 📄 Files with clickable links, then the multi-line `🗳️ YOUR CALL` (never `YOUR CALL — 1. · 2. · 3.` on one line).
+
+Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
 </phase>
 
 <rules>

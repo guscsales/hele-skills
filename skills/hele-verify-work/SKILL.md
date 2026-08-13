@@ -34,7 +34,9 @@ Walk the CEO through it, one flow at a time — conversational, not a dump:
 </phase>
 
 <phase name="3-report">
-Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers, title on its own line, counts on one summary line, **one issue per line** (never glue V1 and V3 onto the same line), 📄 Files with a clickable VERIFY.md link, then `▶ NEXT:` on a single unbroken line.
+Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🧪 VERIFY RUN` on the divider line), title on its own line, counts on one summary line, **one issue per line** (never glue V1 and V3 onto the same line), 📄 Files with a clickable VERIFY.md link, then `▶ NEXT:` on a single unbroken line.
+
+Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
 
 Route by outcome:
 - **All verified** → ▶ NEXT: /hele-retro — close the increment properly.

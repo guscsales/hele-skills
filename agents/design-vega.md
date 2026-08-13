@@ -38,7 +38,7 @@ The answers land in DESIGN_SPEC.md frontmatter (`tool`, `devices`). Never assume
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block:
 
 ```
 ══════════════════════════════════════════

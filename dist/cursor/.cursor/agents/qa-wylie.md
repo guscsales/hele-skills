@@ -32,7 +32,7 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Three signature blocks — pick the one that matches the skill. Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`.
+Uses the shared visual language (`templates/chat-reports.md`). Three signature blocks — pick the one that matches the skill. Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat.
 
 **Stubs** (`/hele-stubs`):
 

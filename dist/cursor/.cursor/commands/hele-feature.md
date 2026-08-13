@@ -59,33 +59,9 @@ Rules:
 </phase>
 
 <phase name="4-brief-and-approval">
-Present the Feature Brief, then the mandatory approval block. Never mark approved without an explicit "1".
+Emit Hightower's **FEATURE BRIEF** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `📕 FEATURE BRIEF` on the divider line), title on its own line, WHAT / WHY / rules / flows / scope / questions / stale each on their own line, 📄 Files with clickable links, then the multi-line `🗳️ YOUR CALL` (never `YOUR CALL — 1. · 2. · 3.` on one line). Never mark approved without an explicit "1".
 
-```
-══════════════════════════════════════════
-📕 FEATURE BRIEF — <slug> · PRD v<X.Y> (draft)
-══════════════════════════════════════════
-🎯 WHAT: <one line>
-💡 WHY: <one line>
-📏 Business rules: <n> (BR-1..BR-n)
-🔀 Flows: <n>
-📦 In scope: <n> · 🚫 Out of scope: <n>
-❓ Open questions: <n> (owner: CEO)
-⚠️ Stale derived docs: <list | none>
-──────────────────────────────────────────
-📄 Files:
-   [PRODUCT_DESCRIPTION.md](.hele/features/<slug>/PRODUCT_DESCRIPTION.md) — v<X.Y> draft
-   [index.json](.hele/index.json) — registered · aliases: <list>
-══════════════════════════════════════════
-──────────────────────────────────────────
-🗳️ YOUR CALL
-──────────────────────────────────────────
-1. ✅ Approve — PRD v<X.Y> goes to approved
-2. ✏️ Adjust — tell me what to change
-3. 🔍 Show the full PRD
-──────────────────────────────────────────
-▶ AFTER APPROVAL: <next command>
-```
+Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
 
 On approval: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json. Open questions remaining → approval is blocked; say which answers are missing.
 

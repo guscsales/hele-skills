@@ -29,22 +29,9 @@ Run as Agent Hightower facilitating the team's retrospective. Chat follows the C
 
 <phase name="3-close">
 1. Close out: plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming), `state.json` → `activeIncrement: null`, `phase: null` (or next).
-2. Report as chat text (never fenced), matching the chat-reports frame — blank dividers, one root cause / learning per line:
+2. Emit Hightower's **RETRO** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🔁 RETRO` on the divider line), title on its own line, **one root cause / learning per line**, 📄 Files with clickable RETRO.md and LEARNINGS.md links, then `▶ NEXT:` on a single unbroken line.
 
-```
-══════════════════════════════════════════
-🔁 RETRO — <feature> · increment <NNN>
-══════════════════════════════════════════
-✅ Went well: <n> · 🔧 To improve: <n>
-🔧 <root cause one-liner> — evidence: <task/stub/version>
-🧠 Promoted: L-nnn <imperative lesson> · …
-──────────────────────────────────────────
-📄 Files:
-   [RETRO.md](.hele/features/<slug>/increments/NNN-<slug>/RETRO.md) — written
-   [LEARNINGS.md](.hele/LEARNINGS.md) — <n> promoted | none
-══════════════════════════════════════════
-▶ NEXT: /hele-feature — next idea · or /hele-status to see the board
-```
+Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line; concatenating root causes onto one line.
 </phase>
 
 <rules>
