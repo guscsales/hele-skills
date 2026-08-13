@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.12.2 — 2026-08-13
+
+- df2c474 feat(prd): PRODUCT_DESCRIPTION is markdown-inside-XML — humans get headings/tables/named mermaid; agents still locate `<business-rules>` / `<flows>` tags. Other artifacts stay XML-first.
+
 ## v0.12.1 — 2026-08-13
 
 - 73c9b99 fix(plan): Paper/Figma EXECUTION_PLAN gate — Van Pelt tasks carry artboard ids; pixels from MCP `get_jsx`, not layout prose

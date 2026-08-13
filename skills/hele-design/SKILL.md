@@ -16,7 +16,7 @@ You are running Agent Vega's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}
 
 <context>
 - Requires an initialized project (`.hele/`) and an **approved** PRD for the target feature (from `state.json.activeFeature`, or ask which feature). PRD still `draft` → stop and route back to /hele-feature approval.
-- Load: `.hele/settings.json` (designSystem paths + map location), `.hele/LEARNINGS.md`, the PRD (read `<flows>` and BR-n rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+- Load: `.hele/settings.json` (designSystem paths + map location), `.hele/LEARNINGS.md`, the PRD (read `<flows>` diagrams and `### BR-n` rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
 - The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/design-spec.md` — its RULES comments are law.
 </context>
 
