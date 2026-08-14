@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.12.3 — 2026-08-14
+
+- 88fac65 fix(templates): chat reports are markdown tables — box-drawing divider lines banned in every skill and persona
+- ci: every pull request must bump `.claude-plugin/plugin.json` and add a `## vX.Y.Z` CHANGELOG entry — no exceptions
+
 ## v0.12.2 — 2026-08-13
 
 - df2c474 feat(prd): PRODUCT_DESCRIPTION is markdown-inside-XML — humans get headings/tables/named mermaid; agents still locate `<business-rules>` / `<flows>` tags. Other artifacts stay XML-first.
