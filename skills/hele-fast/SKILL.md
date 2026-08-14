@@ -56,9 +56,9 @@ Never ship a fast change that makes the PRD lie.
 1. Write `increments/NNN-fast-<slug>/FAST.md` from `${CLAUDE_PLUGIN_ROOT}/templates/fast.md` — the single artifact: what/why, classification, files, tests run, memory sync, beads ids, evidence.
 2. Something genuinely reusable learned → ONE line promoted to `LEARNINGS.md` (L-nnn). No RETRO.md.
 3. Close state: `state.json.phase: "shipped"`, `activeIncrement: null`.
-4. Emit Hightower's **FAST** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (a divider is ONLY those characters — never put `⚡ FAST` or any label on the same line), title on its own line, Classification / Tasks / Memory sync each on their own line, **one file per line** as a clickable markdown link, then `▶ NEXT:` on a single unbroken line.
+4. Emit Hightower's **FAST** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (Classification, Tasks, Tests, Memory sync), Files (one row per clickable link), Next. Never draw `─`/`═` divider lines.
 
-Forbidden (this is what mangles Cursor chat): wrapping the report in a markdown code fence; gluing the title onto the `═` line; concatenating Files onto one line.
+Forbidden (this is what mangles Cursor chat): wrapping the report in a markdown code fence; drawing box-drawing divider lines; stuffing two files into one cell.
 </phase>
 
 <rules>

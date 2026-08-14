@@ -24,81 +24,109 @@ Turn the CEO's ideas into approved PRODUCT_DESCRIPTIONs, then chase the delivery
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. Four signature blocks — pick the one that matches the skill. The fences below delimit the shape; never copy them into chat.
+Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. Four signature blocks — pick the one that matches the skill. The fences below delimit the shape; never copy them into chat.
 
 **FEATURE BRIEF** (`/hele-feature`):
 
 ```
-══════════════════════════════════════════
-📕 FEATURE BRIEF — <slug> · PRD v<X.Y> (draft)
-══════════════════════════════════════════
-🎯 WHAT: <one line>
-💡 WHY: <one line>
-📏 Business rules: <n> (BR-1..BR-n)
-🔀 Flows: <n>
-📦 In scope: <n> · 🚫 Out of scope: <n>
-❓ Open questions: <n> (owner: CEO)
-⚠️ Stale derived docs: <list | none>
-──────────────────────────────────────────
-📄 Files:
-   [PRODUCT_DESCRIPTION.md](.hele/features/<slug>/PRODUCT_DESCRIPTION.md) — v<X.Y> draft
-   [index.json](.hele/index.json) — registered · aliases: <list>
-══════════════════════════════════════════
-──────────────────────────────────────────
-🗳️ YOUR CALL
-──────────────────────────────────────────
-1. ✅ Approve — PRD v<X.Y> goes to approved
-2. ✏️ Adjust — tell me what to change
-3. 🔍 Show the full PRD
-──────────────────────────────────────────
-▶ AFTER APPROVAL: <next command>
+| Report | Scope |
+|---|---|
+| 📕 FEATURE BRIEF | <slug> · PRD v<X.Y> (draft) |
+
+| Field | Value |
+|---|---|
+| WHAT | <one line> |
+| WHY | <one line> |
+| Business rules | <n> (BR-1..BR-n) |
+| Flows | <n> |
+| In scope | <n> |
+| Out of scope | <n> |
+| Open questions | <n> (owner: CEO) |
+| Stale derived docs | <list / none> |
+
+| File | Change |
+|---|---|
+| [PRODUCT_DESCRIPTION.md](.hele/features/<slug>/PRODUCT_DESCRIPTION.md) | v<X.Y> draft |
+| [index.json](.hele/index.json) | registered · aliases: <list> |
+
+| # | Your call |
+|---|---|
+| 1 | ✅ Approve — PRD v<X.Y> goes to approved |
+| 2 | ✏️ Adjust — tell me what to change |
+| 3 | 🔍 Show the full PRD |
+
+| After approval | Command |
+|---|---|
+| ▶ | <next command> |
 ```
 
 **PM report** (`/hele-build`):
 
 ```
-══════════════════════════════════════════
-📋 PM REPORT — <feature> · increment <NNN>
-══════════════════════════════════════════
-🎯 OUTCOME: <shipped | partial | blocked>
-✅ Done: <what works, verified how>
-🧪 CEO, verify manually: <exact steps/URLs>
-⏳ Remaining: <what is left and why>
-❓ Decisions needed: <or "none">
-══════════════════════════════════════════
-▶ NEXT: <exact next command or decision>
+| Report | Scope |
+|---|---|
+| 📋 PM REPORT | <feature> · increment <NNN> |
+
+| Field | Value |
+|---|---|
+| Outcome | <shipped / partial / blocked> |
+| Done | <what works, verified how> |
+| CEO, verify manually | <exact steps/URLs> |
+| Remaining | <what is left and why> |
+| Decisions needed | <or "none"> |
+
+| Next | Command |
+|---|---|
+| ▶ | <exact next command or decision> |
 ```
 
 **FAST** (`/hele-fast`):
 
 ```
-══════════════════════════════════════════
-⚡ FAST — <feature> · increment NNN-fast-<slug>
-══════════════════════════════════════════
-🏷️ Classification: <bugfix | behavior change>
-✅ Tasks: <n> done · tests: <summary>
-🧠 Memory sync: <none needed | PRD + stubs patched>
-──────────────────────────────────────────
-📄 Files:
-   [FAST.md](.hele/features/<slug>/increments/NNN-fast-<slug>/FAST.md) — written
-══════════════════════════════════════════
-▶ NEXT: /clear (everything is saved on disk — fresh context is cheaper)
+| Report | Scope |
+|---|---|
+| ⚡ FAST | <feature> · increment NNN-fast-<slug> |
+
+| Field | Value |
+|---|---|
+| Classification | <bugfix / behavior change> |
+| Tasks | <n> done |
+| Tests | <summary> |
+| Memory sync | <none needed / PRD + stubs patched> |
+
+| File | Change |
+|---|---|
+| [FAST.md](.hele/features/<slug>/increments/NNN-fast-<slug>/FAST.md) | written |
+
+| Next | Command |
+|---|---|
+| ▶ | /clear (everything is saved on disk — fresh context is cheaper) |
 ```
 
 **RETRO** (`/hele-retro`):
 
 ```
-══════════════════════════════════════════
-🔁 RETRO — <feature> · increment <NNN>
-══════════════════════════════════════════
-✅ Went well: <n> · 🔧 To improve: <n>
-🔧 <root cause one-liner> — evidence: <task/stub/version>
-🧠 Promoted: L-nnn <imperative lesson> · …
-──────────────────────────────────────────
-📄 Files:
-   [RETRO.md](.hele/features/<slug>/increments/NNN-<slug>/RETRO.md) — written
-   [LEARNINGS.md](.hele/LEARNINGS.md) — <n> promoted | none
-══════════════════════════════════════════
-▶ NEXT: /hele-feature — next idea · or /hele-status to see the board
+| Report | Scope |
+|---|---|
+| 🔁 RETRO | <feature> · increment <NNN> |
+
+| Field | Value |
+|---|---|
+| Went well | <n> |
+| To improve | <n> |
+
+| Kind | Detail | Evidence |
+|---|---|---|
+| 🔧 | <root cause one-liner> | <task/stub/version> |
+| 🧠 Promoted | L-nnn <imperative lesson> | |
+
+| File | Change |
+|---|---|
+| [RETRO.md](.hele/features/<slug>/increments/NNN-<slug>/RETRO.md) | written |
+| [LEARNINGS.md](.hele/LEARNINGS.md) | <n> promoted / none |
+
+| Next | Command |
+|---|---|
+| ▶ | /hele-feature — next idea · or /hele-status to see the board |
 ```
 </communication>

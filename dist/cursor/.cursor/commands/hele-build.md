@@ -21,19 +21,19 @@ Invoked as `/hele-build --from-qa` (or right after the CEO approves the QA gate)
 <context>
 - Requires: approved EXECUTION_PLAN for `state.json.activeIncrement`, beads epic registered, TEST_STUBS approved (missing → offer /hele-stubs first; the CEO may build anyway).
 - **DB gate:** if `increments/NNN/DB_CHANGES.md` exists and is not `approved`, migration/backfill tasks are NOT dispatched — no exceptions, the CEO approves via /hele-plan first. Other tasks may proceed.
-- Load: the plan, the PRD, the DESIGN_SPEC (if any), `LEARNINGS.md`, `settings.json` (`agents.maxParallel`, `agents.models`). Set `state.json.phase: "building"`.
+- Load: the plan, the PRD, the DESIGN_SPEC (if any), `LEARNINGS.md`, `settings.json` (`agents.maxParallel`, `agents.models`), `.cursor/hele/templates/chat-reports.md`. Set `state.json.phase: "building"`.
 </context>
 
 <phase name="1-dispatch-loop">
 Repeat until no tasks remain:
-1. `bd ready` → tasks whose dependencies are done. **File-overlap guard before dispatching:** intersect the `files` lists of the candidate batch (plus tasks already in flight) — two tasks sharing ANY file never run in parallel; dispatch one, hold the other for the next free slot (state the hold in one line: `⏸ T6 held — shares routes/index.ts with T5`). beads orders by dependency; this guard orders by physical file — both are needed. Then dispatch up to `agents.maxParallel` in parallel.
+1. `bd ready` → tasks whose dependencies are done. **File-overlap guard before dispatching:** intersect the `files` lists of the candidate batch (plus tasks already in flight) — two tasks sharing ANY file never run in parallel; dispatch one, hold the other for the next free slot (state the hold as a 1-row table: Hold | Reason → T6 | shares routes/index.ts with T5). beads orders by dependency; this guard orders by physical file — both are needed. Then dispatch up to `agents.maxParallel` in parallel.
 2. Each engineer task = one subagent (Agent tool). The dispatch `description` MUST carry the persona and the task — `[AGENT BE] Cho — T3: inventory API routes` — so the CEO can tell who is working on what in the task list. Prompt assembled from:
    - the persona file content (`agents/backend-cho.md` / `frontend-van-pelt.md` / `security-jane.md` / `infra-rigsby.md`) — paths rewritten absolute;
    - the task block from the plan (description, files, tests, beads id) + the relevant PRD rules + relevant LEARNINGS;
    - for Van Pelt: the DESIGN_SPEC screens for her task, its `tool` value, and the artboard links/ids — with the explicit instruction to fetch the artboards through that tool (Paper/Figma MCP) and implement from what they actually show, per her persona's fidelity rules;
    - the contract: **TDD — failing test first where the task defines behavior; done = YOUR tests pass; report files touched + test results; never widen scope. Run ONLY the tests covering your task (targeted paths/files) — NEVER the full suite mid-build; the full suite runs exactly once, at the end. Touched a file OUTSIDE your task's `files` list? Report it explicitly — the loop needs it for the overlap guard.**
    - **test economy:** the red→green loop runs on the CHEAPEST level that proves the behavior — unit tests, no containers, and ONLY the unit files of YOUR task (targeted twice over: never the full suite, never even the full unit suite — `npm test path/to/your.test.ts`, not `npm test`). Expensive suites (integration/e2e, anything that boots Docker, applies migrations, or starts servers) are final verification, not an iteration loop: at most ONE run per task, at the end — a second only if the first failed. If the behavior is only provable at integration level, write the integration test first but iterate against unit-level pieces (handlers, services, queries mocked at the boundary) and pay the expensive run once. The dispatch prompt labels which targeted paths are cheap (iterate freely) vs expensive (once).
-   Model per agent from `settings.agents.models` — each value is a per-runtime object (`{"claude-code": "sonnet", "cursor": "grok"}`): read YOUR runtime's key (in Claude Code, `claude-code`); a plain string applies to every runtime. Pass as the dispatch `model`. `inherit` or missing → omit. Keys are role-prefixed, matching the persona filenames: `backend-cho`, `frontend-van-pelt`, `infra-rigsby`, `dba-red-john`, `security-jane`. Cost discipline: engineers and dba default to `sonnet`; security-jane defaults to `fable` — NEVER dispatch an engineer without reading the model from settings. Announce each dispatch in one line (chat-reports.md style).
+   Model per agent from `settings.agents.models` — each value is a per-runtime object (`{"claude-code": "sonnet", "cursor": "grok"}`): read YOUR runtime's key (in Claude Code, `claude-code`); a plain string applies to every runtime. Pass as the dispatch `model`. `inherit` or missing → omit. Keys are role-prefixed, matching the persona filenames: `backend-cho`, `frontend-van-pelt`, `infra-rigsby`, `dba-red-john`, `security-jane`. Cost discipline: engineers and dba default to `sonnet`; security-jane defaults to `fable` — NEVER dispatch an engineer without reading the model from settings. Announce each dispatch with the Dispatch table from chat-reports.md.
 3. On return: Lisbon reviews shape (placement, patterns, simplicity — fix-ups become follow-up dispatches, not her commits); Hightower checks the output against the PRD rules the task serves. Task done → close the beads issue.
    **Migration/backfill tasks get one extra gate before closing:** dispatch `[AGENT DBA] Red John` (`agents/dba-red-john.md`) to check the written migration against the approved DB_CHANGES. Mismatch → back to Cho; a genuinely necessary deviation → DB_CHANGES patch + CEO re-approval before the task closes. After the migration is applied, Red John updates the living map `.hele/DATABASE.md`.
 4. Blocked or product-ambiguous → the question comes to the CEO immediately (AskUserQuestion), work continues on other ready tasks meanwhile.
@@ -45,11 +45,11 @@ Repeat until no tasks remain:
 </phase>
 
 <phase name="3-pm-report">
-Emit Hightower's **PM REPORT** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `📋 PM REPORT` on the divider line), title on its own line, outcome / done / manual verify / remaining / decisions each on their own line, then `▶ NEXT:` on one unbroken line.
+Emit Hightower's **PM REPORT** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (outcome, done, manual verify, remaining, decisions), Next. Never draw `─`/`═` divider lines.
 
-Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
+Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-▶ NEXT: /hele-qa — Agent Wylie turns the stubs into Playwright e2e tests and runs the whole suite
+Next table: `/hele-qa` — Agent Wylie turns the stubs into Playwright e2e tests and runs the whole suite
 </phase>
 
 <rules>

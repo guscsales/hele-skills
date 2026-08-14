@@ -63,11 +63,11 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
 </phase>
 
 <phase name="3-report">
-Render the Init report (chat-reports.md canonical block) as chat text — never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🏗️ HELE INIT` on the divider line), title on its own line, folder / beads / design-system each on their own line, 📄 Files with a clickable markdown link per artifact, then `▶ NEXT:` on a single unbroken line.
+Render the Init report (chat-reports.md canonical block) as chat text — never fenced. Match the tables exactly: Report/Scope, Field/Value (folder, beads, design system), Files with a clickable markdown link per artifact, Next. Never draw `─`/`═` divider lines.
 
-Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
+Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-If a design system was registered, add a second NEXT line: `▶ ALSO: /hele-design — let Agent Vega map the design system`.
+If a design system was registered, add a second row to the Next table: `/hele-design — let Agent Vega map the design system`.
 </phase>
 
 <rules>

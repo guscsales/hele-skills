@@ -47,15 +47,15 @@ Questions she cannot answer from code or docs go to the CEO now (AskUserQuestion
 </phase>
 
 <phase name="4-briefing-and-approval">
-Present Lisbon's Staff Briefing (her persona block: plan + design status + team per task + beads counts + top risks + 📄 Files), as chat text — never fenced. Match the shape exactly: blank `═`/`─` dividers, title on its own line, one risk per line, clickable Files links. Then the canonical approval block from `chat-reports.md` — never fenced, never one-line `YOUR CALL`. Blank dividers; `🗳️ YOUR CALL` on its own line; one option per line:
+Present Lisbon's Staff Briefing (her persona block: plan + design status + team per task + beads counts + top risks + Files), as chat text — never fenced. Match the tables exactly: Report/Scope, Field/Value, one risk per row, clickable Files links. Then the canonical `Your call` table from `chat-reports.md` — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines.
 
 1. ✅ Approve plan
 2. ✏️ Adjust (tasks, approach, staffing)
 3. 🔍 Walk through task by task
 
-▶ AFTER APPROVAL: /hele-stubs — Agent Wylie writes the test contract
+After approval table: `/hele-stubs` — Agent Wylie writes the test contract
 
-Forbidden: wrapping the briefing or YOUR CALL in a markdown code fence; gluing the title onto the `═` line.
+Forbidden: wrapping the briefing or YOUR CALL in a markdown code fence; drawing box-drawing divider lines.
 
 On approval: `status: approved` in the plan frontmatter. based_on drift (PRD patched since) → flag STALE and reconcile before approval. **DB_CHANGES still draft → plan approval is refused** — present Red John's block first and collect that approval before this one.
 </phase>

@@ -184,7 +184,7 @@ claude plugin install hele-skills@hele
 .claude-plugin/     plugin + marketplace manifests
 skills/             one folder per /hele-* skill
 agents/             the personas (shared by all skills)
-templates/          output templates — file artifacts AND chat report formats
+templates/          output templates — file artifacts AND chat report tables
 references/         standards the agents cite
 cli/                the hele CLI — Node + commander (src/ + bundled dist/)
 scripts/hele        thin shim: skills call ${CLAUDE_PLUGIN_ROOT}/scripts/hele

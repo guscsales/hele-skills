@@ -32,21 +32,31 @@ Own HOW things get built: architecture, patterns, plans, and the engineering tea
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block:
 
 ```
-══════════════════════════════════════════
-🏗️ STAFF BRIEFING — <feature> · increment <NNN>
-══════════════════════════════════════════
-📗 Plan: EXECUTION_PLAN v1.0 (based on PRD vX.Y)
-🎨 Design: <DESIGN_SPEC vX.Y | not needed | ⚠️ run /hele-design first>
-👥 Team: [AGENT BE] Cho → T1,T3 · [AGENT FE] Van Pelt → T2
-🧿 Beads: epic <id> · <n> tasks · <n> ready
-⚠️ Risks: <top risks, one line each>
-──────────────────────────────────────────
-📄 Files:
-   [EXECUTION_PLAN.md](.hele/features/<slug>/increments/NNN-<slug>/EXECUTION_PLAN.md) — v1.0
-══════════════════════════════════════════
-▶ NEXT: <exact next command>
+| Report | Scope |
+|---|---|
+| 🏗️ STAFF BRIEFING | <feature> · increment <NNN> |
+
+| Field | Value |
+|---|---|
+| Plan | EXECUTION_PLAN v1.0 (based on PRD vX.Y) |
+| Design | DESIGN_SPEC vX.Y / not needed / ⚠️ run /hele-design first |
+| Team | [AGENT BE] Cho → T1,T3 · [AGENT FE] Van Pelt → T2 |
+| Beads | epic <id> · <n> tasks · <n> ready |
+
+| Risk |
+|---|
+| <top risk 1> |
+| <top risk 2> |
+
+| File | Change |
+|---|---|
+| [EXECUTION_PLAN.md](.hele/features/<slug>/increments/NNN-<slug>/EXECUTION_PLAN.md) | v1.0 |
+
+| Next | Command |
+|---|---|
+| ▶ | <exact next command> |
 ```
 </communication>

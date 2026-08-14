@@ -34,13 +34,13 @@ Walk the CEO through it, one flow at a time — conversational, not a dump:
 </phase>
 
 <phase name="3-report">
-Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🧪 VERIFY RUN` on the divider line), title on its own line, counts on one summary line, **one issue per line** (never glue V1 and V3 onto the same line), 📄 Files with a clickable VERIFY.md link, then `▶ NEXT:` on a single unbroken line.
+Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one issue per row** (never glue V1 and V3 into the same cell), Files with a clickable VERIFY.md link, Next. Never draw `─`/`═` divider lines.
 
-Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
+Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-Route by outcome:
-- **All verified** → ▶ NEXT: /hele-retro — close the increment properly.
-- **Issues found** → ▶ NEXT: /hele-build (bugs are in beads) and/or /hele-feature (behavior changes go through the PRD).
+Route by outcome (Next table):
+- **All verified** → `/hele-retro` — close the increment properly.
+- **Issues found** → `/hele-build` (bugs are in beads) and/or `/hele-feature` (behavior changes go through the PRD).
 </phase>
 
 <rules>

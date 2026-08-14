@@ -31,9 +31,9 @@ Run as Agent Hightower facilitating the team's retrospective. Chat follows the C
 
 <phase name="3-close">
 1. Close out: plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming), `state.json` → `activeIncrement: null`, `phase: null` (or next).
-2. Emit Hightower's **RETRO** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `🔁 RETRO` on the divider line), title on its own line, **one root cause / learning per line**, 📄 Files with clickable RETRO.md and LEARNINGS.md links, then `▶ NEXT:` on a single unbroken line.
+2. Emit Hightower's **RETRO** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value, **one root cause / learning per row**, Files with clickable RETRO.md and LEARNINGS.md links, Next. Never draw `─`/`═` divider lines.
 
-Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line; concatenating root causes onto one line.
+Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; concatenating root causes into one cell.
 </phase>
 
 <rules>
