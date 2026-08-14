@@ -55,15 +55,11 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 | [PRODUCT_DESCRIPTION.md](.hele/features/<slug>/PRODUCT_DESCRIPTION.md) | v<X.Y> draft |
 | [index.json](.hele/index.json) | registered · aliases: <list> |
 
-| # | Your call |
+| Actions | Your call |
 |---|---|
-| 1 | ✅ Approve — PRD v<X.Y> goes to approved |
+| 1 | ✅ Approve — PRD v<X.Y> goes to approved → <next command> |
 | 2 | ✏️ Adjust — tell me what to change |
 | 3 | 🔍 Show the full PRD |
-
-| After approval | Command |
-|---|---|
-| ▶ | <next command> |
 ```
 
 **PM report** (`/hele-build`):

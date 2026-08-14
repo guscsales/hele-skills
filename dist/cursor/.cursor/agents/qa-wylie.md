@@ -53,15 +53,11 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | [TEST_STUBS.md](.hele/features/<slug>/TEST_STUBS.md) | v<X.Y> |
 | [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) | drafted |
 
-| # | Your call |
+| Actions | Your call |
 |---|---|
-| 1 | ✅ Approve contract |
+| 1 | ✅ Approve contract → /hele-build — the engineering team executes the plan |
 | 2 | ✏️ Adjust |
 | 3 | 🔍 Show stubs for a specific rule |
-
-| After approval | Command |
-|---|---|
-| ▶ | /hele-build — the engineering team executes the plan |
 ```
 
 **QA run** (`/hele-qa`):

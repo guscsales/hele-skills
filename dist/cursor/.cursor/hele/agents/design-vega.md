@@ -58,8 +58,10 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 |---|---|
 | [DESIGN_SPEC.md](.hele/features/<slug>/increments/NNN-<slug>/DESIGN_SPEC.md) | v<X.Y> |
 
-| Next | Command |
+| Actions | Your call |
 |---|---|
-| ▶ | <exact next command> |
+| 1 | ✅ Approve → /hele-plan — Agent Lisbon plans the increment |
+| 2 | ✏️ Adjust |
+| 3 | 🔍 Walk me through screen by screen |
 ```
 </communication>

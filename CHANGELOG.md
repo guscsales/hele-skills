@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.12.4 — 2026-08-14
+
+- Approval option `1` auto-runs the next skill in the same turn — no second prompt. The Actions table header replaces `#`; the separate After approval table is gone (option 1 already names the command).
+
 ## v0.12.3 — 2026-08-14
 
 - 88fac65 fix(templates): chat reports are markdown tables — box-drawing divider lines banned in every skill and persona

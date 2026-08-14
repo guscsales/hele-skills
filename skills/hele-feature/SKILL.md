@@ -67,13 +67,13 @@ Rules:
 </phase>
 
 <phase name="4-brief-and-approval">
-Emit Hightower's **FEATURE BRIEF** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (WHAT, WHY, rules, flows, scope, questions, stale), Files with clickable links, then the `Your call` table (one option per row — never `YOUR CALL — 1. · 2. · 3.` on one line). Never draw `─`/`═` divider lines. Never mark approved without an explicit "1".
+Emit Hightower's **FEATURE BRIEF** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (WHAT, WHY, rules, flows, scope, questions, stale), Files with clickable links, then the canonical `Actions` table (one option per row — never `YOUR CALL — 1. · 2. · 3.` on one line). Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command. Never mark approved without an explicit "1".
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-On approval: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json. Open questions remaining → approval is blocked; say which answers are missing.
+Option 1 names the next skill, chosen by content: feature involves UI → `✅ Approve — PRD v<X.Y> goes to approved → /hele-design — Agent Vega specs the screens`; backend/infra only → `… → /hele-plan — Agent Lisbon plans the increment`. When unsure, say why and let the CEO pick — do not auto-chain until they pick.
 
-The AFTER APPROVAL line routes by content: feature involves UI → `/hele-design — Agent Vega specs the screens`; backend/infra only → `/hele-plan — Agent Lisbon plans the increment`. When unsure, say why and let the CEO pick.
+On `1`: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json, then immediately read and execute the named skill (`${CLAUDE_PLUGIN_ROOT}/skills/hele-design/SKILL.md` or `skills/hele-plan/SKILL.md`) in this same turn. Do not wait for a second prompt; do not ask the CEO to type the slash command. Open questions remaining → approval is blocked; say which answers are missing.
 </phase>
 
 <rules>
