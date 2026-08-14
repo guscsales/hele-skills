@@ -11,8 +11,9 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 - **One item per table row** for lists (issues, failures, files, decisions, options). Never concatenate two `❌` / `✅` / `⏭️` items into the same cell, and never smash `#1 · #2 · #3` onto one line.
 - Agent tags are formal identifiers: `[AGENT PM] Hightower`. In prose, use the spoken form: "Agent Hightower".
 - **Every report that created or modified files includes a Files table** — one row per artifact, the path rendered as a clickable markdown link relative to the project root, annotated with what happened. The CEO must always know exactly where to go read.
-- Every report ends with a **Next table** — the CEO always knows the next action. Keep the whole command in that cell; never split `/hele-build` across rows.
-- **Suggest `/clear` between phases.** When a phase is fully closed — approval given, every artifact and status written to disk, nothing pending — the Next table leads with it: `/clear` (everything is saved on disk — fresh context is cheaper) → `/hele-plan`. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet.
+- Reports that are **not** an approval gate end with a **Next table** — the CEO always knows the next action. Keep the whole command in that cell; never split `/hele-build` across rows.
+- Approval gates end with the **Actions** table (below). Option 1 **is** the next command — do not also emit a Next or After approval table.
+- **Suggest `/clear` only when a phase closed without auto-chaining** (FAST, RETRO, status, or the CEO explicitly paused). Approval gates auto-chain: option `1` starts the next skill in the same turn, so do not suggest `/clear` there. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet.
 - File artifacts are exempt: markdown docs stay clean, no box-drawing frames or emoji inside `.hele/` files.
 - Chat language follows the CEO (pt-BR in, pt-BR out). Artifacts are always English.
 - **`.hele/` is a placeholder, not a hardcoded path.** The harness folder is `.hele/` at the project root by default, but the CEO may have named it differently at init: a `.helerc` file at the root (`{"dirName": "<name>"}`) points to the real folder. Every skill resolves the dir first (`.hele` → else `.helerc`) and uses the resolved name in paths and links.
@@ -124,22 +125,24 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 
 ## Approval block (MANDATORY at the end of every interactive phase)
 
-Whenever a skill produces an artifact the CEO must sign off on (PRD, plan, design spec, stubs, DB changes), it ends the report with numbered options — approval first, adjustments second, context-specific extras after — and ALWAYS states what the next phase will be.
+Whenever a skill produces an artifact the CEO must sign off on (PRD, plan, design spec, stubs, DB changes), it ends the report with numbered options — approval first, adjustments second, context-specific extras after. **Option 1 is the next phase:** its cell names the command that will run, and typing `1` both approves AND starts that work in the same turn. A separate After approval / Next table is forbidden here — it made CEOs type a second prompt.
 
 **Never compress this into one line.** Forbidden: `🗳️ YOUR CALL — 1. ✅ Approve · 2. ✏️ Adjust · 3. …`. Options wrap and become unreadable. Always use the table below (one option per row):
 
 ```
-| # | Your call |
+| Actions | Your call |
 |---|---|
-| 1 | ✅ Approve — PRODUCT_DESCRIPTION goes to v1.0 approved |
+| 1 | ✅ Approve → /hele-plan — Agent Lisbon plans the increment |
 | 2 | ✏️ Adjust — tell me what to change |
 | 3 | <context-specific option, e.g. "🔍 Show the full business rules again"> |
-
-| After approval | Command |
-|---|---|
-| ▶ | /hele-plan — Agent Lisbon plans the increment |
 ```
 
-The CEO replies with a number (or free text). Never advance a phase without the explicit `1`/approval; never end an interactive phase without offering these options.
+The CEO replies with a number (or free text). Never end an interactive phase without offering these options.
+
+**On `1`:** in THIS SAME TURN, before stopping:
+1. Mark the artifact approved (frontmatter + index as the skill specifies). Never mark approved without this explicit `1`.
+2. Immediately do the work named in option 1 — read `.cursor/hele/skills/<next>/SKILL.md` and execute that skill, or continue remaining work in this skill (e.g. plan approval after DB_CHANGES). Do not wait for a second prompt. Do not ask the CEO to type the slash command. Do not print "now run /hele-…" and stop.
+
+**On `2` / `3` / free text:** stay in this skill; do not advance.
 
 </canonical-blocks>

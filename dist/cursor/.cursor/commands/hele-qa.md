@@ -60,13 +60,15 @@ Forbidden: wrapping the report in a markdown code fence; drawing box-drawing div
 
 Route by outcome:
 - **All passing** → Next table: `/hele-verify-work` — guided human verification of the main flows.
-- **Failures** → approval gate, never silent hand-back. Use the canonical `Your call` table from `chat-reports.md` — never fenced, never one line. One option per row:
+- **Failures** → approval gate, never silent hand-back. Use the canonical `Actions` table from `chat-reports.md` — never fenced, never one line. One option per row. Never emit a separate After approval / Next table — option 1 is the next command:
 
   1. ✅ Approve fixes → /hele-build --from-qa
   2. ⚖️ Decide the contract-questions first (each: fix product, or PRD change via /hele-feature + stub rewrite)
   3. 🔍 Walk me through a failure
 
-  Forbidden: wrapping YOUR CALL in a markdown code fence; drawing box-drawing divider lines.
+  Forbidden: wrapping the Actions table in a markdown code fence; drawing box-drawing divider lines.
+
+  On `1`: immediately read `.cursor/hele/skills/hele-build/SKILL.md` and execute `/hele-build --from-qa` in this same turn. Do not wait for a second prompt; do not ask the CEO to type the slash command.
 
   Contract-questions MUST be decided before or together with approval — a build dispatched on an undecided contract builds the wrong thing.
 - **Blocked stubs** → name what the CEO must unblock (real-world actions are his job).

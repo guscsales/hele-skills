@@ -57,17 +57,15 @@ For every user-facing flow in the PRD:
 </phase>
 
 <phase name="4-report-and-approval">
-Emit Vega's signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (tool, devices, DS, screens, artboards), Files with a clickable DESIGN_SPEC.md link. Then the canonical `Your call` table from `chat-reports.md` — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines.
+Emit Vega's signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (tool, devices, DS, screens, artboards), Files with a clickable DESIGN_SPEC.md link, then the canonical `Actions` table — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command.
 
-1. ✅ Approve
+1. ✅ Approve → /hele-plan — Agent Lisbon plans the increment
 2. ✏️ Adjust
 3. 🔍 Walk me through screen by screen
 
-After approval table: `/hele-plan` — Agent Lisbon plans the increment
+Forbidden: wrapping the report or Actions table in a markdown code fence; drawing box-drawing divider lines.
 
-Forbidden: wrapping the report or YOUR CALL in a markdown code fence; drawing box-drawing divider lines.
-
-On approval: `status: approved` in the spec frontmatter, update `index.json` docs (`design: "<version>"`).
+On `1`: `status: approved` in the spec frontmatter, update `index.json` docs (`design: "<version>"`), then immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-plan/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-plan`.
 </phase>
 
 <rules>

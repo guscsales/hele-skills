@@ -50,14 +50,10 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 |---|---|
 | [DB_CHANGES.md](.hele/features/<slug>/increments/NNN-<slug>/DB_CHANGES.md) | created v1.0 |
 
-| # | Your call |
+| Actions | Your call |
 |---|---|
-| 1 | ✅ Approve DB changes — plan may proceed |
+| 1 | ✅ Approve DB changes — then continue plan approval |
 | 2 | ✏️ Adjust — tell me what to change |
 | 3 | 🔍 Walk me through the schema delta |
-
-| After approval | Command |
-|---|---|
-| ▶ | /hele-plan approval may continue |
 ```
 </communication>

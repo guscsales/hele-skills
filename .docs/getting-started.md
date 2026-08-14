@@ -36,7 +36,7 @@ This creates the harness folder (`.hele/` by default — you pick the name), ask
 
 ## Ship your first feature
 
-The main flow is seven phases. Each one produces a document, asks for your approval, and tells you the exact next command.
+The main flow is seven phases. Each one produces a document and asks for your approval. Typing `1` approves **and** starts the next phase in the same turn — you don't type a second command.
 
 **1. Describe it** — `/hele-feature "customers can favorite products"`
 Agent Hightower (PM) interviews you until scope and business rules are unambiguous, then writes the PRD: numbered rules (BR-n), mermaid flows, in/out of scope. He searches the feature index first — updating an existing feature beats duplicating it.

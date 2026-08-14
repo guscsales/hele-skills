@@ -55,8 +55,10 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 |---|---|
 | [EXECUTION_PLAN.md](.hele/features/<slug>/increments/NNN-<slug>/EXECUTION_PLAN.md) | v1.0 |
 
-| Next | Command |
+| Actions | Your call |
 |---|---|
-| ▶ | <exact next command> |
+| 1 | ✅ Approve plan → /hele-stubs — Agent Wylie writes the test contract |
+| 2 | ✏️ Adjust — tasks, approach, staffing |
+| 3 | 🔍 Walk through task by task |
 ```
 </communication>

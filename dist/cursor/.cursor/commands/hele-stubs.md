@@ -28,9 +28,11 @@ You are running Agent Wylie's authoring phase. Load his persona from `.cursor/he
 <phase name="2-write-and-approve">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
 2. **Also draft the guided-verification script:** distill the increment's main human flows (3–8 journeys — happy paths first, riskiest unhappy paths next; not one entry per stub) into `increments/NNN-<slug>/VERIFY.md` from `.cursor/hele/templates/verify.md`, all verdicts `pending`, `based_on` the stubs version just written. /hele-verify-work executes this script later — it should not have to invent it.
-3. Emit Wylie's **STUBS** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (suite delta + VERIFY flow count), Files with clickable links, then the `Your call` table (one option per row — never `YOUR CALL — 1. · 2. · 3.` on one line). Never draw `─`/`═` divider lines.
+3. Emit Wylie's **STUBS** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (suite delta + VERIFY flow count), Files with clickable links, then the canonical `Actions` table (one option per row — never `YOUR CALL — 1. · 2. · 3.` on one line). Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
+
+On `1`: immediately read `.cursor/hele/skills/hele-build/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-build`.
 </phase>
 
 <rules>

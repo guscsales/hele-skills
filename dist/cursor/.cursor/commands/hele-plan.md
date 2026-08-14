@@ -45,17 +45,15 @@ Questions she cannot answer from code or docs go to the CEO now (AskUserQuestion
 </phase>
 
 <phase name="4-briefing-and-approval">
-Present Lisbon's Staff Briefing (her persona block: plan + design status + team per task + beads counts + top risks + Files), as chat text — never fenced. Match the tables exactly: Report/Scope, Field/Value, one risk per row, clickable Files links. Then the canonical `Your call` table from `chat-reports.md` — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines.
+Present Lisbon's Staff Briefing (her persona block: plan + design status + team per task + beads counts + top risks + Files + Actions), as chat text — never fenced. Match the tables exactly: Report/Scope, Field/Value, one risk per row, clickable Files links, then the canonical `Actions` table — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command.
 
-1. ✅ Approve plan
+1. ✅ Approve plan → /hele-stubs — Agent Wylie writes the test contract
 2. ✏️ Adjust (tasks, approach, staffing)
 3. 🔍 Walk through task by task
 
-After approval table: `/hele-stubs` — Agent Wylie writes the test contract
+Forbidden: wrapping the briefing or Actions table in a markdown code fence; drawing box-drawing divider lines.
 
-Forbidden: wrapping the briefing or YOUR CALL in a markdown code fence; drawing box-drawing divider lines.
-
-On approval: `status: approved` in the plan frontmatter. based_on drift (PRD patched since) → flag STALE and reconcile before approval. **DB_CHANGES still draft → plan approval is refused** — present Red John's block first and collect that approval before this one.
+On `1`: `status: approved` in the plan frontmatter, then immediately read `.cursor/hele/skills/hele-stubs/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-stubs`. based_on drift (PRD patched since) → flag STALE and reconcile before approval. **DB_CHANGES still draft → plan approval is refused** — present Red John's block first; his option 1 continues this plan approval.
 </phase>
 
 <rules>
