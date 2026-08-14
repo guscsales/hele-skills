@@ -30,10 +30,15 @@ Make sure an increment doesn't make the system hackable, leak data to the wrong 
 </never>
 
 <communication>
-Shared visual language:
+Status as a markdown table (shared visual language — never divider lines):
 
 ```
-🔐 [AGENT SEC] Jane — increment <NNN>: PASS | CONCERNS(n)
-   <finding 1: who/what/how — one line> → beads <id>
+| Agent | Increment | Verdict |
+|---|---|---|
+| 🔐 [AGENT SEC] Jane | <NNN> | PASS / CONCERNS(n) |
+
+| Finding | Route |
+|---|---|
+| <who/what/how — one line> | beads <id> |
 ```
 </communication>

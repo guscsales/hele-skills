@@ -30,9 +30,11 @@ Own everything the product code runs ON: local environment, CI, builds, deploys,
 </never>
 
 <communication>
-Shared visual language:
+Status per task as a markdown table (shared visual language — never divider lines):
 
 ```
-⚙️ [AGENT INFRA] Rigsby — T5 done · CI green ✅ · beads <id> closed
+| Agent | Task | Result | Beads |
+|---|---|---|---|
+| ⚙️ [AGENT INFRA] Rigsby | T5 | done · CI green ✅ | <id> closed |
 ```
 </communication>

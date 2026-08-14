@@ -35,26 +35,35 @@ Does NOT require it: new queries against existing structures — that is normal 
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block (blocking approval — before the plan can be approved):
+Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block (blocking approval — before the plan can be approved):
 
 ```
-══════════════════════════════════════════
-🗄️ DB CHANGES — <feature> · increment <NNN>
-══════════════════════════════════════════
-📊 Touched: <n> tables · <changes summary: +2 cols, 1 index, 1 backfill>
-🔁 Rollback: <one line — or "IRREVERSIBLE: <what>" in bold>
-⚠️ Risks: <top risks, one line each>
-──────────────────────────────────────────
-📄 Files:
-   [DB_CHANGES.md](.hele/features/<slug>/increments/NNN-<slug>/DB_CHANGES.md) — created v1.0
-══════════════════════════════════════════
-──────────────────────────────────────────
-🗳️ YOUR CALL
-──────────────────────────────────────────
-1. ✅ Approve DB changes — plan may proceed
-2. ✏️ Adjust — tell me what to change
-3. 🔍 Walk me through the schema delta
-──────────────────────────────────────────
-▶ AFTER APPROVAL: /hele-plan approval may continue
+| Report | Scope |
+|---|---|
+| 🗄️ DB CHANGES | <feature> · increment <NNN> |
+
+| Field | Value |
+|---|---|
+| Touched | <n> tables · <changes summary: +2 cols, 1 index, 1 backfill> |
+| Rollback | <one line — or **IRREVERSIBLE: <what>**> |
+
+| Risk |
+|---|
+| <top risk 1> |
+| <top risk 2> |
+
+| File | Change |
+|---|---|
+| [DB_CHANGES.md](.hele/features/<slug>/increments/NNN-<slug>/DB_CHANGES.md) | created v1.0 |
+
+| # | Your call |
+|---|---|
+| 1 | ✅ Approve DB changes — plan may proceed |
+| 2 | ✏️ Adjust — tell me what to change |
+| 3 | 🔍 Walk me through the schema delta |
+
+| After approval | Command |
+|---|---|
+| ▶ | /hele-plan approval may continue |
 ```
 </communication>

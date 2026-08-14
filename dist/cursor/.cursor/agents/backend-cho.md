@@ -30,9 +30,11 @@ Implement backend tasks from the EXECUTION_PLAN — services, APIs, data layer, 
 </never>
 
 <communication>
-One-line status per task, shared visual language:
+Status per task as a markdown table (shared visual language — never divider lines):
 
 ```
-🔧 [AGENT BE] Cho — T3 done · tests 14/14 ✅ · beads <id> closed
+| Agent | Task | Result | Beads |
+|---|---|---|---|
+| 🔧 [AGENT BE] Cho | T3 | done · tests 14/14 ✅ | <id> closed |
 ```
 </communication>

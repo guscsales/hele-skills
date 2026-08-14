@@ -8,7 +8,7 @@
 > - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
 > - Everything below applies verbatim.
 
-Read-only — this skill never writes anything. Chat follows the CEO's language.
+Read-only — this skill never writes anything. Chat follows the CEO's language. Load `.cursor/hele/templates/chat-reports.md` and emit the Status Board tables from it.
 
 <phase name="1-collect">
 1. Read `index.json`, `state.json`, and every feature's doc frontmatter (`features/*/PRODUCT_DESCRIPTION.md`, `TEST_STUBS.md`, `increments/*/EXECUTION_PLAN.md`, `DESIGN_SPEC.md`, `DB_CHANGES.md` — a draft DB_CHANGES on an active increment is a ⛔ blocker line).
@@ -19,11 +19,11 @@ Read-only — this skill never writes anything. Chat follows the CEO's language.
 </phase>
 
 <phase name="2-board">
-Render the Status Board (chat-reports.md canonical block) as chat text — never fenced. Match the shape exactly: blank `═`/`─` dividers (no labels on the divider lines), title on its own line, one section per feature (active first); doc lines with version + ✅/⚠️ STALE + based_on; active increment with beads/stub counts; footer with learnings count.
+Render the Status Board (chat-reports.md canonical block) as chat text — never fenced. Match the tables exactly: Report/Scope, Feature/Status (active first), Feature/Doc/Version/Health (version + ✅/⚠️ STALE + based_on; beads/stub counts on the active increment), Learnings count, Next. Never draw `─`/`═` divider lines.
 
-Forbidden: wrapping the board in a markdown code fence; gluing the title onto the `═` line.
+Forbidden: wrapping the board in a markdown code fence; drawing box-drawing divider lines.
 
-End with `▶ NEXT:` on one unbroken line — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; all green, no active increment → /hele-feature for the next idea).
+End with the Next table — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; all green, no active increment → /hele-feature for the next idea).
 </phase>
 
 <rules>

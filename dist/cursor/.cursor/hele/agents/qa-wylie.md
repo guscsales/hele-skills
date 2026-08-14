@@ -26,62 +26,86 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Three signature blocks — pick the one that matches the skill. Dividers stay blank; titles and list items each get their own line; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat.
+Uses the shared visual language (`templates/chat-reports.md`). Three signature blocks — pick the one that matches the skill. Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat.
 
 **Stubs** (`/hele-stubs`):
 
 ```
-══════════════════════════════════════════
-📘 STUBS — <feature> · TEST_STUBS v<X.Y>
-══════════════════════════════════════════
-📊 Suite: <before> → <after> stubs · new: <n> · rewritten: <n>
-📏 Rules covered: BR-1..BR-n · uncovered: <none | list + why>
-🧭 VERIFY.md: <n> flows drafted (pending)
-──────────────────────────────────────────
-📄 Files:
-   [TEST_STUBS.md](.hele/features/<slug>/TEST_STUBS.md) — v<X.Y>
-   [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) — drafted
-══════════════════════════════════════════
-──────────────────────────────────────────
-🗳️ YOUR CALL
-──────────────────────────────────────────
-1. ✅ Approve contract
-2. ✏️ Adjust
-3. 🔍 Show stubs for a specific rule
-──────────────────────────────────────────
-▶ AFTER APPROVAL: /hele-build — the engineering team executes the plan
+| Report | Scope |
+|---|---|
+| 📘 STUBS | <feature> · TEST_STUBS v<X.Y> |
+
+| Field | Value |
+|---|---|
+| Suite | <before> → <after> stubs · new: <n> · rewritten: <n> |
+| Rules covered | BR-1..BR-n |
+| Uncovered | none / <list + why> |
+| VERIFY.md | <n> flows drafted (pending) |
+
+| File | Change |
+|---|---|
+| [TEST_STUBS.md](.hele/features/<slug>/TEST_STUBS.md) | v<X.Y> |
+| [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) | drafted |
+
+| # | Your call |
+|---|---|
+| 1 | ✅ Approve contract |
+| 2 | ✏️ Adjust |
+| 3 | 🔍 Show stubs for a specific rule |
+
+| After approval | Command |
+|---|---|
+| ▶ | /hele-build — the engineering team executes the plan |
 ```
 
 **QA run** (`/hele-qa`):
 
 ```
-══════════════════════════════════════════
-🧪 QA RUN — <feature> · suite v<X.Y>
-══════════════════════════════════════════
-✅ Passing: 12 · ❌ Failing: 2 · ⏸️ Blocked: 1
-❌ TS-007 (BR-3) — <one-line failure> → beads <id> → [AGENT BE] Cho
-❌ TS-011 (BR-5) — <one-line failure> → beads <id> → [AGENT FE] Van Pelt
-⏸️ TS-014 — blocked: <why>
-──────────────────────────────────────────
-📄 Files:
-   [QA_REPORT.md](.hele/features/<slug>/increments/NNN-<slug>/QA_REPORT.md) — run recorded
-══════════════════════════════════════════
-▶ NEXT: <exact next command>
+| Report | Scope |
+|---|---|
+| 🧪 QA RUN | <feature> · suite v<X.Y> |
+
+| Passing | Failing | Blocked |
+|---|---|---|
+| 12 | 2 | 1 |
+
+| Status | Stub | Detail | Route |
+|---|---|---|---|
+| ❌ | TS-007 (BR-3) | <one-line failure> | beads <id> → [AGENT BE] Cho |
+| ❌ | TS-011 (BR-5) | <one-line failure> | beads <id> → [AGENT FE] Van Pelt |
+| ⏸️ | TS-014 | blocked: <why> | |
+
+| File | Change |
+|---|---|
+| [QA_REPORT.md](.hele/features/<slug>/increments/NNN-<slug>/QA_REPORT.md) | run recorded |
+
+| Next | Command |
+|---|---|
+| ▶ | <exact next command> |
 ```
 
 **Verify run** (`/hele-verify-work`):
 
 ```
-══════════════════════════════════════════
-🧪 VERIFY RUN — <feature> · increment <NNN>
-══════════════════════════════════════════
-✅ Verified: 2 (V2, V4) · ❌ Issues: 2 (V1, V3) · ⏭️ Skipped: 0
-❌ V1 — <one-line issue in the CEO's words> → beads <id>
-❌ V3 — <one-line issue in the CEO's words> → beads <id> | PRD note
-──────────────────────────────────────────
-📄 Files:
-   [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) — done (4 flows)
-══════════════════════════════════════════
-▶ NEXT: /hele-build — fix <beads ids>   OR   /hele-retro — all verified
+| Report | Scope |
+|---|---|
+| 🧪 VERIFY RUN | <feature> · increment <NNN> |
+
+| Verified | Issues | Skipped |
+|---|---|---|
+| 2 (V2, V4) | 2 (V1, V3) | 0 |
+
+| Status | Flow | Detail | Route |
+|---|---|---|---|
+| ❌ | V1 | <one-line issue in the CEO's words> | beads <id> |
+| ❌ | V3 | <one-line issue in the CEO's words> | beads <id> / PRD note |
+
+| File | Change |
+|---|---|
+| [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) | done (4 flows) |
+
+| Next | Command |
+|---|---|
+| ▶ | /hele-build — fix <beads ids>   OR   /hele-retro — all verified |
 ```
 </communication>

@@ -33,7 +33,7 @@ HARD GATE — no feature is created before searching.
 </phase>
 
 <phase name="2-interview">
-Hightower's craft. Announce with the question block from chat-reports.md, then interview via AskUserQuestion — max 4 questions per call, as many rounds as needed. Stop only when an agent with zero context could read the PRD and not need to ask anything.
+Hightower's craft. Announce with the Question table from chat-reports.md, then interview via AskUserQuestion — max 4 questions per call, as many rounds as needed. Stop only when an agent with zero context could read the PRD and not need to ask anything.
 
 Cover (new feature):
 - **Problem & why now** — what breaks or is lost without it; the business value.
@@ -67,9 +67,9 @@ Rules:
 </phase>
 
 <phase name="4-brief-and-approval">
-Emit Hightower's **FEATURE BRIEF** signature block from her persona — as chat text, never fenced. Match the shape exactly: blank `═`/`─` dividers (never put `📕 FEATURE BRIEF` on the divider line), title on its own line, WHAT / WHY / rules / flows / scope / questions / stale each on their own line, 📄 Files with clickable links, then the multi-line `🗳️ YOUR CALL` (never `YOUR CALL — 1. · 2. · 3.` on one line). Never mark approved without an explicit "1".
+Emit Hightower's **FEATURE BRIEF** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (WHAT, WHY, rules, flows, scope, questions, stale), Files with clickable links, then the `Your call` table (one option per row — never `YOUR CALL — 1. · 2. · 3.` on one line). Never draw `─`/`═` divider lines. Never mark approved without an explicit "1".
 
-Forbidden: wrapping the report in a markdown code fence; gluing the title onto the `═` line.
+Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
 On approval: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json. Open questions remaining → approval is blocked; say which answers are missing.
 

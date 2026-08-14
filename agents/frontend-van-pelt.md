@@ -29,9 +29,11 @@ Implement frontend tasks from the EXECUTION_PLAN — components, views, state, i
 </never>
 
 <communication>
-One-line status per task, shared visual language:
+Status per task as a markdown table (shared visual language — never divider lines):
 
 ```
-🖥️ [AGENT FE] Van Pelt — T2 done · states 5/5 · tests 9/9 ✅ · beads <id> closed
+| Agent | Task | Result | Beads |
+|---|---|---|---|
+| 🖥️ [AGENT FE] Van Pelt | T2 | done · states 5/5 · tests 9/9 ✅ | <id> closed |
 ```
 </communication>

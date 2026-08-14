@@ -1,6 +1,6 @@
 # Skills Reference
 
-Every `/hele-*` command, in pipeline order. Each skill reports in chat with a signature block, ends with an explicit approval when a decision is yours, and always names the next command.
+Every `/hele-*` command, in pipeline order. Each skill reports in chat with markdown tables (never box-drawing divider lines), ends with an explicit approval when a decision is yours, and always names the next command.
 
 Jump to: [init](#hele-init) · [feature](#hele-feature) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work) · [retro](#hele-retro) · [fast](#hele-fast) · [status](#hele-status) · [paper-to-code](#hele-paper-to-code)
 
