@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.12.5 — 2026-08-18
+
+- feat(feature): FEATURE BRIEF skips `/hele-design` when no new screens need design — routes to `/hele-plan` with a parenthetical; NOTES.md signals Lisbon so the design gate does not bounce back
+- feat(prd): each named mermaid flow gets a short explanatory paragraph and a Branch|Rule table of the BR-n ids that diagram covers
+
 ## v0.12.4 — 2026-08-14
 
 - Approval option `1` auto-runs the next skill in the same turn — no second prompt. The Actions table header replaces `#`; the separate After approval table is gone (option 1 already names the command).

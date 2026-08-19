@@ -18,13 +18,13 @@ Agent Hightower (PM) turns your idea into an approved PRODUCT_DESCRIPTION — or
 
 - **Anti-duplicate gate first:** searches the index (`hele find`) with your own words before creating anything. Matches found → you decide: update or genuinely new.
 - Interviews you in short rounds (max 4 questions each) until scope and business rules are unambiguous.
-- Writes the PRD: WHAT/WHY, numbered business rules (each `BR-n` as a heading with prose — tables for matrices), named mermaid flows, in/out of scope, glossary. XML section tags stay so agents can find sections; the markdown inside is for you. Technical hints you drop go to NOTES.md for the planner — the PRD stays pure product.
+- Writes the PRD: WHAT/WHY, numbered business rules (each `BR-n` as a heading with prose — tables for matrices), named mermaid flows (each with a short explanatory paragraph and a Branch|Rule table of the BR-n ids that diagram covers), in/out of scope, glossary. XML section tags stay so agents can find sections; the markdown inside is for you. Technical hints you drop go to NOTES.md for the planner — the PRD stays pure product.
 - Living document: patch versions only (1.0 → 1.1), written as current state, superseded rules rewritten not appended. A ground-up rebuild is a new feature folder, never a major bump.
 - Suggests the [fast lane](#hele-fast) when your request smells small.
 
 ## /hele-design
 
-Agent Vega (UI/UX) turns an approved PRD into a DESIGN_SPEC for the increment.
+Agent Vega (UI/UX) turns an approved PRD into a DESIGN_SPEC for the increment. Skipped when the FEATURE BRIEF decides no new screens need design — option 1 goes to `/hele-plan` with a parenthetical noting why `/hele-design` will not run.
 
 - Two mandatory questions before any design work: which tool (Paper / Figma / other / code reference) and which devices (mobile / desktop / tablet).
 - Primes `.hele/DESIGN_SYSTEM.md` once from your configured design-system paths — the project's design memory.
@@ -35,7 +35,7 @@ Agent Vega (UI/UX) turns an approved PRD into a DESIGN_SPEC for the increment.
 
 Agent Lisbon (Staff Engineer) writes the EXECUTION_PLAN — how to build the increment, grounded in your real codebase.
 
-- Reads the actual code, your conventions, NOTES.md, and LEARNINGS.md before planning. The plan cites real files.
+- Reads the actual code, your conventions, NOTES.md, and LEARNINGS.md before planning. The plan cites real files. Design gate: stops for `/hele-design` only when the increment needs **new screens or visual layout** and no DESIGN_SPEC exists — a NOTES.md "design not needed" signal (or existing screens only) lets planning proceed.
 - Small dependency-ordered tasks, each with an owner agent, files, and a TDD definition of done. Every task becomes a beads issue; ids are written back into the plan, making builds resumable.
 - **Database gate:** any task touching schema, indexes, migrations, or production data brings in Agent Red John (DBA). He writes DB_CHANGES.md — current vs proposed schema, rollback plan, risks — and its approval is SEPARATE and BLOCKING: the plan cannot be approved while DB_CHANGES is a draft.
 - **Paper/Figma gate:** an approved DESIGN_SPEC with `tool: paper` or `tool: figma` requires a `<paper-to-code>` / `<figma-to-code>` section and Van Pelt task descriptions that start with the exact artboard ids. Pixels come from the design tool (`get_jsx`); plan prose is behavior and structure only.

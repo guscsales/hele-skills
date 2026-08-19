@@ -14,7 +14,7 @@ export const FLOW_DIAGRAM = `
     │
     ▼
  ╭─ /hele-design ──────────────────────── HOW IT LOOKS ─╮
- │ Agent Vega                                           │
+ │ Agent Vega · skip when no new screens                │
  │ ▸ DESIGN_SPEC.md                                     │
  ╰──────────────────────────────────────────────────────╯
     │

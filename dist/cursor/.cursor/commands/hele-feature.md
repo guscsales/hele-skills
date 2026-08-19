@@ -49,7 +49,7 @@ Rules:
 **New feature:**
 1. Slug: kebab-case English, product-meaningful (`checkout-discount`, not `feature-1`).
 2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. Follow the template RULES: XML section tags stay (the AI contract); inside them write markdown a CEO can read in preview.
-   - `<flows>`: at least one mermaid (the happy path), each diagram under a `###` caption; add more when rules branch — reference BR-n ids on the branches. Flows are drawn from the interview, and updates re-draw the affected flow, never leave a diagram contradicting a rule.
+   - `<flows>`: at least one mermaid (the happy path). For each diagram: `###` caption, then a short prose paragraph explaining the flow, then the mermaid, then a `Branch | Rule` table listing every BR-n that governs a branch in **that** diagram (not every rule in the PRD). Keep BR-n ids on mermaid edges/nodes too. Add more diagrams when rules branch. Flows are drawn from the interview, and updates re-draw the affected flow, never leave a diagram contradicting a rule.
    - `<business-rules>`: each rule is `### BR-n — <short title>` plus prose — not a one-line bullet. Numbered steps for sequences; a markdown table when the rule is a matrix (status × action, role × permission).
    - `<scope>`: `### In scope` as bullets; `### Out of scope` as a two-column table (`Left out` | `Why`).
    - `<glossary>`: two-column table (`Term` | `Meaning`) when terms exist.
@@ -67,7 +67,11 @@ Emit Hightower's **FEATURE BRIEF** signature block from her persona — as chat 
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-Option 1 names the next skill, chosen by content: feature involves UI → `✅ Approve — PRD v<X.Y> goes to approved → /hele-design — Agent Vega specs the screens`; backend/infra only → `… → /hele-plan — Agent Lisbon plans the increment`. When unsure, say why and let the CEO pick — do not auto-chain until they pick.
+Option 1 names the next skill, chosen from the interview — not from “has a UI”:
+
+- **New screens or visual layout/component work** → `✅ Approve — PRD v<X.Y> goes to approved → /hele-design — Agent Vega specs the screens`
+- **Existing screens reused** (no new surface, no redesign) **or backend/infra only** → `✅ Approve — PRD v<X.Y> goes to approved → /hele-plan — Agent Lisbon plans the increment (design is not needed for this screen, so /hele-design will not run)`. When skipping design, also write one bullet to `features/<slug>/NOTES.md`: `Design not needed — existing screens reused; no DESIGN_SPEC this increment.` (create the file if missing). That signal stops Lisbon from bouncing back to `/hele-design`.
+- **Unsure** → ask once; do not auto-chain until the CEO picks.
 
 On `1`: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json, then immediately read and execute the named skill (`.cursor/hele/skills/hele-design/SKILL.md` or `skills/hele-plan/SKILL.md`) in this same turn. Do not wait for a second prompt; do not ask the CEO to type the slash command. Open questions remaining → approval is blocked; say which answers are missing.
 </phase>
