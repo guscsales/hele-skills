@@ -39,10 +39,10 @@ This creates the harness folder (`.hele/` by default — you pick the name), ask
 The main flow is seven phases. Each one produces a document and asks for your approval. Typing `1` approves **and** starts the next phase in the same turn — you don't type a second command.
 
 **1. Describe it** — `/hele-feature "customers can favorite products"`
-Agent Hightower (PM) interviews you until scope and business rules are unambiguous, then writes the PRD: numbered rules (BR-n), mermaid flows, in/out of scope. He searches the feature index first — updating an existing feature beats duplicating it.
+Agent Hightower (PM) interviews you until scope and business rules are unambiguous, then writes the PRD: numbered rules (BR-n), mermaid flows (each with a short explanation and a Branch|Rule table), in/out of scope. He searches the feature index first — updating an existing feature beats duplicating it.
 
-**2. Design it** — `/hele-design` (when there's UI)
-Agent Vega asks which design tool (Paper, Figma, or straight to code reference) and which devices, then specs every screen and state into a DESIGN_SPEC.
+**2. Design it** — `/hele-design` (when new screens need it)
+Agent Vega asks which design tool (Paper, Figma, or straight to code reference) and which devices, then specs every screen and state into a DESIGN_SPEC. If the feature reuses existing screens with no redesign, the FEATURE BRIEF skips this step and goes straight to `/hele-plan` (with a parenthetical noting why `/hele-design` will not run).
 
 **3. Plan it** — `/hele-plan`
 Agent Lisbon reads your actual codebase and writes the EXECUTION_PLAN: small dependency-ordered tasks, each with an owner agent, files, and a TDD definition of done. Every task becomes a beads issue. If the database is touched, Agent Red John writes DB_CHANGES — and your approval of it is blocking.

@@ -21,6 +21,9 @@ RULES FOR THIS DOCUMENT
 - status: approved requires <open-questions> to be empty.
 - Business rules are numbered (BR-n) and testable — TEST_STUBS reference them.
   Each rule is a ### BR-n — Title heading with enough prose to review alone.
+- Each named flow: ### caption, then a short prose paragraph, then the mermaid,
+  then a Branch | Rule table listing every BR-n that governs a branch in THAT
+  diagram (not a dump of all rules). Keep BR-n on mermaid edges/nodes too.
 -->
 
 # <Feature Title>
@@ -43,10 +46,14 @@ The problem it solves and why it exists. The business value. What breaks or is l
 
 <!-- One or more mermaid diagrams of the main user/system flows. At least the
      happy path; add a named diagram when business rules branch.
-     Caption each with ###. Reference BR-n ids on edges/nodes where a rule
-     governs the branch. -->
+     Per diagram: ### caption → short prose paragraph → mermaid → Branch|Rule
+     table. Reference BR-n ids on edges/nodes where a rule governs the branch.
+     The table is the human index for that diagram only. -->
 
 ### <Named flow — happy path>
+
+One or two sentences: what this flow covers and the main fork a reader should
+notice before reading the diagram.
 
 ```mermaid
 flowchart TD
@@ -54,6 +61,11 @@ flowchart TD
     B -- yes --> C[Outcome]
     B -- no --> D[Alternative outcome]
 ```
+
+| Branch | Rule |
+|---|---|
+| <what the yes path means> | BR-1 |
+| <what the no path means> | BR-2 |
 
 </flows>
 

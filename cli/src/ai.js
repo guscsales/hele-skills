@@ -20,12 +20,13 @@ Idempotent — safe to re-run, never overwrites.`,
     detail: `Agent Hightower (PM) interviews you until scope and business rules
 are unambiguous, then writes (or patches) the PRD: what the feature is, why
 it exists, numbered business rules (each BR-n as a heading with prose),
-named mermaid flows, in/out of scope. Markdown inside stable XML section
-tags — humans read it in preview, agents still find <business-rules>.
-Guards the anti-duplicate gate: searches the index before creating anything.
-The PRD is a LIVING doc — written as current state, patch versions only.
-Your technical hints go to NOTES.md for Agent Lisbon; the PRD stays pure
-product.`,
+named mermaid flows (each with a short explanatory paragraph and a
+Branch|Rule table of the BR-n ids that diagram covers), in/out of scope.
+Markdown inside stable XML section tags — humans read it in preview, agents
+still find <business-rules>. Guards the anti-duplicate gate: searches the
+index before creating anything. The PRD is a LIVING doc — written as current
+state, patch versions only. Your technical hints go to NOTES.md for Agent
+Lisbon; the PRD stays pure product.`,
   },
   {
     name: 'design',
@@ -37,8 +38,9 @@ tool (Paper / Figma / other / straight to code reference) and which devices
 (mobile / desktop / tablet). Then she maps your design system into
 DESIGN_SYSTEM.md (once) and specs every screen of the increment: states,
 components reused from the DS, NEW components flagged, artboard links — or
-a written layout when no tool was chosen. Agent Van Pelt implements from
-this, never invents.`,
+a written layout when no tool was chosen. Skipped when the FEATURE BRIEF
+decides no new screens need design (option 1 goes to /hele-plan instead).
+Agent Van Pelt implements from this, never invents.`,
   },
   {
     name: 'plan',

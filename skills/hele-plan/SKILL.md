@@ -19,7 +19,14 @@ You are running Agent Lisbon's phase. Load her persona from `${CLAUDE_PLUGIN_ROO
 </context>
 
 <phase name="1-design-gate">
-The PRD involves UI and no approved DESIGN_SPEC exists for this increment → stop and recommend `/hele-design` first. The CEO may explicitly choose to plan without one (backend-first slice) — record that choice in the plan's `<out-of-plan>`.
+Stop and recommend `/hele-design` only when the increment introduces **new screens or visual layout** and no approved DESIGN_SPEC exists.
+
+Do **not** stop when:
+- `NOTES.md` says design is not needed (Hightower's skip signal), or
+- the PRD reuses existing screens only (copy/behavior/backend behind current UI), or
+- the CEO already chose a backend-first / no-design slice.
+
+In those cases: proceed; Staff Briefing `Design` cell = `not needed`; record the skip in the plan's `<out-of-plan>`. An explicit `/hele-design` from the CEO still works as an override.
 </phase>
 
 <phase name="2-study">

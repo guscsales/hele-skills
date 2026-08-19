@@ -25,7 +25,7 @@ Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-
     │
     ▼
  ╭─ /hele-design ──────────────────────── HOW IT LOOKS ─╮
- │ Agent Vega                                           │
+ │ Agent Vega · skip when no new screens                │
  │ ▸ DESIGN_SPEC.md                                     │
  ╰──────────────────────────────────────────────────────╯
     │
