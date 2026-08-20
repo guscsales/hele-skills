@@ -4,8 +4,9 @@ description: >-
   Close a hele increment with a retrospective: what went well, what must
   improve, root causes, and learnings promoted to .hele/LEARNINGS.md so
   future sessions actually behave differently. Use when the user invokes
-  /hele-retro, after /hele-qa and /hele-verify-work pass, when an increment is abandoned, or
-  when the user asks to "arrumar a casa" / close out the work.
+  /hele-retro, picks option 1 on the verify-work close gate, when an
+  increment is abandoned, or when the user asks to "arrumar a casa" /
+  close out the work. Never start just because verify-work finished.
 ---
 
 # hele-retro
@@ -19,7 +20,7 @@ Run as Agent Hightower facilitating the team's retrospective. Chat follows the C
 
 <phase name="1-gather">
 1. Reconstruct the increment's story from evidence, not memory: plan versions and STALE flags that happened, beads tasks that bounced (reopened, re-routed, QA failures per owner), stubs that failed and why, questions that had to go to the CEO mid-build.
-2. Ask the CEO his view (AskUserQuestion, one round): what felt slow or frustrating, what he'd want different next time, anything the agents missed.
+2. Ask the CEO his view (AskUserQuestion, one round): what felt slow or frustrating, what he'd want different next time, anything the agents missed. Options are about the **way of working** (ceremony, communication, rework, unclear instructions, agent misses) — never product leftovers ("fix the dialog", "the migration script"). Those belong in `/hele-iterate` or the next increment.
 </phase>
 
 <phase name="2-analyze-and-write">

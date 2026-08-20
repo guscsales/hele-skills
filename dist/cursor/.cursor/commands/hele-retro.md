@@ -2,7 +2,7 @@
 # hele-retro
 
 > **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with `node scripts/build-cursor.mjs`.
-> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent **in the background** (async / do not block the parent turn). Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory. The main chat stays free. Never do the sub-agent's work in this session.
 > - Models: read the `cursor` key from `settings.agents.models[...]` (values are per-runtime objects); a plain string applies to every runtime. `inherit` → whatever model the session runs.
 > - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
 > - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
@@ -17,7 +17,7 @@ Run as Agent Hightower facilitating the team's retrospective. Chat follows the C
 
 <phase name="1-gather">
 1. Reconstruct the increment's story from evidence, not memory: plan versions and STALE flags that happened, beads tasks that bounced (reopened, re-routed, QA failures per owner), stubs that failed and why, questions that had to go to the CEO mid-build.
-2. Ask the CEO his view (AskUserQuestion, one round): what felt slow or frustrating, what he'd want different next time, anything the agents missed.
+2. Ask the CEO his view (AskUserQuestion, one round): what felt slow or frustrating, what he'd want different next time, anything the agents missed. Options are about the **way of working** (ceremony, communication, rework, unclear instructions, agent misses) — never product leftovers ("fix the dialog", "the migration script"). Those belong in `/hele-iterate` or the next increment.
 </phase>
 
 <phase name="2-analyze-and-write">

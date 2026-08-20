@@ -13,7 +13,8 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 - **Every report that created or modified files includes a Files table** — one row per artifact, the path rendered as a clickable markdown link relative to the project root, annotated with what happened. The CEO must always know exactly where to go read.
 - Reports that are **not** an approval gate end with a **Next table** — the CEO always knows the next action. Keep the whole command in that cell; never split `/hele-build` across rows.
 - Approval gates end with the **Actions** table (below). Option 1 **is** the next command — do not also emit a Next or After approval table.
-- **Suggest `/clear` only when a phase closed without auto-chaining** (FAST, RETRO, status, or the CEO explicitly paused). Approval gates auto-chain: option `1` starts the next skill in the same turn, so do not suggest `/clear` there. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet.
+- **Suggest `/clear` only when a phase closed without auto-chaining** (FAST, RETRO, status, or the CEO explicitly paused). Approval and close gates auto-chain: option `1` starts the next skill in the same turn, so do not suggest `/clear` there. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet. FAST and ITERATE are sticky in the same conversation: do not tell the CEO to re-type `/hele-fast` or `/hele-iterate` for the next prompt.
+- **Open channel.** The main session is the CEO's line. Doing work (review, suite, artifacts, codebase reads) is a background sub-agent — Lisbon and Hightower included. After a Dispatch table, stay available; never explore "while you wait".
 - File artifacts are exempt: markdown docs stay clean, no box-drawing frames or emoji inside `.hele/` files.
 - Chat language follows the CEO (pt-BR in, pt-BR out). Artifacts are always English.
 - **`.hele/` is a placeholder, not a hardcoded path.** The harness folder is `.hele/` at the project root by default, but the CEO may have named it differently at init: a `.helerc` file at the root (`{"dirName": "<name>"}`) points to the real folder. Every skill resolves the dir first (`.hele` → else `.helerc`) and uses the resolved name in paths and links.
@@ -91,6 +92,8 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 | [index.json](.hele/index.json) | created (0 features) / kept (<n> features) |
 | [state.json](.hele/state.json) | created / kept |
 | [LEARNINGS.md](.hele/LEARNINGS.md) | created / kept (<n> learnings) |
+| [hele-session.mdc](.cursor/rules/hele-session.mdc) | written (sticky lanes + open channel) |
+| [hele-session.md](.claude/rules/hele-session.md) | written (sticky lanes + open channel) |
 
 | Next | Command |
 |---|---|
@@ -125,7 +128,7 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 
 ## Approval block (MANDATORY at the end of every interactive phase)
 
-Whenever a skill produces an artifact the CEO must sign off on (PRD, plan, design spec, stubs, DB changes), it ends the report with numbered options — approval first, adjustments second, context-specific extras after. **Option 1 is the next phase:** its cell names the command that will run, and typing `1` both approves AND starts that work in the same turn. A separate After approval / Next table is forbidden here — it made CEOs type a second prompt.
+Whenever a skill produces an artifact the CEO must sign off on (PRD, plan, design spec, stubs, DB changes), or a phase that must not auto-advance (verify-work all-verified close), it ends the report with numbered options — approval first, adjustments second, context-specific extras after. **Option 1 is the next phase:** its cell names the command that will run, and typing `1` both approves AND starts that work in the same turn. A separate After approval / Next table is forbidden here — it made CEOs type a second prompt. Verify finishing is not permission to start `/hele-retro` — wait for `1`.
 
 **Never compress this into one line.** Forbidden: `🗳️ YOUR CALL — 1. ✅ Approve · 2. ✏️ Adjust · 3. …`. Options wrap and become unreadable. Always use the table below (one option per row):
 

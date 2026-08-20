@@ -12,7 +12,7 @@ description: >-
 
 # hele-qa
 
-You are running Agent Wylie's automation phase: stubs become Playwright code. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
+You are conducting Agent Wylie's automation phase: stubs become Playwright code. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md` and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Writing specs and running the suite are **background** Wylie sub-agents. This session never runs Playwright or explores the e2e tree. Chat follows the CEO's language; artifacts are English.
 
 AI driving a browser is flaky and expensive — it happens exactly once per stub, here, while WRITING the deterministic test. After this skill, the suite costs nothing to re-run forever. Human judgment is /hele-verify-work's job, after this passes.
 
@@ -36,7 +36,7 @@ Invoked as `/hele-qa --generate-fixes-report`: a QA run already happened but `in
 </phase>
 
 <phase name="2-write">
-Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie — specs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (per-runtime object — your runtime's key; default `sonnet` in Claude Code; `inherit` → omit), up to `agents.maxParallel` in parallel, grouped by flow. Prompt = persona + the stubs + the PRD rules + project conventions. Rules:
+Dispatch **background** Wylie subagents to write the specs — description `[AGENT QA] Wylie — specs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (per-runtime object — your runtime's key; default `sonnet` in Claude Code; `inherit` → omit), up to `agents.maxParallel` in parallel, grouped by flow. Announce. Stay free. Prompt = persona + the stubs + the PRD rules + project conventions. Rules:
 1. Cover every stub not yet implemented as a test: `kind: e2e` → browser spec; `kind: api` → Playwright request-context spec; `kind: unit-expectation` → NOT Playwright's job — verify the engineers' suite covers it and record which test does.
 2. The stub is the contract — Given/When/Then maps to arrange/act/assert. Test what the stub says, not what the code does.
 3. Deterministic by construction: proper waits (no sleeps), test data seeded/cleaned per test, no cross-test state leaks, stable selectors (roles/test-ids per project convention). Always headless — never `--headed`/`--ui`; failures explain themselves through traces and screenshots, not through a human watching a window.
@@ -44,17 +44,17 @@ Dispatch Wylie subagents to write the specs — description `[AGENT QA] Wylie �
 </phase>
 
 <phase name="3-run-and-record">
-1. Run the FULL Playwright suite — every spec, all increments, regression included (Playwright parallelizes itself; never a subagent per test at runtime).
-2. Echo results live as they come, one line per stub: 🧪 TS-012 ✅ · 🧪 TS-013 ❌ expected empty-state, got blank screen.
-3. Flaky on first pass → retry once; still flaky → the TEST is wrong, fix the test, not the retry count.
-4. Update every stub's `status` in TEST_STUBS.md from the run results — the file is the record. A stub whose test cannot run (missing env, data, dependency) → `status: blocked` with the blocker named — never skipped silently.
+1. `bd create` title `QA: full suite`. Dispatch **background** `[AGENT QA] Wylie — QA: full suite`, model `qa-wylie-run`. He runs the FULL Playwright suite — every spec, all increments, regression included (Playwright parallelizes itself; never a subagent per test at runtime) — and returns the per-stub results. You do not run Playwright in this session.
+2. From his payload, echo results one line per stub: 🧪 TS-012 ✅ · 🧪 TS-013 ❌ expected empty-state, got blank screen.
+3. Flaky on first pass → he retries once; still flaky → the TEST is wrong, fix the test, not the retry count.
+4. He updates every stub's `status` in TEST_STUBS.md from the run results — the file is the record. A stub whose test cannot run (missing env, data, dependency) → `status: blocked` with the blocker named — never skipped silently.
 5. **Classify every failure** — the class decides where it goes:
    - `product-bug` — the app breaks the stub's contract → beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with the spec path, failure output, stub + rule ids. Owner per Lisbon's task mapping; unclear → tag for Lisbon to route.
    - `contract-question` — stub and product disagree and neither is obviously wrong → NO beads task yet; the CEO decides in phase 4.
    - `polish` — real observation, breaks no stub → listed for the CEO's now-or-backlog call.
    - `blocked` — couldn't run; the blocker named.
    Wylie never fixes product code — routing is his fix.
-6. Write `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. Prose in product terms, no code: expected vs happened vs impact per failure, the classification, beads ids. State-not-history: latest run is the content, previous runs shrink to one line in `<history>`.
+6. He writes `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. Prose in product terms, no code: expected vs happened vs impact per failure, the classification, beads ids. State-not-history: latest run is the content, previous runs shrink to one line in `<history>`. You emit the chat signature from his payload — do not rewrite the report here.
 </phase>
 
 <phase name="4-report-and-route">
@@ -79,6 +79,7 @@ Route by outcome:
 </phase>
 
 <rules>
+- Open channel: this session never writes specs, runs Playwright, or explores the e2e tree. Wylie does that in the background.
 - The e2e suite lives in the PROJECT (committed code, runnable in CI) — hele generates it, the repo owns it.
 - A stub is `passing` only if its Playwright test ran green THIS run — stale statuses are lies.
 - PRD/stubs drift (`based_on` older than the PRD) → warn before running; the CEO decides run-anyway or fix the contract first.

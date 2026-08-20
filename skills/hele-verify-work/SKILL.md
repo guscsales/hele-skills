@@ -36,13 +36,24 @@ Walk the CEO through it, one flow at a time — conversational, not a dump:
 </phase>
 
 <phase name="3-report">
-Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one issue per row** (never glue V1 and V3 into the same cell), Files with a clickable VERIFY.md link, Next. Never draw `─`/`═` divider lines.
+Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one issue per row** (never glue V1 and V3 into the same cell), Files with a clickable VERIFY.md link, then route (Actions on all-verified, Next on issues). Never draw `─`/`═` divider lines.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-Route by outcome (Next table):
-- **All verified** → `/hele-retro` — close the increment properly.
-- **Issues found** → `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens).
+Route by outcome:
+- **All verified** → close gate, never silent hand-off. Use the canonical `Actions` table from `chat-reports.md` — never fenced, never one line. One option per row. Never emit a separate After approval / Next table — option 1 is the next command:
+
+  1. ✅ Close increment → /hele-retro — Agent Hightower runs the retrospective
+  2. ✏️ Something still wrong → /hele-iterate
+  3. ⏸️ Pause — increment stays open
+
+  Forbidden: wrapping the Actions table in a markdown code fence; drawing box-drawing divider lines.
+  Forbidden: reading or executing `/hele-retro` (or `/hele-iterate`) in this same turn. Emit the report, then stop and wait. Verify finishing is not permission to start the retro.
+
+  On `1`: immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-retro/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-retro`.
+  On `2`: immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-iterate/SKILL.md` and execute it in this same turn.
+  On `3` / free text: stop; leave the increment open.
+- **Issues found** → Next table: `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens). Do not execute it unless the CEO asks.
 </phase>
 
 <rules>

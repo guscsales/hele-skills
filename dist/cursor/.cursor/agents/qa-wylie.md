@@ -86,7 +86,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | ▶ | <exact next command> |
 ```
 
-**Verify run** (`/hele-verify-work`):
+**Verify run** (`/hele-verify-work`) — all-verified close gate. Issues found: swap Actions for a Next table (`/hele-iterate`) and stop; do not start iterate or retro in that turn.
 
 ```
 | Report | Scope |
@@ -106,8 +106,10 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 |---|---|
 | [VERIFY.md](.hele/features/<slug>/increments/NNN-<slug>/VERIFY.md) | done (4 flows) |
 
-| Next | Command |
+| Actions | Your call |
 |---|---|
-| ▶ | /hele-iterate — late finds on this increment   OR   /hele-retro — all verified |
+| 1 | ✅ Close increment → /hele-retro — Agent Hightower runs the retrospective |
+| 2 | ✏️ Something still wrong → /hele-iterate |
+| 3 | ⏸️ Pause — increment stays open |
 ```
 </communication>

@@ -2,7 +2,7 @@
 # hele-verify-work
 
 > **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with `node scripts/build-cursor.mjs`.
-> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent **in the background** (async / do not block the parent turn). Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory. The main chat stays free. Never do the sub-agent's work in this session.
 > - Models: read the `cursor` key from `settings.agents.models[...]` (values are per-runtime objects); a plain string applies to every runtime. `inherit` → whatever model the session runs.
 > - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
 > - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
@@ -32,13 +32,24 @@ Walk the CEO through it, one flow at a time — conversational, not a dump:
 </phase>
 
 <phase name="3-report">
-Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one issue per row** (never glue V1 and V3 into the same cell), Files with a clickable VERIFY.md link, Next. Never draw `─`/`═` divider lines.
+Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one issue per row** (never glue V1 and V3 into the same cell), Files with a clickable VERIFY.md link, then route (Actions on all-verified, Next on issues). Never draw `─`/`═` divider lines.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-Route by outcome (Next table):
-- **All verified** → `/hele-retro` — close the increment properly.
-- **Issues found** → `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens).
+Route by outcome:
+- **All verified** → close gate, never silent hand-off. Use the canonical `Actions` table from `chat-reports.md` — never fenced, never one line. One option per row. Never emit a separate After approval / Next table — option 1 is the next command:
+
+  1. ✅ Close increment → /hele-retro — Agent Hightower runs the retrospective
+  2. ✏️ Something still wrong → /hele-iterate
+  3. ⏸️ Pause — increment stays open
+
+  Forbidden: wrapping the Actions table in a markdown code fence; drawing box-drawing divider lines.
+  Forbidden: reading or executing `/hele-retro` (or `/hele-iterate`) in this same turn. Emit the report, then stop and wait. Verify finishing is not permission to start the retro.
+
+  On `1`: immediately read `.cursor/hele/skills/hele-retro/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-retro`.
+  On `2`: immediately read `.cursor/hele/skills/hele-iterate/SKILL.md` and execute it in this same turn.
+  On `3` / free text: stop; leave the increment open.
+- **Issues found** → Next table: `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens). Do not execute it unless the CEO asks.
 </phase>
 
 <rules>

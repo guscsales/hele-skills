@@ -8,6 +8,8 @@ cp -r dist/cursor/.cursor /path/to/your/project/
 
 Then use the commands in Cursor chat: `/hele-build` · `/hele-design` · `/hele-fast` · `/hele-feature` · `/hele-init` · `/hele-iterate` · `/hele-paper-to-code` · `/hele-plan` · `/hele-qa` · `/hele-retro` · `/hele-status` · `/hele-stubs` · `/hele-verify-work`.
 
+`.cursor/rules/hele-session.mdc` is always-on: sticky lanes + open channel (doing work is always a background sub-agent).
+
 - Personas are native agent definitions in `.cursor/agents/` (9); models are preconfigured (strong work on fable/opus, execution volume on grok) — edit the frontmatter to change.
 - Project memory lives in `.hele/` exactly like the Claude Code adapter — the two runtimes share it; you can switch tools mid-feature.
 - The hele CLI is bundled: `node .cursor/hele/hele.cjs --help`.

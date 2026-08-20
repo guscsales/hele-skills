@@ -3424,9 +3424,10 @@ var SKILLS = [
     artifact: ".hele/ skeleton",
     question: "SETUP",
     detail: `Bootstraps the harness in a project: creates .hele/ (settings.json,
-index.json, state.json, LEARNINGS.md, features/), asks about your design
-system, and makes sure the beads CLI (bd) is installed and initialized.
-Idempotent \u2014 safe to re-run, never overwrites.`
+index.json, state.json, LEARNINGS.md, features/), installs the sticky-lane
+session rule so /hele-fast and /hele-iterate stay in force for follow-ups,
+asks about your design system, and makes sure the beads CLI (bd) is
+installed and initialized. Idempotent \u2014 safe to re-run, never overwrites.`
   },
   {
     name: "feature",
@@ -3492,8 +3493,9 @@ across increments and /hele-qa always runs the whole suite.`
     extras: ["\u25B8 --from-qa \u2192 fixes the QA report"],
     detail: `The coordination loop: bd ready \u2192 dispatch Agent Cho (backend),
 Agent Van Pelt (frontend), Agent Jane (security), Agent Rigsby (infra) in
-parallel on ready tasks, TDD enforced, Agent Lisbon reviews structure,
-Agent Hightower checks PRD conformance. Blockers become questions to you
+parallel on ready tasks (background \u2014 the main chat stays free), TDD
+enforced, Agent Lisbon reviews structure as a REVIEW: sub-agent, Agent
+Hightower checks PRD conformance. Blockers become questions to you
 immediately. Migrations only run against an approved DB_CHANGES, and Agent
 Red John checks the written migration against it before the task closes.
 Exit condition: the full automated suite is green. Resumable via beads
@@ -3532,8 +3534,9 @@ Wylie distills the increment's main flows (3\u20138 human journeys, not one per
 stub) into VERIFY.md, preps the app and test data, then walks you through
 it step by step \u2014 you act, you report, he records every verdict verbatim.
 Issues become /hele-iterate on this increment (bugs or late
-behavior), not a new /hele-feature cycle. Partial runs keep their
-record and resume where you stopped.`
+behavior), not a new /hele-feature cycle. All verified ends in a
+close gate \u2014 retro starts only when you pick 1. Partial runs keep
+their record and resume where you stopped.`
   },
   {
     name: "retro",
@@ -3558,7 +3561,9 @@ change still patches the PRD and stubs \u2014 living docs never lie), full test
 suite once, affected stubs in the browser, and a single FAST.md instead of
 four documents. /hele-feature suggests it automatically when a request
 smells fast-lane sized. An increment already in QA or verify is not
-fast \u2014 that discovery goes to /hele-iterate.`
+fast \u2014 that discovery goes to /hele-iterate. Type it once: later
+prompts in that chat stay in the fast lane until a different /hele-*
+command.`
   },
   {
     name: "iterate",
@@ -3575,7 +3580,7 @@ and Jane when schema or security is touched (gates stay, they are not
 refusals). Engineers build the ITERATE: tasks with the same TDD
 discipline as /hele-build. New or rewritten stubs \u2192 /hele-qa; stubs
 untouched \u2192 /hele-verify-work. The increment stays open; you can run it
-again.`
+again. Type it once: later prompts in that chat stay in the loop.`
   },
   {
     name: "status",

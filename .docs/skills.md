@@ -10,6 +10,7 @@ Bootstraps the harness in a project. Run once; idempotent — re-running reports
 
 - Asks the harness folder name (`.hele` recommended; a custom name writes a `.helerc` pointer) and whether a design system exists.
 - Creates `settings.json`, `index.json`, `state.json`, `LEARNINGS.md`, `features/`.
+- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` stay in force, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
 - Verifies the beads CLI (`bd`) and initializes its database. beads is the harness's task tracker — mandatory, not a choice.
 
 ## /hele-feature
@@ -54,7 +55,8 @@ Agent Wylie (QA) writes the feature's test contract from the PRD — deliberatel
 
 The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (dispatch, structural review) driving the engineer agents through the plan.
 
-- `bd ready` → dispatches up to `maxParallel` tasks to engineer subagents (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), each with its persona, task, relevant PRD rules, and learnings.
+- `bd ready` → dispatches up to `maxParallel` tasks to engineer subagents in the **background** (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), each with its persona, task, relevant PRD rules, and learnings. The main chat stays free.
+- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The full suite is a `BUILD: full suite` sub-agent.
 - **File-overlap guard:** tasks sharing a declared file never run in parallel.
 - **Test economy:** engineers iterate red→green on their task's unit files only; expensive suites (containers, migrations) run once per task; the FULL suite runs exactly once, at the end.
 - **DB gate enforced:** migration tasks don't dispatch without an approved DB_CHANGES, and Red John checks the written migration against it before the task closes.
@@ -87,6 +89,7 @@ Guided human verification. Automation proves the rules; your eyes catch what cod
 - Preps the ground — app running, logins and test data listed — then walks you through one flow at a time. You act, you report; Wylie records every verdict verbatim.
 - Issues triage on the spot: bug or a late behavior find → [`/hele-iterate`](#hele-iterate) on this increment (not a new `/hele-feature` cycle).
 - Stop anytime — partial runs keep their record and resume from the first pending flow.
+- All flows verified → close gate (Actions table). Retro starts only when you pick `1`. It does not run itself.
 
 ## /hele-retro
 
@@ -102,19 +105,21 @@ The fast lane: small, low-risk changes with proportional ceremony — one artifa
 
 - **Triage with hard disqualifiers:** touches DB schema, security surface (auth/payments/PII), introduces a new user-facing flow, or has cross-feature impact → refused and routed to the full cycle. Deliberately no file-count limit.
 - Classifies the change: bugfix (docs stay untouched) vs behavior change (the PRD rule and stubs are patched — living docs never lie, no matter the lane).
-- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run.
+- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. Micro-plan, review, suite, and FAST.md are background Lisbon sub-agents — the main chat never locks on them.
 - FAST.md records what/why, files, tests, memory sync, and evidence.
 - An increment already in QA or verify is not fast — that discovery goes to [`/hele-iterate`](#hele-iterate).
+- **Sticky:** type `/hele-fast` once. Later prompts in that conversation stay in the lane — beads, agents, a new FAST increment if the last one already shipped. A different `/hele-*` command (except `/hele-status`) yields.
 
 ## /hele-iterate
 
 The complementary loop: you are already past build and just found something you did not plan for. Agent Lisbon folds it back into the open increment — no new increment, no frozen-plan rewrite, no full formal cycle.
 
-- Lisbon classifies the discovery (bug / behavior / tests-only / new-screen / schema / security) and dispatches only the people who must move, via `ITERATE:` beads on the same epic.
+- Lisbon classifies the discovery (bug / behavior / tests-only / new-screen / schema / security) and dispatches only the people who must move, via `ITERATE:` beads on the same epic — specialists (including Hightower and Lisbon's own review/suite) run in the background so the main chat stays free.
 - Behavior → Hightower patches the PRD when the living doc would lie, even if you never asked for a PRD update; Wylie follows with stubs whenever a flow or contract changed.
 - New screen → Vega only when you asked for a screen, in PT or EN (`tela`, `new screen`, `we need a UI for this`). Implied-but-unsaid → she asks once.
 - Schema and security stay in the loop with Red John / Jane gates — they are not hard refusals here.
 - New or rewritten stubs → `/hele-qa`. Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
+- **Sticky:** type `/hele-iterate` once. Later prompts in that conversation are another discovery — you do not re-type the command. A bare message is the same as picking "another discovery".
 
 ## /hele-status
 

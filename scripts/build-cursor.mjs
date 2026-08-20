@@ -32,7 +32,7 @@ const cursorModelFor = (personaFile) => {
 };
 
 const PREAMBLE = `> **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with \`node scripts/build-cursor.mjs\`.
-> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in \`.cursor/agents/\` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same \`maxParallel\` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent **in the background** (async / do not block the parent turn). Personas are native agent definitions in \`.cursor/agents/\` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same \`maxParallel\` limits; Cursor worktree isolation makes the file-overlap guard advisory. The main chat stays free. Never do the sub-agent's work in this session.
 > - Models: read the \`cursor\` key from \`settings.agents.models[...]\` (values are per-runtime objects); a plain string applies to every runtime. \`inherit\` → whatever model the session runs.
 > - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
 > - \`\${CLAUDE_PLUGIN_ROOT}\` resources live under \`.cursor/hele/\`. The hele CLI: \`node .cursor/hele/hele.cjs\` (e.g. \`node .cursor/hele/hele.cjs find <terms>\`).
@@ -88,6 +88,19 @@ export function collectFiles() {
     );
   }
 
+  const sticky = fs.readFileSync(path.join(ROOT, 'templates', 'sticky-lanes.md'), 'utf8');
+  const openChannel = fs.readFileSync(path.join(ROOT, 'templates', 'open-channel.md'), 'utf8');
+  files['.cursor/rules/hele-session.mdc'] = [
+    '---',
+    'description: hele session — sticky lanes + open channel (doing work is always a background sub-agent)',
+    'alwaysApply: true',
+    '---',
+    '',
+    rewrite(sticky),
+    '',
+    rewrite(openChannel),
+  ].join('\n');
+
   return { files, commands, agents };
 }
 
@@ -101,6 +114,8 @@ cp -r dist/cursor/.cursor /path/to/your/project/
 \`\`\`
 
 Then use the commands in Cursor chat: ${commands.map((c) => `\`/${c}\``).join(' · ')}.
+
+\`.cursor/rules/hele-session.mdc\` is always-on: sticky lanes + open channel (doing work is always a background sub-agent).
 
 - Personas are native agent definitions in \`.cursor/agents/\` (${agents.length}); models are preconfigured (strong work on fable/opus, execution volume on grok) — edit the frontmatter to change.
 - Project memory lives in \`.hele/\` exactly like the Claude Code adapter — the two runtimes share it; you can switch tools mid-feature.

@@ -3,10 +3,12 @@ name: hele-init
 description: >-
   Bootstrap the hele harness in the current project — creates the .hele/
   directory (settings.json, index.json, state.json, LEARNINGS.md, features/),
-  interviews the CEO about design system and beads, initializes the beads
-  database, and reports readiness. Use when the user invokes /hele-init, says
-  "set up hele", "initialize hele", or when any hele skill runs in a project
-  that has no .hele directory yet.
+  installs the sticky-lane session rule so /hele-fast and /hele-iterate
+  stay in force for follow-up prompts, interviews the CEO about design
+  system and beads, initializes the beads database, and reports readiness.
+  Use when the user invokes /hele-init, says "set up hele", "initialize
+  hele", or when any hele skill runs in a project that has no .hele
+  directory yet.
 ---
 
 # hele-init
@@ -21,7 +23,7 @@ Plugin resources referenced below live at `${CLAUDE_PLUGIN_ROOT}` (templates in 
 
 <phase name="0-detect">
 1. Resolve the hele directory: `$HELE_DIR` env var if set, else `.hele/` at the project root (walk up to the git root if needed).
-2. If it already exists: read `settings.json`, check which standard files are missing (`index.json`, `state.json`, `LEARNINGS.md`, `features/`), create ONLY the missing ones, then skip to phase 3 and report what was found vs. filled. Never overwrite an existing file.
+2. If it already exists: read `settings.json`, check which standard files are missing (`index.json`, `state.json`, `LEARNINGS.md`, `features/`), create ONLY the missing ones, then skip to phase 3 and report what was found vs. filled. Never overwrite an existing `.hele/` file. Exception: always rewrite the harness-owned session rule in step 5 (`.cursor/rules/hele-session.mdc`, `.claude/rules/hele-session.md`) from the current templates.
 3. If the project is not a git repository, note it in the report (recommend git — `.hele/` is memory and belongs in version control) but do not run `git init` without asking.
 </phase>
 
@@ -50,7 +52,7 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
      LEARNINGS.md       ← header only (see below)
      features/          ← empty dir (add .gitkeep)
    ```
-   Use the chosen folder name everywhere `.hele/` appears; set `settings.dirName` to it. **Name other than `.hele`** → also write `.helerc` at the project root: `{"dirName": "<name>"}` — the pointer the CLI and every skill use to find the harness dir.
+   Use the chosen folder name everywhere `.hele/` appears; set `settings.dirName` to it. **Name other than `.hele`** → also write `.helerc` at the project root: `{"dirName": "<name>"}` — the pointer the CLI and every skill use to find the harness dir. The sticky-lane rules in step 5 live at the project root (`.cursor/rules/`, `.claude/rules/`), not inside the harness folder — the runtimes only auto-load rules from those paths.
 2. `LEARNINGS.md` header:
    ```markdown
    # Learnings
@@ -63,6 +65,15 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
    - Present → run `bd init --quiet` at the project root if no beads database exists yet.
    - Missing → offer to install now (AskUserQuestion): run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` on yes; on no, give the command (`hele install`, or `brew install beads`) and mark the report `⚠️ beads missing — /hele-plan and /hele-build are blocked until installed`.
 4. If design-system paths were provided: verify each path exists, store in `settings.designSystem.paths`, and recommend running `/hele-design` to let Vega build the map (do not run it automatically).
+5. Session rule — sticky lanes + open channel. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into both of these (create parent dirs). **Always rewrite** these two files — they are harness-owned, not project memory:
+   - `.cursor/rules/hele-session.mdc` — wrap that body in Cursor rule frontmatter:
+     ```
+     ---
+     description: hele session — sticky lanes + open channel (doing work is always a background sub-agent)
+     alwaysApply: true
+     ---
+     ```
+   - `.claude/rules/hele-session.md` — the concatenated body as-is (Claude Code project rule).
 </phase>
 
 <phase name="3-report">

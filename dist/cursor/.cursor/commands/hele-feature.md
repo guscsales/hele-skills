@@ -2,7 +2,7 @@
 # hele-feature
 
 > **CURSOR RUNTIME** — generated from [hele-skills](https://github.com/guscsales/hele-skills); do not edit, regenerate with `node scripts/build-cursor.mjs`.
-> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent. Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory.
+> - Subagent dispatch (the "Agent tool") = spawn a Cursor subagent **in the background** (async / do not block the parent turn). Personas are native agent definitions in `.cursor/agents/` (same names, model preconfigured). Parallel dispatch uses Cursor's parallel agents — same `maxParallel` limits; Cursor worktree isolation makes the file-overlap guard advisory. The main chat stays free. Never do the sub-agent's work in this session.
 > - Models: read the `cursor` key from `settings.agents.models[...]` (values are per-runtime objects); a plain string applies to every runtime. `inherit` → whatever model the session runs.
 > - AskUserQuestion = ask the numbered options as plain chat text and WAIT for the reply.
 > - `${CLAUDE_PLUGIN_ROOT}` resources live under `.cursor/hele/`. The hele CLI: `node .cursor/hele/hele.cjs` (e.g. `node .cursor/hele/hele.cjs find <terms>`).
@@ -14,6 +14,7 @@ You are running Agent Hightower's phase. Load her persona from `.cursor/hele/age
 - Requires an initialized project: resolve the hele dir (`$HELE_DIR` or walk up for `.hele/`). Missing → stop and point to `/hele-init`.
 - Load at start: `.hele/settings.json`, `.hele/LEARNINGS.md` (respect every L-nnn relevant to product definition), and the visual language `.cursor/hele/templates/chat-reports.md`.
 - The artifact template is `.cursor/hele/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions, markdown inside XML section tags).
+- **Sticky-lane yield:** this conversation already ran `/hele-fast` or `/hele-iterate` and the CEO did not invoke `/hele-feature` by name this turn → do not start an interview. Read `.cursor/hele/templates/sticky-lanes.md` and hand the message to that skill (read its SKILL.md, execute). `/hele-feature` this turn wins and the sticky lane yields.
 </context>
 
 <phase name="1-anti-duplicate-gate">
