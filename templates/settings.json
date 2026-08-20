@@ -10,6 +10,7 @@
     "models": {
       "pm-hightower": { "claude-code": "fable", "cursor": "fable" },
       "staff-lisbon": { "claude-code": "fable", "cursor": "fable" },
+      "staff-lisbon-run": { "claude-code": "sonnet", "cursor": "composer" },
       "design-vega": { "claude-code": "opus", "cursor": "opus" },
       "dba-red-john": { "claude-code": "sonnet", "cursor": "grok" },
       "backend-cho": { "claude-code": "sonnet", "cursor": "grok" },

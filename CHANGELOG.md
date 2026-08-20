@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.13.2 — 2026-08-20
+
+- fix: Lisbon's `BUILD: full suite` / `ITERATE: full suite` runs on `staff-lisbon-run` — Sonnet in Claude Code, Composer in Cursor. Review and plan stay on `staff-lisbon` (Fable). She still does not write product fixes; she reports green or the failing owners.
+
 ## v0.13.1 — 2026-08-20
 
 - fix: `/hele-fast` and `/hele-iterate` stay in force for the rest of the conversation — follow-up prompts keep beads and the agent chain without re-typing the slash command. A different `/hele-*` (except `/hele-status`) yields. `/hele-init` installs the always-on session rule; re-run on an existing project to fill it.

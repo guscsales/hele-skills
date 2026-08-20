@@ -65,7 +65,7 @@ Skip this phase when the work was tests-only (Wylie already did it).
 1. 1–N beads issues on the increment epic, title `ITERATE: <task>`, owner per Lisbon's mapping (Cho / Van Pelt / Jane / Rigsby). File-overlap guard + `maxParallel` as in /hele-build.
 2. Dispatch one **background** engineer subagent per task — same contract as /hele-build: persona + task + relevant PRD rules + LEARNINGS; TDD; targeted tests only; test economy; report files touched. Description `[AGENT BE] Cho — ITERATE: <task>` (role tag matches the owner). `model` from `settings.agents.models` (role-prefixed; per-runtime object — read your runtime's key; `inherit` → omit). Announce. Stay free.
 3. On return: read the report only. `bd create` `REVIEW: <task>` and dispatch **background** `[AGENT STAFF] Lisbon — REVIEW: <task>`, model `staff-lisbon` (include Hightower's conformance check in the prompt when the PRD was patched). Pass → close. Fix-ups → engineer beads. Migration tasks get Red John's extra check (background) before close.
-4. `bd create` `ITERATE: full suite`. Dispatch **background** `[AGENT STAFF] Lisbon — ITERATE: full suite`. Failures → owning engineer. You do not run the suite here.
+4. `bd create` `ITERATE: full suite`. Dispatch **background** `[AGENT STAFF] Lisbon — ITERATE: full suite`, `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit). Prompt: you are `[AGENT STAFF] Lisbon` running the suite. You do NOT write product fixes. You run the suite once and report green or the failing owners. Failures → owning engineer. You do not run the suite here.
 </phase>
 
 <phase name="4-route">
