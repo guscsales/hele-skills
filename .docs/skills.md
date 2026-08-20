@@ -56,7 +56,7 @@ Agent Wylie (QA) writes the feature's test contract from the PRD — deliberatel
 The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (dispatch, structural review) driving the engineer agents through the plan.
 
 - `bd ready` → dispatches up to `maxParallel` tasks to engineer subagents in the **background** (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), each with its persona, task, relevant PRD rules, and learnings. The main chat stays free.
-- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The full suite is a `BUILD: full suite` sub-agent.
+- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The full suite is a `BUILD: full suite` sub-agent on `staff-lisbon-run` (Sonnet in Claude Code, Composer in Cursor).
 - **File-overlap guard:** tasks sharing a declared file never run in parallel.
 - **Test economy:** engineers iterate red→green on their task's unit files only; expensive suites (containers, migrations) run once per task; the FULL suite runs exactly once, at the end.
 - **DB gate enforced:** migration tasks don't dispatch without an approved DB_CHANGES, and Red John checks the written migration against it before the task closes.

@@ -96,6 +96,8 @@ test('mergeCursorModels expands strings and fills missing cursor keys', () => {
   assert.deepEqual(models['security-jane'], { 'claude-code': 'fable', cursor: 'fable' });
   assert.deepEqual(models['design-vega'], { 'claude-code': 'opus', cursor: 'opus' });
   assert.deepEqual(models['frontend-van-pelt'], DEFAULT_MODELS['frontend-van-pelt']);
+  assert.deepEqual(DEFAULT_MODELS['staff-lisbon-run'], { 'claude-code': 'sonnet', cursor: 'composer' });
+  assert.deepEqual(models['staff-lisbon-run'], DEFAULT_MODELS['staff-lisbon-run']);
   assert.ok(touched.includes('backend-cho'));
   assert.ok(touched.includes('security-jane'));
   assert.ok(touched.includes('frontend-van-pelt'));
