@@ -167,17 +167,7 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
 
 ## Cursor
 
-The harness also runs in Cursor — same skills, same memory, generated as a native adapter. The adapter ships inside the CLI — install it into any project with one command:
-
-```bash
-hele cursor
-```
-
-That writes `.cursor/`: every `/hele-*` skill as a Cursor command, every persona as a native agent definition (`.cursor/agents/`, model preconfigured — strong work on fable/opus, execution volume on grok), templates and the hele CLI itself bundled under `.cursor/hele/`. (`node scripts/build-cursor.mjs` regenerates the same adapter into `dist/cursor/` for contributors; copying that `.cursor` folder works too.)
-
-If `.hele/settings.json` already exists, `hele cursor` also syncs `agents.models` for the Cursor runtime (adds missing agent keys / `cursor` values from template defaults; expands plain strings to per-runtime objects; never overwrites an existing `cursor` choice).
-
-`.hele/` is shared between runtimes — start a feature in Claude Code, continue it in Cursor, same memory. The adapter is generated from the core: never edit `dist/cursor` by hand.
+Cursor reads the same Claude Code plugin skills. Install `hele-skills@hele` once; `/hele-*` works in both runtimes against the shared `.hele/` folder. A separate Cursor adapter (`hele cursor`) is parked for now.
 
 ## Project layout (created by /hele-init)
 
@@ -252,7 +242,6 @@ hele find <query...>     search the feature index (agents MUST use this, never a
 hele find --list         list all registered features
 hele config get|set|add  read/write .hele/settings.json by dot path
 hele install [--check]   install the beads CLI (brew or official script)
-hele cursor [--dir]      install the Cursor adapter into a project
 hele --help              banner + full listing
 ```
 

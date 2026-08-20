@@ -11,13 +11,7 @@ claude plugin marketplace add guscsales/hele-skills
 claude plugin install hele-skills@hele
 ```
 
-For Cursor, install the adapter into your project (after setting up the CLI below):
-
-```bash
-hele cursor
-```
-
-On an existing project this also syncs `agents.models` in `.hele/settings.json` with Cursor runtime defaults (missing keys / missing `cursor` values only).
+Cursor picks up the same plugin skills — no extra adapter step.
 
 Optional but recommended — the `hele` CLI available everywhere:
 

@@ -94,11 +94,10 @@ export function collectFiles() {
 function adapterReadme(commands, agents) {
   return `# hele-skills — Cursor adapter (generated)
 
-Install into a project (either way):
+The \`hele cursor\` installer is parked. To drop this generated adapter into a project by hand:
 
 \`\`\`bash
-hele cursor                # from the project root, using the hele CLI
-cp -r dist/cursor/.cursor /path/to/your/project/   # or manually, from this repo
+cp -r dist/cursor/.cursor /path/to/your/project/
 \`\`\`
 
 Then use the commands in Cursor chat: ${commands.map((c) => `\`/${c}\``).join(' · ')}.

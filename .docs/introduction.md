@@ -1,6 +1,6 @@
 # Introduction
 
-hele-skills is a feature-delivery harness for Claude Code (with a generated Cursor adapter). It gives an AI agent team the one thing they don't have: memory. Every feature leaves behind documents that explain WHAT it is, WHY it exists, HOW it was built, and HOW to validate it — so future sessions read instead of guessing.
+hele-skills is a feature-delivery harness for Claude Code (Cursor reads the same plugin skills). It gives an AI agent team the one thing they don't have: memory. Every feature leaves behind documents that explain WHAT it is, WHY it exists, HOW it was built, and HOW to validate it — so future sessions read instead of guessing.
 
 The name honors Helena. Every skill starts with `/hele-*`.
 

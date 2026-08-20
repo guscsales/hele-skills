@@ -1,10 +1,9 @@
 # hele-skills — Cursor adapter (generated)
 
-Install into a project (either way):
+The `hele cursor` installer is parked. To drop this generated adapter into a project by hand:
 
 ```bash
-hele cursor                # from the project root, using the hele CLI
-cp -r dist/cursor/.cursor /path/to/your/project/   # or manually, from this repo
+cp -r dist/cursor/.cursor /path/to/your/project/
 ```
 
 Then use the commands in Cursor chat: `/hele-build` · `/hele-design` · `/hele-fast` · `/hele-feature` · `/hele-init` · `/hele-iterate` · `/hele-paper-to-code` · `/hele-plan` · `/hele-qa` · `/hele-retro` · `/hele-status` · `/hele-stubs` · `/hele-verify-work`.
