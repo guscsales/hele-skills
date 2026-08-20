@@ -5,7 +5,9 @@ description: >-
   from TEST_STUBS and the PRD into increments/NNN/VERIFY.md, then walks the
   CEO through them step by step in the real app, recording every verdict.
   Use when the user invokes /hele-verify-work, asks to manually test/verify
-  a hele increment, or after /hele-qa passes.
+  a hele increment, after /hele-qa passes, or when /hele-iterate routes
+  back because stubs were untouched. A late discovery mid-walk goes to
+  /hele-iterate, not /hele-feature.
 ---
 
 # hele-verify-work
@@ -29,7 +31,7 @@ Automation (/hele-qa) proves the rules; the CEO's eyes catch what code can't —
 Walk the CEO through it, one flow at a time — conversational, not a dump:
 1. Present the flow: goal, steps, what to expect. Then hand over: "your turn — tell me what you see".
 2. The CEO reports back. Record the verdict in VERIFY.md immediately: ✅ verified / ❌ issue (his words captured verbatim) / ⏭️ skipped (reason).
-3. An issue → triage on the spot: bug (→ beads task, title `VERIFY: <one line>`, owner per Lisbon's mapping) or behavior-change request (→ note for /hele-feature — the PRD is where behavior changes, never silently in code).
+3. An issue → triage on the spot: bug (→ beads task, title `VERIFY: <one line>`, owner per Lisbon's mapping) or a late discovery / behavior-change request (→ `/hele-iterate` — Lisbon folds it back into this increment; never silently in code, never a new `/hele-feature` cycle). If the CEO says they want it changed now, immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-iterate/SKILL.md` and execute it in this same turn.
 4. The CEO can stop anytime — partial runs keep their record; re-running resumes from the first `pending` flow.
 </phase>
 
@@ -40,7 +42,7 @@ Forbidden: wrapping the report in a markdown code fence; drawing box-drawing div
 
 Route by outcome (Next table):
 - **All verified** → `/hele-retro` — close the increment properly.
-- **Issues found** → `/hele-build` (bugs are in beads) and/or `/hele-feature` (behavior changes go through the PRD).
+- **Issues found** → `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens).
 </phase>
 
 <rules>

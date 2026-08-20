@@ -29,7 +29,8 @@ HARD GATE — no feature is created before searching.
    - **Matches found** → show them and ask (AskUserQuestion): "Is this an update to <slug>, or a brand-new feature?" Options: update the top match / another listed match / genuinely new. Never decide alone.
    - **No matches** → say so ("no existing feature matches — treating as new") and proceed as new.
 4. A content-only match (index miss) means aliases are missing — fix `index.json` on the spot as part of this run.
-5. **Fast-lane triage:** the request smells small — a fix/tweak/adjustment to an existing feature, no new user-facing flow, no schema or security surface — suggest the fast lane before starting the full interview (AskUserQuestion): "This looks fast-lane sized. /hele-fast ships it with one artifact instead of the full cycle — take it?" Options: yes take /hele-fast / no, full flow. On yes → stop here and run /hele-fast with the same request.
+5. **Iterate-lane triage:** `state.json.activeIncrement` exists, `phase` is `built` | `qa` | `verifying` | `iterating`, and this request is a late find on that same feature — stop and run `/hele-iterate` with the same request (read `${CLAUDE_PLUGIN_ROOT}/skills/hele-iterate/SKILL.md` and execute in this turn). Do not start a new interview or increment.
+6. **Fast-lane triage:** the request smells small — a fix/tweak/adjustment to an existing feature, no new user-facing flow, no schema or security surface — suggest the fast lane before starting the full interview (AskUserQuestion): "This looks fast-lane sized. /hele-fast ships it with one artifact instead of the full cycle — take it?" Options: yes take /hele-fast / no, full flow. On yes → stop here and run /hele-fast with the same request.
 </phase>
 
 <phase name="2-interview">

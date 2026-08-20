@@ -23,7 +23,7 @@ Render the Status Board (chat-reports.md canonical block) as chat text — never
 
 Forbidden: wrapping the board in a markdown code fence; drawing box-drawing divider lines.
 
-End with the Next table — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; all green, no active increment → /hele-feature for the next idea).
+End with the Next table — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; phase verifying with a late find → /hele-iterate; all green, no active increment → /hele-feature for the next idea).
 </phase>
 
 <rules>

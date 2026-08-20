@@ -62,6 +62,7 @@ export const FLOW_DIAGRAM = `
  ╭─ anytime ────────────────────────────────────────────╮
  │ /hele-init    bootstraps .hele/ (run once)           │
  │ /hele-status  the board: versions, drift, next       │
+ │ /hele-iterate post-build discovery, same increment   │
  │ /hele-fast    small low-risk change, one artifact    │
  ╰──────────────────────────────────────────────────────╯
 `.replace(/^\n/, '').replace(/\n$/, '');

@@ -63,6 +63,7 @@ Root causes with evidence, lessons promoted to LEARNINGS.md — which every futu
 
 - `/hele-status` — the board: every feature, doc versions, drift warnings, the next useful action.
 - `/hele-fast "fix the empty-state message"` — small, low-risk changes ship with one artifact instead of four. Hard disqualifiers (schema, security, new flows) exit to the full cycle automatically.
+- `/hele-iterate` — already past build and you just found something you did not plan for. Agent Lisbon folds it back into the open increment (beads, PRD patch if the living doc would lie, stubs if the flow changed) and re-verifies only the affected surface. Complementary to `/hele-fast`, which starts a new small increment.
 - `/clear` between phases — everything is saved on disk; a fresh context is cheaper. The reports tell you when it's safe.
 
 ## What you end up with

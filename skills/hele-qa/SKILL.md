@@ -5,8 +5,9 @@ description: >-
   e2e tests, runs the WHOLE suite deterministically, updates every stub's
   status, and routes failures back to the owning engineers as beads tasks.
   Use when the user invokes /hele-qa, asks for e2e tests of a hele feature,
-  after /hele-build finishes, or invokes /hele-qa --generate-fixes-report to
-  reconstruct the QA_REPORT for a run that already happened.
+  after /hele-build finishes, after /hele-iterate added or rewrote stubs,
+  or invokes /hele-qa --generate-fixes-report to reconstruct the QA_REPORT
+  for a run that already happened.
 ---
 
 # hele-qa

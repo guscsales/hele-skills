@@ -115,8 +115,9 @@ traces (no re-run), then the same approval gate back to build.`,
 Wylie distills the increment's main flows (3–8 human journeys, not one per
 stub) into VERIFY.md, preps the app and test data, then walks you through
 it step by step — you act, you report, he records every verdict verbatim.
-Issues become beads tasks (bugs) or PRD notes (behavior changes). Partial
-runs keep their record and resume where you stopped.`,
+Issues become /hele-iterate on this increment (bugs or late
+behavior), not a new /hele-feature cycle. Partial runs keep their
+record and resume where you stopped.`,
   },
   {
     name: 'retro',
@@ -140,7 +141,25 @@ flow), a 1–3 task micro-plan in beads, TDD build, memory sync (a behavior
 change still patches the PRD and stubs — living docs never lie), full test
 suite once, affected stubs in the browser, and a single FAST.md instead of
 four documents. /hele-feature suggests it automatically when a request
-smells fast-lane sized.`,
+smells fast-lane sized. An increment already in QA or verify is not
+fast — that discovery goes to /hele-iterate.`,
+  },
+  {
+    name: 'iterate',
+    agent: 'Agent Lisbon',
+    artifact: 'beads on the open increment',
+    question: 'THE ITERATE LOOP',
+    detail: `Already past build and you just found something you did not
+plan for? /hele-iterate is the complementary loop — not a new increment,
+not the full cycle. Agent Lisbon classifies the discovery and dispatches
+only the changed slice via beads: Hightower patches the PRD when the
+living doc would lie, Wylie updates stubs when a flow or contract
+changed, Vega only when you asked for a new screen (PT or EN), Red John
+and Jane when schema or security is touched (gates stay, they are not
+refusals). Engineers build the ITERATE: tasks with the same TDD
+discipline as /hele-build. New or rewritten stubs → /hele-qa; stubs
+untouched → /hele-verify-work. The increment stays open; you can run it
+again.`,
   },
   {
     name: 'status',

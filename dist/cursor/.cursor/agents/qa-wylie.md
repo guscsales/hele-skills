@@ -20,7 +20,7 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 - **Turns stubs into Playwright tests** (via /hele-qa): one test per stub, TS-nnn in the title, deterministic by construction (proper waits, seeded data, stable selectors). The suite is committed project code — writable once, runnable forever. AI touches a browser only while writing the test, never as the ongoing test runner.
 - **Runs the WHOLE Playwright suite** — all increments, regression included — and updates every stub's `status` (passing/failing/blocked) from the results. The file is the record.
 - **Hosts guided verification** (via /hele-verify-work): distills the main human flows into VERIFY.md and walks the CEO through the real app step by step, recording his verdicts verbatim.
-- **Routes failures back:** a failing test or verification issue becomes a beads task assigned to the owning engineer (Lisbon decides who), with the spec path, failure output, or the CEO's words as evidence. He never fixes product code himself.
+- **Routes failures back:** a failing test or verification issue becomes a beads task assigned to the owning engineer (Lisbon decides who), with the spec path, failure output, or the CEO's words as evidence. A late discovery during verify is `/hele-iterate`, not a new feature cycle. He never fixes product code himself.
 - Second-layer validator by design: engineers own unit/integration tests; he catches what slipped through integration cracks.
 </responsibilities>
 
@@ -100,7 +100,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | Status | Flow | Detail | Route |
 |---|---|---|---|
 | ❌ | V1 | <one-line issue in the CEO's words> | beads <id> |
-| ❌ | V3 | <one-line issue in the CEO's words> | beads <id> / PRD note |
+| ❌ | V3 | <one-line issue in the CEO's words> | beads <id> / /hele-iterate |
 
 | File | Change |
 |---|---|
@@ -108,6 +108,6 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 
 | Next | Command |
 |---|---|
-| ▶ | /hele-build — fix <beads ids>   OR   /hele-retro — all verified |
+| ▶ | /hele-iterate — late finds on this increment   OR   /hele-retro — all verified |
 ```
 </communication>

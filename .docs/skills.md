@@ -2,7 +2,7 @@
 
 Every `/hele-*` command, in pipeline order. Each skill reports in chat with markdown tables (never box-drawing divider lines). When a decision is yours, the report ends with an **Actions** table: typing `1` approves and immediately starts the next skill.
 
-Jump to: [init](#hele-init) · [feature](#hele-feature) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work) · [retro](#hele-retro) · [fast](#hele-fast) · [status](#hele-status) · [paper-to-code](#hele-paper-to-code)
+Jump to: [init](#hele-init) · [feature](#hele-feature) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work) · [retro](#hele-retro) · [fast](#hele-fast) · [iterate](#hele-iterate) · [status](#hele-status) · [paper-to-code](#hele-paper-to-code)
 
 ## /hele-init
 
@@ -20,7 +20,7 @@ Agent Hightower (PM) turns your idea into an approved PRODUCT_DESCRIPTION — or
 - Interviews you in short rounds (max 4 questions each) until scope and business rules are unambiguous.
 - Writes the PRD: WHAT/WHY, numbered business rules (each `BR-n` as a heading with prose — tables for matrices), named mermaid flows (each with a short explanatory paragraph and a Branch|Rule table of the BR-n ids that diagram covers), in/out of scope, glossary. XML section tags stay so agents can find sections; the markdown inside is for you. Technical hints you drop go to NOTES.md for the planner — the PRD stays pure product.
 - Living document: patch versions only (1.0 → 1.1), written as current state, superseded rules rewritten not appended. A ground-up rebuild is a new feature folder, never a major bump.
-- Suggests the [fast lane](#hele-fast) when your request smells small.
+- Suggests the [fast lane](#hele-fast) when your request smells small. A late find on an increment already in QA or verify goes to [`/hele-iterate`](#hele-iterate) instead of a new interview.
 
 ## /hele-design
 
@@ -85,7 +85,7 @@ Guided human verification. Automation proves the rules; your eyes catch what cod
 
 - Loads the increment's VERIFY.md (drafted at stub time): 3–8 main human flows with numbered steps and expected results.
 - Preps the ground — app running, logins and test data listed — then walks you through one flow at a time. You act, you report; Wylie records every verdict verbatim.
-- Issues triage on the spot: bug → beads task; behavior-change request → PRD note (behavior never changes silently in code).
+- Issues triage on the spot: bug or a late behavior find → [`/hele-iterate`](#hele-iterate) on this increment (not a new `/hele-feature` cycle).
 - Stop anytime — partial runs keep their record and resume from the first pending flow.
 
 ## /hele-retro
@@ -104,6 +104,17 @@ The fast lane: small, low-risk changes with proportional ceremony — one artifa
 - Classifies the change: bugfix (docs stay untouched) vs behavior change (the PRD rule and stubs are patched — living docs never lie, no matter the lane).
 - 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run.
 - FAST.md records what/why, files, tests, memory sync, and evidence.
+- An increment already in QA or verify is not fast — that discovery goes to [`/hele-iterate`](#hele-iterate).
+
+## /hele-iterate
+
+The complementary loop: you are already past build and just found something you did not plan for. Agent Lisbon folds it back into the open increment — no new increment, no frozen-plan rewrite, no full formal cycle.
+
+- Lisbon classifies the discovery (bug / behavior / tests-only / new-screen / schema / security) and dispatches only the people who must move, via `ITERATE:` beads on the same epic.
+- Behavior → Hightower patches the PRD when the living doc would lie, even if you never asked for a PRD update; Wylie follows with stubs whenever a flow or contract changed.
+- New screen → Vega only when you asked for a screen, in PT or EN (`tela`, `new screen`, `we need a UI for this`). Implied-but-unsaid → she asks once.
+- Schema and security stay in the loop with Red John / Jane gates — they are not hard refusals here.
+- New or rewritten stubs → `/hele-qa`. Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
 
 ## /hele-status
 

@@ -10,6 +10,22 @@ A feature-delivery harness for Claude Code. Every skill starts with `/hele-*`.
 
 Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-aware issue tracker built for agents: every planned task becomes a beads issue, the build loop dispatches whatever `bd ready` unblocks, and an interrupted session resumes exactly where it stopped — the state lives in beads, not in the chat.
 
+## The vision
+
+Everyone is talking about AI and coding agents. After some time reflecting, I reached a surprising conclusion: in terms of software engineering structure, nothing changed. What changed is the scale and who operates that structure. It used to be a boss with **10 humans on the team**. Now it's a programmer with **10 agents on the team**.
+
+See if this looks like your context at a tech company.
+
+There is a task. A product manager understands the what, the why, and how to validate that feature. Along the way they ask a lot of questions to the people involved: sales, the customer themselves, the company's CEO. They still don't talk to the software engineer. In the end, they consolidate everything into a file — known as a *"Product Requirement"*, *"PRD"*, *"Product Scope"*, *"Epic"*. It has plenty of fancy names.
+
+Once that exists, the staff engineer (or the engineering manager) picks up the file, understands it (or goes back to product with questions) and, together with the team, splits the work across frontend, backend, design, infra — whatever it takes. Now the group has its tasks and executes like a conductor coordinating an orchestra. When someone gets stuck, it escalates to the manager, the staff engineer, or product. If that person can't solve it either, they go find the answers and come back with direction. The cycle repeats until what needs to be finished is finished.
+
+At the end, a QA (or the CI itself) validates what was built: opens the browser, tests it. The product person does that job too. Bottom line: input ↔ output. Feature delivered.
+
+The next step is talking about it. The famous retrospective. Like any decent agile team, at the end of the cycle everyone sits together and reviews what worked, what didn't, which instruction was ambiguous, which step caused rework, and plenty more. Everyone leaves knowing a bit more than when they came in, and the next cycle costs less.
+
+In the world of AI and agents, why should this flow be any different? It shouldn't. The difference is that now that whole team is you and several Claude Codes running together.
+
 ## The flow
 
 ```
@@ -73,29 +89,63 @@ Work is organized with [beads](https://beads.gascity.com/) (`bd`), a dependency-
  ╭─ anytime ────────────────────────────────────────────╮
  │ /hele-init    bootstraps .hele/ (run once)           │
  │ /hele-status  the board: versions, drift, next       │
+ │ /hele-iterate post-build discovery, same increment   │
  │ /hele-fast    small low-risk change, one artifact    │
  ╰──────────────────────────────────────────────────────╯
 ```
 
+### The iterate loop
+
+`/hele-iterate` is the complementary loop to the whole flow. You are already past build - QA, verify, or any post-build phase - and you just found an interaction you did not plan for. You need the affected slice re-run: not a new increment, not the full formal cycle.
+
+Agent Lisbon is the boss. She classifies the discovery and dispatches only the people who must move, via beads on the same epic. She does not rewrite the frozen `EXECUTION_PLAN`.
+
+- If the living PRD would lie after the change, she calls Agent Hightower to patch it — even when you never said "update the PRD".
+- Vega is called only when you ask for a new screen (PT or EN: `tela`, `new screen`, `we need a UI for this`).
+- New or rewritten test stubs go back to `/hele-qa`. If stubs did not change, the loop returns to `/hele-verify-work`.
+- Schema and security stay in the loop with their usual gates (Red John, Jane). They are not hard refusals here.
+
+The increment stays open. You can iterate again.
+
+```
+you: "wait — I forgot this", "actually this should do X" or similar
+        │
+        ▼
+  /hele-iterate   (Agent Lisbon)
+        │
+        ├─ bug              → beads → Agent Cho / Agent Van Pelt / Agent Jane
+        ├─ behavior         → Agent Hightower (patch PRD) → Agent Wylie (test stubs) → engineers
+        ├─ tests only       → Agent Wylie
+        ├─ new screen       → Agent Vega
+        └─ schema/security  → Agent Red John / Agent Jane
+        │
+        ▼
+  re-verify only the affected surface
+        │
+        └── can run again on the same increment
+```
+
 ### The fast lane
 
-Not every change deserves seven phases. `/hele-fast` ships small, low-risk changes with proportional ceremony: triage → 1–3 beads tasks → TDD build → memory sync → full test suite once + affected e2e specs → a single `FAST.md` instead of four documents. Hard disqualifiers keep it honest — DB schema, security surface, new user-facing flows, or cross-feature impact exit to the full flow automatically. A behavior change still patches the PRD and stubs: the living docs never lie, no matter the lane.
+Not every change deserves seven phases. `/hele-fast` ships a small, low-risk change from scratch — a new increment, it finds the right place to write the PRD and do the thing.
 
-## The vision
+Triage → 1–3 tasks → TDD build → memory sync → full suite once + affected e2e specs.
 
-Everyone is talking about AI and coding agents. After some time reflecting, I reached a surprising conclusion: in terms of software engineering structure, nothing changed. What changed is the scale and who operates that structure. It used to be a boss with **10 humans on the team**. Now it's a programmer with **10 agents on the team**.
+Hard disqualifiers keep it honest. Any of these exits to the full flow automatically: DB schema, security surface, new user-facing flow, or cross-feature impact. A behavior change still patches the PRD and stubs. The living docs never lie, no matter the lane.
 
-See if this looks like your context at a tech company.
-
-There is a task. A product manager understands the what, the why, and how to validate that feature. Along the way they ask a lot of questions to the people involved: sales, the customer themselves, the company's CEO. They still don't talk to the software engineer. In the end, they consolidate everything into a file — known as a *"Product Requirement"*, *"PRD"*, *"Product Scope"*, *"Epic"*. It has plenty of fancy names.
-
-Once that exists, the staff engineer (or the engineering manager) picks up the file, understands it (or goes back to product with questions) and, together with the team, splits the work across frontend, backend, design, infra — whatever it takes. Now the group has its tasks and executes like a conductor coordinating an orchestra. When someone gets stuck, it escalates to the manager, the staff engineer, or product. If that person can't solve it either, they go find the answers and come back with direction. The cycle repeats until what needs to be finished is finished.
-
-At the end, a QA (or the CI itself) validates what was built: opens the browser, tests it. The product person does that job too. Bottom line: input ↔ output. Feature delivered.
-
-The next step is talking about it. The famous retrospective. Like any decent agile team, at the end of the cycle everyone sits together and reviews what worked, what didn't, which instruction was ambiguous, which step caused rework, and plenty more. Everyone leaves knowing a bit more than when they came in, and the next cycle costs less.
-
-In the world of AI and agents, why should this flow be any different? It shouldn't. The difference is that now that whole team is you and several Claude Codes running together.
+```
+you: "fix the empty-state", "change this to be X", or similar
+        │
+        ▼
+  /hele-fast   (Agents Hightower + Lisbon)
+        │
+        ├─ schema / security / new flow / cross-feature  → full cycle
+        ├─ bugfix      → 1–3 agents → TDD → suite (docs stay)
+        └─ behavior    → 1–3 agents → TDD → patch PRD + stubs → suite
+        │
+        ▼
+  one FAST.md
+```
 
 ## The team
 

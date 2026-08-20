@@ -19,7 +19,7 @@ In the world of AI agents, why should this flow be different? It shouldn't. The 
 ## Core beliefs
 
 - **Agents have no memory — we build it for them.** Living documents (PRD, test stubs, learnings) carry the current truth; per-increment documents (plan, design spec, QA report, retro) freeze the history.
-- **Process proportional to risk.** A full cycle for real features; a fast lane for small changes; hard gates (database, security) that no lane skips.
+- **Process proportional to risk.** A full cycle for real features; a fast lane for small changes; an iterate loop for post-build discoveries on the open increment; hard gates (database, security) that no lane skips.
 - **The human is the CEO.** Agents ask questions during planning — that's a feature, not a failure. Approvals are explicit, and dangerous actions (schema changes, undecided contracts) block until you decide.
 - **State lives on disk, not in the chat.** beads tracks tasks; documents track decisions. An interrupted session resumes exactly where it stopped.
 
@@ -32,7 +32,7 @@ In the world of AI agents, why should this flow be different? It shouldn't. The 
 ## What you'll find here
 
 - [Getting Started](getting-started.md) — install, initialize, ship your first feature.
-- [Skills Reference](skills.md) — the twelve `/hele-*` commands, phase by phase.
+- [Skills Reference](skills.md) — the `/hele-*` commands, phase by phase.
 - [CLI Reference](cli.md) — the `hele` terminal companion: search, config, adapters.
 
 Next: [Getting Started](getting-started.md)

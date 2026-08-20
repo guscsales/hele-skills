@@ -15,15 +15,16 @@ Fast is proportional process, not skipped process. What shrinks is ceremony (4 d
 </philosophy>
 
 <phase name="1-triage">
-1. Requires `.hele/` (missing → /hele-init first). Anti-duplicate gate as always: `node .cursor/hele/hele.cjs find` with 2–3 probes from the CEO's words. The change belongs to the matched feature; no match → confirm with the CEO (AskUserQuestion): attach to a feature they name, or file under the `maintenance` feature (create its index entry on first use — summary "small maintenance fixes; behavior rules live in the code", no PRD).
-2. **Disqualifiers — any ONE present → REFUSE the fast lane** and route to the full flow (/hele-feature for new behavior, /hele-plan for planned work), naming which rule tripped:
+1. Requires `.hele/` (missing → /hele-init first). **Post-build increment in flight:** `state.json.activeIncrement` exists and `phase` is `built` | `qa` | `verifying` | `iterating`, and the change belongs to that feature → this is not the fast lane. Stop and run `/hele-iterate` with the same request (read `.cursor/hele/skills/hele-iterate/SKILL.md` and execute in this turn). Fast starts a new increment; iterate folds a late find into the one already open.
+2. Anti-duplicate gate as always: `node .cursor/hele/hele.cjs find` with 2–3 probes from the CEO's words. The change belongs to the matched feature; no match → confirm with the CEO (AskUserQuestion): attach to a feature they name, or file under the `maintenance` feature (create its index entry on first use — summary "small maintenance fixes; behavior rules live in the code", no PRD).
+3. **Disqualifiers — any ONE present → REFUSE the fast lane** and route to the full flow (/hele-feature for new behavior, /hele-plan for planned work), naming which rule tripped:
    - touches DB schema, indexes, migrations, or production data (Red John's territory)
    - touches security surface: auth, permissions, payments, PII (Jane's territory)
    - introduces a new user-facing flow (that's a feature, not a fix)
    - cross-feature impact (changes behavior another feature's PRD describes)
    There is deliberately NO file-count limit — a mechanical rename touching 30 files is still fast; a 2-file schema change is not.
-3. Classify the change: **bugfix** (code violates a rule the PRD already states — docs stay untouched) or **behavior change** (a BR-n or flow will read differently after — memory sync in phase 4 is mandatory).
-4. One-line triage verdict in chat: lane accepted, feature, classification. No approval gate here — fast earns its speed; the CEO interrupts if the verdict is wrong.
+4. Classify the change: **bugfix** (code violates a rule the PRD already states — docs stay untouched) or **behavior change** (a BR-n or flow will read differently after — memory sync in phase 4 is mandatory).
+5. One-line triage verdict in chat: lane accepted, feature, classification. No approval gate here — fast earns its speed; the CEO interrupts if the verdict is wrong.
 </phase>
 
 <phase name="2-micro-plan">

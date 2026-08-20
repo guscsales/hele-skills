@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.13.0 — 2026-08-20
+
+- feat: `/hele-iterate` — post-build discovery loop on the open increment. Agent Lisbon classifies a late find and dispatches only the changed slice via beads (Hightower / Wylie / Vega / Red John / Jane / engineers). Complementary to `/hele-fast`. New or rewritten stubs → `/hele-qa`; stubs untouched → `/hele-verify-work`.
+
 ## v0.12.5 — 2026-08-18
 
 - feat(feature): FEATURE BRIEF skips `/hele-design` when no new screens need design — routes to `/hele-plan` with a parenthetical; NOTES.md signals Lisbon so the design gate does not bounce back
