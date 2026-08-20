@@ -41,7 +41,7 @@ Then: create `increments/NNN-<slug>/` if it didn't exist, set `state.json.active
 </phase>
 
 <phase name="3-spec">
-**Design work runs on Vega's model.** If the session model already matches `settings.agents.models["design-vega"]` (per-runtime object — your runtime's key; default `opus`), work inline. Otherwise dispatch ONE subagent, description `[AGENT DESIGN] Vega — DESIGN_SPEC increment NNN`, `model` from that setting (`inherit` → omit), prompt = persona + PRD flows/rules + DESIGN_SYSTEM.md + the template + the tool/devices answers + everything below (absolute paths); it writes the spec file and creates the artboards (design MCP tools are reachable from subagents via ToolSearch). Main session reviews the result and runs phase 4. Questions and approval NEVER move to the subagent.
+**Design work always runs as a background Vega sub-agent** — never inline, even when the session model matches hers. Dispatch ONE **background** subagent, description `[AGENT DESIGN] Vega — DESIGN_SPEC increment NNN`, `model` from `settings.agents.models["design-vega"]` (per-runtime; default `opus`; `inherit` → omit), prompt = persona + PRD flows/rules + DESIGN_SYSTEM.md + the template + the tool/devices answers + everything below (absolute paths); it writes the spec file and creates the artboards (design MCP tools are reachable from subagents via ToolSearch). Announce. Stay free. Main session reads only her report, then runs phase 4. Questions and approval NEVER move to the subagent.
 
 Write `increments/NNN-<slug>/DESIGN_SPEC.md` from the template — v1.0 draft, `based_on: PRODUCT_DESCRIPTION v<X.Y>`.
 

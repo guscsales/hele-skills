@@ -19,7 +19,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 </context>
 
 <phase name="1-derive">
-**Stub authoring is judgment work — it runs on the strong model.** If the session model is already the one in `settings.agents.models["qa-wylie-stubs"]` (per-runtime object — your runtime's key; default `fable`), derive inline. Otherwise dispatch ONE subagent, description `[AGENT QA] Wylie — derive stubs`, `model` from that setting (`inherit` → omit), prompt = persona + PRD + existing TEST_STUBS + the template + rules 1–4 below; it returns the drafted stubs for the main session to write and present.
+**Stub authoring is judgment work — it always runs as a background Wylie sub-agent**, never inline. Dispatch ONE **background** subagent, description `[AGENT QA] Wylie — derive stubs`, `model` from `settings.agents.models["qa-wylie-stubs"]` (per-runtime; default `fable`; `inherit` → omit), prompt = persona + PRD + existing TEST_STUBS + the template + rules 1–4 below; he writes the stubs file and returns the draft for the main session to present. Announce. Stay free. Questions and approval NEVER move to the subagent.
 
 1. Walk every `### BR-n` and every named `<flows>` diagram of the PRD version being covered. Each testable behavior → one stub: **Given** (starting state) / **When** (action) / **Then** (observable outcome).
 2. Cover the unhappy paths the rules imply — empty states, limits, permission denials, the `no` branches of the flow diagrams. A rules-only suite that tests happy paths is not a contract.

@@ -26,7 +26,7 @@ cd cli && npm link        # from a clone of this repo
 /hele-init
 ```
 
-This creates the harness folder (`.hele/` by default — you pick the name), asks about your design system, and makes sure [beads](https://beads.gascity.com/) (`bd`) — the dependency-aware issue tracker the harness runs on — is installed. Run it once per project; it's idempotent and never overwrites.
+This creates the harness folder (`.hele/` by default — you pick the name), asks about your design system, installs the sticky-lane session rule (so `/hele-fast` and `/hele-iterate` keep running on follow-up prompts), and makes sure [beads](https://beads.gascity.com/) (`bd`) — the dependency-aware issue tracker the harness runs on — is installed. Run it once per project; it's idempotent and never overwrites. Already initialized? Re-run to fill the session rule if it's missing.
 
 ## Ship your first feature
 
@@ -51,14 +51,16 @@ The coordination loop: ready tasks dispatch to engineer agents in parallel (back
 Wylie turns the stubs into real Playwright e2e tests (installing Playwright if needed) and runs the whole suite — regression included. Failures are classified in a QA report and, with your approval, flow back via `/hele-build --from-qa`. Missing or stale report after a run already happened? `/hele-qa --generate-fixes-report` reconstructs it (no re-run) and opens the same gate. When automation is green, `/hele-verify-work` walks you through the main flows in the real app, step by step.
 
 **7. Close it** — `/hele-retro`
-Root causes with evidence, lessons promoted to LEARNINGS.md — which every future skill loads. Retros actually change behavior.
+After verify, you pick `1` on the close gate (or type `/hele-retro`). Root causes with evidence, lessons promoted to LEARNINGS.md — which every future skill loads. Retros actually change behavior. It does not start itself.
 
 ## The shortcuts
 
 - `/hele-status` — the board: every feature, doc versions, drift warnings, the next useful action.
-- `/hele-fast "fix the empty-state message"` — small, low-risk changes ship with one artifact instead of four. Hard disqualifiers (schema, security, new flows) exit to the full cycle automatically.
-- `/hele-iterate` — already past build and you just found something you did not plan for. Agent Lisbon folds it back into the open increment (beads, PRD patch if the living doc would lie, stubs if the flow changed) and re-verifies only the affected surface. Complementary to `/hele-fast`, which starts a new small increment.
+- `/hele-fast "fix the empty-state message"` — small, low-risk changes ship with one artifact instead of four. Hard disqualifiers (schema, security, new flows) exit to the full cycle automatically. Type it once; every later prompt in that chat stays in the fast lane (beads + agents) until you invoke a different `/hele-*`.
+- `/hele-iterate` — already past build and you just found something you did not plan for. Agent Lisbon folds it back into the open increment (beads, PRD patch if the living doc would lie, stubs if the flow changed) and re-verifies only the affected surface. Complementary to `/hele-fast`, which starts a new small increment. Same stickiness: follow-ups stay in the iterate loop — you do not re-type the command.
 - `/clear` between phases — everything is saved on disk; a fresh context is cheaper. The reports tell you when it's safe.
+
+The main chat is yours. Doing work (review, suite, artifacts) always runs in the background via beads — you should never sit in a locked Thinking / Exploring loop while Lisbon "just finishes the close".
 
 ## What you end up with
 

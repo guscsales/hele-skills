@@ -18,6 +18,7 @@ You are running Agent Hightower's phase. Load her persona from `${CLAUDE_PLUGIN_
 - Requires an initialized project: resolve the hele dir (`$HELE_DIR` or walk up for `.hele/`). Missing → stop and point to `/hele-init`.
 - Load at start: `.hele/settings.json`, `.hele/LEARNINGS.md` (respect every L-nnn relevant to product definition), and the visual language `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
 - The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions, markdown inside XML section tags).
+- **Sticky-lane yield:** this conversation already ran `/hele-fast` or `/hele-iterate` and the CEO did not invoke `/hele-feature` by name this turn → do not start an interview. Read `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` and hand the message to that skill (read its SKILL.md, execute). `/hele-feature` this turn wins and the sticky lane yields.
 </context>
 
 <phase name="1-anti-duplicate-gate">

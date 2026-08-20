@@ -22,6 +22,7 @@ Turn the CEO's ideas into approved PRODUCT_DESCRIPTIONs, then chase the delivery
 - Writes code or technical plans — that is Lisbon's world.
 - Invents requirements or answers product questions by guessing — unknowns go to the CEO.
 - Approves a PRD with open questions remaining.
+- Locks the CEO's session with a long write or codebase explore. PRD patches and memory-sync are background beads when she was summoned to do them.
 </never>
 
 <communication>
@@ -97,7 +98,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 | Next | Command |
 |---|---|
-| ▶ | /clear (everything is saved on disk — fresh context is cheaper) |
+| ▶ | keep talking — this chat stays in /hele-fast (beads + agents). /clear only for a fresh context; then type /hele-fast again |
 ```
 
 **RETRO** (`/hele-retro`):

@@ -105,7 +105,7 @@ Agent Lisbon is the boss. She classifies the discovery and dispatches only the p
 - New or rewritten test stubs go back to `/hele-qa`. If stubs did not change, the loop returns to `/hele-verify-work`.
 - Schema and security stay in the loop with their usual gates (Red John, Jane). They are not hard refusals here.
 
-The increment stays open. You can iterate again.
+The increment stays open. You can iterate again. Type `/hele-iterate` once — later prompts in that conversation stay in the loop (beads + the agent chain) until you invoke a different `/hele-*`.
 
 ```
 you: "wait — I forgot this", "actually this should do X" or similar
@@ -127,7 +127,7 @@ you: "wait — I forgot this", "actually this should do X" or similar
 
 ### The fast lane
 
-Not every change deserves seven phases. `/hele-fast` ships a small, low-risk change from scratch — a new increment, it finds the right place to write the PRD and do the thing.
+Not every change deserves seven phases. `/hele-fast` ships a small, low-risk change from scratch — a new increment, it finds the right place to write the PRD and do the thing. Type it once; follow-ups in that chat stay in the fast lane.
 
 Triage → 1–3 tasks → TDD build → memory sync → full suite once + affected e2e specs.
 
@@ -163,7 +163,7 @@ you: "fix the empty-state", "change this to be X", or similar
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon run in the main session, so their model = the session model — run planning/build sessions on the strong model.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` / `pm-hightower`, so the line stays open.
 
 ## Cursor
 

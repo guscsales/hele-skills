@@ -2,6 +2,12 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.13.1 — 2026-08-20
+
+- fix: `/hele-fast` and `/hele-iterate` stay in force for the rest of the conversation — follow-up prompts keep beads and the agent chain without re-typing the slash command. A different `/hele-*` (except `/hele-status`) yields. `/hele-init` installs the always-on session rule; re-run on an existing project to fill it.
+- fix: the main chat stays free. Doing work (review, suite, FAST.md, PRD patch, Playwright) is always a background sub-agent via beads — Lisbon and Hightower included. The conductor announces a Dispatch table and does not explore "while you wait".
+- fix: `/hele-verify-work` no longer auto-starts `/hele-retro`. All-verified ends in a close gate; retro runs only when you pick `1`. Retro questions stay on the way of working, not leftover product changes.
+
 ## v0.13.0 — 2026-08-20
 
 - feat: `/hele-iterate` — post-build discovery loop on the open increment. Agent Lisbon classifies a late find and dispatches only the changed slice via beads (Hightower / Wylie / Vega / Red John / Jane / engineers). Complementary to `/hele-fast`. New or rewritten stubs → `/hele-qa`; stubs untouched → `/hele-verify-work`.
