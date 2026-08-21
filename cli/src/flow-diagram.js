@@ -55,7 +55,7 @@ export const FLOW_DIAGRAM = `
     │
     ▼
  ╭─ /hele-retro ────────────────────── WHAT TO IMPROVE ─╮
- │ Agent Hightower                                      │
+ │ Agent Hightower · optional                           │
  │ ▸ RETRO.md + LEARNINGS.md                            │
  ╰──────────────────────────────────────────────────────╯
 

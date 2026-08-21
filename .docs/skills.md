@@ -10,7 +10,7 @@ Bootstraps the harness in a project. Run once; idempotent — re-running reports
 
 - Asks the harness folder name (`.hele` recommended; a custom name writes a `.helerc` pointer) and whether a design system exists.
 - Creates `settings.json`, `index.json`, `state.json`, `LEARNINGS.md`, `features/`.
-- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` stay in force, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
+- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` stay in force, "build until pass" dispatches a general agent, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
 - Verifies the beads CLI (`bd`) and initializes its database. beads is the harness's task tracker — mandatory, not a choice.
 
 ## /hele-feature
@@ -62,6 +62,7 @@ The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (disp
 - **DB gate enforced:** migration tasks don't dispatch without an approved DB_CHANGES, and Red John checks the written migration against it before the task closes.
 - Blockers and product ambiguities become questions to you immediately; work continues on other tasks meanwhile.
 - Resumable: interrupted sessions pick up from beads state.
+- Mid-loop **build until pass** (`build til pass`, `builda até passar`, …) is the project compile — Lisbon dispatches a general-purpose agent; it is not this increment loop.
 
 ### /hele-build --from-qa
 
@@ -89,11 +90,11 @@ Guided human verification. Automation proves the rules; your eyes catch what cod
 - Preps the ground — app running, logins and test data listed — then walks you through one flow at a time. You act, you report; Wylie records every verdict verbatim.
 - Issues triage on the spot: bug or a late behavior find → [`/hele-iterate`](#hele-iterate) on this increment (not a new `/hele-feature` cycle).
 - Stop anytime — partial runs keep their record and resume from the first pending flow.
-- All flows verified → close gate (Actions table). Retro starts only when you pick `1`. It does not run itself.
+- All flows verified → close gate (Actions table). Option `1` closes the increment without a retro. Option `2` starts `/hele-retro`. It does not run itself.
 
 ## /hele-retro
 
-Closes the increment with evidence, not vibes.
+Optional. Closes the increment with evidence, not vibes.
 
 - What went well, what must improve, root causes dug past the symptom.
 - Lessons worth keeping are promoted to `.hele/LEARNINGS.md` with stable L-nnn ids — every skill loads that file at start, so retros actually change future behavior.
@@ -105,7 +106,7 @@ The fast lane: small, low-risk changes with proportional ceremony — one artifa
 
 - **Triage with hard disqualifiers:** touches DB schema, security surface (auth/payments/PII), introduces a new user-facing flow, or has cross-feature impact → refused and routed to the full cycle. Deliberately no file-count limit.
 - Classifies the change: bugfix (docs stay untouched) vs behavior change (the PRD rule and stubs are patched — living docs never lie, no matter the lane).
-- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. Micro-plan, review, suite, and FAST.md are background Lisbon sub-agents — the main chat never locks on them.
+- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. Micro-plan, review, suite, and FAST.md are background Lisbon sub-agents. After each dispatch the turn ends — the main chat never waits on them. Talk while they run.
 - FAST.md records what/why, files, tests, memory sync, and evidence.
 - An increment already in QA or verify is not fast — that discovery goes to [`/hele-iterate`](#hele-iterate).
 - **Sticky:** type `/hele-fast` once. Later prompts in that conversation stay in the lane — beads, agents, a new FAST increment if the last one already shipped. A different `/hele-*` command (except `/hele-status`) yields.
@@ -120,6 +121,7 @@ The complementary loop: you are already past build and just found something you 
 - Schema and security stay in the loop with Red John / Jane gates — they are not hard refusals here.
 - New or rewritten stubs → `/hele-qa`. Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
 - **Sticky:** type `/hele-iterate` once. Later prompts in that conversation are another discovery — you do not re-type the command. A bare message is the same as picking "another discovery".
+- **Build until pass** is not a discovery. `build til pass` / `builda até passar` → Lisbon dispatches a general agent for the project compile, then stays in iterate.
 
 ## /hele-status
 

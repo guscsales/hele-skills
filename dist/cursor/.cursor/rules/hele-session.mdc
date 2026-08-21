@@ -7,15 +7,16 @@ alwaysApply: true
 
 `/hele-fast` and `/hele-iterate` stay in force for the rest of this conversation. The CEO does not re-type the slash command. Follow-ups are still that skill — beads, the agent chain, the artifact. Never implement ad-hoc.
 
-Also obey `open-channel.md`: the main session stays free. Doing work is always a background sub-agent.
+Also obey `open-channel.md`: the main session stays free. Doing work is always a background sub-agent. If the CEO talks while a worker is running, answer them first — do not wait for the worker.
 
 At the start of every user message, before writing product code:
 
 1. **A `/hele-*` command was invoked this turn** (except `/hele-status`) — that skill wins. The sticky lane yields. `/hele-status` is read-only and does not steal the lane.
-2. **This conversation already ran `/hele-fast` or `/hele-iterate`** and step 1 did not fire — you are still in that skill. Immediately re-read its SKILL.md and execute it with this message as the request.
+2. **Build-until-pass phrase** (match intent, EN or PT — not only these strings): `build til pass`, `build until pass`, `build until it passes`, `make the build pass`, `compile until green`, `typecheck until pass`, `builda até passar`, `faz o build passar`, `build até passar`, `arruma o build`. This is the **project build** (compile/typecheck), not `/hele-build` and not a fast/iterate discovery. Agent Lisbon conducts: read `.cursor/hele/templates/build-until-pass.md` and dispatch a general-purpose background sub-agent now. Stay in the sticky lane afterward if you were in one.
+3. **This conversation already ran `/hele-fast` or `/hele-iterate`** and step 1–2 did not fire — you are still in that skill. Immediately re-read its SKILL.md and execute it with this message as the request.
    - **fast** — another small change: full fast spine (triage → beads → agents → FAST.md). New increment if the last one already shipped.
    - **iterate** — another discovery on the open increment: classify → summon → `ITERATE:` beads → route. A bare prompt is option 2 (stay in iterate); do not wait for them to pick it.
-3. **Fresh conversation, no slash command** — read `state.json`:
+4. **Fresh conversation, no slash command** — read `state.json`:
    - `phase: "fast"` → resume `/hele-fast`
    - `phase: "iterating"` → resume `/hele-iterate`
    - `phase` is `built` | `qa` | `verifying` and the message is a late find on the active feature → `/hele-iterate`
@@ -25,7 +26,7 @@ Skill files: plugin `skills/hele-fast/SKILL.md` and `skills/hele-iterate/SKILL.m
 
 # Open channel
 
-The main session is the CEO's line. It stays free. Always.
+The main session is the CEO's line. It stays free. Always. A worker Lisbon in a parallel agent does not close this line.
 
 Talking, deciding, asking, dispatching — that is this session. Doing is never this session. Lisbon, Hightower, Wylie, Vega, Cho, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write an artifact), it is a beads issue and a **background** sub-agent. The person does not matter. The channel does.
 
@@ -40,8 +41,21 @@ Main session MUST NOT:
 - Run test suites, linters, Playwright, or any long command
 - Write FAST.md, PRD patches, stubs, plans, QA reports, or other artifacts
 - Start the work itself while a sub-agent "is running"
-- Await a tool loop in the foreground so the CEO sees Thinking / Exploring
+- Await, poll, or stay in Thinking / Exploring / "Waiting for subagent" after a spawn
 
-After every dispatch: announce the Dispatch table, then stay available. When a sub-agent returns, read **only its report** — never reopen the files it touched. Next beads, or the chat signature from that payload.
+<turn>
+A dispatch turn has exactly four steps, then you **STOP**:
 
-Beads is the trace. No doing without a beads issue. Owner on the issue matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`).
+1. `bd create` (if needed)
+2. Spawn the sub-agent in the **background** — never foreground, never blocking.
+   - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug. You already failed the open channel.
+   - **Claude Code:** Agent tool, async / do not block this turn.
+3. Emit the Dispatch table. One prose line: you are here, they can talk.
+4. **END THE TURN.** Do not wait for the worker. You will be notified when it finishes.
+
+Forbidden after a spawn: waiting, polling, Await, "check if Lisbon finished", starting the next phase in this same turn, exploring "while you wait".
+
+A later turn resumes: a sub-agent report arrived, **or** the CEO spoke. If they spoke while work is in flight, **answer them first** — the line stays open. Then, if a report is in, read only that report and dispatch the next bead the same way (spawn, announce, stop).
+</turn>
+
+Beads is the trace. No doing without a beads issue. Owner on the issue matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`, `[AGENT] general — BUILD: until pass`).

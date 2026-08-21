@@ -2,6 +2,12 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.13.3 — 2026-08-20
+
+- fix: verify-work close gate — option `1` closes the increment without a retro. `/hele-retro` is optional as option `2`. Iterate and pause stay after that.
+- feat: "build til pass" / "build until pass" / "builda até passar" — Lisbon dispatches a general-purpose agent to run the project compile until it exits 0. Not `/hele-build`. Re-run `/hele-init` to refresh the session rule.
+- fix: open channel is turn-based — after every dispatch, end the turn. Cursor Task must use `run_in_background: true`. "Waiting for subagent" in the main chat is a bug. The CEO can talk while a worker Lisbon runs.
+
 ## v0.13.2 — 2026-08-20
 
 - fix: Lisbon's `BUILD: full suite` / `ITERATE: full suite` runs on `staff-lisbon-run` — Sonnet in Claude Code, Composer in Cursor. Review and plan stay on `staff-lisbon` (Fable). She still does not write product fixes; she reports green or the failing owners.

@@ -4,7 +4,8 @@ description: >-
   Bootstrap the hele harness in the current project — creates the .hele/
   directory (settings.json, index.json, state.json, LEARNINGS.md, features/),
   installs the sticky-lane session rule so /hele-fast and /hele-iterate
-  stay in force for follow-up prompts, interviews the CEO about design
+  stay in force for follow-up prompts and "build until pass" phrases
+  dispatch a general agent, interviews the CEO about design
   system and beads, initializes the beads database, and reports readiness.
   Use when the user invokes /hele-init, says "set up hele", "initialize
   hele", or when any hele skill runs in a project that has no .hele

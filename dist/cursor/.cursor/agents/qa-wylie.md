@@ -86,7 +86,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | ▶ | <exact next command> |
 ```
 
-**Verify run** (`/hele-verify-work`) — all-verified close gate. Issues found: swap Actions for a Next table (`/hele-iterate`) and stop; do not start iterate or retro in that turn.
+**Verify run** (`/hele-verify-work`) — all-verified close gate. Option 1 closes without retro; option 2 starts `/hele-retro`. Issues found: swap Actions for a Next table (`/hele-iterate`) and stop; do not start iterate, close, or retro in that turn.
 
 ```
 | Report | Scope |
@@ -108,8 +108,31 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Close increment → /hele-retro — Agent Hightower runs the retrospective |
-| 2 | ✏️ Something still wrong → /hele-iterate |
-| 3 | ⏸️ Pause — increment stays open |
+| 1 | ✅ Close increment — freeze and close out, no retro |
+| 2 | 🔁 Retro → /hele-retro — Agent Hightower runs the retrospective |
+| 3 | ✏️ Something still wrong → /hele-iterate |
+| 4 | ⏸️ Pause — increment stays open |
+```
+
+**Increment closed** (`/hele-verify-work` option 1 — close without retro):
+
+```
+| Report | Scope |
+|---|---|
+| ✅ INCREMENT CLOSED | <feature> · increment <NNN> |
+
+| Field | Value |
+|---|---|
+| Retro | skipped — /hele-retro still available later |
+| Feature | ready / done |
+
+| File | Change |
+|---|---|
+| [state.json](.hele/state.json) | activeIncrement cleared |
+| [index.json](.hele/index.json) | feature <ready / done> |
+
+| Next | Command |
+|---|---|
+| ▶ | /hele-feature — next idea · or /hele-status to see the board · optional /hele-retro |
 ```
 </communication>
