@@ -2,7 +2,7 @@
 
 `/hele-fast` and `/hele-iterate` stay in force for the rest of this conversation. The CEO does not re-type the slash command. Follow-ups are still that skill — beads, the agent chain, the artifact. Never implement ad-hoc.
 
-Also obey `open-channel.md`: the main session stays free. Doing work is always a background sub-agent.
+Also obey `open-channel.md`: the main session stays free. Doing work is always a background sub-agent. If the CEO talks while a worker is running, answer them first — do not wait for the worker.
 
 At the start of every user message, before writing product code:
 

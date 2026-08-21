@@ -106,7 +106,7 @@ The fast lane: small, low-risk changes with proportional ceremony — one artifa
 
 - **Triage with hard disqualifiers:** touches DB schema, security surface (auth/payments/PII), introduces a new user-facing flow, or has cross-feature impact → refused and routed to the full cycle. Deliberately no file-count limit.
 - Classifies the change: bugfix (docs stay untouched) vs behavior change (the PRD rule and stubs are patched — living docs never lie, no matter the lane).
-- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. Micro-plan, review, suite, and FAST.md are background Lisbon sub-agents — the main chat never locks on them.
+- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. Micro-plan, review, suite, and FAST.md are background Lisbon sub-agents. After each dispatch the turn ends — the main chat never waits on them. Talk while they run.
 - FAST.md records what/why, files, tests, memory sync, and evidence.
 - An increment already in QA or verify is not fast — that discovery goes to [`/hele-iterate`](#hele-iterate).
 - **Sticky:** type `/hele-fast` once. Later prompts in that conversation stay in the lane — beads, agents, a new FAST increment if the last one already shipped. A different `/hele-*` command (except `/hele-status`) yields.

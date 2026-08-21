@@ -61,7 +61,7 @@ After verify, you pick `1` to freeze and close the increment. Retro is optional 
 - **build until pass** — say `build til pass`, `build until pass`, `builda até passar`, or similar. Lisbon dispatches a general-purpose agent to run the project compile/typecheck and fix until it exits 0. Not `/hele-build` (the increment loop). Works mid-iterate, mid-fast, or on its own.
 - `/clear` between phases — everything is saved on disk; a fresh context is cheaper. The reports tell you when it's safe.
 
-The main chat is yours. Doing work (review, suite, artifacts) always runs in the background via beads — you should never sit in a locked Thinking / Exploring loop while Lisbon "just finishes the close".
+The main chat is yours. Doing work (review, suite, artifacts) always runs in the background via beads — you should never sit in a locked Thinking / Exploring / "Waiting for subagent" loop while Lisbon "just finishes the close". After she dispatches, the turn ends. Talk anytime.
 
 ## What you end up with
 

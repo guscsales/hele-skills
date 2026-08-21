@@ -150,7 +150,8 @@ four documents. /hele-feature suggests it automatically when a request
 smells fast-lane sized. An increment already in QA or verify is not
 fast — that discovery goes to /hele-iterate. Type it once: later
 prompts in that chat stay in the fast lane until a different /hele-*
-command.` ,
+command. Each dispatch ends the turn — the main chat never waits on
+Lisbon's micro-plan. Talk while she runs.` ,
   },
   {
     name: 'iterate',

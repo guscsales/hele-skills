@@ -5,7 +5,7 @@ The CEO asked to make the **project build** go green. This is not `/hele-build` 
 <conductor>
 1. `bd create` title `BUILD: until pass`.
 2. Dispatch ONE **background** general-purpose sub-agent (no named hele persona — not Cho, not Van Pelt, not Lisbon). Description: `[AGENT] general — BUILD: until pass`. `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit).
-3. Prompt: this file + the repo root + any error the CEO pasted. Announce the Dispatch table. Stay free. Do not run the build in the main session.
+3. Prompt: this file + the repo root + any error the CEO pasted. Announce the Dispatch table. **END THE TURN.** Do not run the build in the main session. Do not wait for the worker.
 4. On return: read the report only. Green → tell the CEO (command + files touched). Still red or blocked → report the remaining errors; ask if they want another round. Do not silently re-dispatch forever.
 5. Sticky fast/iterate does not yield — after this returns, stay in that lane if you were in one.
 </conductor>

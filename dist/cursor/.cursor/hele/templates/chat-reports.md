@@ -14,7 +14,7 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 - Reports that are **not** an approval gate end with a **Next table** — the CEO always knows the next action. Keep the whole command in that cell; never split `/hele-build` across rows.
 - Approval gates end with the **Actions** table (below). Option 1 **is** the next command — do not also emit a Next or After approval table.
 - **Suggest `/clear` only when a phase closed without auto-chaining** (FAST, RETRO, status, verify-work option `1` close, or the CEO explicitly paused). Approval gates auto-chain: option `1` starts the next skill in the same turn, so do not suggest `/clear` there. The verify-work close gate is the exception: option `1` closes the increment (no next skill — `/clear` is fine); option `2` starts `/hele-retro`. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet. FAST and ITERATE are sticky in the same conversation: do not tell the CEO to re-type `/hele-fast` or `/hele-iterate` for the next prompt.
-- **Open channel.** The main session is the CEO's line. Doing work (review, suite, artifacts, codebase reads) is a background sub-agent — Lisbon and Hightower included. After a Dispatch table, stay available; never explore "while you wait".
+- **Open channel.** The main session is the CEO's line. Doing work (review, suite, artifacts, codebase reads) is a background sub-agent — Lisbon and Hightower included. After a Dispatch table, **end the turn**. Never wait, never explore "while you wait". "Waiting for subagent" in the main chat is a bug. If the CEO talks while a worker runs, answer them.
 - File artifacts are exempt: markdown docs stay clean, no box-drawing frames or emoji inside `.hele/` files.
 - Chat language follows the CEO (pt-BR in, pt-BR out). Artifacts are always English.
 - **`.hele/` is a placeholder, not a hardcoded path.** The harness folder is `.hele/` at the project root by default, but the CEO may have named it differently at init: a `.helerc` file at the root (`{"dirName": "<name>"}`) points to the real folder. Every skill resolves the dir first (`.hele` → else `.helerc`) and uses the resolved name in paths and links.
@@ -111,6 +111,8 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 ```
 
 ## Dispatch announcement (when spawning an agent)
+
+Emit this, say you are here, **end the turn**. Do not wait for the agent.
 
 ```
 | Dispatch | Agent | Work |
