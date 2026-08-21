@@ -65,4 +65,5 @@ Next table: `/hele-qa` — Agent Wylie turns the stubs into Playwright e2e tests
 - Scope creep discovered mid-build → new beads issue + CEO visibility, never silently absorbed.
 - Nothing here edits `.hele/` docs except statuses — plans and PRDs change via their own skills.
 - Interrupted session? Re-run /hele-build: beads state + plan `beads=` ids make the loop resumable.
+- Mid-loop **build-until-pass** phrase (`build til pass`, `build until pass`, `builda até passar`, and similar) → the project compile/typecheck, not this increment loop. Read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md` and dispatch a general-purpose background sub-agent. Resume this loop after it returns.
 </rules>

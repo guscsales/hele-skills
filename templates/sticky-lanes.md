@@ -7,10 +7,11 @@ Also obey `open-channel.md`: the main session stays free. Doing work is always a
 At the start of every user message, before writing product code:
 
 1. **A `/hele-*` command was invoked this turn** (except `/hele-status`) — that skill wins. The sticky lane yields. `/hele-status` is read-only and does not steal the lane.
-2. **This conversation already ran `/hele-fast` or `/hele-iterate`** and step 1 did not fire — you are still in that skill. Immediately re-read its SKILL.md and execute it with this message as the request.
+2. **Build-until-pass phrase** (match intent, EN or PT — not only these strings): `build til pass`, `build until pass`, `build until it passes`, `make the build pass`, `compile until green`, `typecheck until pass`, `builda até passar`, `faz o build passar`, `build até passar`, `arruma o build`. This is the **project build** (compile/typecheck), not `/hele-build` and not a fast/iterate discovery. Agent Lisbon conducts: read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md` and dispatch a general-purpose background sub-agent now. Stay in the sticky lane afterward if you were in one.
+3. **This conversation already ran `/hele-fast` or `/hele-iterate`** and step 1–2 did not fire — you are still in that skill. Immediately re-read its SKILL.md and execute it with this message as the request.
    - **fast** — another small change: full fast spine (triage → beads → agents → FAST.md). New increment if the last one already shipped.
    - **iterate** — another discovery on the open increment: classify → summon → `ITERATE:` beads → route. A bare prompt is option 2 (stay in iterate); do not wait for them to pick it.
-3. **Fresh conversation, no slash command** — read `state.json`:
+4. **Fresh conversation, no slash command** — read `state.json`:
    - `phase: "fast"` → resume `/hele-fast`
    - `phase: "iterating"` → resume `/hele-iterate`
    - `phase` is `built` | `qa` | `verifying` and the message is a late find on the active feature → `/hele-iterate`

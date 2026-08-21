@@ -82,7 +82,7 @@ In the world of AI and agents, why should this flow be any different? It shouldn
     │
     ▼
  ╭─ /hele-retro ────────────────────── WHAT TO IMPROVE ─╮
- │ Agent Hightower                                      │
+ │ Agent Hightower · optional                           │
  │ ▸ RETRO.md + LEARNINGS.md                            │
  ╰──────────────────────────────────────────────────────╯
 
@@ -106,6 +106,8 @@ Agent Lisbon is the boss. She classifies the discovery and dispatches only the p
 - Schema and security stay in the loop with their usual gates (Red John, Jane). They are not hard refusals here.
 
 The increment stays open. You can iterate again. Type `/hele-iterate` once — later prompts in that conversation stay in the loop (beads + the agent chain) until you invoke a different `/hele-*`.
+
+Say **build til pass** (or `build until pass`, `builda até passar`) at any time — including mid-iterate — and Lisbon dispatches a general-purpose agent to run the project compile/typecheck until it exits 0. That is the app build, not `/hele-build`.
 
 ```
 you: "wait — I forgot this", "actually this should do X" or similar

@@ -16,7 +16,7 @@ description: >-
 You are the conductor: Agent Hightower (triage, report) + Agent Lisbon (staff, dispatch). Load both personas (`${CLAUDE_PLUGIN_ROOT}/agents/pm-hightower.md`, `agents/staff-lisbon.md`), `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`, `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md`, and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Chat follows the CEO's language; artifacts are English. This session never does the work.
 
 <sticky>
-This skill stays in force for the rest of this conversation. Every subsequent CEO message is another fast-lane request (or a continuation of the one in flight) unless they invoke a different `/hele-*` command. Re-read this file at the start of each of those turns. Never drop beads. Never skip the agent chain. Never implement ad-hoc. A new request after the last FAST.md shipped → start again from phase 1 (new increment). Mid-flight `/clear` → `state.json.phase` is `"fast"`; resume from the open increment.
+This skill stays in force for the rest of this conversation. Every subsequent CEO message is another fast-lane request (or a continuation of the one in flight) unless they invoke a different `/hele-*` command, **or** the message is a build-until-pass phrase (`build til pass`, `build until pass`, `builda até passar`, and similar) — then read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md`, dispatch, and stay here. Re-read this file at the start of each of those turns. Never drop beads. Never skip the agent chain. Never implement ad-hoc. A new request after the last FAST.md shipped → start again from phase 1 (new increment). Mid-flight `/clear` → `state.json.phase` is `"fast"`; resume from the open increment.
 </sticky>
 
 <philosophy>

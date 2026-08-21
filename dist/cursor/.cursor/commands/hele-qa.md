@@ -80,4 +80,5 @@ Route by outcome:
 - A stub is `passing` only if its Playwright test ran green THIS run — stale statuses are lies.
 - PRD/stubs drift (`based_on` older than the PRD) → warn before running; the CEO decides run-anyway or fix the contract first.
 - Artifacts English; chat in the CEO's language.
+- Mid-run **build-until-pass** phrase (`build til pass`, `build until pass`, `builda até passar`, and similar) → Lisbon conducts the project compile, not this QA loop. Read `.cursor/hele/templates/build-until-pass.md` and dispatch. Resume QA after it returns.
 </rules>

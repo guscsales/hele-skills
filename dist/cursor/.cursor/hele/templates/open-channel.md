@@ -19,4 +19,4 @@ Main session MUST NOT:
 
 After every dispatch: announce the Dispatch table, then stay available. When a sub-agent returns, read **only its report** — never reopen the files it touched. Next beads, or the chat signature from that payload.
 
-Beads is the trace. No doing without a beads issue. Owner on the issue matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`).
+Beads is the trace. No doing without a beads issue. Owner on the issue matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`, `[AGENT] general — BUILD: until pass`).

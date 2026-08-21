@@ -37,18 +37,20 @@ Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, n
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
 Route by outcome:
-- **All verified** → close gate, never silent hand-off. Use the canonical `Actions` table from `chat-reports.md` — never fenced, never one line. One option per row. Never emit a separate After approval / Next table — option 1 is the next command:
+- **All verified** → close gate, never silent hand-off. Use the canonical `Actions` table from `chat-reports.md` — never fenced, never one line. One option per row. Never emit a separate After approval / Next table. Option 1 closes now (no next skill); option 2 is the optional retro:
 
-  1. ✅ Close increment → /hele-retro — Agent Hightower runs the retrospective
-  2. ✏️ Something still wrong → /hele-iterate
-  3. ⏸️ Pause — increment stays open
+  1. ✅ Close increment — freeze and close out, no retro
+  2. 🔁 Retro → /hele-retro — Agent Hightower runs the retrospective
+  3. ✏️ Something still wrong → /hele-iterate
+  4. ⏸️ Pause — increment stays open
 
   Forbidden: wrapping the Actions table in a markdown code fence; drawing box-drawing divider lines.
-  Forbidden: reading or executing `/hele-retro` (or `/hele-iterate`) in this same turn. Emit the report, then stop and wait. Verify finishing is not permission to start the retro.
+  Forbidden: reading or executing `/hele-retro` or `/hele-iterate` in this same turn. Emit the report, then stop and wait. Verify finishing is not permission to close or start the retro.
 
-  On `1`: immediately read `.cursor/hele/skills/hele-retro/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-retro`.
-  On `2`: immediately read `.cursor/hele/skills/hele-iterate/SKILL.md` and execute it in this same turn.
-  On `3` / free text: stop; leave the increment open.
+  On `1`: close the increment now — no RETRO.md, no way-of-working questions. Plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming — ask once if unclear), `state.json` → `activeIncrement: null`, `phase: null`. Emit Wylie's **INCREMENT CLOSED** signature block. `/hele-retro` remains available later.
+  On `2`: immediately read `.cursor/hele/skills/hele-retro/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-retro`.
+  On `3`: immediately read `.cursor/hele/skills/hele-iterate/SKILL.md` and execute it in this same turn.
+  On `4` / free text: stop; leave the increment open.
 - **Issues found** → Next table: `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens). Do not execute it unless the CEO asks.
 </phase>
 
@@ -57,4 +59,5 @@ Route by outcome:
 - Never mark a flow verified without the CEO's explicit word — his eyes are the instrument here, the agent only records.
 - Issues are never fixed inline during the walk — they are routed; the walk continues.
 - Artifacts English; chat in the CEO's language.
+- Mid-walk **build-until-pass** phrase (`build til pass`, `build until pass`, `builda até passar`, and similar) → Lisbon conducts the project compile, not this walk. Read `.cursor/hele/templates/build-until-pass.md` and dispatch. Resume the walk after it returns.
 </rules>

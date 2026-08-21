@@ -4,7 +4,7 @@ description: >-
   Close a hele increment with a retrospective: what went well, what must
   improve, root causes, and learnings promoted to .hele/LEARNINGS.md so
   future sessions actually behave differently. Use when the user invokes
-  /hele-retro, picks option 1 on the verify-work close gate, when an
+  /hele-retro, picks option 2 on the verify-work close gate, when an
   increment is abandoned, or when the user asks to "arrumar a casa" /
   close out the work. Never start just because verify-work finished.
 ---
@@ -31,7 +31,7 @@ Run as Agent Hightower facilitating the team's retrospective. Chat follows the C
 </phase>
 
 <phase name="3-close">
-1. Close out: plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming), `state.json` → `activeIncrement: null`, `phase: null` (or next).
+1. Close out (skip any step already done — option 1 on the close gate may have closed first): plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming), `state.json` → `activeIncrement: null`, `phase: null` (or next).
 2. Emit Hightower's **RETRO** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value, **one root cause / learning per row**, Files with clickable RETRO.md and LEARNINGS.md links, Next. Never draw `─`/`═` divider lines.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; concatenating root causes into one cell.

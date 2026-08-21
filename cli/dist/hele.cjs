@@ -3404,7 +3404,7 @@ var FLOW_DIAGRAM = `
     \u2502
     \u25BC
  \u256D\u2500 /hele-retro \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 WHAT TO IMPROVE \u2500\u256E
- \u2502 Agent Hightower                                      \u2502
+ \u2502 Agent Hightower \xB7 optional                           \u2502
  \u2502 \u25B8 RETRO.md + LEARNINGS.md                            \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
 
@@ -3535,18 +3535,21 @@ stub) into VERIFY.md, preps the app and test data, then walks you through
 it step by step \u2014 you act, you report, he records every verdict verbatim.
 Issues become /hele-iterate on this increment (bugs or late
 behavior), not a new /hele-feature cycle. All verified ends in a
-close gate \u2014 retro starts only when you pick 1. Partial runs keep
-their record and resume where you stopped.`
+close gate \u2014 option 1 closes without a retro; option 2 starts
+/hele-retro. Partial runs keep their record and resume where you
+stopped.`
   },
   {
     name: "retro",
     agent: "Agent Hightower",
     artifact: "RETRO.md + LEARNINGS.md",
     question: "WHAT TO IMPROVE",
-    detail: `Closes the increment with evidence, not vibes: what went well, what
-must improve, root causes dug past the symptom. Lessons worth keeping are
-promoted to .hele/LEARNINGS.md with stable L-nnn ids \u2014 every skill loads
-that file at start, so retros actually change future behavior.`
+    detail: `Optional. Closes the increment with evidence, not vibes: what went
+well, what must improve, root causes dug past the symptom. Lessons worth
+keeping are promoted to .hele/LEARNINGS.md with stable L-nnn ids \u2014 every
+skill loads that file at start, so retros actually change future
+behavior. Verify-work option 1 closes without it; pick 2 or type
+/hele-retro when you want the retro.`
   },
   {
     name: "fast",
@@ -3580,7 +3583,10 @@ and Jane when schema or security is touched (gates stay, they are not
 refusals). Engineers build the ITERATE: tasks with the same TDD
 discipline as /hele-build. New or rewritten stubs \u2192 /hele-qa; stubs
 untouched \u2192 /hele-verify-work. The increment stays open; you can run it
-again. Type it once: later prompts in that chat stay in the loop.`
+again. Type it once: later prompts in that chat stay in the loop.
+Say "build til pass" (or "builda at\xE9 passar") and Lisbon dispatches a
+general agent to make the project compile green \u2014 that is not a new
+discovery.`
   },
   {
     name: "status",
