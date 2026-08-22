@@ -9,7 +9,7 @@ const SKILLS = [
     question: 'SETUP',
     detail: `Bootstraps the harness in a project: creates .hele/ (settings.json,
 index.json, state.json, LEARNINGS.md, features/), installs the sticky-lane
-session rule so /hele-fast and /hele-iterate stay in force for follow-ups,
+session rule so /hele-fast, /hele-iterate, and /hele-yolo stay in force for follow-ups,
 asks about your design system, and makes sure the beads CLI (bd) is
 installed and initialized. Idempotent — safe to re-run, never overwrites.`,
   },
@@ -119,9 +119,9 @@ stub) into VERIFY.md, preps the app and test data, then walks you through
 it step by step — you act, you report, he records every verdict verbatim.
 Issues become /hele-iterate on this increment (bugs or late
 behavior), not a new /hele-feature cycle. All verified ends in a
-close gate — option 1 closes without a retro; option 2 starts
-/hele-retro. Partial runs keep their record and resume where you
-stopped.`,
+close gate — option 1 starts /hele-retro; option 2 closes
+without a retro; option 3 starts /hele-iterate. Partial runs keep
+their record and resume where you stopped.`,
   },
   {
     name: 'retro',
@@ -132,8 +132,8 @@ stopped.`,
 well, what must improve, root causes dug past the symptom. Lessons worth
 keeping are promoted to .hele/LEARNINGS.md with stable L-nnn ids — every
 skill loads that file at start, so retros actually change future
-behavior. Verify-work option 1 closes without it; pick 2 or type
-/hele-retro when you want the retro.`,
+behavior. Verify-work option 1 starts it; option 2 closes
+without it. Or type /hele-retro.`,
   },
   {
     name: 'fast',
@@ -172,6 +172,21 @@ again. Type it once: later prompts in that chat stay in the loop.
 Say "build til pass" (or "builda até passar") and Lisbon dispatches a
 general agent to make the project compile green — that is not a new
 discovery.` ,
+  },
+  {
+    name: 'yolo',
+    agent: 'Agent Lisbon',
+    artifact: 'code now · docs from the work',
+    question: 'THE YOLO LANE',
+    detail: `Want to build first and write the paperwork after? /hele-yolo is
+free creation. Agent Lisbon conducts in this chat; she staffs the named
+hele agents from settings.json (Cho, Van Pelt, Jane, Rigsby, Vega, Red
+John — never a nameless worker for product work) on YOLO: beads. No PRD,
+plan, or stubs up front. Each ask is a wave; "that's it" opens the
+formalization pass: Hightower writes the PRD from the diff, Wylie writes
+stubs and tests, Lisbon reviews, optional draft PR. Schema and security
+stay in the loop with their gates. Type it once: later prompts in that
+chat stay in the lane until a different /hele-* command.` ,
   },
   {
     name: 'status',

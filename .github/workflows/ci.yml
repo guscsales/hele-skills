@@ -24,16 +24,7 @@ jobs:
           if git diff --exit-code dist/; then
             exit 0
           fi
-          echo "::error::cli/dist/hele.cjs is stale — agents/, skills/, templates/, and cli/src/ are embedded in the bundle. Rebuild and commit: cd cli && npm run build"
-          exit 1
-      - name: cursor adapter is committed and current
-        working-directory: .
-        run: |
-          node scripts/build-cursor.mjs
-          if git diff --exit-code dist/cursor; then
-            exit 0
-          fi
-          echo "::error::dist/cursor is stale — agents/, skills/, and templates/ generate the Cursor adapter. Rebuild and commit: node scripts/build-cursor.mjs"
+          echo "::error::cli/dist/hele.cjs is stale — cli/src/ is bundled into it. Rebuild and commit: cd cli && npm run build"
           exit 1
 
   manifests:

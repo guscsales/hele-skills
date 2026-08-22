@@ -4,19 +4,11 @@ Rules for agents working **in this repository** (the harness itself), not in con
 
 ## Bundled artifacts stay in sync
 
-`hele cursor` embeds `agents/`, `skills/`, and `templates/` inside `cli/dist/hele.cjs`. `dist/cursor/` is the generated Cursor adapter from the same trees. When you change any of:
+The Claude Code plugin is the source trees (`agents/`, `skills/`, `templates/`). The committed CLI bundle is `cli/dist/hele.cjs`. When you change `cli/src/`, rebuild and commit that bundle in the same change:
 
-- `agents/`
-- `skills/`
-- `templates/`
-- `cli/src/`
+1. `cd cli && npm run build`
 
-rebuild **both** in the same change and commit the results:
-
-1. `cd cli && npm run build` — refreshes `cli/dist/hele.cjs`
-2. `node scripts/build-cursor.mjs` — refreshes `dist/cursor/`
-
-CI fails the PR if either is stale. Skipping the rebuild is the usual reason a docs-only agents/skills/templates change goes red.
+CI fails the PR if `cli/dist/` is stale. There is no shipped Cursor adapter — Claude Code only. Do not generate or commit `dist/cursor/`.
 
 ## Flow diagrams stay in sync
 
@@ -24,7 +16,7 @@ When you change the harness flow diagram (phases, arrows, fix loops, box labels,
 
 1. `cli/src/flow-diagram.js` — canonical source (`FLOW_DIAGRAM`). This is what `hele ai` prints.
 2. `README.md` — the fenced code block under `## The flow` must match `FLOW_DIAGRAM` exactly.
-3. Rebuild the bundled artifacts (see above) so CLI and Cursor copies catch up.
+3. Rebuild the CLI bundle (see above) so `hele ai` catches up.
 
 Do not invent a third independent copy. If a new surface needs the diagram, import `FLOW_DIAGRAM` or paste from it and add that path to this list.
 

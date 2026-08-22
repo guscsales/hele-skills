@@ -2,7 +2,7 @@
 
 Every `/hele-*` command, in pipeline order. Each skill reports in chat with markdown tables (never box-drawing divider lines). When a decision is yours, the report ends with an **Actions** table: typing `1` approves and immediately starts the next skill.
 
-Jump to: [init](#hele-init) · [feature](#hele-feature) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work) · [retro](#hele-retro) · [fast](#hele-fast) · [iterate](#hele-iterate) · [status](#hele-status) · [paper-to-code](#hele-paper-to-code)
+Jump to: [init](#hele-init) · [feature](#hele-feature) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work) · [retro](#hele-retro) · [fast](#hele-fast) · [iterate](#hele-iterate) · [yolo](#hele-yolo) · [status](#hele-status) · [paper-to-code](#hele-paper-to-code)
 
 ## /hele-init
 
@@ -10,7 +10,7 @@ Bootstraps the harness in a project. Run once; idempotent — re-running reports
 
 - Asks the harness folder name (`.hele` recommended; a custom name writes a `.helerc` pointer) and whether a design system exists.
 - Creates `settings.json`, `index.json`, `state.json`, `LEARNINGS.md`, `features/`.
-- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` stay in force, "build until pass" dispatches a general agent, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
+- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` / `/hele-yolo` stay in force, "build until pass" dispatches a general agent, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
 - Verifies the beads CLI (`bd`) and initializes its database. beads is the harness's task tracker — mandatory, not a choice.
 
 ## /hele-feature
@@ -56,7 +56,7 @@ Agent Wylie (QA) writes the feature's test contract from the PRD — deliberatel
 The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (dispatch, structural review) driving the engineer agents through the plan.
 
 - `bd ready` → dispatches up to `maxParallel` tasks to engineer subagents in the **background** (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), each with its persona, task, relevant PRD rules, and learnings. The main chat stays free.
-- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The full suite is a `BUILD: full suite` sub-agent on `staff-lisbon-run` (Sonnet in Claude Code, Composer in Cursor).
+- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The full suite is a `BUILD: full suite` sub-agent on `staff-lisbon-run` (Sonnet).
 - **File-overlap guard:** tasks sharing a declared file never run in parallel.
 - **Test economy:** engineers iterate red→green on their task's unit files only; expensive suites (containers, migrations) run once per task; the FULL suite runs exactly once, at the end.
 - **DB gate enforced:** migration tasks don't dispatch without an approved DB_CHANGES, and Red John checks the written migration against it before the task closes.
@@ -90,7 +90,7 @@ Guided human verification. Automation proves the rules; your eyes catch what cod
 - Preps the ground — app running, logins and test data listed — then walks you through one flow at a time. You act, you report; Wylie records every verdict verbatim.
 - Issues triage on the spot: bug or a late behavior find → [`/hele-iterate`](#hele-iterate) on this increment (not a new `/hele-feature` cycle).
 - Stop anytime — partial runs keep their record and resume from the first pending flow.
-- All flows verified → close gate (Actions table). Option `1` closes the increment without a retro. Option `2` starts `/hele-retro`. It does not run itself.
+- All flows verified → close gate (Actions table). Option `1` starts `/hele-retro`. Option `2` closes the increment without a retro. Option `3` starts `/hele-iterate`. It does not run itself.
 
 ## /hele-retro
 
@@ -122,6 +122,17 @@ The complementary loop: you are already past build and just found something you 
 - New or rewritten stubs → `/hele-qa`. Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
 - **Sticky:** type `/hele-iterate` once. Later prompts in that conversation are another discovery — you do not re-type the command. A bare message is the same as picking "another discovery".
 - **Build until pass** is not a discovery. `build til pass` / `builda até passar` → Lisbon dispatches a general agent for the project compile, then stays in iterate.
+
+## /hele-yolo
+
+The free-creation lane: you build first, paperwork comes FROM the work.
+
+- Agent Lisbon conducts in the main chat. She never writes production code. Workers are the named hele agents, each on the model from `settings.agents.models` (Cho, Van Pelt, Jane, Rigsby, Vega, Red John). Never a nameless general agent for product work.
+- No PRD, DESIGN_SPEC, EXECUTION_PLAN, or stubs up front. Each ask becomes `YOLO:` beads with a file-overlap guard and `maxParallel`. Docs wait until you say that's it.
+- Vega only when you asked for a new screen. Schema → Red John (blocking `DB_CHANGES` approval). Security → Jane. Product ambiguity → Lisbon asks you, never guesses.
+- **"that's it"** opens the formalization pass (existing skills, never reimplemented): Hightower writes the PRD from the session diff, Wylie writes stubs and Playwright tests, Lisbon reviews, optional draft PR. Pick all or a subset.
+- An increment already in QA or verify is not yolo — that goes to [`/hele-iterate`](#hele-iterate).
+- **Sticky:** type `/hele-yolo` once. Later prompts in that conversation are another ask — you do not re-type the command. A bare message keeps going. `/hele-yolo` with no new idea resumes the board.
 
 ## /hele-status
 

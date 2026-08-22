@@ -1,22 +1,13 @@
 #!/usr/bin/env node
-// Generates the Cursor adapter from the core (skills/, agents/, templates/, cli/dist).
-//
-// Modes:
-//   node scripts/build-cursor.mjs                      → writes dist/cursor/ (full adapter)
-//   node scripts/build-cursor.mjs --assets-only <out>  → writes only the JSON asset map
-//                                                        (all files except hele.cjs) — the
-//                                                        CLI embeds it so `hele cursor` can
-//                                                        install the adapter anywhere.
-//
-// The repo root stays the Claude Code adapter; this is a generated view. Do not
-// edit dist/cursor by hand — edit the core and re-run.
+// Parked Cursor adapter generator. Default invocation does not write dist/cursor/.
+// `npm run build` / `npm test` still call --assets-only so cli tests can import
+// the asset map (mergeCursorModels). Claude Code is the shipped runtime.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = path.join(ROOT, 'dist', 'cursor');
 
 // Cursor model per persona — mirrors templates/settings.json "cursor" keys.
 const CURSOR_MODELS = JSON.parse(
@@ -105,27 +96,6 @@ export function collectFiles() {
   return { files, commands, agents };
 }
 
-function adapterReadme(commands, agents) {
-  return `# hele-skills — Cursor adapter (generated)
-
-The \`hele cursor\` installer is parked. To drop this generated adapter into a project by hand:
-
-\`\`\`bash
-cp -r dist/cursor/.cursor /path/to/your/project/
-\`\`\`
-
-Then use the commands in Cursor chat: ${commands.map((c) => `\`/${c}\``).join(' · ')}.
-
-\`.cursor/rules/hele-session.mdc\` is always-on: sticky lanes + open channel (doing work is always a background sub-agent).
-
-- Personas are native agent definitions in \`.cursor/agents/\` (${agents.length}); models are preconfigured (strong work on fable/opus, execution volume on grok) — edit the frontmatter to change.
-- Project memory lives in \`.hele/\` exactly like the Claude Code adapter — the two runtimes share it; you can switch tools mid-feature.
-- The hele CLI is bundled: \`node .cursor/hele/hele.cjs --help\`.
-
-Generated from the core — do not edit by hand. Regenerate: \`node scripts/build-cursor.mjs\`.
-`;
-}
-
 // ── CLI modes ────────────────────────────────────────────────────────────────
 const assetsIdx = process.argv.indexOf('--assets-only');
 if (assetsIdx !== -1) {
@@ -139,14 +109,6 @@ if (assetsIdx !== -1) {
   fs.writeFileSync(path.resolve(outFile), JSON.stringify({ files, commands, agents }));
   console.log(`cursor assets: ${Object.keys(files).length} files → ${outFile}`);
 } else {
-  const { files, commands, agents } = collectFiles();
-  fs.rmSync(OUT, { recursive: true, force: true });
-  for (const [rel, content] of Object.entries(files)) {
-    const full = path.join(OUT, rel);
-    fs.mkdirSync(path.dirname(full), { recursive: true });
-    fs.writeFileSync(full, content);
-  }
-  fs.copyFileSync(path.join(ROOT, 'cli', 'dist', 'hele.cjs'), path.join(OUT, '.cursor', 'hele', 'hele.cjs'));
-  fs.writeFileSync(path.join(OUT, 'README.md'), adapterReadme(commands, agents));
-  console.log(`cursor adapter: ${commands.length} commands, ${agents.length} agents → ${path.relative(ROOT, OUT)}`);
+  console.log('Cursor adapter is parked — Claude Code only. Not writing dist/cursor/.');
+  console.log('Asset map for tests/CLI: node scripts/build-cursor.mjs --assets-only <out.json>');
 }

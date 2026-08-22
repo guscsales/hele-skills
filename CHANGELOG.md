@@ -2,9 +2,14 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.14.0 — 2026-08-22
+
+- feat: `/hele-yolo` — free-creation lane. Agent Lisbon conducts; named hele agents (models from `settings.json`) build on `YOLO:` beads; paperwork is generated FROM the work when you say that's it (PRD, stubs, tests, review, optional draft PR). Sticky like `/hele-fast` / `/hele-iterate`. Re-run `/hele-init` to refresh the session rule.
+- chore: drop the committed Cursor adapter (`dist/cursor/`). Claude Code only for now.
+
 ## v0.13.3 — 2026-08-20
 
-- fix: verify-work close gate — option `1` closes the increment without a retro. `/hele-retro` is optional as option `2`. Iterate and pause stay after that.
+- fix: verify-work close gate — `1` retro, `2` close without retro, `3` iterate. No pause.
 - feat: "build til pass" / "build until pass" / "builda até passar" — Lisbon dispatches a general-purpose agent to run the project compile until it exits 0. Not `/hele-build`. Re-run `/hele-init` to refresh the session rule.
 - fix: open channel is turn-based — after every dispatch, end the turn. Cursor Task must use `run_in_background: true`. "Waiting for subagent" in the main chat is a bug. The CEO can talk while a worker Lisbon runs.
 

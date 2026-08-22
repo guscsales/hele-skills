@@ -91,6 +91,7 @@ In the world of AI and agents, why should this flow be any different? It shouldn
  │ /hele-status  the board: versions, drift, next       │
  │ /hele-iterate post-build discovery, same increment   │
  │ /hele-fast    small low-risk change, one artifact    │
+ │ /hele-yolo    free creation, docs from the work      │
  ╰──────────────────────────────────────────────────────╯
 ```
 
@@ -149,6 +150,23 @@ you: "fix the empty-state", "change this to be X", or similar
   one FAST.md
 ```
 
+### The yolo lane
+
+Sometimes you just want to build. `/hele-yolo` is free creation: Agent Lisbon conducts, the named hele agents (Cho, Van Pelt, Jane, Rigsby, Vega, Red John — models from `settings.json`) do the work, and the paperwork is generated FROM the work when you say that's it. No PRD-first cycle. Type it once; follow-ups stay in the lane.
+
+Schema and security stay in the loop with their gates — they are not hard refusals here. An increment already in QA or verify is not yolo; that discovery goes to `/hele-iterate`.
+
+```
+you: "bora construir X", "vamos jogando", or similar
+        │
+        ▼
+  /hele-yolo   (Agent Lisbon)
+        │
+        ├─ each ask     → YOLO: beads → the matching agents
+        ├─ "that's it"  → formalize: PRD · stubs · tests · review · draft PR
+        └─ pick a subset, or keep going
+```
+
 ## The team
 
 | Tag | Agent | Role | Default model |
@@ -165,11 +183,7 @@ you: "fix the empty-state", "change this to be X", or similar
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet in Claude Code, Composer in Cursor) / `pm-hightower`. After each dispatch the turn ends (Cursor: `run_in_background: true`) so the line stays open — talk while they run.
-
-## Cursor
-
-Cursor reads the same Claude Code plugin skills. Install `hele-skills@hele` once; `/hele-*` works in both runtimes against the shared `.hele/` folder. A separate Cursor adapter (`hele cursor`) is parked for now.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. After each dispatch the turn ends so the line stays open — talk while they run.
 
 ## Project layout (created by /hele-init)
 
@@ -230,8 +244,6 @@ templates/          output templates — file artifacts AND chat report tables
 references/         standards the agents cite
 cli/                the hele CLI — Node + commander (src/ + bundled dist/)
 scripts/hele        thin shim: skills call ${CLAUDE_PLUGIN_ROOT}/scripts/hele
-scripts/build-cursor.mjs   generates the Cursor adapter from the core
-dist/cursor/        generated Cursor adapter (.cursor/ to copy into a project)
 ```
 
 ## CLI
@@ -254,4 +266,4 @@ cd cli && npm link        # dev setup — `hele <command>` anywhere
 # once published: npm i -g hele-cli
 ```
 
-Contributing: edit `cli/src/`, `agents/`, `skills/`, or `templates/`, then rebuild **both** committed bundles — `cd cli && npm run build` (`cli/dist/hele.cjs`) and `node scripts/build-cursor.mjs` (`dist/cursor/`). CI fails if either is stale.
+Contributing: edit `cli/src/`, then rebuild and commit `cli/dist/hele.cjs` (`cd cli && npm run build`). CI fails if that bundle is stale. The plugin skills live in `skills/` / `agents/` / `templates/` — Claude Code only.

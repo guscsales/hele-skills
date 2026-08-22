@@ -1,2 +1,3 @@
 node_modules/
 cli/src/cursor-assets.json
+/dist/

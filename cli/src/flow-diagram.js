@@ -64,5 +64,6 @@ export const FLOW_DIAGRAM = `
  │ /hele-status  the board: versions, drift, next       │
  │ /hele-iterate post-build discovery, same increment   │
  │ /hele-fast    small low-risk change, one artifact    │
+ │ /hele-yolo    free creation, docs from the work      │
  ╰──────────────────────────────────────────────────────╯
 `.replace(/^\n/, '').replace(/\n$/, '');

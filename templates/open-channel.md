@@ -32,4 +32,4 @@ Forbidden after a spawn: waiting, polling, Await, "check if Lisbon finished", st
 A later turn resumes: a sub-agent report arrived, **or** the CEO spoke. If they spoke while work is in flight, **answer them first** — the line stays open. Then, if a report is in, read only that report and dispatch the next bead the same way (spawn, announce, stop).
 </turn>
 
-Beads is the trace. No doing without a beads issue. Owner on the issue matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`, `[AGENT] general — BUILD: until pass`).
+Beads is the trace. No doing without a beads issue. Owner on the issue matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`, `[AGENT BE] Cho — YOLO: <task>`, `[AGENT] general — BUILD: until pass`).
