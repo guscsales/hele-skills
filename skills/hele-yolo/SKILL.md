@@ -83,7 +83,7 @@ Repeat until the CEO says that's it.
 3. Split into bounded worker tasks with **non-overlapping file scopes**. `bd create` each `YOLO: <task>`, owner matching the persona.
 4. Dispatch up to `maxParallel` **background** sub-agents. Description `[AGENT BE] Cho — YOLO: <task>` (role tag matches the owner). Announce one Dispatch table (one row per worker). **END THE TURN.**
 5. A later turn — report in: read the worker report only. Relay each result as it lands (never batch silently). Close the bead on `done`. `blocked` → AskUserQuestion; one retry worker with the failure digest; still broken → **YOLO HALT** (do not improvise a third try).
-6. Close every wave with Lisbon's **YOLO WAVE** signature. Affected tests only this wave; the full suite waits for the finale. Update `.hele/tmp/PROGRESS.md`.
+6. Close every wave with Lisbon's **YOLO WAVE** signature. Affected tests only this wave; the full suite waits for the finale. Update `.hele/tmp/PROGRESS.md`. The Next table is two rows in the CEO's language: keep going = continue building (say the next ask); that's it / é isso = stop, then we write the paperwork from the work. Never one mashed "keep going, or say that's it to formalize" line.
 7. CEO wants to see it running → dispatch a worker to start it locally and report how to look. Do not run the app in this session.
 
 Quick sanity per wave (the tests the workers already ran). Formalization waits for phase 3.

@@ -115,6 +115,8 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 **YOLO WAVE** (`/hele-yolo`, each wave):
 
+Two Next rows, in the CEO's language. Never mash keep-going and stop into one cell. Never say "formalize" here — say what stop does.
+
 ```
 | Report | Scope |
 |---|---|
@@ -133,9 +135,10 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 |---|---|
 | [<name>](<path>) | created / updated / deleted |
 
-| Next | Command |
+| Next | What it means |
 |---|---|
-| ▶ | keep going, or say "that's it" to formalize |
+| keep going | continue — just say the next thing to build. this chat stays in /hele-yolo |
+| that's it | stop — we'll write the PRD, tests, review, and optional draft PR from this work |
 ```
 
 **YOLO FORMALIZE** (`/hele-yolo`, that's it):

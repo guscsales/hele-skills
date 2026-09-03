@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.14.1 — 2026-09-03
+
+- fix: YOLO WAVE next step is two rows — keep going = continue building, that's it = stop and write the paperwork. The old one-liner ("keep going, or say that's it to formalize") was opaque.
+
 ## v0.14.0 — 2026-08-22
 
 - feat: `/hele-yolo` — free-creation lane. Agent Lisbon conducts; named hele agents (models from `settings.json`) build on `YOLO:` beads; paperwork is generated FROM the work when you say that's it (PRD, stubs, tests, review, optional draft PR). Sticky like `/hele-fast` / `/hele-iterate`. Re-run `/hele-init` to refresh the session rule.
