@@ -3586,8 +3586,8 @@ refusals). Engineers build the ITERATE: tasks with the same TDD
 discipline as /hele-build. New or rewritten stubs \u2192 /hele-qa; stubs
 untouched \u2192 /hele-verify-work. The increment stays open; you can run it
 again. Type it once: later prompts in that chat stay in the loop.
-Say "build til pass" (or "builda at\xE9 passar") and Lisbon dispatches a
-general agent to make the project compile green \u2014 that is not a new
+Say "build til pass" (or "builda at\xE9 passar") and Lisbon dispatches
+[AGENT] Summer to make the project compile green \u2014 that is not a new
 discovery.`
   },
   {

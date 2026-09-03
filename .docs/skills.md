@@ -10,7 +10,7 @@ Bootstraps the harness in a project. Run once; idempotent — re-running reports
 
 - Asks the harness folder name (`.hele` recommended; a custom name writes a `.helerc` pointer) and whether a design system exists.
 - Creates `settings.json`, `index.json`, `state.json`, `LEARNINGS.md`, `features/`.
-- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` / `/hele-yolo` stay in force, "build until pass" dispatches a general agent, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
+- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` / `/hele-yolo` stay in force, "build until pass" dispatches `[AGENT] Summer`, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
 - Verifies the beads CLI (`bd`) and initializes its database. beads is the harness's task tracker — mandatory, not a choice.
 
 ## /hele-feature
@@ -62,7 +62,7 @@ The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (disp
 - **DB gate enforced:** migration tasks don't dispatch without an approved DB_CHANGES, and Red John checks the written migration against it before the task closes.
 - Blockers and product ambiguities become questions to you immediately; work continues on other tasks meanwhile.
 - Resumable: interrupted sessions pick up from beads state.
-- Mid-loop **build until pass** (`build til pass`, `builda até passar`, …) is the project compile — Lisbon dispatches a general-purpose agent; it is not this increment loop.
+- Mid-loop **build until pass** (`build til pass`, `builda até passar`, …) is the project compile — Lisbon dispatches `[AGENT] Summer`; it is not this increment loop.
 
 ### /hele-build --from-qa
 
@@ -121,13 +121,13 @@ The complementary loop: you are already past build and just found something you 
 - Schema and security stay in the loop with Red John / Jane gates — they are not hard refusals here.
 - New or rewritten stubs → `/hele-qa`. Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
 - **Sticky:** type `/hele-iterate` once. Later prompts in that conversation are another discovery — you do not re-type the command. A bare message is the same as picking "another discovery".
-- **Build until pass** is not a discovery. `build til pass` / `builda até passar` → Lisbon dispatches a general agent for the project compile, then stays in iterate.
+- **Build until pass** is not a discovery. `build til pass` / `builda até passar` → Lisbon dispatches `[AGENT] Summer` for the project compile, then stays in iterate.
 
 ## /hele-yolo
 
 The free-creation lane: you build first, paperwork comes FROM the work.
 
-- Agent Lisbon conducts in the main chat. She never writes production code. Workers are the named hele agents, each on the model from `settings.agents.models` (Cho, Van Pelt, Jane, Rigsby, Vega, Red John). Never a nameless general agent for product work.
+- Agent Lisbon conducts in the main chat. She never writes production code. Workers are the named hele agents, each on the model from `settings.agents.models` (Cho, Van Pelt, Jane, Rigsby, Vega, Red John). Never a nameless general agent for product work. Compile-until-green is `[AGENT] Summer`.
 - No PRD, DESIGN_SPEC, EXECUTION_PLAN, or stubs up front. Each ask becomes `YOLO:` beads with a file-overlap guard and `maxParallel`. Docs wait until you say that's it.
 - Vega only when you asked for a new screen. Schema → Red John (blocking `DB_CHANGES` approval). Security → Jane. Product ambiguity → Lisbon asks you, never guesses.
 - **"that's it"** opens the formalization pass (existing skills, never reimplemented): Hightower writes the PRD from the session diff, Wylie writes stubs and Playwright tests, Lisbon reviews, optional draft PR. Pick all or a subset.

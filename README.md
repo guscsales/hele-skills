@@ -108,7 +108,7 @@ Agent Lisbon is the boss. She classifies the discovery and dispatches only the p
 
 The increment stays open. You can iterate again. Type `/hele-iterate` once — later prompts in that conversation stay in the loop (beads + the agent chain) until you invoke a different `/hele-*`.
 
-Say **build til pass** (or `build until pass`, `builda até passar`) at any time — including mid-iterate — and Lisbon dispatches a general-purpose agent to run the project compile/typecheck until it exits 0. That is the app build, not `/hele-build`.
+Say **build til pass** (or `build until pass`, `builda até passar`) at any time — including mid-iterate — and Lisbon dispatches `[AGENT] Summer` to run the project compile/typecheck until it exits 0. That is the app build, not `/hele-build`.
 
 ```
 you: "wait — I forgot this", "actually this should do X" or similar
@@ -180,10 +180,11 @@ you: "bora construir X", "vamos jogando", or similar
 | `[AGENT SEC]` | Jane | Security Engineer — threat-models risky increments | Fable 5 |
 | `[AGENT INFRA]` | Rigsby | Infra Engineer — CI, environments, deploys | Sonnet 5 |
 | `[AGENT QA]` | Wylie | QA — writes TEST_STUBS (Fable 5), turns them into Playwright e2e tests (Sonnet 5), hosts your guided verification | split |
+| `[AGENT]` | Summer | Compile fixer — "build until pass". Cho's CI | via `staff-lisbon-run` |
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. After each dispatch the turn ends so the line stays open — talk while they run.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. `[AGENT] Summer` (build until pass) also runs on `staff-lisbon-run`. After each dispatch the turn ends so the line stays open — talk while they run.
 
 ## Project layout (created by /hele-init)
 

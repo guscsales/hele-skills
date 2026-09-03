@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.14.2 — 2026-09-03
+
+- feat: "build until pass" is `[AGENT] Summer` (Summer Edgecombe). Dispatch description `[AGENT] Summer — BUILD: until pass`. Model still `staff-lisbon-run`. Re-run `/hele-init` to refresh the session rule.
+
 ## v0.14.1 — 2026-09-03
 
 - fix: YOLO WAVE next step is two rows — keep going = continue building, that's it = stop and write the paperwork. The old one-liner ("keep going, or say that's it to formalize") was opaque.

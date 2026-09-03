@@ -5,7 +5,7 @@ description: >-
   directory (settings.json, index.json, state.json, LEARNINGS.md, features/),
   installs the sticky-lane session rule so /hele-fast, /hele-iterate,
   and /hele-yolo stay in force for follow-up prompts and "build until
-  pass" phrases dispatch a general agent, interviews the CEO about design
+  pass" phrases dispatch [AGENT] Summer, interviews the CEO about design
   system and beads, initializes the beads database, and reports readiness.
   Use when the user invokes /hele-init, says "set up hele", "initialize
   hele", or when any hele skill runs in a project that has no .hele
