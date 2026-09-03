@@ -99,9 +99,13 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 | Field | Value |
 |---|---|
 | Idea | <one paragraph restatement · what done looks like> |
-| Team | Lisbon conducts · workers from settings.agents.models |
 | First wave | <n> workers — <one line each> |
 | Parallel | max <n> in flight |
+
+| Agent | Model |
+|---|---|
+| [AGENT BE] Cho | <settings.agents.models.backend-cho for this runtime> |
+| [AGENT FE] Van Pelt | <only rows for workers this wave will dispatch> |
 
 | File | Change |
 |---|---|

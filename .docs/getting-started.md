@@ -24,7 +24,7 @@ cd cli && npm link        # from a clone of this repo
 /hele-init
 ```
 
-This creates the harness folder (`.hele/` by default — you pick the name), asks about your design system, installs the sticky-lane session rule (so `/hele-fast`, `/hele-iterate`, and `/hele-yolo` keep running on follow-up prompts), and makes sure [beads](https://beads.gascity.com/) (`bd`) — the dependency-aware issue tracker the harness runs on — is installed. Run it once per project; it's idempotent and never overwrites. Already initialized? Re-run to fill the session rule if it's missing.
+This creates the harness folder (`.hele/` by default — you pick the name), asks how design works (a design system, none yet, or no design — Vega sits out), installs the sticky-lane session rule (so `/hele-fast`, `/hele-iterate`, and `/hele-yolo` keep running on follow-up prompts), and makes sure [beads](https://beads.gascity.com/) (`bd`) — the dependency-aware issue tracker the harness runs on — is installed. Run it once per project; it's idempotent and never overwrites. Already initialized? Re-run to fill the session rule if it's missing.
 
 ## Ship your first feature
 

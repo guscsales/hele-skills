@@ -2,6 +2,14 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.14.3 — 2026-09-03
+
+- fix: init Next table offers `/hele-feature` (spec first) and `/hele-yolo` (build first), each with a short what-happens-next — the old Hightower one-liner was opaque to a first run.
+- fix: `/hele-init` writes the session rule to `.claude/rules/` only. Do not create `.cursor/`.
+- chore: Cursor model defaults — Lisbon / Hightower / Jane / Wylie-stubs / Red John = `grok`; Cho / Van Pelt / Rigsby / Wylie-run / Lisbon-run = `composer`; Vega = `opus`.
+- fix: workers always dispatch on `settings.agents.models` for this runtime. No more "switch the picker" warning. Dispatch table includes Model; YOLO overture lists the wave's models. Override only when the CEO asks this turn.
+- feat: init design question has a third option — "this project has no design" (`designSystem.enabled: false`). Vega sits out of feature / plan / yolo / iterate; `/hele-design` refuses until you flip the flag.
+
 ## v0.14.2 — 2026-09-03
 
 - feat: "build until pass" is `[AGENT] Summer` (Summer Edgecombe). Dispatch description `[AGENT] Summer — BUILD: until pass`. Model still `staff-lisbon-run`. Re-run `/hele-init` to refresh the session rule.

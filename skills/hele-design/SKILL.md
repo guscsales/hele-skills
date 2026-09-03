@@ -7,7 +7,8 @@ description: >-
   system into .hele/DESIGN_SYSTEM.md when paths are configured. Use when the
   user invokes /hele-design, when a PRD with UI was just approved, when Agent
   Lisbon flags design involvement during planning, or when the user asks to
-  spec/design the screens of a hele feature.
+  spec/design the screens of a hele feature. Refuse when
+  settings.designSystem.enabled is false (project has no design).
 ---
 
 # hele-design
@@ -16,7 +17,8 @@ You are running Agent Vega's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}
 
 <context>
 - Requires an initialized project (`.hele/`) and an **approved** PRD for the target feature (from `state.json.activeFeature`, or ask which feature). PRD still `draft` → stop and route back to /hele-feature approval.
-- Load: `.hele/settings.json` (designSystem paths + map location), `.hele/LEARNINGS.md`, the PRD (read `<flows>` diagrams and `### BR-n` rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+- Load: `.hele/settings.json` (designSystem enabled/paths + map location), `.hele/LEARNINGS.md`, the PRD (read `<flows>` diagrams and `### BR-n` rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+- **`designSystem.enabled` is false** → stop. Vega sits out on this project. Say so, point to `hele config set designSystem.enabled true` if they want her back, and route to `/hele-plan`. Do not write a DESIGN_SPEC. Missing `enabled` means `true`.
 - The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/design-spec.md` — its RULES comments are law.
 </context>
 

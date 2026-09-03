@@ -184,7 +184,7 @@ you: "bora construir X", "vamos jogando", or similar
 
 The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "grok"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. `[AGENT] Summer` (build until pass) also runs on `staff-lisbon-run`. After each dispatch the turn ends so the line stays open — talk while they run.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "composer"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. `[AGENT] Summer` (build until pass) also runs on `staff-lisbon-run`. After each dispatch the turn ends so the line stays open — talk while they run.
 
 ## Project layout (created by /hele-init)
 
@@ -226,6 +226,7 @@ Skills never grep ad hoc. They search through `hele find` against `index.json` (
 ```bash
 claude plugin marketplace add guscsales/hele-skills
 claude plugin install hele-skills@hele
+claude plugin install hele-skills@hele -s project   # this repo, shared with the team
 ```
 
 Working from a local clone (contributors):

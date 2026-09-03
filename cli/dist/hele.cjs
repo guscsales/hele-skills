@@ -3427,7 +3427,8 @@ var SKILLS = [
     detail: `Bootstraps the harness in a project: creates .hele/ (settings.json,
 index.json, state.json, LEARNINGS.md, features/), installs the sticky-lane
 session rule so /hele-fast, /hele-iterate, and /hele-yolo stay in force for follow-ups,
-asks about your design system, and makes sure the beads CLI (bd) is
+asks how design works (design-system paths, none yet, or no design \u2014
+Vega sits out), and makes sure the beads CLI (bd) is
 installed and initialized. Idempotent \u2014 safe to re-run, never overwrites.`
   },
   {

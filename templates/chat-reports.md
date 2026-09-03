@@ -15,6 +15,7 @@ Every hele skill reports in chat using this shared visual language. The CEO is a
 - Approval gates end with the **Actions** table (below). Option 1 **is** the next command — do not also emit a Next or After approval table.
 - **Suggest `/clear` only when a phase closed without auto-chaining** (FAST, YOLO FINALE, RETRO, status, verify-work option `2` close, or the CEO explicitly paused). Approval gates auto-chain: option `1` starts the next skill in the same turn, so do not suggest `/clear` there. The verify-work close gate is the exception: option `1` starts `/hele-retro`; option `2` closes the increment (no next skill — `/clear` is fine); option `3` starts `/hele-iterate`. Never suggest /clear mid-phase, mid-interview, or while an approval/question is still pending — that context isn't on disk yet. FAST, ITERATE, and YOLO are sticky in the same conversation: do not tell the CEO to re-type `/hele-fast`, `/hele-iterate`, or `/hele-yolo` for the next prompt.
 - **Open channel.** The main session is the CEO's line. Doing work (review, suite, artifacts, codebase reads) is a background sub-agent — Lisbon and Hightower included. After a Dispatch table, **end the turn**. Never wait, never explore "while you wait". "Waiting for subagent" in the main chat is a bug. If the CEO talks while a worker runs, answer them.
+- **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for THIS runtime (`cursor` in Cursor, `claude-code` in Claude Code). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug. The CEO named a different model this turn → that worker only; the cell is that override. Do not tell the CEO to switch the session model picker — the main chat stays on whatever they already selected; that is the open channel, not a defect.
 - File artifacts are exempt: markdown docs stay clean, no box-drawing frames or emoji inside `.hele/` files.
 - Chat language follows the CEO (pt-BR in, pt-BR out). Artifacts are always English.
 - **`.hele/` is a placeholder, not a hardcoded path.** The harness folder is `.hele/` at the project root by default, but the CEO may have named it differently at init: a `.helerc` file at the root (`{"dirName": "<name>"}`) points to the real folder. Every skill resolves the dir first (`.hele` → else `.helerc`) and uses the resolved name in paths and links.
@@ -84,7 +85,7 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 |---|---|
 | Folder | `.hele/` created / already existed |
 | Beads | ✅ bd <version> · db ready  /  ⚠️ not installed → <install hint> |
-| Design system | <n> path(s) registered / none |
+| Design system | <n> path(s) registered / none yet / none — Vega sits out |
 
 | File | Change |
 |---|---|
@@ -92,12 +93,12 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 | [index.json](.hele/index.json) | created (0 features) / kept (<n> features) |
 | [state.json](.hele/state.json) | created / kept |
 | [LEARNINGS.md](.hele/LEARNINGS.md) | created / kept (<n> learnings) |
-| [hele-session.mdc](.cursor/rules/hele-session.mdc) | written (sticky lanes + open channel) |
 | [hele-session.md](.claude/rules/hele-session.md) | written (sticky lanes + open channel) |
 
 | Next | Command |
 |---|---|
-| ▶ | /hele-feature "<your idea>" — Agent Hightower takes it from there |
+| ▶ | /hele-feature "<your idea>" — spec first: Hightower interviews you and writes the PRD, then you approve each step (design → plan → build → test) |
+| ▶ | /hele-yolo "<your idea>" — build first: Lisbon starts the team now; we write the PRD and tests after, when you say that's it |
 ```
 
 ## Files table (inside any report that wrote to disk)
@@ -115,9 +116,9 @@ Prose summary first (CEO's language), then tables. Never a box around the report
 Emit this, say you are here, **end the turn**. Do not wait for the agent.
 
 ```
-| Dispatch | Agent | Work |
-|---|---|---|
-| 🕵️ | [AGENT STAFF] Lisbon | plan increment 002-coupon-stacking |
+| Dispatch | Agent | Model | Work |
+|---|---|---|---|
+| 🕵️ | [AGENT STAFF] Lisbon | grok | plan increment 002-coupon-stacking |
 ```
 
 ## Question block (planning phases — before AskUserQuestion calls)

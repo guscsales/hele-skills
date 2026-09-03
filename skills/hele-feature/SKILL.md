@@ -75,9 +75,10 @@ Forbidden: wrapping the report in a markdown code fence; drawing box-drawing div
 
 Option 1 names the next skill, chosen from the interview — not from “has a UI”:
 
+- **`settings.designSystem.enabled` is false** (this project has no design) → always `/hele-plan`. `✅ Approve — PRD v<X.Y> goes to approved → /hele-plan — Agent Lisbon plans the increment (this project has no design, so Vega sits out)`. Write `features/<slug>/NOTES.md`: `Design not needed — this project has no design; Vega sits out.` (create the file if missing).
 - **New screens or visual layout/component work** → `✅ Approve — PRD v<X.Y> goes to approved → /hele-design — Agent Vega specs the screens`
 - **Existing screens reused** (no new surface, no redesign) **or backend/infra only** → `✅ Approve — PRD v<X.Y> goes to approved → /hele-plan — Agent Lisbon plans the increment (design is not needed for this screen, so /hele-design will not run)`. When skipping design, also write one bullet to `features/<slug>/NOTES.md`: `Design not needed — existing screens reused; no DESIGN_SPEC this increment.` (create the file if missing). That signal stops Lisbon from bouncing back to `/hele-design`.
-- **Unsure** → ask once; do not auto-chain until the CEO picks.
+- **Unsure** → ask once; do not auto-chain until the CEO picks. Missing `designSystem.enabled` means `true`.
 
 On `1`: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json, then immediately read and execute the named skill (`${CLAUDE_PLUGIN_ROOT}/skills/hele-design/SKILL.md` or `skills/hele-plan/SKILL.md`) in this same turn. Do not wait for a second prompt; do not ask the CEO to type the slash command. Open questions remaining → approval is blocked; say which answers are missing.
 </phase>

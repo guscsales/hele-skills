@@ -24,7 +24,7 @@ Plugin resources referenced below live at `${CLAUDE_PLUGIN_ROOT}` (templates in 
 
 <phase name="0-detect">
 1. Resolve the hele directory: `$HELE_DIR` env var if set, else `.hele/` at the project root (walk up to the git root if needed).
-2. If it already exists: read `settings.json`, check which standard files are missing (`index.json`, `state.json`, `LEARNINGS.md`, `features/`), create ONLY the missing ones, then skip to phase 3 and report what was found vs. filled. Never overwrite an existing `.hele/` file. Exception: always rewrite the harness-owned session rule in step 5 (`.cursor/rules/hele-session.mdc`, `.claude/rules/hele-session.md`) from the current templates.
+2. If it already exists: read `settings.json`, check which standard files are missing (`index.json`, `state.json`, `LEARNINGS.md`, `features/`), create ONLY the missing ones, then skip to phase 3 and report what was found vs. filled. Never overwrite an existing `.hele/` file. Exception: always rewrite the harness-owned session rule in step 5 (`.claude/rules/hele-session.md` only) from the current templates.
 3. If the project is not a git repository, note it in the report (recommend git — `.hele/` is memory and belongs in version control) but do not run `git init` without asking.
 </phase>
 
@@ -36,9 +36,10 @@ Ask the CEO before creating anything (AskUserQuestion — one call, both questio
    - ".harness"
    - ".memory"
    (the CEO can always type another name via Other)
-2. "Does this project have a design system Agent Vega should learn?"
-   - "Yes — I'll provide the path(s)" (follow up: collect the path(s), store as array in `designSystem.paths`)
-   - "No design system yet"
+2. "Does this project have design work for Agent Vega?"
+   - "Yes — there's a design system; I'll provide the path(s)" (follow up: collect the path(s), store as array in `designSystem.paths`, `designSystem.enabled: true`)
+   - "No design system yet — Vega still specs new screens" (`enabled: true`, `paths: []`)
+   - "This project has no design — Vega stays out" (`enabled: false`, `paths: []`)
 
 Do NOT ask about task tracking — beads is the harness standard, not a choice. Do not re-ask questions whose answers already exist in `settings.json` (idempotent runs).
 </phase>
@@ -53,7 +54,7 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
      LEARNINGS.md       ← header only (see below)
      features/          ← empty dir (add .gitkeep)
    ```
-   Use the chosen folder name everywhere `.hele/` appears; set `settings.dirName` to it. **Name other than `.hele`** → also write `.helerc` at the project root: `{"dirName": "<name>"}` — the pointer the CLI and every skill use to find the harness dir. The sticky-lane rules in step 5 live at the project root (`.cursor/rules/`, `.claude/rules/`), not inside the harness folder — the runtimes only auto-load rules from those paths.
+   Use the chosen folder name everywhere `.hele/` appears; set `settings.dirName` to it. **Name other than `.hele`** → also write `.helerc` at the project root: `{"dirName": "<name>"}` — the pointer the CLI and every skill use to find the harness dir. The sticky-lane rule in step 5 lives at the project root (`.claude/rules/` only), not inside the harness folder — Claude Code auto-loads rules from that path.
 2. `LEARNINGS.md` header:
    ```markdown
    # Learnings
@@ -65,16 +66,11 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
 3. Beads is mandatory — the harness's task tracker, never optional, never replaced by markdown tasks. Check with `${CLAUDE_PLUGIN_ROOT}/scripts/hele install --check`:
    - Present → run `bd init --quiet` at the project root if no beads database exists yet.
    - Missing → offer to install now (AskUserQuestion): run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` on yes; on no, give the command (`hele install`, or `brew install beads`) and mark the report `⚠️ beads missing — /hele-plan and /hele-build are blocked until installed`.
-4. If design-system paths were provided: verify each path exists, store in `settings.designSystem.paths`, and recommend running `/hele-design` to let Vega build the map (do not run it automatically).
-5. Session rule — sticky lanes + open channel. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into both of these (create parent dirs). **Always rewrite** these two files — they are harness-owned, not project memory:
-   - `.cursor/rules/hele-session.mdc` — wrap that body in Cursor rule frontmatter:
-     ```
-     ---
-     description: hele session — sticky lanes + open channel (doing work is always a background sub-agent)
-     alwaysApply: true
-     ---
-     ```
-   - `.claude/rules/hele-session.md` — the concatenated body as-is (Claude Code project rule).
+4. Design setting from the interview, written into `settings.designSystem`:
+   - Paths provided → verify each exists, store them, `enabled: true`. Recommend `/hele-design` so Vega can map the system (do not run it automatically).
+   - No design system yet → `enabled: true`, `paths: []`.
+   - This project has no design → `enabled: false`, `paths: []`. Do not recommend `/hele-design`. Missing `enabled` on an old settings file means `true`.
+5. Session rule — sticky lanes + open channel. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into `.claude/rules/hele-session.md` (create parent dirs). **Always rewrite** that file — it is harness-owned, not project memory. Claude Code only: do **not** create `.cursor/` or write a Cursor session rule.
 </phase>
 
 <phase name="3-report">
@@ -82,7 +78,7 @@ Render the Init report (chat-reports.md canonical block) as chat text — never 
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
-If a design system was registered, add a second row to the Next table: `/hele-design — let Agent Vega map the design system`.
+The Next table has two command rows (feature = spec-first cycle, yolo = build-first). If `designSystem.enabled` is false, drop `design →` from the feature row (plan → build → test). If a design system was registered, add a third row: `/hele-design — let Agent Vega map the design system`. Never add that row when Vega sits out.
 </phase>
 
 <rules>

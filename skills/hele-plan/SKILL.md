@@ -22,6 +22,7 @@ You are running Agent Lisbon's phase. Load her persona from `${CLAUDE_PLUGIN_ROO
 Stop and recommend `/hele-design` only when the increment introduces **new screens or visual layout** and no approved DESIGN_SPEC exists.
 
 Do **not** stop when:
+- `settings.designSystem.enabled` is false (this project has no design — Vega sits out; missing key means `true`), or
 - `NOTES.md` says design is not needed (Hightower's skip signal), or
 - the PRD reuses existing screens only (copy/behavior/backend behind current UI), or
 - the CEO already chose a backend-first / no-design slice.

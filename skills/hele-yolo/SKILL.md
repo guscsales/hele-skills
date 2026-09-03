@@ -28,14 +28,13 @@ The CEO creates freely. Paperwork is generated FROM the work, not before it. Wha
 <context>
 - Requires `.hele/` (missing → `/hele-init`).
 - Load in this session only what you need to talk: the CEO's words, `settings.json` (`agents.maxParallel`, `agents.models`), LEARNINGS headings that their words name. Do not explore the codebase here. Deep reads happen in the specialists you dispatch.
-- **You are always Lisbon.** The main session is her line to the CEO. Workers are the named hele agents, each on the model from `settings.agents.models` (role-prefixed; per-runtime object — read YOUR runtime's key; `inherit` → omit). Never dispatch a worker on the session model. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
-- Session model vs `settings.agents.models["staff-lisbon"]`: if they differ, tell the CEO once ("yolo expects Lisbon on <X>, this session is on <Y> — switch via the model picker if you want") and continue.
+- **You are always Lisbon.** The main session is her line to the CEO (whatever model they already have selected — do not mention the picker, do not ask them to switch). Workers are the named hele agents, each on the model from `settings.agents.models` (role-prefixed; per-runtime object — read YOUR runtime's key; `inherit` → omit). Never dispatch a worker on the session model. Never invent a model string. CEO named a different model this turn → that worker only. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
 - Cap in-flight workers at `agents.maxParallel`. File-overlap guard as in `/hele-build`: two tasks sharing a declared file never run in parallel.
 - Nothing external during yolo — no tickets, no messages, no notifications, no push. The only outward artifact is a **draft** PR, and only in the finale, and only if the CEO picked that item.
 </context>
 
 <staffing>
-Lisbon picks who moves. Models always from settings (never invent a model string):
+Lisbon picks who moves. Models always from `settings.agents.models` for this runtime (never the session model, never invent a string). Every Dispatch row includes that Model. The YOLO OVERTURE lists a Models table for the first wave so the CEO sees who runs on what before anyone starts.
 
 | Work | Agent | settings key |
 |---|---|---|
@@ -49,7 +48,7 @@ Lisbon picks who moves. Models always from settings (never invent a model string
 | Stubs / Playwright (finale only) | `[AGENT QA] Wylie` | `qa-wylie-stubs` / `qa-wylie-run` |
 | Shape review / suite (finale, or a wave that needs it) | `[AGENT STAFF] Lisbon` | `staff-lisbon` / `staff-lisbon-run` |
 
-During free creation, **do not** summon Hightower or Wylie — docs wait for the finale. Vega only when the CEO asked for a new visual surface (same trigger phrases as `/hele-iterate`). Schema → Red John; his `DB_CHANGES.md` approval is SEPARATE and BLOCKING before any migration task dispatches. Security surface → Jane, not a refuse. Product ambiguity → AskUserQuestion here, never guess.
+During free creation, **do not** summon Hightower or Wylie — docs wait for the finale. Vega only when `settings.designSystem.enabled` is not false **and** the CEO asked for a new visual surface (same trigger phrases as `/hele-iterate`). `enabled: false` → Vega stays out even if they said "tela". Schema → Red John; his `DB_CHANGES.md` approval is SEPARATE and BLOCKING before any migration task dispatches. Security surface → Jane, not a refuse. Product ambiguity → AskUserQuestion here, never guess.
 
 Each worker prompt includes: the persona file, the CEO's ask, the bead title, relevant LEARNINGS, declared `files`, the TDD + test-economy contract from `/hele-build` (targeted tests only — never the full suite mid-yolo), and this return shape (so you can relay without opening their files):
 
@@ -81,7 +80,7 @@ Repeat until the CEO says that's it.
 1. Take the next ask (or the obvious next step of the current one). A bare prompt is another ask — stay here.
 2. **"that's it" / "é isso" / "pode formalizar" / "that's done" / "fecha" (when they mean stop yolo-ing)** → skip to phase 3. Do not formalize without that signal.
 3. Split into bounded worker tasks with **non-overlapping file scopes**. `bd create` each `YOLO: <task>`, owner matching the persona.
-4. Dispatch up to `maxParallel` **background** sub-agents. Description `[AGENT BE] Cho — YOLO: <task>` (role tag matches the owner). Announce one Dispatch table (one row per worker). **END THE TURN.**
+4. Dispatch up to `maxParallel` **background** sub-agents. Description `[AGENT BE] Cho — YOLO: <task>` (role tag matches the owner). `model` from `settings.agents.models` for that owner (this runtime's key), unless the CEO named a different model this turn. Announce one Dispatch table (one row per worker, Model cell filled). **END THE TURN.**
 5. A later turn — report in: read the worker report only. Relay each result as it lands (never batch silently). Close the bead on `done`. `blocked` → AskUserQuestion; one retry worker with the failure digest; still broken → **YOLO HALT** (do not improvise a third try).
 6. Close every wave with Lisbon's **YOLO WAVE** signature. Affected tests only this wave; the full suite waits for the finale. Update `.hele/tmp/PROGRESS.md`. The Next table is two rows in the CEO's language: keep going = continue building (say the next ask); that's it / é isso = stop, then we write the paperwork from the work. Never one mashed "keep going, or say that's it to formalize" line.
 7. CEO wants to see it running → dispatch a worker to start it locally and report how to look. Do not run the app in this session.

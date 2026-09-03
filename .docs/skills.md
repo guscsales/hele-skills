@@ -8,9 +8,9 @@ Jump to: [init](#hele-init) · [feature](#hele-feature) · [design](#hele-design
 
 Bootstraps the harness in a project. Run once; idempotent — re-running reports state and fills gaps, never overwrites.
 
-- Asks the harness folder name (`.hele` recommended; a custom name writes a `.helerc` pointer) and whether a design system exists.
+- Asks the harness folder name (`.hele` recommended; a custom name writes a `.helerc` pointer) and how design works: design-system paths, no system yet (Vega still specs screens), or **this project has no design** (`designSystem.enabled: false` — Vega sits out).
 - Creates `settings.json`, `index.json`, `state.json`, `LEARNINGS.md`, `features/`.
-- Installs the session rule (`.cursor/rules/hele-session.mdc` + `.claude/rules/hele-session.md`): sticky lanes so `/hele-fast` / `/hele-iterate` / `/hele-yolo` stay in force, "build until pass" dispatches `[AGENT] Summer`, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
+- Installs the session rule (`.claude/rules/hele-session.md` only — no `.cursor/`): sticky lanes so `/hele-fast` / `/hele-iterate` / `/hele-yolo` stay in force, "build until pass" dispatches `[AGENT] Summer`, and the open channel so doing work is always a background sub-agent. Re-run on an existing project to fill this if it's missing.
 - Verifies the beads CLI (`bd`) and initializes its database. beads is the harness's task tracker — mandatory, not a choice.
 
 ## /hele-feature
@@ -25,7 +25,7 @@ Agent Hightower (PM) turns your idea into an approved PRODUCT_DESCRIPTION — or
 
 ## /hele-design
 
-Agent Vega (UI/UX) turns an approved PRD into a DESIGN_SPEC for the increment. Skipped when the FEATURE BRIEF decides no new screens need design — option 1 goes to `/hele-plan` with a parenthetical noting why `/hele-design` will not run.
+Agent Vega (UI/UX) turns an approved PRD into a DESIGN_SPEC for the increment. Skipped when the FEATURE BRIEF decides no new screens need design, or when the project was initialized with **no design** (`designSystem.enabled: false`) — option 1 goes to `/hele-plan` and Vega stays out. `/hele-design` refuses until you `hele config set designSystem.enabled true`.
 
 - Two mandatory questions before any design work: which tool (Paper / Figma / other / code reference) and which devices (mobile / desktop / tablet).
 - Primes `.hele/DESIGN_SYSTEM.md` once from your configured design-system paths — the project's design memory.
@@ -127,7 +127,7 @@ The complementary loop: you are already past build and just found something you 
 
 The free-creation lane: you build first, paperwork comes FROM the work.
 
-- Agent Lisbon conducts in the main chat. She never writes production code. Workers are the named hele agents, each on the model from `settings.agents.models` (Cho, Van Pelt, Jane, Rigsby, Vega, Red John). Never a nameless general agent for product work. Compile-until-green is `[AGENT] Summer`.
+- Agent Lisbon conducts in the main chat (whatever model you already have selected). She never writes production code. Workers are the named hele agents, each on the model from `settings.agents.models` for this runtime — the overture lists them, every Dispatch row shows the Model. Never the session model. Never a nameless general agent for product work. Compile-until-green is `[AGENT] Summer`.
 - No PRD, DESIGN_SPEC, EXECUTION_PLAN, or stubs up front. Each ask becomes `YOLO:` beads with a file-overlap guard and `maxParallel`. Docs wait until you say that's it.
 - Vega only when you asked for a new screen. Schema → Red John (blocking `DB_CHANGES` approval). Security → Jane. Product ambiguity → Lisbon asks you, never guesses.
 - **"that's it"** opens the formalization pass (existing skills, never reimplemented): Hightower writes the PRD from the session diff, Wylie writes stubs and Playwright tests, Lisbon reviews, optional draft PR. Pick all or a subset.

@@ -36,11 +36,12 @@ Read and write `settings.json` by dot path. JSON values are parsed when possible
 hele config list                                     # whole settings file
 hele config get agents.maxParallel
 hele config set agents.maxParallel 6
-hele config set agents.models.backend-cho opus      # per-agent model
+hele config set agents.models.backend-cho opus      # per-agent, both runtimes
+hele config set agents.models.backend-cho.cursor composer
 hele config add designSystem.paths "src/design"     # append to a list (deduped)
 ```
 
-Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "grok"}`); a plain string applies everywhere.
+Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`); a plain string applies everywhere.
 
 ## hele install
 
