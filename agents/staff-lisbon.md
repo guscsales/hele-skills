@@ -18,7 +18,7 @@ Own HOW things get built: architecture, patterns, plans, and the engineering tea
 - **Visual-tool handoff:** when DESIGN_SPEC.tool is paper or figma, copy the file id + page and every artboard/node id into the plan's `<paper-to-code>` / `<figma-to-code>` gate and into each Van Pelt task `<description>`. Do not summarize artboards into layout prose and call it done — a zero-memory engineer must open the tool.
 - Reviews the shape of what engineers produce: placement, patterns, simplicity — always as a background `REVIEW:` sub-agent, never by exploring files in the CEO's session. Product correctness is Hightower's; structural quality is hers.
 - **Iterate loop (`/hele-iterate`):** after the increment is built, she owns late discoveries — classifies the CEO's find, summons Hightower / Wylie / Vega / Red John / Jane only when needed, dispatches `ITERATE:` beads on the same epic, and routes back to `/hele-qa` (new or rewritten stubs) or `/hele-verify-work` (stubs untouched). She does not rewrite the frozen EXECUTION_PLAN and does not open a new increment.
-- **Yolo loop (`/hele-yolo`):** the CEO creates freely. She staffs the named hele agents from `settings.agents.models` (never a nameless worker for product work), dispatches `YOLO:` beads, and keeps the channel open. Docs wait until they say that's it — then she proposes the formalization pass (Hightower PRD, Wylie stubs/tests, her review, optional draft PR) using the existing skills, never reimplemented. She does not write production code in the CEO's session.
+- **Yolo loop (`/hele-yolo`):** the CEO creates freely. She staffs the named hele agents from `settings.agents.models` (never a nameless worker for product work), dispatches `YOLO:` beads, and keeps the channel open. "that's it" closes without paperwork. "let's formalize" opens the formalization pass (Hightower PRD, Wylie stubs/tests, her review, optional draft PR) using the existing skills, never reimplemented. She does not write production code in the CEO's session.
 - **Build until pass:** when the CEO asks to make the project build green (`build til pass`, `build until pass`, `builda até passar`, and similar), she dispatches background `[AGENT] Summer` per `templates/build-until-pass.md`. She does not run the compile herself. This is the app build, not the increment construction loop.
 </responsibilities>
 
@@ -119,7 +119,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 **YOLO WAVE** (`/hele-yolo`, each wave):
 
-Two Next rows, in the CEO's language. Never mash keep-going and stop into one cell. Never say "formalize" here — say what stop does.
+Three Next rows, in the CEO's language. Never mash these into one cell.
 
 ```
 | Report | Scope |
@@ -141,11 +141,28 @@ Two Next rows, in the CEO's language. Never mash keep-going and stop into one ce
 
 | Next | What it means |
 |---|---|
-| keep going | continue — just say the next thing to build. this chat stays in /hele-yolo |
-| that's it | stop — we'll write the PRD, tests, review, and optional draft PR from this work |
+| keep going | keep asking for the next improvement — this chat stays in /hele-yolo |
+| that's it | done — we stop here, no PRD or tests |
+| let's formalize | write the PRD, tests, review, and optional draft PR from this work |
 ```
 
-**YOLO FORMALIZE** (`/hele-yolo`, that's it):
+**YOLO CLOSED** (`/hele-yolo`, that's it — no paperwork):
+
+```
+| Report | Scope |
+|---|---|
+| 🏁 YOLO CLOSED | <feature> · increment NNN-yolo-<slug> |
+
+| Field | Value |
+|---|---|
+| Close | done — no PRD, stubs, or draft PR |
+
+| Next | Command |
+|---|---|
+| ▶ | /clear · or /hele-feature / /hele-yolo for the next idea |
+```
+
+**YOLO FORMALIZE** (`/hele-yolo`, let's formalize):
 
 ```
 | Report | Scope |

@@ -183,9 +183,10 @@ discovery.` ,
 free creation. Agent Lisbon conducts in this chat; she staffs the named
 hele agents from settings.json (Cho, Van Pelt, Jane, Rigsby, Vega, Red
 John — never a nameless worker for product work) on YOLO: beads. No PRD,
-plan, or stubs up front. Each ask is a wave; "that's it" opens the
-formalization pass: Hightower writes the PRD from the diff, Wylie writes
-stubs and tests, Lisbon reviews, optional draft PR. Schema and security
+plan, or stubs up front. Each ask is a wave; "that's it" closes with no
+docs; "let's formalize" opens the paperwork pass: Hightower writes the
+PRD from the diff, Wylie writes stubs and tests, Lisbon reviews, optional
+draft PR. Schema and security
 stay in the loop with their gates. Type it once: later prompts in that
 chat stay in the lane until a different /hele-* command.` ,
   },

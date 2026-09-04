@@ -2,13 +2,14 @@
 name: hele-yolo
 description: >-
   Free-creation lane: Agent Lisbon conducts; the named hele agents build from
-  settings.json; paperwork is generated FROM the work when the CEO says that's
-  it. No PRD-first cycle. Use when the user invokes /hele-yolo, wants to vibe /
-  sketch / just build ("bora construir", "vamos jogando", "sem o ciclo",
-  "yolo", "vibe this"), or for ANY follow-up in a conversation that already
-  ran /hele-yolo ("also", "também", "e mais", "espera", "and also", "that's
-  it", "é isso") unless they typed a different /hele-* command. The CEO does
-  not re-type /hele-yolo.
+  settings.json; paperwork is generated FROM the work when the CEO says
+  let's formalize. "that's it" closes without paperwork. No PRD-first cycle.
+  Use when the user invokes /hele-yolo, wants to vibe / sketch / just build
+  ("bora construir", "vamos jogando", "sem o ciclo", "yolo", "vibe this"),
+  or for ANY follow-up in a conversation that already ran /hele-yolo
+  ("also", "também", "e mais", "espera", "and also", "that's it", "é isso",
+  "let's formalize", "pode formalizar") unless they typed a different
+  /hele-* command. The CEO does not re-type /hele-yolo.
 ---
 
 # hele-yolo
@@ -75,17 +76,18 @@ Do not ask permission to begin.
 </phase>
 
 <phase name="2-free-creation">
-Repeat until the CEO says that's it.
+Repeat until the CEO closes or formalizes.
 
 1. Take the next ask (or the obvious next step of the current one). A bare prompt is another ask — stay here.
-2. **"that's it" / "é isso" / "pode formalizar" / "that's done" / "fecha" (when they mean stop yolo-ing)** → skip to phase 3. Do not formalize without that signal.
-3. Split into bounded worker tasks with **non-overlapping file scopes**. `bd create` each `YOLO: <task>`, owner matching the persona.
-4. Dispatch up to `maxParallel` **background** sub-agents. Description `[AGENT BE] Cho — YOLO: <task>` (role tag matches the owner). `model` from `settings.agents.models` for that owner (this runtime's key), unless the CEO named a different model this turn. Announce one Dispatch table (one row per worker, Model cell filled). **END THE TURN.**
-5. A later turn — report in: read the worker report only. Relay each result as it lands (never batch silently). Close the bead on `done`. `blocked` → AskUserQuestion; one retry worker with the failure digest; still broken → **YOLO HALT** (do not improvise a third try).
-6. Close every wave with Lisbon's **YOLO WAVE** signature. Affected tests only this wave; the full suite waits for the finale. Update `.hele/tmp/PROGRESS.md`. The Next table is two rows in the CEO's language: keep going = continue building (say the next ask); that's it / é isso = stop, then we write the paperwork from the work. Never one mashed "keep going, or say that's it to formalize" line.
-7. CEO wants to see it running → dispatch a worker to start it locally and report how to look. Do not run the app in this session.
+2. **"that's it" / "é isso" / "that's done" / "fecha" / "finalizado"** → phase 4 (close, no paperwork). Do not formalize.
+3. **"let's formalize" / "pode formalizar" / "bora formalizar" / "formaliza" / "vamos formalizar"** → skip to phase 3. Do not formalize without that signal.
+4. Split into bounded worker tasks with **non-overlapping file scopes**. `bd create` each `YOLO: <task>`, owner matching the persona.
+5. Dispatch up to `maxParallel` **background** sub-agents. Description `[AGENT BE] Cho — YOLO: <task>` (role tag matches the owner). `model` from `settings.agents.models` for that owner (this runtime's key), unless the CEO named a different model this turn. Announce one Dispatch table (one row per worker, Model cell filled). **END THE TURN.**
+6. A later turn — report in: read the worker report only. Relay each result as it lands (never batch silently). Close the bead on `done`. `blocked` → AskUserQuestion; one retry worker with the failure digest; still broken → **YOLO HALT** (do not improvise a third try).
+7. Close every wave with Lisbon's **YOLO WAVE** signature. Affected tests only this wave; the full suite waits for formalize. Update `.hele/tmp/PROGRESS.md`. The Next table is three rows in the CEO's language: keep going = keep asking for the next improvement; that's it / é isso = done, stop, no paperwork; let's formalize = write the PRD, tests, review, optional draft PR. Never mash these into one cell.
+8. CEO wants to see it running → dispatch a worker to start it locally and report how to look. Do not run the app in this session.
 
-Quick sanity per wave (the tests the workers already ran). Formalization waits for phase 3.
+Quick sanity per wave (the tests the workers already ran). Formalization waits for phase 3. Close-without-docs waits for phase 4.
 </phase>
 
 <phase name="3-formalize">
@@ -106,10 +108,18 @@ After the picked items land: emit **YOLO FINALE**. `state.json.phase: "shipped"`
 On `1` of FORMALIZE: immediately dispatch item 1 (and any others that do not depend on it) in this same turn, then END THE TURN. Stubs wait on the PRD report; tests wait on stubs; review can start after the last build wave; draft PR waits on review if they picked both.
 </phase>
 
+<phase name="4-close">
+The CEO said that's it — done, no paperwork. Do **not** start phase 3.
+
+1. Set `state.json.phase: "shipped"`, `activeIncrement: null`.
+2. Emit Lisbon's **YOLO CLOSED** signature. Suggest `/clear`.
+3. Sticky lane ends. A later idea is a new `/hele-yolo` or `/hele-feature`.
+</phase>
+
 <rules>
 - Lisbon never writes production code. Hightower never writes code. Wylie never fixes product code. Vega never implements.
 - Open channel: this session never explores, patches the PRD, reviews, runs the suite, or opens the PR. Specialists (including Lisbon) run in the background. After every dispatch, end the turn.
-- Sticky: follow-ups stay in this skill. The CEO does not re-type `/hele-yolo`. A bare prompt is another ask. "that's it" is the finale signal.
+- Sticky: follow-ups stay in this skill. The CEO does not re-type `/hele-yolo`. A bare prompt is another ask. "that's it" closes without paperwork. "let's formalize" is the paperwork signal.
 - Fast-lane disqualifiers do **not** apply (schema and security stay in the loop, with their gates). The only refusals: missing `.hele/`, or they invoked a different `/hele-*`.
 - An increment already in `built` | `qa` | `verifying` | `iterating` on the **same** feature → this is not yolo; run `/hele-iterate` instead. Yolo starts a new increment (or resumes an open `phase: "yolo"`).
 - Nothing external during yolo. Draft PR is finale-only, draft-only, and only with approval.

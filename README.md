@@ -152,7 +152,7 @@ you: "fix the empty-state", "change this to be X", or similar
 
 ### The yolo lane
 
-Sometimes you just want to build. `/hele-yolo` is free creation: Agent Lisbon conducts, the named hele agents (Cho, Van Pelt, Jane, Rigsby, Vega, Red John — models from `settings.json`) do the work, and the paperwork is generated FROM the work when you say that's it. No PRD-first cycle. Type it once; follow-ups stay in the lane.
+Sometimes you just want to build. `/hele-yolo` is free creation: Agent Lisbon conducts, the named hele agents (Cho, Van Pelt, Jane, Rigsby, Vega, Red John — models from `settings.json`) do the work, and the paperwork is generated FROM the work when you say let's formalize. "that's it" just stops. No PRD-first cycle. Type it once; follow-ups stay in the lane.
 
 Schema and security stay in the loop with their gates — they are not hard refusals here. An increment already in QA or verify is not yolo; that discovery goes to `/hele-iterate`.
 
@@ -162,9 +162,9 @@ you: "bora construir X", "vamos jogando", or similar
         ▼
   /hele-yolo   (Agent Lisbon)
         │
-        ├─ each ask     → YOLO: beads → the matching agents
-        ├─ "that's it"  → formalize: PRD · stubs · tests · review · draft PR
-        └─ pick a subset, or keep going
+        ├─ each ask           → YOLO: beads → the matching agents
+        ├─ "that's it"        → done, no paperwork
+        └─ "let's formalize"  → PRD · stubs · tests · review · draft PR
 ```
 
 ## The team

@@ -11,7 +11,7 @@ At the start of every user message, before writing product code:
 3. **This conversation already ran `/hele-fast`, `/hele-iterate`, or `/hele-yolo`** and step 1–2 did not fire — you are still in that skill. Immediately re-read its SKILL.md and execute it with this message as the request.
    - **fast** — another small change: full fast spine (triage → beads → agents → FAST.md). New increment if the last one already shipped.
    - **iterate** — another discovery on the open increment: classify → summon → `ITERATE:` beads → route. A bare prompt is option 2 (stay in iterate); do not wait for them to pick it.
-   - **yolo** — another ask on the open yolo increment: staff → `YOLO:` beads → wave. A bare prompt is another ask. "that's it" / "é isso" starts formalization. `/hele-yolo` with no new idea resumes the board.
+   - **yolo** — another ask on the open yolo increment: staff → `YOLO:` beads → wave. A bare prompt is another ask. "that's it" / "é isso" closes without paperwork. "let's formalize" / "pode formalizar" starts formalization. `/hele-yolo` with no new idea resumes the board.
 4. **Fresh conversation, no slash command** — read `state.json`:
    - `phase: "fast"` → resume `/hele-fast`
    - `phase: "iterating"` → resume `/hele-iterate`

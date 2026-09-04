@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.14.4 — 2026-09-03
+
+- fix: YOLO WAVE next step is three rows — keep going = next improvement, that's it = done with no paperwork, let's formalize = PRD / tests / review / draft PR. Re-run `/hele-init` to refresh the session rule.
+
 ## v0.14.3 — 2026-09-03
 
 - fix: init Next table offers `/hele-feature` (spec first) and `/hele-yolo` (build first), each with a short what-happens-next — the old Hightower one-liner was opaque to a first run.

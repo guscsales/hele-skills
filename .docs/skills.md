@@ -128,9 +128,9 @@ The complementary loop: you are already past build and just found something you 
 The free-creation lane: you build first, paperwork comes FROM the work.
 
 - Agent Lisbon conducts in the main chat (whatever model you already have selected). She never writes production code. Workers are the named hele agents, each on the model from `settings.agents.models` for this runtime — the overture lists them, every Dispatch row shows the Model. Never the session model. Never a nameless general agent for product work. Compile-until-green is `[AGENT] Summer`.
-- No PRD, DESIGN_SPEC, EXECUTION_PLAN, or stubs up front. Each ask becomes `YOLO:` beads with a file-overlap guard and `maxParallel`. Docs wait until you say that's it.
+- No PRD, DESIGN_SPEC, EXECUTION_PLAN, or stubs up front. Each ask becomes `YOLO:` beads with a file-overlap guard and `maxParallel`. Docs wait until you say let's formalize.
 - Vega only when you asked for a new screen. Schema → Red John (blocking `DB_CHANGES` approval). Security → Jane. Product ambiguity → Lisbon asks you, never guesses.
-- **"that's it"** opens the formalization pass (existing skills, never reimplemented): Hightower writes the PRD from the session diff, Wylie writes stubs and Playwright tests, Lisbon reviews, optional draft PR. Pick all or a subset.
+- **"that's it"** closes the increment with no paperwork. **"let's formalize"** opens the formalization pass (existing skills, never reimplemented): Hightower writes the PRD from the session diff, Wylie writes stubs and Playwright tests, Lisbon reviews, optional draft PR. Pick all or a subset.
 - An increment already in QA or verify is not yolo — that goes to [`/hele-iterate`](#hele-iterate).
 - **Sticky:** type `/hele-yolo` once. Later prompts in that conversation are another ask — you do not re-type the command. A bare message keeps going. `/hele-yolo` with no new idea resumes the board.
 
