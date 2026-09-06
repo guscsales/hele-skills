@@ -2,10 +2,6 @@
   <img src="assets/banner.svg" alt="hele — agents with memory" width="560" />
 </p>
 
-<p align="center">
-  <a href="https://skills.sh/guscsales/hele-skills"><img src="https://skills.sh/b/guscsales/hele-skills" alt="skills.sh" /></a>
-</p>
-
 A feature-delivery harness for Claude Code. Every skill starts with `/hele-*`.
 
 📚 **[Full documentation](.docs/README.md)** — introduction, getting started, skills and CLI references · [Changelog](CHANGELOG.md)
