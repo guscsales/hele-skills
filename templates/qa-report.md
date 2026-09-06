@@ -1,7 +1,9 @@
 <!-- RULES:
 - Written by /hele-qa after EVERY run — the increment's QA record, next to the
-  EXECUTION_PLAN. Prose only: explains what broke in product terms; NO code,
-  no stack traces (the beads task carries the technical evidence).
+  EXECUTION_PLAN. Covers THIS run set (active increment + rewritten stubs), not
+  the living-file regression. Name the counts (ran vs living file). Prose only:
+  explains what broke in product terms; NO code, no stack traces (the beads
+  task carries the technical evidence).
 - State-not-history: the file describes the LATEST run; previous runs shrink
   to one line each in <history>.
 - Every failure is CLASSIFIED — the class decides where it goes:
@@ -25,7 +27,7 @@ updated: <YYYY-MM-DD>
 # QA Report — <feature> · increment NNN · run <N>
 
 <summary>
-One paragraph: suite size, what passed, what the failures mean for the product as a whole.
+One paragraph: run-set size (this increment, not the living file), what passed, what the failures mean for the product as a whole. Mention that CI owns the rest of the suite.
 </summary>
 
 <failures>

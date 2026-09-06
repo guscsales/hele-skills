@@ -2,6 +2,10 @@
   <img src="assets/banner.svg" alt="hele — agents with memory" width="560" />
 </p>
 
+<p align="center">
+  <a href="https://skills.sh/guscsales/hele-skills"><img src="https://skills.sh/b/guscsales/hele-skills" alt="skills.sh" /></a>
+</p>
+
 A feature-delivery harness for Claude Code. Every skill starts with `/hele-*`.
 
 📚 **[Full documentation](.docs/README.md)** — introduction, getting started, skills and CLI references · [Changelog](CHANGELOG.md)
@@ -103,7 +107,7 @@ Agent Lisbon is the boss. She classifies the discovery and dispatches only the p
 
 - If the living PRD would lie after the change, she calls Agent Hightower to patch it — even when you never said "update the PRD".
 - Vega is called only when you ask for a new screen (PT or EN: `tela`, `new screen`, `we need a UI for this`).
-- New or rewritten test stubs go back to `/hele-qa`. If stubs did not change, the loop returns to `/hele-verify-work`.
+- New or rewritten test stubs go back to `/hele-qa` (increment slice, not the living-file regression). If stubs did not change, the loop returns to `/hele-verify-work`.
 - Schema and security stay in the loop with their usual gates (Red John, Jane). They are not hard refusals here.
 
 The increment stays open. You can iterate again. Type `/hele-iterate` once — later prompts in that conversation stay in the loop (beads + the agent chain) until you invoke a different `/hele-*`.
@@ -130,9 +134,9 @@ you: "wait — I forgot this", "actually this should do X" or similar
 
 ### The fast lane
 
-Not every change deserves seven phases. `/hele-fast` ships a small, low-risk change from scratch — a new increment, it finds the right place to write the PRD and do the thing. Type it once; follow-ups in that chat stay in the fast lane.
+Not every change deserves seven phases. `/hele-fast` ships a small, low-risk change from scratch — a new increment, it finds the right place to write the PRD and do the thing. Type it once; follow-ups in that chat stay in the fast lane. No beads: a background sub-agent does the work and follow-ups resume that same worker.
 
-Triage → 1–3 tasks → TDD build → memory sync → full suite once + affected e2e specs.
+Triage → live worker → TDD build → memory sync → full suite once + affected e2e specs.
 
 Hard disqualifiers keep it honest. Any of these exits to the full flow automatically: DB schema, security surface, new user-facing flow, or cross-feature impact. A behavior change still patches the PRD and stubs. The living docs never lie, no matter the lane.
 
@@ -199,7 +203,7 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
   features/
     <slug>/
       PRODUCT_DESCRIPTION.md   # living doc — current state, patch versions only
-      TEST_STUBS.md            # living doc — regression contract, accumulates
+      TEST_STUBS.md            # living doc — regression contract, accumulates; /hele-qa runs the increment slice
       increments/
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, frozen after build

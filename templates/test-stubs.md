@@ -9,8 +9,8 @@ updated: YYYY-MM-DD
 <!--
 RULES FOR THIS DOCUMENT
 - LIVING regression contract: stubs accumulate across increments and are
-  never deleted while the behavior exists. Wylie runs the WHOLE suite,
-  not just the newest increment.
+  never deleted while the behavior exists. /hele-qa runs the ACTIVE
+  INCREMENT's stubs (new + rewritten). The rest of the living file is CI.
 - Stubs are written in plain English from the PRODUCT_DESCRIPTION —
   they validate BEHAVIOR, never implementation details.
 - Every stub cites the business rule (BR-n) it protects and the increment

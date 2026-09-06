@@ -2,12 +2,13 @@
 name: hele-qa
 description: >-
   Agent Wylie (QA) turns the feature's living TEST_STUBS into real Playwright
-  e2e tests, runs the WHOLE suite deterministically, updates every stub's
-  status, and routes failures back to the owning engineers as beads tasks.
-  Use when the user invokes /hele-qa, asks for e2e tests of a hele feature,
-  after /hele-build finishes, after /hele-iterate added or rewrote stubs,
-  or invokes /hele-qa --generate-fixes-report to reconstruct the QA_REPORT
-  for a run that already happened.
+  e2e tests, runs ONLY the active increment's stubs (new + rewritten — never
+  the living-file regression), updates those stubs' status, and routes
+  failures back to the owning engineers as beads tasks. Full regression is
+  CI. Use when the user invokes /hele-qa, asks for e2e tests of a hele
+  feature, after /hele-build finishes, after /hele-iterate added or rewrote
+  stubs, or invokes /hele-qa --generate-fixes-report to reconstruct the
+  QA_REPORT for a run that already happened.
 ---
 
 # hele-qa
@@ -27,6 +28,7 @@ Invoked as `/hele-qa --generate-fixes-report`: a QA run already happened but `in
 <context>
 - Requires: `features/<slug>/TEST_STUBS.md` for `state.json.activeFeature`, and a runnable app.
 - Load: the stubs file, the PRD (to interpret expected behavior), `settings.json`, `LEARNINGS.md`, `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Set `state.json.phase: "qa"`.
+- **Increment set:** stubs whose `increment` attribute matches `state.json.activeIncrement` (the NNN), plus any stub rewritten this increment. That is the only set this skill writes or runs. The rest of the living file is CI.
 - Second-layer validator by design: engineers already own unit/integration tests; the e2e suite catches what slipped through integration cracks.
 </context>
 
@@ -36,29 +38,30 @@ Invoked as `/hele-qa --generate-fixes-report`: a QA run already happened but `in
 </phase>
 
 <phase name="2-write">
-Dispatch **background** Wylie subagents to write the specs — description `[AGENT QA] Wylie — specs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (per-runtime object — your runtime's key; default `sonnet` in Claude Code; `inherit` → omit), up to `agents.maxParallel` in parallel, grouped by flow. Announce. Stay free. Prompt = persona + the stubs + the PRD rules + project conventions. Rules:
-1. Cover every stub not yet implemented as a test: `kind: e2e` → browser spec; `kind: api` → Playwright request-context spec; `kind: unit-expectation` → NOT Playwright's job — verify the engineers' suite covers it and record which test does.
+Dispatch **background** Wylie subagents to write the specs — description `[AGENT QA] Wylie — specs TS-nnn–TS-nnn`, `model` from `settings.agents.models["qa-wylie-run"]` (per-runtime object — your runtime's key; default `sonnet` in Claude Code; `inherit` → omit), up to `agents.maxParallel` in parallel, grouped by flow. Announce. Stay free. Prompt = persona + **the increment-set stubs** (not the whole living file) + the PRD rules + project conventions. Rules:
+1. Cover every increment-set stub not yet implemented as a test: `kind: e2e` → browser spec; `kind: api` → Playwright request-context spec; `kind: unit-expectation` → NOT Playwright's job — verify the engineers' suite covers it and record which test does. Historical stubs missing a spec are CI/debt — list them, do not generate them in this run.
 2. The stub is the contract — Given/When/Then maps to arrange/act/assert. Test what the stub says, not what the code does.
 3. Deterministic by construction: proper waits (no sleeps), test data seeded/cleaned per test, no cross-test state leaks, stable selectors (roles/test-ids per project convention). Always headless — never `--headed`/`--ui`; failures explain themselves through traces and screenshots, not through a human watching a window.
 4. Stubs already implemented (title `TS-nnn` exists in the e2e folder) are NOT rewritten — the suite accumulates like the stubs file does; a stub whose body changed → rewrite its test to match.
 </phase>
 
 <phase name="3-run-and-record">
-1. `bd create` title `QA: full suite`. Dispatch **background** `[AGENT QA] Wylie — QA: full suite`, model `qa-wylie-run`. He runs the FULL Playwright suite — every spec, all increments, regression included (Playwright parallelizes itself; never a subagent per test at runtime) — and returns the per-stub results. You do not run Playwright in this session.
-2. From his payload, echo results one line per stub: 🧪 TS-012 ✅ · 🧪 TS-013 ❌ expected empty-state, got blank screen.
-3. Flaky on first pass → he retries once; still flaky → the TEST is wrong, fix the test, not the retry count.
-4. He updates every stub's `status` in TEST_STUBS.md from the run results — the file is the record. A stub whose test cannot run (missing env, data, dependency) → `status: blocked` with the blocker named — never skipped silently.
-5. **Classify every failure** — the class decides where it goes:
+1. **Compute the run set — never the living file.** Include: stubs whose `increment` attribute matches `state.json.activeIncrement` (the NNN), plus any stub rewritten this increment (body changed / status `pending` after a PRD or iterate patch). `--from-qa` uses the same set (the failing stubs live on this increment). Historical stubs from older increments are **CI's job** — do not pass them to Playwright, do not "run regression to be safe".
+2. `bd create` title `QA: increment NNN` (or `QA: TS-nnn–TS-nnn` when the set is a slice). Dispatch **background** `[AGENT QA] Wylie — QA: increment NNN`, model `qa-wylie-run`. He runs ONLY those specs — filter by `TS-nnn` titles or the spec files that contain them. Never a bare `playwright test` / `npm run test:e2e` with no filter when older specs exist. Playwright parallelizes itself; never a subagent per test at runtime. He returns per-stub results for the run set only. You do not run Playwright in this session.
+3. From his payload, echo results one line per stub in the run set: 🧪 TS-012 ✅ · 🧪 TS-013 ❌ expected empty-state, got blank screen. Do not list historical stubs he did not run.
+4. Flaky on first pass → he retries once; still flaky → the TEST is wrong, fix the test, not the retry count.
+5. He updates `status` in TEST_STUBS.md **only for stubs in the run set**. Older stubs keep their last known status. A stub whose test cannot run (missing env, data, dependency) → `status: blocked` with the blocker named — never skipped silently.
+6. **Classify every failure** — the class decides where it goes:
    - `product-bug` — the app breaks the stub's contract → beads task on the increment's epic: title `QA: TS-nnn <one line>`, body with the spec path, failure output, stub + rule ids. Owner per Lisbon's task mapping; unclear → tag for Lisbon to route.
    - `contract-question` — stub and product disagree and neither is obviously wrong → NO beads task yet; the CEO decides in phase 4.
    - `polish` — real observation, breaks no stub → listed for the CEO's now-or-backlog call.
    - `blocked` — couldn't run; the blocker named.
    Wylie never fixes product code — routing is his fix.
-6. He writes `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. Prose in product terms, no code: expected vs happened vs impact per failure, the classification, beads ids. State-not-history: latest run is the content, previous runs shrink to one line in `<history>`. You emit the chat signature from his payload — do not rewrite the report here.
+7. He writes `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. The report covers this run set only; name the counts (ran vs living file) so it is obvious CI owns the rest. Prose in product terms, no code: expected vs happened vs impact per failure, the classification, beads ids. State-not-history: latest run is the content, previous runs shrink to one line in `<history>`. You emit the chat signature from his payload — do not rewrite the report here.
 </phase>
 
 <phase name="4-report-and-route">
-Emit Wylie's **QA RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one failure/blocked stub per row**, Files with a clickable QA_REPORT.md link, then route. Never draw `─`/`═` divider lines.
+Emit Wylie's **QA RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (ran vs living file), counts, **one failure/blocked stub per row**, Files with a clickable QA_REPORT.md link, then route. Never draw `─`/`═` divider lines.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
 
@@ -80,8 +83,8 @@ Route by outcome:
 
 <rules>
 - Open channel: this session never writes specs, runs Playwright, or explores the e2e tree. Wylie does that in the background.
-- The e2e suite lives in the PROJECT (committed code, runnable in CI) — hele generates it, the repo owns it.
-- A stub is `passing` only if its Playwright test ran green THIS run — stale statuses are lies.
+- The e2e suite lives in the PROJECT (committed code, runnable in CI) — hele generates it, the repo owns it. `/hele-qa` runs the increment slice; **CI runs the living-file regression**. A Wylie that executes specs outside the run set is a bug.
+- A stub is `passing` only if its Playwright test ran green THIS run — stale statuses are lies. Do not flip an older stub to `passing` because this increment's slice was green.
 - PRD/stubs drift (`based_on` older than the PRD) → warn before running; the CEO decides run-anyway or fix the contract first.
 - Artifacts English; chat in the CEO's language.
 - Mid-run **build-until-pass** phrase (`build til pass`, `build until pass`, `builda até passar`, and similar) → Lisbon conducts the project compile, not this QA loop. Read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md` and dispatch. Resume QA after it returns.

@@ -56,7 +56,7 @@ Agent Wylie (QA) writes the feature's test contract from the PRD — deliberatel
 The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (dispatch, structural review) driving the engineer agents through the plan.
 
 - `bd ready` → dispatches up to `maxParallel` tasks to engineer subagents in the **background** (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), each with its persona, task, relevant PRD rules, and learnings. The main chat stays free.
-- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The full suite is a `BUILD: full suite` sub-agent on `staff-lisbon-run` (Sonnet).
+- Lisbon's shape review is a `REVIEW:` beads task (background), not an explore loop in the main session. The next independent ready task starts in the same turn — she does not serialize the loop. The project's unit/lint suite is a `BUILD: full suite` sub-agent on `staff-lisbon-run` (Sonnet).
 - **File-overlap guard:** tasks sharing a declared file never run in parallel.
 - **Test economy:** engineers iterate red→green on their task's unit files only; expensive suites (containers, migrations) run once per task; the FULL suite runs exactly once, at the end.
 - **DB gate enforced:** migration tasks don't dispatch without an approved DB_CHANGES, and Red John checks the written migration against it before the task closes.
@@ -66,15 +66,15 @@ The coordination loop — Agent Hightower (PRD conformance) + Agent Lisbon (disp
 
 ### /hele-build --from-qa
 
-A fix round, not a plan round. Scope = only the open `QA:` beads tasks plus the contract decisions you made at the QA gate. Each engineer's dispatch carries the QA report's narrative — they fix the contract violation, not the symptom. Exits back to `/hele-qa` for the confirming re-run.
+A fix round, not a plan round. Scope = only the open `QA:` beads tasks plus the contract decisions you made at the QA gate. Each engineer's dispatch carries the QA report's narrative — they fix the contract violation, not the symptom. Lisbon reviews while Wylie confirms the affected specs; the next independent `QA:` bug does not wait for her. Exits back to `/hele-qa` for the increment-scoped confirming re-run.
 
 ## /hele-qa
 
-Agent Wylie turns the stubs into real Playwright e2e tests and runs the whole suite. AI touches a browser exactly once per stub — while writing its deterministic test. After that, the suite is free forever.
+Agent Wylie turns the stubs into real Playwright e2e tests and runs this increment's slice. Full living-file regression is CI. AI touches a browser exactly once per stub — while writing its deterministic test. After that, the suite is free forever.
 
 - Playwright missing → installs and configures it (packages, browsers, config with `webServer`, `e2e/` folder, `test:e2e` script). No questions asked.
 - One test per stub, `TS-nnn` in the title — the link between suite and contract. Always headless; failures explain themselves through traces and screenshots.
-- Runs the ENTIRE suite — all increments, regression included — echoing one line per stub live.
+- Runs the **increment set** — stubs tagged with the active increment, plus any rewritten this increment. Never the whole living file. Echoes one line per stub in that set.
 - **Failures are classified**, and the class decides the route: `product-bug` → beads task for the build; `contract-question` (stub and product disagree) → your decision; `polish` → your now-or-backlog call; `blocked` → what you must unblock.
 - Writes `QA_REPORT.md` in the increment after every run — prose in product terms, no code. Red runs end in an approval gate; contract-questions must be decided before fixes dispatch.
 
@@ -106,10 +106,10 @@ The fast lane: small, low-risk changes with proportional ceremony — one artifa
 
 - **Triage with hard disqualifiers:** touches DB schema, security surface (auth/payments/PII), introduces a new user-facing flow, or has cross-feature impact → refused and routed to the full cycle. Deliberately no file-count limit.
 - Classifies the change: bugfix (docs stay untouched) vs behavior change (the PRD rule and stubs are patched — living docs never lie, no matter the lane).
-- 1–3 beads tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. Micro-plan, review, suite, and FAST.md are background Lisbon sub-agents. After each dispatch the turn ends — the main chat never waits on them. Talk while they run.
+- 1–3 tasks, TDD build with the same discipline as `/hele-build`, full suite once, affected e2e specs re-run. **No beads.** After triage the conductor dispatches the owning engineer as a background sub-agent and keeps the CEO's line open. Follow-ups resume that same worker. Lisbon runs once at the end (review, suite, FAST.md). After each dispatch the turn ends — the main chat never waits on them. Talk while they run.
 - FAST.md records what/why, files, tests, memory sync, and evidence.
 - An increment already in QA or verify is not fast — that discovery goes to [`/hele-iterate`](#hele-iterate).
-- **Sticky:** type `/hele-fast` once. Later prompts in that conversation stay in the lane — beads, agents, a new FAST increment if the last one already shipped. A different `/hele-*` command (except `/hele-status`) yields.
+- **Sticky:** type `/hele-fast` once. Later prompts in that conversation stay in the lane — same worker, no beads, a new FAST increment if the last one already shipped. A different `/hele-*` command (except `/hele-status`) yields.
 
 ## /hele-iterate
 
@@ -119,7 +119,7 @@ The complementary loop: you are already past build and just found something you 
 - Behavior → Hightower patches the PRD when the living doc would lie, even if you never asked for a PRD update; Wylie follows with stubs whenever a flow or contract changed.
 - New screen → Vega only when you asked for a screen, in PT or EN (`tela`, `new screen`, `we need a UI for this`). Implied-but-unsaid → she asks once.
 - Schema and security stay in the loop with Red John / Jane gates — they are not hard refusals here.
-- New or rewritten stubs → `/hele-qa`. Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
+- New or rewritten stubs → `/hele-qa` (increment slice, not the living-file regression). Stubs untouched → `/hele-verify-work`. The increment stays open; you can run it again.
 - **Sticky:** type `/hele-iterate` once. Later prompts in that conversation are another discovery — you do not re-type the command. A bare message is the same as picking "another discovery".
 - **Build until pass** is not a discovery. `build til pass` / `builda até passar` → Lisbon dispatches `[AGENT] Summer` for the project compile, then stays in iterate.
 

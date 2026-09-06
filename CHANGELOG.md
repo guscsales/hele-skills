@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.14.5 — 2026-09-05
+
+- fix: `/hele-qa` runs only the active increment's stubs (new + rewritten). The living-file regression is CI. A run that executes specs outside that set is a bug.
+- fix: `/hele-build` no longer waits for Lisbon before the next independent task or Wylie's `--from-qa` confirm. She reads the diff in parallel; a fix-up voids the confirm. Same overlap on iterate and yolo formalize.
+
 ## v0.14.4 — 2026-09-03
 
 - fix: YOLO WAVE next step is three rows — keep going = next improvement, that's it = done with no paperwork, let's formalize = PRD / tests / review / draft PR. Re-run `/hele-init` to refresh the session rule.

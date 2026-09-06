@@ -68,7 +68,8 @@ approval of it is BLOCKING before the plan can be approved.`,
 the PRD only (never from the plan — behavior, not implementation). Every
 business rule maps to at least one stub, unhappy paths included. Stable
 TS-nnn ids. The file is the LIVING regression contract: stubs accumulate
-across increments and /hele-qa always runs the whole suite.`,
+across increments. /hele-qa runs the active increment's slice; CI owns
+the rest of the living file.`,
   },
   {
     name: 'build',
@@ -79,17 +80,19 @@ across increments and /hele-qa always runs the whole suite.`,
     detail: `The coordination loop: bd ready → dispatch Agent Cho (backend),
 Agent Van Pelt (frontend), Agent Jane (security), Agent Rigsby (infra) in
 parallel on ready tasks (background — the main chat stays free), TDD
-enforced, Agent Lisbon reviews structure as a REVIEW: sub-agent, Agent
-Hightower checks PRD conformance. Blockers become questions to you
-immediately. Migrations only run against an approved DB_CHANGES, and Agent
-Red John checks the written migration against it before the task closes.
-Exit condition: the full automated suite is green. Resumable via beads
-state.
+enforced. Agent Lisbon reviews structure as a REVIEW: sub-agent — the
+next independent task, and on --from-qa Wylie's confirm, start in the
+same turn; she does not serialize the loop. Agent Hightower checks PRD
+conformance. Blockers become questions to you immediately. Migrations only
+run against an approved DB_CHANGES, and Agent Red John checks the written
+migration against it before the task closes. Exit condition: the full
+automated suite is green. Resumable via beads state.
 
 /hele-build --from-qa is a FIX round, not a plan round: scope = open QA:
 beads tasks + contract decisions from the QA gate. Engineers fix the
-contract violation (report narrative in the prompt), then ▶ NEXT: /hele-qa
-to confirm.`,
+contract violation (report narrative in the prompt). Wylie confirms the
+affected specs while Lisbon reads the diff. Then ▶ NEXT: /hele-qa
+(increment slice, not the living-file regression).`,
   },
   {
     name: 'qa',
@@ -99,11 +102,12 @@ to confirm.`,
     extras: ['▸ --generate-fixes-report → approve → --from-qa'],
     detail: `Agent Wylie turns the stubs into real Playwright tests — one test
 per stub, TS-nnn in the title, deterministic by construction. Missing
-Playwright? He installs and configures it. Then he runs the ENTIRE suite,
-regression included, updates every stub's status in the file, classifies
-failures into QA_REPORT.md, and (on red) runs the approval gate →
-/hele-build --from-qa. AI touches the browser once — while writing the
-test; after that the suite is free forever.
+Playwright? He installs and configures it. Then he runs THIS INCREMENT's
+specs (new + rewritten stubs), never the living-file regression — that is
+CI. He updates those stubs' status, classifies failures into QA_REPORT.md,
+and (on red) runs the approval gate → /hele-build --from-qa. AI touches
+the browser once — while writing the test; after that the suite is free
+forever.
 
 /hele-qa --generate-fixes-report: the run already happened but the report
 is missing or stale — reconstruct QA_REPORT from stub statuses, beads, and
@@ -144,15 +148,16 @@ without it. Or type /hele-retro.`,
     detail: `Small, low-risk change? The fast lane ships it with proportional
 ceremony: triage (hard disqualifiers: DB schema, security surface, new
 user-facing flow, cross-feature impact — any of those exits to the full
-flow), a 1–3 task micro-plan in beads, TDD build, memory sync (a behavior
-change still patches the PRD and stubs — living docs never lie), full test
-suite once, affected stubs in the browser, and a single FAST.md instead of
-four documents. /hele-feature suggests it automatically when a request
-smells fast-lane sized. An increment already in QA or verify is not
-fast — that discovery goes to /hele-iterate. Type it once: later
-prompts in that chat stay in the fast lane until a different /hele-*
-command. Each dispatch ends the turn — the main chat never waits on
-Lisbon's micro-plan. Talk while she runs.` ,
+flow), a live sub-agent (no beads — follow-ups resume the same worker),
+TDD build, memory sync (a behavior change still patches the PRD and
+stubs — living docs never lie), full test suite once, affected stubs in
+the browser, and a single FAST.md instead of four documents.
+/hele-feature suggests it automatically when a request smells fast-lane
+sized. An increment already in QA or verify is not fast — that
+discovery goes to /hele-iterate. Type it once: later prompts in that
+chat stay in the fast lane until a different /hele-* command. Each
+dispatch ends the turn — the main chat never waits on the worker. Talk
+while they run.` ,
   },
   {
     name: 'iterate',

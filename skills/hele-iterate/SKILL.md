@@ -66,14 +66,14 @@ Skip this phase when the work was tests-only (Wylie already did it).
 
 1. 1–N beads issues on the increment epic, title `ITERATE: <task>`, owner per Lisbon's mapping (Cho / Van Pelt / Jane / Rigsby). File-overlap guard + `maxParallel` as in /hele-build.
 2. Dispatch one **background** engineer subagent per task — same contract as /hele-build: persona + task + relevant PRD rules + LEARNINGS; TDD; targeted tests only; test economy; report files touched. Description `[AGENT BE] Cho — ITERATE: <task>` (role tag matches the owner). `model` from `settings.agents.models` (role-prefixed; per-runtime object — read your runtime's key; `inherit` → omit). Announce. **END THE TURN.**
-3. A later turn — report in: read the report only. `bd create` `REVIEW: <task>` and dispatch **background** `[AGENT STAFF] Lisbon — REVIEW: <task>`, model `staff-lisbon` (include Hightower's conformance check in the prompt when the PRD was patched). Pass → close. Fix-ups → engineer beads. Migration tasks get Red John's extra check (background) before close.
+3. A later turn — report in: read the report only. Same turn: `bd create` `REVIEW: <task>` and dispatch **background** `[AGENT STAFF] Lisbon — REVIEW: <task>`, model `staff-lisbon` (include Hightower's conformance check in the prompt when the PRD was patched), **and** go back to step 2 for any other `bd ready` ITERATE tasks (file-overlap + `maxParallel`). REVIEW does not serialize the next independent bug. Pass → close. Fix-ups → engineer beads (any in-flight confirm is void). Migration tasks get Red John's extra check (background) before close.
 4. `bd create` `ITERATE: full suite`. Dispatch **background** `[AGENT STAFF] Lisbon — ITERATE: full suite`, `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit). Prompt: you are `[AGENT STAFF] Lisbon` running the suite. You do NOT write product fixes. You run the suite once and report green or the failing owners. Failures → owning engineer. You do not run the suite here.
 </phase>
 
 <phase name="4-route">
 The next skill is mechanical — Lisbon does not ask:
 
-- **New or rewritten TEST_STUBS** → `/hele-qa` (Wylie writes/updates the Playwright tests and re-runs the suite).
+- **New or rewritten TEST_STUBS** → `/hele-qa` (Wylie writes/updates the Playwright tests and re-runs this increment's slice — not the living-file regression).
 - **Stubs untouched** (bug whose contract already existed) → `/hele-verify-work` (resume from the first `pending` flow; touched flows were already reset).
 
 Emit Lisbon's **ITERATE** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (discovery, classification, called, tasks, stubs, memory), Files with clickable links, then the canonical `Actions` table. Never draw `─`/`═` divider lines.

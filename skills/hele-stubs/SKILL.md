@@ -3,7 +3,8 @@ name: hele-stubs
 description: >-
   Agent Wylie (QA) writes plain-English test stubs (Given/When/Then) from the
   approved PRODUCT_DESCRIPTION into the feature's living TEST_STUBS.md — the
-  regression contract /hele-qa executes. Use when the user invokes /hele-stubs,
+  regression contract. /hele-qa executes the active increment's slice; CI
+  owns the rest. Use when the user invokes /hele-stubs,
   asks for the test plan/contract of a hele feature, or after the execution
   plan is approved.
 ---

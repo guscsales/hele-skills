@@ -99,13 +99,13 @@ Each picked item is a worker dispatch. **Phases are the existing skills — neve
 
 1. **PRD** — background `[AGENT PM] Hightower`. Feed her `${CLAUDE_PLUGIN_ROOT}/skills/hele-feature/SKILL.md` write/update rules + the session diff + the what/why from this conversation. Retroactive PRODUCT_DESCRIPTION (template RULES are law). Unambiguous from the diff + their words → no interview. Ambiguous → she returns the questions; you AskUserQuestion here and re-dispatch. Anti-duplicate already ran at overture.
 2. **Test stubs** — background `[AGENT QA] Wylie`, model `qa-wylie-stubs`. `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md` over the PRD (never over the plan — there is no plan). TEST tags, VERIFY.md draft.
-3. **Tests** — Wylie implements the stubs (`${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md`, model `qa-wylie-run`) and/or engineers fill unit gaps. Affected suites green. Full Playwright run is his.
+3. **Tests** — Wylie implements the stubs (`${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md`, model `qa-wylie-run`) and/or engineers fill unit gaps. Affected suites green. He runs this increment's Playwright slice, not the living-file regression. His confirm overlaps Lisbon's review.
 4. **Review** — background `[AGENT STAFF] Lisbon — YOLO: review`, model `staff-lisbon`. Shape + (when a PRD exists) Hightower conformance in the same prompt. Fix-ups → engineer `YOLO:` beads, then re-dispatch this review.
 5. **Draft PR** — general-purpose background helper, **draft only**. Push the branch as part of this approved item (the only push yolo is allowed). Title with no conventional-commit prefix. Body from the repo's PR template, every section filled. Watch CI: own break → fix + push; flake → rerun once or twice; pre-existing on main → prove it and cite in the body. Report CI: green / rerun-fixed / red-with-cause. `gh pr ready` and reviewer requests only if the CEO names reviewers.
 
 After the picked items land: emit **YOLO FINALE**. `state.json.phase: "shipped"`, `activeIncrement: null` when they picked enough to close (PRD written, or they said the increment is done). Leave phase `"yolo"` if they only picked a subset and want to keep going.
 
-On `1` of FORMALIZE: immediately dispatch item 1 (and any others that do not depend on it) in this same turn, then END THE TURN. Stubs wait on the PRD report; tests wait on stubs; review can start after the last build wave; draft PR waits on review if they picked both.
+On `1` of FORMALIZE: immediately dispatch item 1 (and any others that do not depend on it) in this same turn, then END THE TURN. Stubs wait on the PRD report; tests wait on stubs; review can start after the last build wave; Wylie's confirm overlaps that review. Draft PR waits on review if they picked both.
 </phase>
 
 <phase name="4-close">
