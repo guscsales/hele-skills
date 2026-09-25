@@ -1,7 +1,7 @@
 {
   "name": "hele-skills",
-  "description": "Feature-delivery harness — PRDs, execution plans, design specs, test stubs, build, QA, and retros, run by a named agent team with beads task tracking.",
-  "version": "0.14.5",
+  "description": "Feature-delivery harness — one command (/hele-yolo) picks the lane and runs PRDs, stubs, plans, build, QA with screenshots, and verify via a named agent team with beads.",
+  "version": "0.15.0",
   "author": {
     "name": "Gustavo Sales"
   }

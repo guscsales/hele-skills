@@ -18,7 +18,9 @@
       "security-jane": { "claude-code": "fable", "cursor": "grok" },
       "infra-rigsby": { "claude-code": "sonnet", "cursor": "composer" },
       "qa-wylie-stubs": { "claude-code": "fable", "cursor": "grok" },
-      "qa-wylie-run": { "claude-code": "sonnet", "cursor": "composer" }
+      "qa-wylie-run": { "claude-code": "sonnet", "cursor": "composer" },
+      "director-spielberg": { "claude-code": "fable", "cursor": "grok" },
+      "editor-kahn": { "claude-code": "sonnet", "cursor": "composer" }
     }
   },
   "beads": {

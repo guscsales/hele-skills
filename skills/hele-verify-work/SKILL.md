@@ -1,65 +1,66 @@
 ---
 name: hele-verify-work
 description: >-
-  Guided human verification: Agent Wylie distills the increment's main flows
-  from TEST_STUBS and the PRD into increments/NNN/VERIFY.md, then walks the
-  CEO through them step by step in the real app, recording every verdict.
-  Use when the user invokes /hele-verify-work, asks to manually test/verify
-  a hele increment, after /hele-qa passes, or when /hele-iterate routes
-  back because stubs were untouched. A late discovery mid-walk goes to
-  /hele-iterate, not /hele-feature.
+  Guided human verification: Agent Wylie walks the human through the same
+  steps and data recorded in the increment's QA_REPORT.md (screenshots of
+  what pass looked like), recording every verdict in VERIFY.md. Invoked by
+  /hele-yolo after QA passes, or when the human types /hele-verify-work.
+  Close gate has no retro — Work done / iterate / draft PR.
 ---
 
 # hele-verify-work
 
-You are running Agent Wylie's guided-verification phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the CEO's language; artifacts are English.
+You are running Agent Wylie's guided-verification phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the human's language; artifacts are English. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
 
-Automation (/hele-qa) proves the rules; the CEO's eyes catch what code can't — feel, flow, "this is weird", real-world sense. This skill packages that human pass so it is cheap to do and impossible to lose.
+Automation (/hele-qa) proves the rules with screenshots; the human's eyes catch what code can't — feel, flow, "this is weird". This skill packages that pass so it is cheap to do and impossible to lose. **The script is the QA_REPORT — do not invent a different walk.**
 
 <context>
-- Requires: `state.json.activeIncrement`, TEST_STUBS with statuses from a /hele-qa run (not run yet → recommend it first; the CEO may verify anyway), and a runnable app.
-- Load: the stubs, the PRD (`<flows>` diagrams + `### BR-n` rules), the DESIGN_SPEC if any, `${CLAUDE_PLUGIN_ROOT}/templates/verify.md` + `templates/chat-reports.md`. Set `state.json.phase: "verifying"`.
+- Requires: `state.json.activeIncrement`, `increments/NNN/QA_REPORT.md` from a /hele-qa run (missing → recommend QA first; the human may verify anyway from stubs), and a runnable app.
+- Load: QA_REPORT.md (primary), VERIFY.md if present, the PRD, DESIGN_SPEC if any, `${CLAUDE_PLUGIN_ROOT}/templates/verify.md`. Set `state.json.phase: "verifying"`.
 </context>
 
 <phase name="1-load">
-1. `increments/NNN-<slug>/VERIFY.md` already exists — /hele-stubs drafts it when the stubs are written. Load it. Stubs changed since (`based_on` older than TEST_STUBS version)? Refresh the affected flows first, keep recorded verdicts.
-2. Missing (older increment, stubs skipped)? Distill it now from the PRD flows + stubs: 3–8 main human journeys — numbered steps, expected result per step, the BR-n/TS-nnn each exercises; happy paths first, riskiest unhappy paths next; skip what only automation can see.
-3. Prep the ground: app running (start it if there's a documented way), test data/logins the CEO will need listed in `<setup>`.
+1. Read `increments/NNN-<slug>/QA_REPORT.md`. Distill 3–8 main human journeys from its per-stub steps and Setup — happy paths first, riskiest unhappy paths next. Write/refresh `VERIFY.md` from that report: same steps, same data, link to each stub's screenshot. `based_on: QA_REPORT run <N>`.
+2. If VERIFY.md already exists and QA_REPORT is newer, refresh affected flows; keep recorded verdicts.
+3. Prep the ground: app running, logins and test data listed from QA_REPORT Setup.
 </phase>
 
 <phase name="2-guided-walk">
-Walk the CEO through it, one flow at a time — conversational, not a dump:
-1. Present the flow: goal, steps, what to expect. Then hand over: "your turn — tell me what you see".
-2. The CEO reports back. Record the verdict in VERIFY.md immediately: ✅ verified / ❌ issue (his words captured verbatim) / ⏭️ skipped (reason).
-3. An issue → triage on the spot: bug (→ beads task, title `VERIFY: <one line>`, owner per Lisbon's mapping) or a late discovery / behavior-change request (→ `/hele-iterate` — Lisbon folds it back into this increment; never silently in code, never a new `/hele-feature` cycle). If the CEO says they want it changed now, immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-iterate/SKILL.md` and execute it in this same turn.
-4. The CEO can stop anytime — partial runs keep their record; re-running resumes from the first `pending` flow.
+Walk the human through it, one flow at a time — conversational, not a dump:
+1. Present the flow: goal, steps table, expect, and the **absolute path** of the QA screenshot of what pass looked like. Then Options for this flow:
+   - `1` ✅ Pass — mark verified
+   - `2` ❌ Issue — tell me what's wrong
+   - `3` ⏭️ Skip this flow
+2. Free text counts as option 2. Record the verdict in VERIFY.md immediately: ✅ verified / ❌ issue (their words verbatim) / ⏭️ skipped (reason).
+3. An issue → triage on the spot: bug (→ beads `VERIFY: <one line>`) or a late discovery (→ `/hele-iterate` on this increment). If they want it changed now, read and run `hele-iterate` in this same turn.
+4. The human can stop anytime — partial runs keep their record; re-running resumes from the first `pending` flow.
 </phase>
 
 <phase name="3-report">
-Emit Wylie's **VERIFY RUN** signature block from his persona — as chat text, never fenced. Match the tables exactly: Report/Scope, counts, **one issue per row** (never glue V1 and V3 into the same cell), Files with a clickable VERIFY.md link, then route (Actions on all-verified, Next on issues). Never draw `─`/`═` divider lines.
-
-Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
+Emit Wylie's **VERIFY RUN** signature — chat text, never fenced. Files with **full absolute PWD paths**. Never draw box-drawing divider lines.
 
 Route by outcome:
-- **All verified** → close gate, never silent hand-off. Use the canonical `Actions` table from `chat-reports.md` — never fenced, never one line. One option per row. Never emit a separate After approval / Next table. Only these three options:
+- **All verified** → close Options (wait for the number; do not auto-close):
 
-  1. 🔁 Retro → /hele-retro — Agent Hightower runs the retrospective
-  2. ✅ Close increment — freeze and close out, no retro
-  3. ✏️ Iterate → /hele-iterate
+  | Actions | Your call |
+  |---|---|
+  | 1 | ✅ Work done — close the increment |
+  | 2 | ✏️ Fold a late find back in (iterate on this increment) |
+  | 3 | 🚀 Open a draft PR |
+  | 4 | 📝 Let's formalize — only when a PRD is still missing |
 
-  Forbidden: wrapping the Actions table in a markdown code fence; drawing box-drawing divider lines.
-  Forbidden: reading or executing `/hele-retro` or `/hele-iterate` in this same turn. Emit the report, then stop and wait. Verify finishing is not permission to close or start the retro.
-
-  On `1`: immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-retro/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the CEO to type `/hele-retro`.
-  On `2`: close the increment now — no RETRO.md, no way-of-working questions. Plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming — ask once if unclear), `state.json` → `activeIncrement: null`, `phase: null`. Emit Wylie's **INCREMENT CLOSED** signature block. `/hele-retro` remains available later.
-  On `3`: immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-iterate/SKILL.md` and execute it in this same turn.
-- **Issues found** → Next table: `/hele-iterate` — Agent Lisbon classifies and dispatches on this increment (bugs, behavior, stubs, screens). Do not execute it unless the CEO asks.
+  On `1`: close the increment now — plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the human says the feature is complete; `ready` when more increments are coming — ask once if unclear), `state.json` → `activeIncrement: null`, `phase: null`. Emit **INCREMENT CLOSED**. No RETRO.md. No `/hele-retro`.
+  On `2`: read and run `hele-iterate` in this same turn.
+  On `3`: draft PR only (push as part of this approved item). Title with no conventional-commit prefix. Body from the repo's PR template. Watch CI. Report CI state.
+  On `4`: only if no PRD exists — run hele-feature formalize path.
+- **Issues found** → Options: `1` → iterate on this increment; `2` Tell me what you need. Do not execute iterate unless they pick it.
 </phase>
 
 <rules>
-- VERIFY.md is per-increment and frozen after the increment closes, like the plan.
-- Never mark a flow verified without the CEO's explicit word — his eyes are the instrument here, the agent only records.
+- VERIFY.md is per-increment and frozen after the increment closes.
+- Never mark a flow verified without the human's explicit word.
 - Issues are never fixed inline during the walk — they are routed; the walk continues.
-- Artifacts English; chat in the CEO's language.
-- Mid-walk **build-until-pass** phrase (`build til pass`, `build until pass`, `builda até passar`, and similar) → Lisbon conducts the project compile, not this walk. Read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md` and dispatch. Resume the walk after it returns.
+- No retro command and no retro option. Session findings are written by `/hele-yolo` during the talk.
+- Artifacts English; chat in the human's language. Say **the human**, never "CEO".
+- Every path in chat is the full absolute PWD path.
 </rules>

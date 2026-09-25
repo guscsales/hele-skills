@@ -1,44 +1,32 @@
 ---
 name: hele-retro
 description: >-
-  Close a hele increment with a retrospective: what went well, what must
-  improve, root causes, and learnings promoted to .hele/LEARNINGS.md so
-  future sessions actually behave differently. Use when the user invokes
-  /hele-retro, picks option 1 on the verify-work close gate, when an
-  increment is abandoned, or when the user asks to "arrumar a casa" /
-  close out the work. Never start just because verify-work finished.
+  Session findings are written automatically by /hele-yolo into
+  .hele/findings.json during the conversation. Durable lessons are promoted
+  to LEARNINGS.md. This skill is no longer a command the human runs at the
+  end of an increment. If invoked, it only reconciles findings → LEARNINGS
+  and reports what is already on disk — it does not interview for a retro.
 ---
 
 # hele-retro
 
-Run as Agent Hightower facilitating the team's retrospective. Chat follows the CEO's language; artifacts are English.
+Retros are not a separate step. `/hele-yolo` appends findings while the human talks. This file documents the contract for agents that still see the name.
 
 <context>
-- Target: `state.json.activeIncrement` of `activeFeature` (or ask). Works for finished AND abandoned increments — failures teach the most.
-- Load: the increment's plan + design spec, TEST_STUBS statuses, beads history for the epic (`bd` CLI), `LEARNINGS.md`, `${CLAUDE_PLUGIN_ROOT}/templates/retro.md` (RULES are law) + `templates/chat-reports.md`.
+- Primary store: `.hele/findings.json` — append-only array of `{ id, when, lane, feature, what, nextTime }`.
+- Durable agent lessons: `.hele/LEARNINGS.md` with stable `L-nnn` ids — every skill loads that file at start.
+- Do **not** open an interview. Do **not** write `RETRO.md` unless the human explicitly asks for a written retrospective artifact.
 </context>
 
-<phase name="1-gather">
-1. Reconstruct the increment's story from evidence, not memory: plan versions and STALE flags that happened, beads tasks that bounced (reopened, re-routed, QA failures per owner), stubs that failed and why, questions that had to go to the CEO mid-build.
-2. Ask the CEO his view (AskUserQuestion, one round): what felt slow or frustrating, what he'd want different next time, anything the agents missed. Options are about the **way of working** (ceremony, communication, rework, unclear instructions, agent misses) — never product leftovers ("fix the dialog", "the migration script"). Those belong in `/hele-iterate` or the next increment.
-</phase>
-
-<phase name="2-analyze-and-write">
-1. For each problem, dig to the root cause — past the symptom ("QA failed" → "the stub was ambiguous because the PRD rule had no empty-state definition" → "interview didn't probe empty states").
-2. Write `increments/NNN-<slug>/RETRO.md` from the template.
-3. **Promote learnings**: each lesson that should change future behavior becomes an L-nnn line in `.hele/LEARNINGS.md` — imperative, checkable, generalized ("L-007: PRD interviews must probe empty states for every list/collection rule"). A retro that promotes nothing is fine; a buried lesson is a bug. Superseded learnings get a new entry referencing the old id — never deleted.
-4. Improvements to the harness itself (skill wording, template gaps) → list them for the CEO to bring to the hele-skills repo; do not edit the plugin from here.
-</phase>
-
-<phase name="3-close">
-1. Close out (skip any step already done — option 2 on the close gate may have closed first): plan `status: built` (if not already), beads epic closed, `index.json` feature status (`done` when the CEO says the feature is complete; `ready` when more increments are coming), `state.json` → `activeIncrement: null`, `phase: null` (or next).
-2. Emit Hightower's **RETRO** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value, **one root cause / learning per row**, Files with clickable RETRO.md and LEARNINGS.md links, Next. Never draw `─`/`═` divider lines.
-
-Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; concatenating root causes into one cell.
+<phase name="1-reconcile">
+1. Read `findings.json` and `LEARNINGS.md`.
+2. For each finding whose `nextTime` is imperative and not yet reflected as an L-nnn, propose (or write, when conducting under yolo) one learning line.
+3. Emit a short report: counts, absolute paths, Options — `1` Work done; `2` Tell me what you need.
 </phase>
 
 <rules>
-- Evidence-first: every to-improve item cites what actually happened (task id, stub id, version bump) — no vibes-based retro.
-- Learnings are for agents, not humans: written so a future skill run can obey them literally.
-- Artifacts English; chat in the CEO's language.
+- Evidence-first: every finding cites what actually happened.
+- Learnings are for agents: written so a future skill run can obey them literally.
+- Artifacts English; chat in the human's language. Say **the human**, never "CEO".
+- Never present this as a required close-gate step after verify.
 </rules>

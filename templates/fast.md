@@ -38,9 +38,9 @@ updated: <YYYY-MM-DD>
 - TEST_STUBS: TS-nnn updated | none
 </memory-sync>
 
-<beads>
-- <issue-id> — FAST: <task>
-</beads>
+<workers>
+- [AGENT BE] Cho — <one line on what they did>
+</workers>
 
 <evidence>
 Short proof it works: test output line, screenshot reference, before/after.

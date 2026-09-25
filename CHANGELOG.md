@@ -2,6 +2,13 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.15.0 — 2026-09-25
+
+- feat: `/hele-yolo` is the conductor — one command picks Feature / Fast / Bugfix / Open and runs the phase skills behind numbered Options (Approve, Tell me what you need, Work done, Let's formalize). Auto-inits when `.hele/` is missing. Stubs ship in the same stop as the PRD with a New vs Added delta. QA writes screenshot proof into a human-readable `QA_REPORT.md` (no XML); verify replays that report. Session findings go to `.hele/findings.json` (durable → `LEARNINGS.md`) — no close-gate retro. Every path in chat is the full PWD. Flow diagram + README redrawn around one entry point. Re-run `/hele-init` to refresh the session rule.
+- feat: `/hele-cut` — video lane. Agent Spielberg conducts; Agent Kahn edits on `CUT:` beads (transcript, cut map, B-roll, captions, timeline). Separate from the product conductor.
+- feat: `/hele-long-video-edit` — Gus's Tella long-form playbook on the same bench.
+- fix: `/hele-fast` is the update-lane procedure under yolo (PRD patch + increment + spine with beads), not a no-beads FAST.md shortcut.
+
 ## v0.14.5 — 2026-09-05
 
 - fix: `/hele-qa` runs only the active increment's stubs (new + rewritten). The living-file regression is CI. A run that executes specs outside that set is a bug.

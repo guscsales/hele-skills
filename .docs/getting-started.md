@@ -1,6 +1,6 @@
 # Getting Started
 
-From zero to a shipped, documented, tested feature.
+From zero to a shipped, documented, tested feature — with one command.
 
 ## Install
 
@@ -18,62 +18,58 @@ cd cli && npm link        # from a clone of this repo
 # once published: npm i -g hele-cli
 ```
 
-## Initialize your project
+## Initialize (or just start)
+
+You can type `/hele-init` once, or skip it: the first `/hele-yolo` in a repo that has no `.hele/` runs init by itself (folder name, design question, beads), then continues your ask.
+
+Init creates the harness folder (`.hele/` by default), `findings.json`, installs the sticky session rule so `/hele-yolo` stays in force for follow-ups, and makes sure [beads](https://beads.gascity.com/) (`bd`) is installed. Idempotent — never overwrites.
+
+## Ship with one command
 
 ```bash
-/hele-init
+/hele-yolo "customers can favorite products"
 ```
 
-This creates the harness folder (`.hele/` by default — you pick the name), asks how design works (a design system, none yet, or no design — Vega sits out), installs the sticky-lane session rule (so `/hele-fast`, `/hele-iterate`, and `/hele-yolo` keep running on follow-up prompts), and makes sure [beads](https://beads.gascity.com/) (`bd`) — the dependency-aware issue tracker the harness runs on — is installed. Run it once per project; it's idempotent and never overwrites. Already initialized? Re-run to fill the session rule if it's missing.
+Lisbon detects the lane and runs the phase skills. You never type `/hele-feature`, `/hele-stubs`, `/hele-plan`, … for the pipeline. Every stop ends in numbered options:
 
-## Ship your first feature
+| # | Typical meaning |
+|---|---|
+| 1 | Approve — and that starts the next phase in the same turn |
+| 2 | Tell me what you need (or Let's formalize on close / open lane) |
+| 3+ | Extras for that stop |
 
-The main flow is seven phases. Each one produces a document and asks for your approval. Typing `1` approves **and** starts the next phase in the same turn — you don't type a second command.
+**Lanes**
 
-**1. Describe it** — `/hele-feature "customers can favorite products"`
-Agent Hightower (PM) interviews you until scope and business rules are unambiguous, then writes the PRD: numbered rules (BR-n), mermaid flows (each with a short explanation and a Branch|Rule table), in/out of scope. He searches the feature index first — updating an existing feature beats duplicating it.
+- **Feature** — product does not do this today → new PRD + stubs (same stop) + increment `001` → design if needed → plan → build → QA (screenshots) → you replay the QA steps.
+- **Fast / Bugfix** — small addition or wrong behavior → patch PRD + stub delta + new increment → same spine. Schema and security stay in the lane with their gates.
+- **Open** — research, PR review, investigation, design explore → no PRD until you pick **Let's formalize**.
 
-**2. Design it** — `/hele-design` (when new screens need it)
-Agent Vega asks which design tool (Paper, Figma, or straight to code reference) and which devices, then specs every screen and state into a DESIGN_SPEC. If the feature reuses existing screens with no redesign, the FEATURE BRIEF skips this step and goes straight to `/hele-plan` (with a parenthetical noting why `/hele-design` will not run).
+Paths in chat are always the full working-directory path. A PRD change always prints what is **New** vs **Added**, grouped by PRD.
 
-**3. Plan it** — `/hele-plan`
-Agent Lisbon reads your actual codebase and writes the EXECUTION_PLAN: small dependency-ordered tasks, each with an owner agent, files, and a TDD definition of done. Every task becomes a beads issue. If the database is touched, Agent Red John writes DB_CHANGES — and your approval of it is blocking.
+**Close options:** Work done · fold a late find back in (iterate) · draft PR. Findings are written during the talk into `.hele/findings.json` — there is no separate retro command to remember.
 
-**4. Write the contract** — `/hele-stubs`
-Agent Wylie derives plain-English Given/When/Then test stubs from the PRD (never from the plan). Every business rule gets covered, unhappy paths included. He also drafts VERIFY.md — the script for your guided manual check later.
+## Also useful
 
-**5. Build it** — `/hele-build`
-The coordination loop: ready tasks dispatch to engineer agents in parallel (backend Cho, frontend Van Pelt, security Jane, infra Rigsby), TDD enforced, targeted tests only, Lisbon reviewing structure, Hightower checking PRD conformance. Blockers become questions to you immediately. Exit: full suite green.
+- `/hele-status` — the board: every feature, doc versions, drift, next action.
+- **build until pass** — say `build til pass` / `builda até passar`. Lisbon dispatches `[AGENT] Summer` for the project compile. Not the increment build loop.
+- `/clear` between phases when a report says it is safe — everything is on disk.
 
-**6. Validate it** — `/hele-qa`, then `/hele-verify-work`
-Wylie turns the stubs into real Playwright e2e tests (installing Playwright if needed) and runs this increment's slice — not the living-file regression (that is CI). Failures are classified in a QA report and, with your approval, flow back via `/hele-build --from-qa`. Lisbon reviews each fix while Wylie confirms the affected specs; the next independent bug does not wait. Missing or stale report after a run already happened? `/hele-qa --generate-fixes-report` reconstructs it (no re-run) and opens the same gate. When automation is green, `/hele-verify-work` walks you through the main flows in the real app, step by step.
-
-**7. Close it** — pick on the verify close gate
-After verify: `1` runs `/hele-retro`, `2` freezes and closes without a retro, `3` starts `/hele-iterate`. Retro does not start itself. When you want the retro: root causes with evidence, lessons promoted to LEARNINGS.md — which every future skill loads.
-
-## The shortcuts
-
-- `/hele-status` — the board: every feature, doc versions, drift warnings, the next useful action.
-- `/hele-fast "fix the empty-state message"` — small, low-risk changes ship with one artifact instead of four. Hard disqualifiers (schema, security, new flows) exit to the full cycle automatically. Type it once; every later prompt in that chat stays in the fast lane (same sub-agent, no beads) until you invoke a different `/hele-*`.
-- `/hele-iterate` — already past build and you just found something you did not plan for. Agent Lisbon folds it back into the open increment (beads, PRD patch if the living doc would lie, stubs if the flow changed) and re-verifies only the affected surface. Complementary to `/hele-fast`, which starts a new small increment. Same stickiness: follow-ups stay in the iterate loop — you do not re-type the command.
-- `/hele-yolo` — build first, paperwork after. Agent Lisbon conducts; the named hele agents (models from `settings.json`) ship on `YOLO:` beads. No PRD-first cycle. Say "that's it" to stop with no docs; say "let's formalize" for PRD, stubs, tests, review, optional draft PR. Type it once; every later prompt in that chat stays in the lane until you invoke a different `/hele-*`.
-- **build until pass** — say `build til pass`, `build until pass`, `builda até passar`, or similar. Lisbon dispatches `[AGENT] Summer` to run the project compile/typecheck and fix until it exits 0. Not `/hele-build` (the increment loop). Works mid-iterate, mid-fast, mid-yolo, or on its own.
-- `/clear` between phases — everything is saved on disk; a fresh context is cheaper. The reports tell you when it's safe.
-
-The main chat is yours. Doing work (review, suite, artifacts) always runs in the background — you should never sit in a locked Thinking / Exploring / "Waiting for subagent" loop while Lisbon "just finishes the close". After a dispatch, the turn ends. Talk anytime. `/hele-fast` skips beads and resumes the same worker on follow-ups; the other lanes still track tasks in beads.
+The main chat is yours. Doing work always runs in the background. After a dispatch, the turn ends. Talk anytime.
 
 ## What you end up with
 
 ```
 .hele/
-  settings.json            # models per agent, parallelism, design system paths
-  index.json               # registry of every feature (the anti-duplicate gate)
-  LEARNINGS.md             # memory promoted from retros
+  settings.json
+  index.json
+  LEARNINGS.md
+  findings.json
   features/<slug>/
-    PRODUCT_DESCRIPTION.md # living PRD — markdown inside XML tags, patch versions
-    TEST_STUBS.md          # living regression contract (QA runs the increment slice; CI the rest)
-    increments/001-<name>/ # frozen per increment: plan, design, DB changes,
-                           # QA report, verify record, retro
+    PRODUCT_DESCRIPTION.md
+    TEST_STUBS.md
+    increments/001-<name>/
+      EXECUTION_PLAN.md, DESIGN_SPEC.md?, DB_CHANGES.md?
+      QA_REPORT.md, screenshots/, VERIFY.md
 ```
 
 Documents a new team member — human or agent — can read and understand the product from.

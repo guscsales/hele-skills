@@ -15,7 +15,7 @@ RULES FOR THIS DOCUMENT
 - Every edit bumps the patch version, updates `updated`, adds a changelog line.
 - Dual audience: XML section tags (<what>, <why>, <flows>, <business-rules>,
   <scope>, <glossary>, <open-questions>) are the AI contract — keep them so
-  agents can locate sections. Inside each tag, write markdown a CEO can read
+  agents can locate sections. Inside each tag, write markdown a human can read
   in preview: headings, tables, numbered steps, named mermaid diagrams.
   Do not flatten a testable rule into a one-line bullet.
 - status: approved requires <open-questions> to be empty.
@@ -114,7 +114,7 @@ The rule in prose — unambiguous, testable. Numbered steps for sequences (dialo
 
 <!-- Must be empty before status: approved. Owner is who must answer. -->
 
-- OQ-1: <question> (owner: CEO)
+- OQ-1: <question> (owner: human)
 
 </open-questions>
 
