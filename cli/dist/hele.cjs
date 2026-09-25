@@ -3454,7 +3454,8 @@ ask \u2014 you do not type /hele-init first.`
     question: "WHAT & WHY",
     detail: `Agent Hightower interviews until scope and business rules are
 unambiguous, then writes (or patches) the PRD and dispatches Wylie for
-stubs in the SAME stop. Emits a PRD delta (New vs Added) with absolute
+stubs in the SAME stop. The PRD is human-readable markdown with no XML
+(same rule as QA_REPORT). Emits a PRD delta (New vs Added) with absolute
 paths. Guards the anti-duplicate gate. Option 1 \u2192 design or plan.
 Normally started by /hele-yolo Feature lane or Let's formalize.`
   },
@@ -3549,22 +3550,6 @@ another command.`
     detail: `Late find after build. Lisbon classifies and dispatches the
 changed slice via beads. Still under the /hele-yolo sticky session when
 picked from Options. New stubs \u2192 QA; else verify.`
-  },
-  {
-    name: "cut",
-    agent: "Agent Spielberg",
-    artifact: "picture now \xB7 CUT.md from the work",
-    question: "THE CUT LANE",
-    detail: `Video lane (separate from the product conductor). Spielberg
-conducts; Kahn edits on CUT: beads. Not routed from /hele-yolo.`
-  },
-  {
-    name: "long-video-edit",
-    agent: "Agent Spielberg",
-    artifact: "Tella cut \xB7 chapters \xB7 LONG.md from the work",
-    question: "THE LONG-FORM LANE",
-    detail: `Tella long-form playbook on the cut bench. Not routed from
-/hele-yolo.`
   },
   {
     name: "status",

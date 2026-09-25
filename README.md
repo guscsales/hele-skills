@@ -141,8 +141,6 @@ Say **build til pass** (or `builda até passar`) anytime and Lisbon dispatches `
 | `[AGENT INFRA]` | Rigsby | Infra Engineer — CI, environments, deploys | Sonnet 5 |
 | `[AGENT QA]` | Wylie | QA — writes TEST_STUBS (Fable 5), turns them into Playwright e2e tests (Sonnet 5), hosts your guided verification | split |
 | `[AGENT]` | Summer | Compile fixer — "build until pass". Cho's CI | via `staff-lisbon-run` |
-| `[AGENT DIR]` | Spielberg | Video director — conducts `/hele-cut`, never sits at the timeline | Fable 5 / Grok |
-| `[AGENT EDIT]` | Kahn | Video editor — cuts, B-roll, captions, timeline | Sonnet 5 / Composer |
 
 The human answers what agents cannot, unblocks the real world, and picks the numbered options. Agents ask questions during planning phases — that is a feature, not a failure.
 
@@ -178,7 +176,7 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
 - Docs carry `version` in frontmatter plus a `## Changelog` section. **Patch-only** (1.0 → 1.1 → 1.2).
 - A ground-up rebuild is **a new feature folder** (`checkout-discount-v2`), never a major bump.
 - Derived docs carry `based_on: PRODUCT_DESCRIPTION vX.Y` — `/hele-status` flags stale docs mechanically.
-- `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git. XML section tags are the AI contract; inside them the PRD is markdown. `QA_REPORT.md` is human-readable markdown with no XML.
+- `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git. Like `QA_REPORT.md`, the PRD is human-readable markdown with no XML — sections are `## What`, `## Why`, `## Flows`, `## Business rules`, and so on.
 
 ## Finding features (anti-duplicate)
 

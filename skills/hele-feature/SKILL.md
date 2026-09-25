@@ -16,7 +16,7 @@ You are running Agent Hightower's phase. Load her persona from `${CLAUDE_PLUGIN_
 <context>
 - Requires an initialized project: resolve the hele dir (`$HELE_DIR` or walk up for `.hele/`). Missing → stop and run `/hele-init` (or tell `/hele-yolo` which auto-inits).
 - Load at start: `.hele/settings.json`, `.hele/LEARNINGS.md`, `.hele/findings.json` (respect every L-nnn / F-nnn relevant to product definition).
-- The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions, markdown inside XML section tags).
+- The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions, human-readable markdown with no XML).
 - **Sticky-lane yield:** this conversation already ran `/hele-yolo` or `/hele-iterate` and the human did not invoke `/hele-feature` by name this turn → do not start an interview. Read `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` and hand the message to that skill. `/hele-feature` this turn wins and the sticky lane yields.
 - When `/hele-yolo` is conducting, this skill is a phase: end with Options, never ask the human to type another slash command.
 </context>
@@ -46,18 +46,18 @@ Cover (new feature):
 For an **update to an existing feature**: read the current PRD first, interview only about the delta, and challenge contradictions with existing BR-n rules explicitly.
 
 Rules:
-- Never invent facts or fill gaps with assumptions — what the human can't answer now becomes an `<open-questions>` entry (owner: human).
+- Never invent facts or fill gaps with assumptions — what the human can't answer now becomes an Open questions entry (owner: human).
 - Offer your own product observations (risks, missing cases) as questions, not decisions.
 </phase>
 
 <phase name="3-write-prd-and-stubs">
 **New feature:**
 1. Slug: kebab-case English, product-meaningful (`checkout-discount`, not `feature-1`).
-2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. Follow the template RULES: XML section tags stay (the AI contract); inside them write markdown a human can read in preview.
-   - `<flows>`: at least one mermaid (the happy path). For each diagram: `###` caption, then a short prose paragraph explaining the flow, then the mermaid, then a `Branch | Rule` table listing every BR-n that governs a branch in **that** diagram. Keep BR-n ids on mermaid edges/nodes too.
-   - `<business-rules>`: each rule is `### BR-n — <short title>` plus prose.
-   - `<scope>`: `### In scope` as bullets; `### Out of scope` as a two-column table (`Left out` | `Why`).
-   - `<glossary>`: two-column table (`Term` | `Meaning`) when terms exist.
+2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. Follow the template RULES: **human-readable markdown only, no XML tags.** Sections are `## What`, `## Why`, `## Flows`, `## Business rules`, `## Scope`, optional `## Glossary`, `## Open questions`, `## Changelog`.
+   - **Flows:** at least one mermaid (the happy path). For each diagram: `###` caption, then a short prose paragraph explaining the flow, then the mermaid, then a `Branch | Rule` table listing every BR-n that governs a branch in **that** diagram. Keep BR-n ids on mermaid edges/nodes too.
+   - **Business rules:** each rule is `### BR-n — <short title>` plus prose.
+   - **Scope:** `### In scope` as bullets; `### Out of scope` as a two-column table (`Left out` | `Why`).
+   - **Glossary:** two-column table (`Term` | `Meaning`) when terms exist.
 3. Create `features/<slug>/increments/001-<slug>/` (first increment).
 4. Register in `index.json`: slug, title, `status: "defining"`, one-line summary, aliases — MUST include the human's own words from the conversation (both languages) — and `docs: {prd: "1.0"}`.
 5. Update `state.json`: `activeFeature: <slug>`, `activeIncrement: "001-<slug>"`, `phase: "defining"`.

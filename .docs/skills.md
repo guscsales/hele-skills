@@ -29,7 +29,7 @@ Bootstraps `.hele/` (settings, index, state, LEARNINGS, **findings.json**, featu
 
 ## /hele-feature
 
-Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). Emits PRD delta (**New** vs **Added**, grouped by PRD, absolute path). Option `1` → design or plan.
+Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits PRD delta (**New** vs **Added**, grouped by PRD, absolute path). Option `1` → design or plan.
 
 ## /hele-fast
 

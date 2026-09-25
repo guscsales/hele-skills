@@ -1,3 +1,20 @@
+<!-- RULES:
+- Written as STATE, not history: it describes how the product works TODAY.
+  A superseded rule is REWRITTEN in place, never appended below the old one.
+- Patch-only versioning (1.0 → 1.1 → 1.2). A ground-up rebuild is a NEW
+  feature folder (<slug>-v2), never a major bump here.
+- Every edit bumps the patch version, updates `updated`, adds a changelog line.
+- Human-readable markdown ONLY. No XML section tags. A person opens this file
+  and understands the product: what, why, flows, rules, scope. Agents find
+  sections by the ## / ### headings below.
+- status: approved requires Open questions to be empty (or the section omitted).
+- Business rules are numbered (BR-n) and testable — TEST_STUBS reference them.
+  Each rule is a ### BR-n — Title heading with enough prose to review alone.
+- Each named flow: ### caption, then a short prose paragraph, then the mermaid,
+  then a Branch | Rule table listing every BR-n that governs a branch in THAT
+  diagram (not a dump of all rules). Keep BR-n on mermaid edges/nodes too.
+- Written in English, like every artifact.
+-->
 ---
 feature: <slug>
 doc: PRODUCT_DESCRIPTION
@@ -6,54 +23,27 @@ status: draft # draft | approved
 updated: YYYY-MM-DD
 ---
 
-<!--
-RULES FOR THIS DOCUMENT
-- Written as STATE, not history: it describes how the product works TODAY.
-  A superseded rule is REWRITTEN in place, never appended below the old one.
-- Patch-only versioning (1.0 → 1.1 → 1.2). A ground-up rebuild is a NEW
-  feature folder (<slug>-v2), never a major bump here.
-- Every edit bumps the patch version, updates `updated`, adds a changelog line.
-- Dual audience: XML section tags (<what>, <why>, <flows>, <business-rules>,
-  <scope>, <glossary>, <open-questions>) are the AI contract — keep them so
-  agents can locate sections. Inside each tag, write markdown a human can read
-  in preview: headings, tables, numbered steps, named mermaid diagrams.
-  Do not flatten a testable rule into a one-line bullet.
-- status: approved requires <open-questions> to be empty.
-- Business rules are numbered (BR-n) and testable — TEST_STUBS reference them.
-  Each rule is a ### BR-n — Title heading with enough prose to review alone.
-- Each named flow: ### caption, then a short prose paragraph, then the mermaid,
-  then a Branch | Rule table listing every BR-n that governs a branch in THAT
-  diagram (not a dump of all rules). Keep BR-n on mermaid edges/nodes too.
--->
-
 # <Feature Title>
 
-<what>
+## What
 
 One or two paragraphs: what this feature is, in product terms. Present tense, current state.
 
 Bullets are fine for the operational beats a reader should not miss.
 
-</what>
-
-<why>
+## Why
 
 The problem it solves and why it exists. The business value. What breaks or is lost if it doesn't exist.
 
-</why>
+## Flows
 
-<flows>
+One or more mermaid diagrams of the main user/system flows. At least the happy path; add a named diagram when business rules branch.
 
-<!-- One or more mermaid diagrams of the main user/system flows. At least the
-     happy path; add a named diagram when business rules branch.
-     Per diagram: ### caption → short prose paragraph → mermaid → Branch|Rule
-     table. Reference BR-n ids on edges/nodes where a rule governs the branch.
-     The table is the human index for that diagram only. -->
+Per diagram: `###` caption → short prose paragraph → mermaid → Branch|Rule table. Reference BR-n ids on edges/nodes where a rule governs the branch. The table is the human index for that diagram only.
 
 ### <Named flow — happy path>
 
-One or two sentences: what this flow covers and the main fork a reader should
-notice before reading the diagram.
+One or two sentences: what this flow covers and the main fork a reader should notice before reading the diagram.
 
 ```mermaid
 flowchart TD
@@ -67,9 +57,7 @@ flowchart TD
 | <what the yes path means> | BR-1 |
 | <what the no path means> | BR-2 |
 
-</flows>
-
-<business-rules>
+## Business rules
 
 ### BR-1 — <short title>
 
@@ -83,9 +71,7 @@ The rule in prose — unambiguous, testable. Numbered steps for sequences (dialo
 
 ...
 
-</business-rules>
-
-<scope>
+## Scope
 
 ### In scope
 
@@ -97,26 +83,19 @@ The rule in prose — unambiguous, testable. Numbered steps for sequences (dialo
 |---|---|
 | <thing> | <why it was intentionally left out> |
 
-</scope>
+## Glossary
 
-<glossary>
-
-<!-- Optional. Kill ambiguity: terms the team must use consistently. Omit the
-     table (keep the tags) when there are no terms. -->
+Optional. Kill ambiguity: terms the team must use consistently. Omit this section when there are no terms.
 
 | Term | Meaning |
 |---|---|
 | <term> | <meaning> |
 
-</glossary>
+## Open questions
 
-<open-questions>
-
-<!-- Must be empty before status: approved. Owner is who must answer. -->
+Must be empty (or omit this section) before `status: approved`. Owner is who must answer.
 
 - OQ-1: <question> (owner: human)
-
-</open-questions>
 
 ## Changelog
 

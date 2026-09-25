@@ -24,7 +24,7 @@ Render the Status Board (chat-reports.md canonical block) as chat text — never
 
 Forbidden: wrapping the board in a markdown code fence; drawing box-drawing divider lines.
 
-End with the Next table — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; phase verifying with a late find → /hele-iterate; phase yolo → /hele-yolo to resume the wave; phase cut → /hele-cut to resume the picture; phase long-video → /hele-long-video-edit to resume the Tella cut; all green, no active increment → /hele-feature for the next idea).
+End with the Next table — the single most useful action given the state (e.g. stale plan → plan refresh via yolo; PRD draft → approve; phase verifying with a late find → iterate; phase yolo → /hele-yolo to resume; all green, no active increment → /hele-yolo for the next idea).
 </phase>
 
 <rules>

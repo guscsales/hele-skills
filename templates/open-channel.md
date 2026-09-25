@@ -2,7 +2,7 @@
 
 The main session is the human's line. It stays free. Always. A worker Lisbon in a parallel agent does not close this line.
 
-Talking, deciding, asking, dispatching — that is this session. Doing is never this session. Lisbon, Hightower, Wylie, Vega, Cho, Spielberg, Kahn, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write an artifact, watch footage, sit at a timeline), it is a **background** sub-agent. Full cycle / iterate / yolo / cut / long-video also create a beads issue. `/hele-fast` does not — spawn or resume the worker, no `bd`. The person does not matter. The channel does.
+Talking, deciding, asking, dispatching — that is this session. Doing is never this session. Lisbon, Hightower, Wylie, Vega, Cho, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write an artifact), it is a **background** sub-agent. Full cycle / iterate / yolo also create a beads issue. `/hele-fast` does not — spawn or resume the worker, no `bd`. The person does not matter. The channel does.
 
 Main session MAY:
 - Talk to the human, AskUserQuestion, emit a Dispatch table or a signature
@@ -32,4 +32,4 @@ Forbidden after a spawn: waiting, polling, Await, "check if Lisbon finished", st
 A later turn resumes: a sub-agent report arrived, **or** the human spoke. If they spoke while work is in flight, **answer them first** — the line stays open. Then, if a report is in, read only that report and dispatch the next work the same way (spawn or resume, announce, stop).
 </turn>
 
-Beads is the trace for the full cycle, iterate, yolo, cut, and long-video. No doing without a beads issue **except `/hele-fast`**: that lane never creates beads. The live trace is the worker id; the frozen trace is FAST.md. Owner still matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`, `[AGENT BE] Cho — YOLO: <task>`, `[AGENT FE] Van Pelt — FAST: <ask>`, `[AGENT DIR] Spielberg — CUT: review`, `[AGENT EDIT] Kahn — CUT: <task>`, `[AGENT EDIT] Kahn — LONG: <task>`, `[AGENT] Summer — BUILD: until pass`).
+Beads is the trace for the full cycle, iterate, and yolo. No doing without a beads issue **except `/hele-fast`**: that lane never creates beads. The live trace is the worker id; the frozen trace is FAST.md. Owner still matches the persona you dispatch (`[AGENT STAFF] Lisbon — REVIEW: T3`, `[AGENT PM] Hightower — FAST: memory-sync`, `[AGENT QA] Wylie — suite`, `[AGENT BE] Cho — YOLO: <task>`, `[AGENT FE] Van Pelt — FAST: <ask>`, `[AGENT] Summer — BUILD: until pass`).
