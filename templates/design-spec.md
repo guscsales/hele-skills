@@ -4,7 +4,7 @@ doc: DESIGN_SPEC
 increment: NNN-<increment-slug>
 version: "1.0"
 based_on: PRODUCT_DESCRIPTION vX.Y
-tool: paper # paper | figma | code-reference | <other tool the CEO named>
+tool: paper # paper | figma | code-reference | <other tool the human named>
 devices: [mobile, desktop] # subset of: mobile, desktop, tablet
 status: draft # draft | approved
 updated: YYYY-MM-DD
@@ -13,7 +13,7 @@ updated: YYYY-MM-DD
 <!--
 RULES FOR THIS DOCUMENT
 - Owned by [AGENT DESIGN] Vega. Created only after her two mandatory
-  questions (design tool + target devices) were answered by the CEO.
+  questions (design tool + target devices) were answered by the human.
 - Vega NEVER invents a component the design system already has —
   <components> maps DS components to their usage here.
 - tool = paper/figma → <artboards> holds the links/ids per device.

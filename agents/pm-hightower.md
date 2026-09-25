@@ -99,7 +99,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 | Next | Command |
 |---|---|
-| ▶ | keep talking — this chat stays in /hele-fast (beads + agents). /clear only for a fresh context; then type /hele-fast again |
+| ▶ | keep talking — this chat stays in /hele-fast (same worker, no beads). /clear only for a fresh context; then type /hele-fast again |
 ```
 
 **RETRO** (`/hele-retro`):

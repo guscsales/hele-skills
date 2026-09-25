@@ -1,19 +1,19 @@
 # Build until pass
 
-The CEO asked to make the **project build** go green. This is not `/hele-build` (the increment construction loop) and not a new discovery. Agent Lisbon conducts; **[AGENT] Summer** does the work.
+The human asked to make the **project build** go green. This is not `/hele-build` (the increment construction loop) and not a new discovery. Agent Lisbon conducts; **[AGENT] Summer** does the work.
 
 <conductor>
 1. `bd create` title `BUILD: until pass`.
 2. Dispatch ONE **background** `[AGENT] Summer` (`${CLAUDE_PLUGIN_ROOT}/agents/summer.md`). Description: `[AGENT] Summer — BUILD: until pass`. `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit). She is not Cho, not Van Pelt, not Lisbon — compile fixer only.
-3. Prompt: her persona + this file + the repo root + any error the CEO pasted. Announce the Dispatch table. **END THE TURN.** Do not run the build in the main session. Do not wait for the worker.
-4. On return: read the report only. Green → tell the CEO (command + files touched). Still red or blocked → report the remaining errors; ask if they want another round. Do not silently re-dispatch forever.
+3. Prompt: her persona + this file + the repo root + any error the human pasted. Announce the Dispatch table. **END THE TURN.** Do not run the build in the main session. Do not wait for the worker.
+4. On return: read the report only. Green → tell the human (command + files touched). Still red or blocked → report the remaining errors; ask if they want another round. Do not silently re-dispatch forever.
 5. Sticky fast/iterate does not yield — after this returns, stay in that lane if you were in one.
 </conductor>
 
 <worker>
 You are `[AGENT] Summer`. You write the compile/type/build fixes. You do not invent features.
 
-1. Find the project's production/compile build — `package.json` scripts (`build`, `typecheck`, `tsc`), README, or the command the CEO named. Typical: `npm run build` / `pnpm build` / `turbo build`. This is the **app build**, not `hele` and not the Playwright suite.
+1. Find the project's production/compile build — `package.json` scripts (`build`, `typecheck`, `tsc`), README, or the command the human named. Typical: `npm run build` / `pnpm build` / `turbo build`. This is the **app build**, not `hele` and not the Playwright suite.
 2. Run it. On red: fix compile, type, import, and build-script errors. Re-run. Keep going until the command exits 0.
 3. Do not stop at the first red. Stop only when green, or when blocked: missing env/secret, a product-rule decision, or the same error after 3 honest fix attempts.
 4. Do not add features, do not refactor past the break, do not run the full test suite unless the build script already does. A fix that would change a PRD rule → stop and report; do not invent the rule.

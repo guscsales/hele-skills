@@ -13,7 +13,7 @@ RULES FOR THIS DOCUMENT
 - Owned by [AGENT DBA] Red John. Required whenever an increment touches
   schema, indexes, backfills, or production seeds. New queries against
   existing structures do NOT require it.
-- CEO approval of this doc is BLOCKING: the EXECUTION_PLAN cannot be
+- human approval of this doc is BLOCKING: the EXECUTION_PLAN cannot be
   approved, and /hele-build will not dispatch migration tasks, while this
   is draft.
 - Changes are numbered (DB-n) and each cites the plan task or business
@@ -65,7 +65,7 @@ Backfills, seeds, transformations — with volume estimates. "None" is a valid a
 </data-migration>
 
 <rollback>
-How to revert each DB-n. **IRREVERSIBLE:** flag any change that cannot be rolled back (dropped column with data, destructive backfill) — these need explicit CEO acknowledgment.
+How to revert each DB-n. **IRREVERSIBLE:** flag any change that cannot be rolled back (dropped column with data, destructive backfill) — these need explicit human acknowledgment.
 </rollback>
 
 <risks>

@@ -1,37 +1,46 @@
 <!-- RULES:
-- Written by /hele-verify-work phase 1; verdicts recorded during the guided
-  walk. Frozen when the increment closes.
-- Flows are HUMAN journeys (3–8), not one entry per stub — automation already
-  covered the stubs in /hele-qa.
+- Written/refreshed by /hele-qa from the latest QA_REPORT.md. Verdicts recorded
+  during /hele-verify-work. Frozen when the increment closes.
+- Flows are the SAME steps and data the QA run used — the human replays the
+  proof, not a reinvented script.
 - verdict per flow: pending | verified | issue | skipped. An issue keeps the
-  CEO's words verbatim and points at its beads task or PRD note.
-- Written in English, like every artifact.
+  human's words verbatim and points at its beads task or PRD note.
+- Written in English, like every artifact. Prefer plain markdown over XML for
+  human readability; keep flow markers only if agents need them.
 -->
 ---
 feature: <slug>
 increment: NNN-<slug>
 doc: VERIFY
 version: "1.0"
-based_on: TEST_STUBS v<X.Y>
+based_on: QA_REPORT run <N>
 status: pending | done
 updated: <YYYY-MM-DD>
 ---
 
 # Guided Verification — <feature> · increment NNN
 
-<setup>
-- App: <how it was started / URL>
-- Login(s): <role → credentials source>
-- Data: <seeds or records the CEO needs>
-</setup>
+Replays the QA run. Same data, same steps, screenshot of what "pass" looked like.
 
-<flow id="V1" covers="BR-1, TS-001, TS-004" verdict="pending">
-## V1 — <human goal, e.g. "Create a sale and see stock drop">
+## Setup
 
-1. <step the human takes> → expect: <what they should see>
-2. <step> → expect: <result>
-3. <step> → expect: <result>
+| Item | Value |
+|---|---|
+| App | <how it was started / URL — from QA_REPORT> |
+| Login(s) | <from QA_REPORT> |
+| Data | <from QA_REPORT> |
+| QA report | <absolute path to QA_REPORT.md> |
+
+## V1 — <goal from QA stub/flow> · covers BR-n, TS-nnn · verdict: pending
+
+**QA screenshot (what pass looked like):** `<absolute or ./screenshots/TS-nnn.png>`
+
+| # | Step | Expect |
+|---|---|---|
+| 1 | <from QA_REPORT steps> | <expected> |
+| 2 | <…> | <…> |
 
 **Verdict:** pending
-**Notes:** <CEO's words on issue, verbatim> → beads <id> | PRD note
-</flow>
+**Notes:** <human's words on issue, verbatim> → beads <id> | PRD note
+
+*(One section per flow / stub group distilled from QA_REPORT — 3–8 journeys.)*

@@ -2,68 +2,71 @@
 // If you change this, update README.md "The flow" in the same change — see .agents/RULES.md.
 
 export const FLOW_DIAGRAM = `
- ╭─ Human idea ───────────────────────────────── START ─╮
- │ You bring the input; the agents own the middle.      │
+ ╭─ You ──────────────────────────────────────── START ─╮
+ │ /hele-yolo "what you need"                           │
+ │ One command. It picks the lane and runs the rest.   │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-feature ───────────────────────── WHAT & WHY ─╮
- │ Agent Hightower                                      │
- │ ▸ PRODUCT_DESCRIPTION.md                             │
+ ╭─ It detects the lane ────────────────────────────────╮
+ │ Feature   new PRD + stubs + increment 001            │
+ │ Fast      patch the PRD + a new increment            │
+ │ Bugfix    patch the PRD + a new increment            │
+ │ Open      research, review, investigation, design    │
+ ╰──────────────────────────────────────────────────────╯
+    │  feature / fast / bugfix — yolo runs these
+    ▼
+ ╭─ PRD + stubs ─────────────────────────── SAME STOP ─╮
+ │ Agent Hightower + Agent Wylie                        │
+ │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
+ │ ▸ PRD delta: New vs Added (full PWD paths)           │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-design ──────────────────────── HOW IT LOOKS ─╮
- │ Agent Vega · skip when no new screens                │
+ ╭─ design (only if new screens) ───────────────────────╮
+ │ Agent Vega · skipped when no new screens / no design │
  │ ▸ DESIGN_SPEC.md                                     │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-plan ────────────────────────── HOW TO BUILD ─╮
+ ╭─ plan ───────────────────────────────────────────────╮
  │ Agent Lisbon                                         │
  │ ▸ EXECUTION_PLAN.md + beads                          │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-stubs ────────────────────── HOW TO VALIDATE ─╮
- │ Agent Wylie                                          │
- │ ▸ TEST_STUBS.md                                      │
- ╰──────────────────────────────────────────────────────╯
-    │
-    ▼
- ╭─ /hele-build ───────────────────── THE CONSTRUCTION ─╮
+ ╭─ build ──────────────────────────────────────────────╮
  │ Agents Cho, Van Pelt, Jane, Rigsby                   │◄──┐
  │ ▸ code + passing tests                               │   │
- │ ▸ --from-qa → fixes the QA report                    │   │
+ │ ▸ from-qa → fixes the QA report                      │   │
  ╰──────────────────────────────────────────────────────╯   │
     │                                                       │
     ▼                                                       │
- ╭─ /hele-qa ──────────────────── SECOND LAYER ─╮           │
- │ Agent Wylie                                  │           │
- │ ▸ Playwright e2e suite                       │──┐        │
- ╰──────────────────────────────────────────────╯  │        │
-    │                                              │        │
-    │     ╭─ /hele-qa --generate-fixes-report ─╮   │        │
-    │     │ reconstruct QA_REPORT → approve    │◄──┘        │
-    │     ╰──────────────────┬─────────────────╯            │
+ ╭─ QA ─────────────────────────── SCREENSHOT PROOF ─╮      │
+ │ Agent Wylie                                       │      │
+ │ ▸ Playwright + screenshots + QA_REPORT.md         │──┐   │
+ ╰───────────────────────────────────────────────────╯  │   │
+    │                                                   │   │
+    │     ╭─ QA generate-fixes-report ──────────────╮   │   │
+    │     │ reconstruct QA_REPORT → approve fixes   │◄──┘   │
+    │     ╰──────────────────┬──────────────────────╯       │
     │                        └──────────────────────────────┘
     ▼
- ╭─ /hele-verify-work ───────────────────── HUMAN EYES ─╮
- │ Agent Wylie + you                                    │
- │ ▸ VERIFY.md                                          │
- ╰──────────────────────────────────────────────────────╯
+ ╭─ verify ────────────────────────── YOU REPLAY QA ─╮
+ │ Agent Wylie + you                                  │
+ │ ▸ same steps + data from QA_REPORT → VERIFY.md     │
+ ╰────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-retro ────────────────────── WHAT TO IMPROVE ─╮
- │ Agent Hightower · optional                           │
- │ ▸ RETRO.md + LEARNINGS.md                            │
- ╰──────────────────────────────────────────────────────╯
+ ╭─ close ────────────────────────────────────────────╮
+ │ Options: Work done · iterate · draft PR            │
+ │ Findings written during the talk → findings.json   │
+ ╰────────────────────────────────────────────────────╯
 
- ╭─ anytime ────────────────────────────────────────────╮
- │ /hele-init    bootstraps .hele/ (run once)           │
- │ /hele-status  the board: versions, drift, next       │
- │ /hele-iterate post-build discovery, same increment   │
- │ /hele-fast    small low-risk change, one artifact    │
- │ /hele-yolo    free creation, docs from the work      │
- ╰──────────────────────────────────────────────────────╯
+ ╭─ always ───────────────────────────────────────────╮
+ │ First time in a repo → init runs by itself         │
+ │ Every stop ends with numbered options              │
+ │ Open lane stays a conversation until formalize     │
+ │ /hele-status — the board (read-only)               │
+ ╰────────────────────────────────────────────────────╯
 `.replace(/^\n/, '').replace(/\n$/, '');

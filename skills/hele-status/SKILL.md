@@ -9,7 +9,7 @@ description: >-
 
 # hele-status
 
-Read-only — this skill never writes anything. Chat follows the CEO's language. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md` and emit the Status Board tables from it.
+Read-only — this skill never writes anything. Chat follows the human's language. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md` and emit the Status Board tables from it.
 
 <phase name="1-collect">
 1. Read `index.json`, `state.json`, and every feature's doc frontmatter (`features/*/PRODUCT_DESCRIPTION.md`, `TEST_STUBS.md`, `increments/*/EXECUTION_PLAN.md`, `DESIGN_SPEC.md`, `DB_CHANGES.md` — a draft DB_CHANGES on an active increment is a ⛔ blocker line).
@@ -24,7 +24,7 @@ Render the Status Board (chat-reports.md canonical block) as chat text — never
 
 Forbidden: wrapping the board in a markdown code fence; drawing box-drawing divider lines.
 
-End with the Next table — the single most useful action given the state (e.g. stale plan → /hele-plan refresh; PRD draft → approve via /hele-feature; phase verifying with a late find → /hele-iterate; phase yolo → /hele-yolo to resume the wave; all green, no active increment → /hele-feature for the next idea).
+End with the Next table — the single most useful action given the state (e.g. stale plan → plan refresh via yolo; PRD draft → approve; phase verifying with a late find → iterate; phase yolo → /hele-yolo to resume; all green, no active increment → /hele-yolo for the next idea).
 </phase>
 
 <rules>

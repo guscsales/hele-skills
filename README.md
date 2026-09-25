@@ -2,7 +2,7 @@
   <img src="assets/banner.svg" alt="hele — agents with memory" width="560" />
 </p>
 
-A feature-delivery harness for Claude Code. Every skill starts with `/hele-*`.
+A feature-delivery harness for Claude Code. One command: `/hele-yolo`. It picks the lane and runs the rest.
 
 📚 **[Full documentation](.docs/README.md)** — introduction, getting started, skills and CLI references · [Changelog](CHANGELOG.md)
 
@@ -29,149 +29,109 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 ## The flow
 
 ```
- ╭─ Human idea ───────────────────────────────── START ─╮
- │ You bring the input; the agents own the middle.      │
+ ╭─ You ──────────────────────────────────────── START ─╮
+ │ /hele-yolo "what you need"                           │
+ │ One command. It picks the lane and runs the rest.   │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-feature ───────────────────────── WHAT & WHY ─╮
- │ Agent Hightower                                      │
- │ ▸ PRODUCT_DESCRIPTION.md                             │
+ ╭─ It detects the lane ────────────────────────────────╮
+ │ Feature   new PRD + stubs + increment 001            │
+ │ Fast      patch the PRD + a new increment            │
+ │ Bugfix    patch the PRD + a new increment            │
+ │ Open      research, review, investigation, design    │
+ ╰──────────────────────────────────────────────────────╯
+    │  feature / fast / bugfix — yolo runs these
+    ▼
+ ╭─ PRD + stubs ─────────────────────────── SAME STOP ─╮
+ │ Agent Hightower + Agent Wylie                        │
+ │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
+ │ ▸ PRD delta: New vs Added (full PWD paths)           │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-design ──────────────────────── HOW IT LOOKS ─╮
- │ Agent Vega · skip when no new screens                │
+ ╭─ design (only if new screens) ───────────────────────╮
+ │ Agent Vega · skipped when no new screens / no design │
  │ ▸ DESIGN_SPEC.md                                     │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-plan ────────────────────────── HOW TO BUILD ─╮
+ ╭─ plan ───────────────────────────────────────────────╮
  │ Agent Lisbon                                         │
  │ ▸ EXECUTION_PLAN.md + beads                          │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-stubs ────────────────────── HOW TO VALIDATE ─╮
- │ Agent Wylie                                          │
- │ ▸ TEST_STUBS.md                                      │
- ╰──────────────────────────────────────────────────────╯
-    │
-    ▼
- ╭─ /hele-build ───────────────────── THE CONSTRUCTION ─╮
+ ╭─ build ──────────────────────────────────────────────╮
  │ Agents Cho, Van Pelt, Jane, Rigsby                   │◄──┐
  │ ▸ code + passing tests                               │   │
- │ ▸ --from-qa → fixes the QA report                    │   │
+ │ ▸ from-qa → fixes the QA report                      │   │
  ╰──────────────────────────────────────────────────────╯   │
     │                                                       │
     ▼                                                       │
- ╭─ /hele-qa ──────────────────── SECOND LAYER ─╮           │
- │ Agent Wylie                                  │           │
- │ ▸ Playwright e2e suite                       │──┐        │
- ╰──────────────────────────────────────────────╯  │        │
-    │                                              │        │
-    │     ╭─ /hele-qa --generate-fixes-report ─╮   │        │
-    │     │ reconstruct QA_REPORT → approve    │◄──┘        │
-    │     ╰──────────────────┬─────────────────╯            │
+ ╭─ QA ─────────────────────────── SCREENSHOT PROOF ─╮      │
+ │ Agent Wylie                                       │      │
+ │ ▸ Playwright + screenshots + QA_REPORT.md         │──┐   │
+ ╰───────────────────────────────────────────────────╯  │   │
+    │                                                   │   │
+    │     ╭─ QA generate-fixes-report ──────────────╮   │   │
+    │     │ reconstruct QA_REPORT → approve fixes   │◄──┘   │
+    │     ╰──────────────────┬──────────────────────╯       │
     │                        └──────────────────────────────┘
     ▼
- ╭─ /hele-verify-work ───────────────────── HUMAN EYES ─╮
- │ Agent Wylie + you                                    │
- │ ▸ VERIFY.md                                          │
- ╰──────────────────────────────────────────────────────╯
+ ╭─ verify ────────────────────────── YOU REPLAY QA ─╮
+ │ Agent Wylie + you                                  │
+ │ ▸ same steps + data from QA_REPORT → VERIFY.md     │
+ ╰────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ /hele-retro ────────────────────── WHAT TO IMPROVE ─╮
- │ Agent Hightower · optional                           │
- │ ▸ RETRO.md + LEARNINGS.md                            │
- ╰──────────────────────────────────────────────────────╯
+ ╭─ close ────────────────────────────────────────────╮
+ │ Options: Work done · iterate · draft PR            │
+ │ Findings written during the talk → findings.json   │
+ ╰────────────────────────────────────────────────────╯
 
- ╭─ anytime ────────────────────────────────────────────╮
- │ /hele-init    bootstraps .hele/ (run once)           │
- │ /hele-status  the board: versions, drift, next       │
- │ /hele-iterate post-build discovery, same increment   │
- │ /hele-fast    small low-risk change, one artifact    │
- │ /hele-yolo    free creation, docs from the work      │
- ╰──────────────────────────────────────────────────────╯
+ ╭─ always ───────────────────────────────────────────╮
+ │ First time in a repo → init runs by itself         │
+ │ Every stop ends with numbered options              │
+ │ Open lane stays a conversation until formalize     │
+ │ /hele-status — the board (read-only)               │
+ ╰────────────────────────────────────────────────────╯
 ```
+
+### Lanes inside `/hele-yolo`
+
+You type one command. Lisbon detects the lane and runs the phase skills. Every stop ends in numbered options — `1` approves and starts the next phase; `2` is tell me what you need; close stops include **Work done** and **Let's formalize**.
+
+| Lane | When | What happens |
+|---|---|---|
+| Feature | Product does not do this today | New PRD + stubs + increment `001`, then design? → plan → build → QA → verify |
+| Fast | Small addition to what exists | Patch PRD + stub delta + new increment, same spine |
+| Bugfix | Behavior today is wrong | Same as Fast (reconcile docs, new increment, spine) |
+| Open | Research, review, investigation, design explore | No PRD until you pick Let's formalize |
+
+First time in a repo, init runs by itself. Findings land in `.hele/findings.json` while you talk (durable lessons → `LEARNINGS.md`). QA writes screenshots into a human-readable `QA_REPORT.md`; verify replays those same steps. Every file path in chat is the full working-directory path. A PRD change always prints a New vs Added delta.
 
 ### The iterate loop
 
-`/hele-iterate` is the complementary loop to the whole flow. You are already past build - QA, verify, or any post-build phase - and you just found an interaction you did not plan for. You need the affected slice re-run: not a new increment, not the full formal cycle.
-
-Agent Lisbon is the boss. She classifies the discovery and dispatches only the people who must move, via beads on the same epic. She does not rewrite the frozen `EXECUTION_PLAN`.
-
-- If the living PRD would lie after the change, she calls Agent Hightower to patch it — even when you never said "update the PRD".
-- Vega is called only when you ask for a new screen (PT or EN: `tela`, `new screen`, `we need a UI for this`).
-- New or rewritten test stubs go back to `/hele-qa` (increment slice, not the living-file regression). If stubs did not change, the loop returns to `/hele-verify-work`.
-- Schema and security stay in the loop with their usual gates (Red John, Jane). They are not hard refusals here.
-
-The increment stays open. You can iterate again. Type `/hele-iterate` once — later prompts in that conversation stay in the loop (beads + the agent chain) until you invoke a different `/hele-*`.
-
-Say **build til pass** (or `build until pass`, `builda até passar`) at any time — including mid-iterate — and Lisbon dispatches `[AGENT] Summer` to run the project compile/typecheck until it exits 0. That is the app build, not `/hele-build`.
+Already past build and you found something you did not plan for? Still under `/hele-yolo` (or pick iterate on the verify close Options). Agent Lisbon folds it back into the open increment via beads — not a new Feature lane.
 
 ```
-you: "wait — I forgot this", "actually this should do X" or similar
+you: "wait — I forgot this", or pick iterate on the close Options
         │
         ▼
-  /hele-iterate   (Agent Lisbon)
+  iterate   (Agent Lisbon)
         │
-        ├─ bug              → beads → Agent Cho / Agent Van Pelt / Agent Jane
-        ├─ behavior         → Agent Hightower (patch PRD) → Agent Wylie (test stubs) → engineers
-        ├─ tests only       → Agent Wylie
-        ├─ new screen       → Agent Vega
-        └─ schema/security  → Agent Red John / Agent Jane
-        │
+        ├─ bug / behavior / tests / new screen / schema / security
         ▼
   re-verify only the affected surface
-        │
-        └── can run again on the same increment
 ```
 
-### The fast lane
-
-Not every change deserves seven phases. `/hele-fast` ships a small, low-risk change from scratch — a new increment, it finds the right place to write the PRD and do the thing. Type it once; follow-ups in that chat stay in the fast lane. No beads: a background sub-agent does the work and follow-ups resume that same worker.
-
-Triage → live worker → TDD build → memory sync → full suite once + affected e2e specs.
-
-Hard disqualifiers keep it honest. Any of these exits to the full flow automatically: DB schema, security surface, new user-facing flow, or cross-feature impact. A behavior change still patches the PRD and stubs. The living docs never lie, no matter the lane.
-
-```
-you: "fix the empty-state", "change this to be X", or similar
-        │
-        ▼
-  /hele-fast   (Agents Hightower + Lisbon)
-        │
-        ├─ schema / security / new flow / cross-feature  → full cycle
-        ├─ bugfix      → 1–3 agents → TDD → suite (docs stay)
-        └─ behavior    → 1–3 agents → TDD → patch PRD + stubs → suite
-        │
-        ▼
-  one FAST.md
-```
-
-### The yolo lane
-
-Sometimes you just want to build. `/hele-yolo` is free creation: Agent Lisbon conducts, the named hele agents (Cho, Van Pelt, Jane, Rigsby, Vega, Red John — models from `settings.json`) do the work, and the paperwork is generated FROM the work when you say let's formalize. "that's it" just stops. No PRD-first cycle. Type it once; follow-ups stay in the lane.
-
-Schema and security stay in the loop with their gates — they are not hard refusals here. An increment already in QA or verify is not yolo; that discovery goes to `/hele-iterate`.
-
-```
-you: "bora construir X", "vamos jogando", or similar
-        │
-        ▼
-  /hele-yolo   (Agent Lisbon)
-        │
-        ├─ each ask           → YOLO: beads → the matching agents
-        ├─ "that's it"        → done, no paperwork
-        └─ "let's formalize"  → PRD · stubs · tests · review · draft PR
-```
-
+Say **build til pass** (or `builda até passar`) anytime and Lisbon dispatches `[AGENT] Summer` for the project compile — that is not the increment build loop.
 ## The team
 
 | Tag | Agent | Role | Default model |
 |---|---|---|---|
-| `[AGENT PM]` | Hightower | Product Manager — owns PRDs, chases delivery, reports to the CEO | Fable 5 |
+| `[AGENT PM]` | Hightower | Product Manager — owns PRDs, chases delivery, reports to the human | Fable 5 |
 | `[AGENT STAFF]` | Lisbon | Staff Engineer — architecture, plans, staffs and routes the team | Fable 5 |
 | `[AGENT DESIGN]` | Vega | UI/UX Designer — design-system map, design specs | Opus 5 |
 | `[AGENT BE]` | Cho | Backend Engineer — TDD executor | Sonnet 5 |
@@ -182,9 +142,9 @@ you: "bora construir X", "vamos jogando", or similar
 | `[AGENT QA]` | Wylie | QA — writes TEST_STUBS (Fable 5), turns them into Playwright e2e tests (Sonnet 5), hosts your guided verification | split |
 | `[AGENT]` | Summer | Compile fixer — "build until pass". Cho's CI | via `staff-lisbon-run` |
 
-The human is the CEO/CTO: answers what agents cannot, unblocks the real world, orchestrates. Agents ask questions during planning phases — that is a feature, not a failure.
+The human answers what agents cannot, unblocks the real world, and picks the numbered options. Agents ask questions during planning phases — that is a feature, not a failure.
 
-Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "composer"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the CEO line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. `[AGENT] Summer` (build until pass) also runs on `staff-lisbon-run`. After each dispatch the turn ends so the line stays open — talk while they run.
+Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, plans, security, stub authoring) on the strong model, execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) on the cheap one. Keys are role-prefixed so the role is obvious (`backend-cho`, `frontend-van-pelt`, `qa-wylie-stubs` / `qa-wylie-run`, `staff-lisbon` / `staff-lisbon-run`), and each value is per-runtime: `{"claude-code": "sonnet", "cursor": "composer"}`. Change per project: `hele config set agents.models.backend-cho.claude-code opus`. Hightower and Lisbon *conduct* in the main session (the human's line). Their doing work — review, suite, artifacts — is a beads task dispatched as a background sub-agent on `staff-lisbon` (review/plan) / `staff-lisbon-run` (suite: Sonnet) / `pm-hightower`. `[AGENT] Summer` (build until pass) also runs on `staff-lisbon-run`. After each dispatch the turn ends so the line stays open — talk while they run.
 
 ## Project layout (created by /hele-init)
 
@@ -193,21 +153,22 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
   settings.json            # models, max agents, design system paths, everything
   state.json               # active feature + increment + phase
   index.json               # registry of ALL features (slug, aliases, versions, status)
-  LEARNINGS.md             # memory promoted from retros — every skill loads it
+  LEARNINGS.md             # memory promoted from session findings — every skill loads it
+  findings.json            # append-only session findings written during /hele-yolo
   DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
   DATABASE.md              # Red John's living schema map (mermaid ER, kept current)
   features/
     <slug>/
       PRODUCT_DESCRIPTION.md   # living doc — current state, patch versions only
-      TEST_STUBS.md            # living doc — regression contract, accumulates; /hele-qa runs the increment slice
+      TEST_STUBS.md            # living doc — written with the PRD; QA runs the increment slice
       increments/
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, frozen after build
           DESIGN_SPEC.md       # per-increment, when UI is involved
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
-          QA_REPORT.md         # per-increment, prose record of every QA run
-          VERIFY.md            # per-increment, guided human verification record
-          RETRO.md             # per-increment
+          QA_REPORT.md         # human-readable QA run + screenshots/
+          VERIFY.md            # guided replay of the QA report
+          screenshots/         # TS-nnn.png proof from Playwright
 ```
 
 ## Versioning rules
@@ -215,11 +176,11 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
 - Docs carry `version` in frontmatter plus a `## Changelog` section. **Patch-only** (1.0 → 1.1 → 1.2).
 - A ground-up rebuild is **a new feature folder** (`checkout-discount-v2`), never a major bump.
 - Derived docs carry `based_on: PRODUCT_DESCRIPTION vX.Y` — `/hele-status` flags stale docs mechanically.
-- `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git. XML section tags are the AI contract; inside them the PRD is markdown (headings, tables, named mermaid) so a human can review it in preview. Other living/per-increment artifacts (plans, specs, stubs, DB changes) stay XML-first — those are for agents.
+- `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git. Like `QA_REPORT.md`, the PRD is human-readable markdown with no XML — sections are `## What`, `## Why`, `## Flows`, `## Business rules`, and so on.
 
 ## Finding features (anti-duplicate)
 
-Skills never grep ad hoc. They search through `hele find` against `index.json` (slug, title, aliases in EN/PT, summary) with content fallback — and `/hele-feature` has a hard gate: no new feature is created before searching and confirming with the CEO that it is not an update to an existing one.
+Skills never grep ad hoc. They search through `hele find` against `index.json` (slug, title, aliases in EN/PT, summary) with content fallback — and the Feature lane has a hard gate: no new feature is created before searching and confirming with the human that it is not an update to an existing one.
 
 ## Install
 

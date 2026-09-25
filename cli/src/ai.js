@@ -3,73 +3,71 @@ import { FLOW_DIAGRAM } from './flow-diagram.js';
 
 const SKILLS = [
   {
+    name: 'yolo',
+    agent: 'Agent Lisbon',
+    artifact: 'lane → phase skills behind Options',
+    question: 'THE CONDUCTOR',
+    detail: `The only entry point for product work. Auto-inits when .hele/ is
+missing. Detects Feature / Fast / Bugfix / Open, prints a Lane table,
+and runs the phase skills. Every stop ends in numbered Options (Approve,
+Tell me what you need, Work done, Let's formalize). Stubs ship with the
+PRD; QA writes screenshots into a human-readable QA_REPORT; verify
+replays that report; findings.json is written during the talk. Paths in
+chat are always the full PWD. Type it once — follow-ups stay sticky.`,
+  },
+  {
     name: 'init',
     agent: 'the harness',
-    artifact: '.hele/ skeleton',
+    artifact: '.hele/ skeleton + findings.json',
     question: 'SETUP',
-    detail: `Bootstraps the harness in a project: creates .hele/ (settings.json,
-index.json, state.json, LEARNINGS.md, features/), installs the sticky-lane
-session rule so /hele-fast, /hele-iterate, and /hele-yolo stay in force for follow-ups,
-asks how design works (design-system paths, none yet, or no design —
-Vega sits out), and makes sure the beads CLI (bd) is
-installed and initialized. Idempotent — safe to re-run, never overwrites.`,
+    detail: `Bootstraps the harness: creates .hele/ (settings.json, index.json,
+state.json, LEARNINGS.md, findings.json, features/), installs the sticky
+session rule so /hele-yolo stays in force for follow-ups, asks how design
+works, and makes sure beads (bd) is installed. Idempotent. When
+/hele-yolo finds no .hele/, it runs this automatically and continues the
+ask — you do not type /hele-init first.`,
   },
   {
     name: 'feature',
     agent: 'Agent Hightower',
-    artifact: 'PRODUCT_DESCRIPTION.md',
+    artifact: 'PRODUCT_DESCRIPTION.md + TEST_STUBS.md',
     question: 'WHAT & WHY',
-    detail: `Agent Hightower (PM) interviews you until scope and business rules
-are unambiguous, then writes (or patches) the PRD: what the feature is, why
-it exists, numbered business rules (each BR-n as a heading with prose),
-named mermaid flows (each with a short explanatory paragraph and a
-Branch|Rule table of the BR-n ids that diagram covers), in/out of scope.
-Markdown inside stable XML section tags — humans read it in preview, agents
-still find <business-rules>. Guards the anti-duplicate gate: searches the
-index before creating anything. The PRD is a LIVING doc — written as current
-state, patch versions only. Your technical hints go to NOTES.md for Agent
-Lisbon; the PRD stays pure product.`,
+    detail: `Agent Hightower interviews until scope and business rules are
+unambiguous, then writes (or patches) the PRD and dispatches Wylie for
+stubs in the SAME stop. The PRD is human-readable markdown with no XML
+(same rule as QA_REPORT). Emits a PRD delta (New vs Added) with absolute
+paths. Guards the anti-duplicate gate. Option 1 → design or plan.
+Normally started by /hele-yolo Feature lane or Let's formalize.`,
   },
   {
     name: 'design',
     agent: 'Agent Vega',
     artifact: 'DESIGN_SPEC.md',
     question: 'HOW IT LOOKS',
-    detail: `Agent Vega (UI/UX) asks two mandatory questions first: which design
-tool (Paper / Figma / other / straight to code reference) and which devices
-(mobile / desktop / tablet). Then she maps your design system into
-DESIGN_SYSTEM.md (once) and specs every screen of the increment: states,
-components reused from the DS, NEW components flagged, artboard links — or
-a written layout when no tool was chosen. Skipped when the FEATURE BRIEF
-decides no new screens need design (option 1 goes to /hele-plan instead).
-Agent Van Pelt implements from this, never invents.`,
+    detail: `Agent Vega asks which design tool and devices, then specs every
+screen of the increment. Skipped when no new screens need design or
+designSystem.enabled is false. Started by yolo after PRD+stubs approval
+when screens are new.`,
   },
   {
     name: 'plan',
     agent: 'Agent Lisbon',
     artifact: 'EXECUTION_PLAN.md + beads',
     question: 'HOW TO BUILD',
-    detail: `Agent Lisbon (Staff Engineer) reads the real codebase, your
-conventions, and LEARNINGS.md before planning. The plan cites real files:
-current state, chosen approach, and small dependency-ordered tasks — each
-with an owner agent, files, and a TDD definition of done. Every task becomes
-a beads issue; the issue ids are written back into the plan, which makes
-builds resumable. Per-increment and disposable: it freezes after the build.
-Tasks touching the database bring in Agent Red John (DBA): he writes
-DB_CHANGES.md — current vs proposed schema, rollback, risks — and your
-approval of it is BLOCKING before the plan can be approved.`,
+    detail: `Agent Lisbon reads the real codebase and LEARNINGS.md before
+planning. Small dependency-ordered tasks with owner agents and TDD done
+criteria become beads issues. Database tasks bring in Agent Red John —
+DB_CHANGES approval is BLOCKING.`,
   },
   {
     name: 'stubs',
     agent: 'Agent Wylie',
     artifact: 'TEST_STUBS.md',
     question: 'HOW TO VALIDATE',
-    detail: `Agent Wylie (QA) derives plain-English Given/When/Then stubs from
-the PRD only (never from the plan — behavior, not implementation). Every
-business rule maps to at least one stub, unhappy paths included. Stable
-TS-nnn ids. The file is the LIVING regression contract: stubs accumulate
-across increments. /hele-qa runs the active increment's slice; CI owns
-the rest of the living file.`,
+    detail: `Agent Wylie derives Given/When/Then stubs from the PRD only
+(never from the plan). Runs inside the Feature / Fast stop with the PRD —
+not a separate command under /hele-yolo. Does not draft VERIFY.md; QA
+builds the human replay from the QA report.`,
   },
   {
     name: 'build',
@@ -77,132 +75,69 @@ the rest of the living file.`,
     artifact: 'code + passing tests',
     question: 'THE CONSTRUCTION',
     extras: ['▸ --from-qa → fixes the QA report'],
-    detail: `The coordination loop: bd ready → dispatch Agent Cho (backend),
-Agent Van Pelt (frontend), Agent Jane (security), Agent Rigsby (infra) in
-parallel on ready tasks (background — the main chat stays free), TDD
-enforced. Agent Lisbon reviews structure as a REVIEW: sub-agent — the
-next independent task, and on --from-qa Wylie's confirm, start in the
-same turn; she does not serialize the loop. Agent Hightower checks PRD
-conformance. Blockers become questions to you immediately. Migrations only
-run against an approved DB_CHANGES, and Agent Red John checks the written
-migration against it before the task closes. Exit condition: the full
-automated suite is green. Resumable via beads state.
-
-/hele-build --from-qa is a FIX round, not a plan round: scope = open QA:
-beads tasks + contract decisions from the QA gate. Engineers fix the
-contract violation (report narrative in the prompt). Wylie confirms the
-affected specs while Lisbon reads the diff. Then ▶ NEXT: /hele-qa
-(increment slice, not the living-file regression).`,
+    detail: `Coordination loop: bd ready → background engineer agents, TDD,
+Lisbon shape review in parallel, Hightower PRD conformance. Migrations
+only against approved DB_CHANGES. --from-qa is a FIX round from the QA
+report, then back to QA for the increment slice.`,
   },
   {
     name: 'qa',
     agent: 'Agent Wylie',
-    artifact: 'Playwright e2e suite',
-    question: 'SECOND LAYER',
+    artifact: 'Playwright + screenshots + QA_REPORT.md',
+    question: 'SCREENSHOT PROOF',
     extras: ['▸ --generate-fixes-report → approve → --from-qa'],
-    detail: `Agent Wylie turns the stubs into real Playwright tests — one test
-per stub, TS-nnn in the title, deterministic by construction. Missing
-Playwright? He installs and configures it. Then he runs THIS INCREMENT's
-specs (new + rewritten stubs), never the living-file regression — that is
-CI. He updates those stubs' status, classifies failures into QA_REPORT.md,
-and (on red) runs the approval gate → /hele-build --from-qa. AI touches
-the browser once — while writing the test; after that the suite is free
-forever.
-
-/hele-qa --generate-fixes-report: the run already happened but the report
-is missing or stale — reconstruct QA_REPORT from stub statuses, beads, and
-traces (no re-run), then the same approval gate back to build.`,
+    detail: `Turns stubs into Playwright tests for THIS INCREMENT only. Saves
+a screenshot per stub under increments/.../screenshots/. Writes a
+human-readable QA_REPORT.md (no XML) with setup, data, steps, expected
+vs happened, and images. Chat uses full PWD paths. Green → verify;
+red → Options → build --from-qa.`,
   },
   {
     name: 'verify-work',
     agent: 'Agent Wylie + you',
-    artifact: 'VERIFY.md',
-    question: 'HUMAN EYES',
-    detail: `Automation proves the rules; your eyes catch what code can't.
-Wylie distills the increment's main flows (3–8 human journeys, not one per
-stub) into VERIFY.md, preps the app and test data, then walks you through
-it step by step — you act, you report, he records every verdict verbatim.
-Issues become /hele-iterate on this increment (bugs or late
-behavior), not a new /hele-feature cycle. All verified ends in a
-close gate — option 1 starts /hele-retro; option 2 closes
-without a retro; option 3 starts /hele-iterate. Partial runs keep
-their record and resume where you stopped.`,
+    artifact: 'VERIFY.md (replay of QA_REPORT)',
+    question: 'YOU REPLAY QA',
+    detail: `Walks you through the same steps and data from QA_REPORT.md,
+showing the screenshot of what pass looked like. Close Options: Work
+done, iterate, draft PR — no retro. Findings are written during the
+/hele-yolo session, not at this gate.`,
   },
   {
     name: 'retro',
-    agent: 'Agent Hightower',
-    artifact: 'RETRO.md + LEARNINGS.md',
-    question: 'WHAT TO IMPROVE',
-    detail: `Optional. Closes the increment with evidence, not vibes: what went
-well, what must improve, root causes dug past the symptom. Lessons worth
-keeping are promoted to .hele/LEARNINGS.md with stable L-nnn ids — every
-skill loads that file at start, so retros actually change future
-behavior. Verify-work option 1 starts it; option 2 closes
-without it. Or type /hele-retro.`,
+    agent: 'session findings',
+    artifact: 'findings.json + LEARNINGS.md',
+    question: 'DURING THE TALK',
+    detail: `Not a close-gate command. /hele-yolo appends .hele/findings.json
+when you correct it or name a preference, and promotes durable lessons
+to LEARNINGS.md. Invoking /hele-retro only reconciles what is already
+on disk.`,
   },
   {
     name: 'fast',
     agent: 'Agents Hightower & Lisbon',
-    artifact: 'FAST.md (one artifact)',
-    question: 'THE FAST LANE',
-    detail: `Small, low-risk change? The fast lane ships it with proportional
-ceremony: triage (hard disqualifiers: DB schema, security surface, new
-user-facing flow, cross-feature impact — any of those exits to the full
-flow), a live sub-agent (no beads — follow-ups resume the same worker),
-TDD build, memory sync (a behavior change still patches the PRD and
-stubs — living docs never lie), full test suite once, affected stubs in
-the browser, and a single FAST.md instead of four documents.
-/hele-feature suggests it automatically when a request smells fast-lane
-sized. An increment already in QA or verify is not fast — that
-discovery goes to /hele-iterate. Type it once: later prompts in that
-chat stay in the fast lane until a different /hele-* command. Each
-dispatch ends the turn — the main chat never waits on the worker. Talk
-while they run.` ,
+    artifact: 'patched PRD + new increment + spine',
+    question: 'FAST / BUGFIX LANE',
+    detail: `Update lane under /hele-yolo: find the PRD, patch when needed,
+stub delta, new increment, then plan → build → QA → verify. Beads on.
+Schema and security stay with Red John / Jane gates — not a bounce to
+another command.`,
   },
   {
     name: 'iterate',
     agent: 'Agent Lisbon',
     artifact: 'beads on the open increment',
     question: 'THE ITERATE LOOP',
-    detail: `Already past build and you just found something you did not
-plan for? /hele-iterate is the complementary loop — not a new increment,
-not the full cycle. Agent Lisbon classifies the discovery and dispatches
-only the changed slice via beads: Hightower patches the PRD when the
-living doc would lie, Wylie updates stubs when a flow or contract
-changed, Vega only when you asked for a new screen (PT or EN), Red John
-and Jane when schema or security is touched (gates stay, they are not
-refusals). Engineers build the ITERATE: tasks with the same TDD
-discipline as /hele-build. New or rewritten stubs → /hele-qa; stubs
-untouched → /hele-verify-work. The increment stays open; you can run it
-again. Type it once: later prompts in that chat stay in the loop.
-Say "build til pass" (or "builda até passar") and Lisbon dispatches
-[AGENT] Summer to make the project compile green — that is not a new
-discovery.` ,
-  },
-  {
-    name: 'yolo',
-    agent: 'Agent Lisbon',
-    artifact: 'code now · docs from the work',
-    question: 'THE YOLO LANE',
-    detail: `Want to build first and write the paperwork after? /hele-yolo is
-free creation. Agent Lisbon conducts in this chat; she staffs the named
-hele agents from settings.json (Cho, Van Pelt, Jane, Rigsby, Vega, Red
-John — never a nameless worker for product work) on YOLO: beads. No PRD,
-plan, or stubs up front. Each ask is a wave; "that's it" closes with no
-docs; "let's formalize" opens the paperwork pass: Hightower writes the
-PRD from the diff, Wylie writes stubs and tests, Lisbon reviews, optional
-draft PR. Schema and security
-stay in the loop with their gates. Type it once: later prompts in that
-chat stay in the lane until a different /hele-* command.` ,
+    detail: `Late find after build. Lisbon classifies and dispatches the
+changed slice via beads. Still under the /hele-yolo sticky session when
+picked from Options. New stubs → QA; else verify.`,
   },
   {
     name: 'status',
     agent: 'the harness',
     artifact: 'read-only board',
     question: 'WHERE ARE WE',
-    detail: `Reads index, state, doc frontmatter, and beads counts. Shows every
-feature's doc versions, STALE drift (a plan written against an older PRD),
-active increment progress, and the single most useful next action.`,
+    detail: `Reads index, state, doc frontmatter, beads, and findings counts.
+Shows versions, STALE drift, and the single most useful next action.`,
   },
 ];
 
@@ -255,11 +190,11 @@ export function aiCommand(skillName) {
   console.log(FLOW_DIAGRAM);
   console.log('');
   console.log(boxTop('memory', ''));
-  console.log(boxRow('living: PRD · TEST_STUBS · DATABASE · LEARNINGS'));
-  console.log(boxRow('frozen: PLAN · DESIGN · DB_CHANGES · VERIFY · RETRO'));
+  console.log(boxRow('living: PRD · TEST_STUBS · DATABASE · LEARNINGS · findings'));
+  console.log(boxRow('frozen: PLAN · DESIGN · DB_CHANGES · QA_REPORT · VERIFY'));
   console.log(boxBottom());
   console.log('');
-  console.log(` ${dim('detail per skill:')} hele ai <name> ${dim('(e.g. hele ai plan)')}`);
+  console.log(` ${dim('detail per skill:')} hele ai <name> ${dim('(e.g. hele ai yolo)')}`);
 }
 
 export { SKILLS };

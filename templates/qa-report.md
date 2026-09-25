@@ -1,17 +1,20 @@
 <!-- RULES:
-- Written by /hele-qa after EVERY run — the increment's QA record, next to the
-  EXECUTION_PLAN. Covers THIS run set (active increment + rewritten stubs), not
-  the living-file regression. Name the counts (ran vs living file). Prose only:
-  explains what broke in product terms; NO code, no stack traces (the beads
-  task carries the technical evidence).
+- Written by /hele-qa after EVERY run — the increment's QA record.
+- Covers THIS run set (active increment + rewritten stubs), not the living-file
+  regression. Name the counts (ran vs living file).
+- Human-readable markdown ONLY. No XML section tags. A person opens this file
+  and understands what was tested, with what data, what happened, and sees the
+  screenshots.
+- Every stub in the run set gets: steps, data used, expected vs happened, and
+  a screenshot path (absolute when linked from chat; relative embed OK inside
+  this file as ./screenshots/TS-nnn.png).
+- Every failure is CLASSIFIED:
+    product-bug        → beads task, fixed via /hele-build --from-qa
+    contract-question  → stub and product disagree; the human decides
+    polish             → real but breaks no stub; human decides now-or-backlog
+    blocked            → couldn't run; names what the human must unblock
 - State-not-history: the file describes the LATEST run; previous runs shrink
-  to one line each in <history>.
-- Every failure is CLASSIFIED — the class decides where it goes:
-  product-bug        → beads task, fixed via /hele-build --from-qa
-  contract-question  → stub and product disagree; the CEO decides (fix product,
-                       or change the PRD via /hele-feature and rewrite the stub)
-  polish             → real but breaks no stub; CEO decides now-or-backlog
-  blocked            → couldn't run; names what the CEO must unblock
+  to one line each under History.
 - Written in English, like every artifact.
 -->
 ---
@@ -26,30 +29,59 @@ updated: <YYYY-MM-DD>
 
 # QA Report — <feature> · increment NNN · run <N>
 
-<summary>
+## Summary
+
 One paragraph: run-set size (this increment, not the living file), what passed, what the failures mean for the product as a whole. Mention that CI owns the rest of the suite.
-</summary>
 
-<failures>
-## TS-nnn — <one-line title> `product-bug`
-- **Expected (the contract):** what the stub demands, in product words.
-- **Happened:** what the app actually did, step by step, as a user saw it.
-- **Impact:** who is affected and how bad.
-- **Routing:** beads `<id>` → [AGENT BE] Cho
+## Setup
 
-## TS-nnn — <one-line title> `contract-question`
-- **The disagreement:** stub says X, product does Y — and why neither is obviously wrong.
-- **CEO decision needed:** option A (fix product to match stub) / option B (change the PRD rule and rewrite the stub).
-</failures>
+| Item | Value |
+|---|---|
+| App URL | <url> |
+| How started | <webServer / manual command> |
+| Login(s) | <role → credentials source> |
+| Seed / data | <records, fixtures, IDs used> |
 
-<polish>
-- <observation that breaks no stub> — beads `<id>` (optional) | backlog
-</polish>
+## Results
 
-<blocked>
-- TS-nnn — <what is missing and who can unblock it>
-</blocked>
+### TS-nnn — <one-line title> · ✅ passing | ❌ product-bug | ⚖️ contract-question | ⚠️ polish | 🚫 blocked
 
-<history>
+**Rule:** BR-n — <title>
+
+**Data used:** <exact inputs, user, cart, flags>
+
+**Steps:**
+1. <what the test did>
+2. <…>
+3. <…>
+
+**Expected:** <what the stub demands, in product words>
+
+**Happened:** <what the app actually did>
+
+**Screenshot:** `./screenshots/TS-nnn.png`
+
+*(Repeat one block per stub in the run set.)*
+
+## Failures to route
+
+| Stub | Class | Impact | Routing |
+|---|---|---|---|
+| TS-nnn | product-bug | <who is hurt> | beads `<id>` → [AGENT BE] Cho |
+| TS-nnn | contract-question | stub says X, product does Y | human decides: fix product or change PRD |
+
+## Polish
+
+| Observation | Now or backlog |
+|---|---|
+| <observation that breaks no stub> | now → beads `<id>` / backlog |
+
+## Blocked
+
+| Stub | What is missing | Who unblocks |
+|---|---|---|
+| TS-nnn | <env / data / dependency> | <human or role> |
+
+## History
+
 - run 1 (<date>): 24/28 passing — 2 product-bugs, 1 contract-question, 1 blocked
-</history>
