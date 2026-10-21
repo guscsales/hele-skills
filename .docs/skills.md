@@ -1,6 +1,6 @@
 # Skills Reference
 
-**You type `/hele-yolo`.** It detects the lane and runs the phase skills below. Every stop reports with markdown tables (never box-drawing divider lines) and ends with numbered **Options**: typing `1` approves and immediately starts the next phase. Paths in chat are always the full working-directory path. Say **the human**, never "CEO".
+**You type `/hele-yolo`.** It detects the lane and runs the phase skills below. Real stops report with markdown tables (never box-drawing divider lines) and end with numbered **Options**: typing `1` approves and immediately starts the next phase. The execution plan is not a stop. After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. Your next prompt is the manual walk. A database change or a red auto-verify still stops. Paths in chat are always the full working-directory path. Say **the human**, never "CEO".
 
 Jump to: [yolo](#hele-yolo) · [init](#hele-init) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work) · [findings](#hele-retro--session-findings) · [iterate](#hele-iterate) · [status](#hele-status)
 
@@ -11,7 +11,7 @@ The conductor. Agent Lisbon talks; specialists work in the background.
 1. **Auto-init** if `.hele/` is missing (runs `/hele-init`, then continues).
 2. **Lane table** (one row): Feature · Fast · Bugfix · Open.
 3. Runs the matching phase skills. You never type them for the pipeline.
-4. Every stop → Options. Close / Open include **Work done** and **Let's formalize**.
+4. Real stops → Options. Close / Open include **Work done** and **Let's formalize**. The plan, the build, and a green auto-verify do not stop.
 5. Appends `.hele/findings.json` when you correct it or name a preference; promotes durable lessons to `LEARNINGS.md`.
 
 | Lane | Meaning |
@@ -29,11 +29,11 @@ Bootstraps `.hele/` (settings, index, state, LEARNINGS, **findings.json**, featu
 
 ## /hele-feature
 
-Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits PRD delta (**New** vs **Added**, grouped by PRD, absolute path). Option `1` → design or plan.
+Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits PRD delta (**New** vs **Added**, grouped by PRD, absolute path). Option `1` → design, or build and auto-verify when design is not needed.
 
 ## /hele-fast
 
-Update-lane procedure yolo runs for Fast / Bugfix: find PRD, patch when needed, stub delta, new increment, then plan → build → QA → verify. Beads on. Schema / security stay with Red John / Jane — not a bounce to another command.
+Update-lane procedure yolo runs for Fast / Bugfix: find PRD, patch when needed, stub delta, new increment, then the same spine. The plan is for the agents. Beads on. Schema / security stay with Red John / Jane — not a bounce to another command.
 
 ## /hele-design
 
@@ -41,7 +41,7 @@ Agent Vega. Skipped when no new screens or `designSystem.enabled: false`.
 
 ## /hele-plan
 
-Agent Lisbon. EXECUTION_PLAN + beads. DB gate via Red John when schema is touched.
+Agent Lisbon. EXECUTION_PLAN + beads, written for the agents. No human sign-off. Build starts as soon as the plan is ready. DB gate via Red John when schema is touched — that approval pauses the chain.
 
 ## /hele-stubs
 
@@ -49,11 +49,11 @@ Agent Wylie. Living TEST_STUBS from the PRD only. Normally runs inside the Featu
 
 ## /hele-build
 
-Coordination loop on beads. Background engineers. `--from-qa` fixes only open QA beads.
+Coordination loop on beads. Background engineers. When the suite is green, auto-verify starts without another approval. `--from-qa` fixes only open QA beads, then auto-verify runs again.
 
 ## /hele-qa
 
-Agent Wylie. Playwright for this increment's stubs. **Screenshot per stub** under `increments/…/screenshots/`. Human-readable **QA_REPORT.md** (no XML): setup, data, steps, expected vs happened, images. Chat shows absolute paths. Green → verify; red → Options → fix round.
+Agent Wylie. Playwright for this increment's stubs. **Screenshot per stub** under `increments/…/screenshots/`. Human-readable **QA_REPORT.md** (no XML): setup, data, steps, expected vs happened, images. Chat shows absolute paths. Green → the manual walk starts immediately. Red → Options → fix round.
 
 ## /hele-verify-work
 

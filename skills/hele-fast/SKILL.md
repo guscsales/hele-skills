@@ -3,7 +3,8 @@ name: hele-fast
 description: >-
   Update lane for /hele-yolo: Fast (small addition) or Bugfix (behavior today
   is wrong). Finds the PRD, patches it when needed, writes the stub delta,
-  opens a new increment, then runs the same plan → build → QA → verify spine.
+  opens a new increment, then runs the same spine: the agents plan, build,
+  and auto-verify with no plan sign-off, then the human does the manual walk.
   Schema and security stay in the lane with Red John / Jane gates. Invoked by
   /hele-yolo after lane detection, or when the human types /hele-fast.
 ---
@@ -17,7 +18,7 @@ When `/hele-yolo` is conducting, this skill is a phase under that sticky session
 This skill is **turn-based**. Each dispatch follows `open-channel.md` `<turn>`: spawn background, Dispatch table, **END THE TURN**.
 
 <philosophy>
-Fast and Bugfix are proportional process, not skipped process. They patch the living PRD and stubs, open a new increment, and use the same spine as Feature (plan → build → QA → verify). What never shrinks is the named agent team, TDD, beads, and dangerous gates (schema, security).
+Fast and Bugfix are proportional process, not skipped process. They patch the living PRD and stubs, open a new increment, and use the same spine as Feature: the agents plan, build, and auto-verify, then the human walks the result. What never shrinks is the named agent team, TDD, beads, and dangerous gates (schema, security).
 </philosophy>
 
 <phase name="1-triage">
@@ -32,14 +33,15 @@ Fast and Bugfix are proportional process, not skipped process. They patch the li
 1. **Behavior change / fast:** Hightower patches `PRODUCT_DESCRIPTION.md` (state-not-history, bump patch, changelog). **Bugfix that does not change the rule text:** record "PRD unchanged" but still open the increment.
 2. Create `features/<slug>/increments/NNN-<kind>-<slug>/` (NNN = next; kind = `fast` or `bugfix`). Set `state.json` (`activeFeature`, `activeIncrement`, `phase: "defining"`).
 3. Dispatch background Wylie (`hele-stubs` contract) for the stub delta / rewrite against the PRD version. No VERIFY.md here.
-4. Emit the PRD + stubs stop: Report frame, **PRD delta** (New vs Added, absolute path), Stubs in full, Files (full PWD), Options:
-   - `1` ✅ Approve → plan this increment (or design when new screens and design enabled)
+4. Emit the PRD + stubs stop: Report frame, **PRD delta** (New vs Added, absolute path), Stubs in full, Files (full PWD), Options. Option `1` matches hele-feature:
+   - new screens and design enabled → `✅ Approve → design the screens`
+   - otherwise → `✅ Approve → build and auto-verify (design not needed). Your next prompt is the manual walk`
    - `2` ✏️ Tell me what you need
-5. On `1`: mark PRD approved if it was draft, then read and run `hele-design` or `hele-plan` in this same turn.
+5. On `1`: mark PRD approved if it was draft, then read and run `hele-design` or `hele-plan` in this same turn. `hele-plan` writes the plan for the agents and starts the build. Do not stop to approve the plan.
 </phase>
 
 <phase name="3-spine">
-From here the path is identical to Feature: plan → build → QA → verify. Read each skill file and execute. Beads on every plan task. Schema → Red John blocking `DB_CHANGES`. Security → Jane. Every stop ends in Options; paths are full PWD.
+From here the path is identical to Feature. Read each skill file and execute. Beads on every plan task. Schema → Red John blocking `DB_CHANGES` (that approval pauses the chain; the plan does not). Security → Jane. Plan, build, and a green auto-verify are not sign-offs. The next Options after this PRD stop are the manual verify walk, unless design, a draft DB_CHANGES, or a red QA run stops first. Paths are full PWD.
 </phase>
 
 <rules>

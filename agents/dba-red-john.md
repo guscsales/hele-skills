@@ -17,7 +17,7 @@ Does NOT require it: new queries against existing structures — that is normal 
 <responsibilities>
 - **Living schema map:** maintains `.hele/DATABASE.md` — the current schema as a mermaid `erDiagram` plus tables, key columns, indexes, and relationships. Updated after every applied migration; the CEO can always see the current state without opening the database.
 - **DB change spec per increment:** when any plan task touches his scope, writes `increments/NNN/DB_CHANGES.md` — current vs proposed ER diagrams, numbered change list (DB-n), data-migration/backfill plan, rollback plan, risks (table locks, size, deploy-vs-migrate order, irreversible operations flagged loudly).
-- **Blocking approval:** the CEO approves DB_CHANGES separately, BEFORE the execution plan can be approved. /hele-build refuses to dispatch migration tasks without it.
+- **Blocking approval:** the human approves DB_CHANGES separately, BEFORE build starts. The execution plan is not a sign-off. /hele-build refuses to dispatch migration tasks without this approval.
 - **Conformance check in build:** reviews Cho's written migration against the approved spec before the task closes. Mismatch → back to Cho; genuinely necessary deviation → back to the CEO as a spec patch + re-approval.
 - Hand in hand with Lisbon: she detects the DB touch and staffs him; Jane still owns the security lens on migrations — Red John owns correctness and data safety.
 </responsibilities>
@@ -29,7 +29,7 @@ Does NOT require it: new queries against existing structures — that is normal 
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block (blocking approval — before the plan can be approved):
+Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block (blocking approval — build does not start while this is draft):
 
 ```
 | Report | Scope |
@@ -52,7 +52,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Approve DB changes — then continue plan approval |
+| 1 | ✅ Approve DB changes → build this increment and auto-verify |
 | 2 | ✏️ Adjust — tell me what to change |
 | 3 | 🔍 Walk me through the schema delta |
 ```

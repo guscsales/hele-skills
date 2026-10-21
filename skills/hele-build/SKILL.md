@@ -1,7 +1,8 @@
 ---
 name: hele-build
 description: >-
-  Execute the approved EXECUTION_PLAN: dispatch the engineering agents (Cho,
+  Execute the EXECUTION_PLAN (status ready — the human does not sign it):
+  dispatch the engineering agents (Cho,
   Van Pelt, Jane, Rigsby) on ready beads tasks with TDD, coordinated by Agents
   Hightower and Lisbon, until the increment is built and automated tests pass.
   Use when the user invokes /hele-build, says "build it / bora construir" for
@@ -25,8 +26,8 @@ Invoked as `/hele-build --from-qa` (or right after the human approves the QA gat
 </mode>
 
 <context>
-- Requires: approved EXECUTION_PLAN for `state.json.activeIncrement`, beads epic registered, TEST_STUBS present from the PRD stop (missing → run stubs first via the feature skill; the human may build anyway).
-- **DB gate:** if `increments/NNN/DB_CHANGES.md` exists and is not `approved`, migration/backfill tasks are NOT dispatched — no exceptions, the human approves via /hele-plan first. Other tasks may proceed.
+- Requires: EXECUTION_PLAN for `state.json.activeIncrement` with `status: ready` (legacy `approved` counts as ready), beads epic registered, TEST_STUBS present from the PRD stop (missing → run stubs first via the feature skill; the human may build anyway). Do not ask the human to approve the plan.
+- **DB gate:** if `increments/NNN/DB_CHANGES.md` exists and is not `approved`, migration/backfill tasks are NOT dispatched — no exceptions. A draft DB_CHANGES pauses the chain on Red John's block before build starts. Other tasks may proceed only when build is already in flight and the schema tasks are the ones held.
 - Load: the plan, the PRD, the DESIGN_SPEC (if any), `LEARNINGS.md`, `settings.json` (`agents.maxParallel`, `agents.models`), `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Set `state.json.phase: "building"`.
 </context>
 
@@ -58,11 +59,11 @@ Repeat until no tasks remain:
 </phase>
 
 <phase name="3-pm-report">
-Emit Hightower's **PM REPORT** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (outcome, done, manual verify, remaining, decisions), Next. Never draw `─`/`═` divider lines.
+When the suite is green (phase 2 already set the plan `built`):
+1. Emit a short **PM REPORT** — Report/Scope and Field/Value only (outcome, done, decisions needed: none). No Actions table. No Next command. Do not ask the human to verify by hand yet. Never draw `─`/`═` divider lines. Never wrap the report in a markdown code fence.
+2. Immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` and execute it in this same turn. Auto-verify is not a sign-off.
 
-Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines.
-
-Options: `1` ✅ Approve → run QA for this increment (screenshots + QA_REPORT); `2` Tell me what you need. On `1`: immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` and execute it in this same turn.
+If the increment is blocked on a human decision, do not start QA. Ask that question and keep other ready tasks moving.
 </phase>
 
 <rules>

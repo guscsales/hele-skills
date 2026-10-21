@@ -30,7 +30,7 @@ Init creates the harness folder (`.hele/` by default), `findings.json`, installs
 /hele-yolo "customers can favorite products"
 ```
 
-Lisbon detects the lane and runs the phase skills. You never type `/hele-feature`, `/hele-stubs`, `/hele-plan`, … for the pipeline. Every stop ends in numbered options:
+Lisbon detects the lane and runs the phase skills. You never type `/hele-feature`, `/hele-stubs`, `/hele-plan`, … for the pipeline. Real stops end in numbered options:
 
 | # | Typical meaning |
 |---|---|
@@ -38,9 +38,11 @@ Lisbon detects the lane and runs the phase skills. You never type `/hele-feature
 | 2 | Tell me what you need (or Let's formalize on close / open lane) |
 | 3+ | Extras for that stop |
 
+After you approve the PRD (and the design, when there are new screens), the agents write the execution plan, build, and run auto-verify without another sign-off. Your next prompt is the manual walk — the same steps and data from the QA report. A database change or a red auto-verify still stops and asks.
+
 **Lanes**
 
-- **Feature** — product does not do this today → new PRD + stubs (same stop) + increment `001` → design if needed → plan → build → QA (screenshots) → you replay the QA steps.
+- **Feature** — product does not do this today → new PRD + stubs (same stop) + increment `001` → design if needed → agents plan, build, and auto-verify → you replay the QA steps.
 - **Fast / Bugfix** — small addition or wrong behavior → patch PRD + stub delta + new increment → same spine. Schema and security stay in the lane with their gates.
 - **Open** — research, PR review, investigation, design explore → no PRD until you pick **Let's formalize**.
 

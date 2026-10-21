@@ -60,7 +60,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Approve → /hele-plan — Agent Lisbon plans the increment |
+| 1 | ✅ Approve → build and auto-verify — the plan is for the agents |
 | 2 | ✏️ Adjust |
 | 3 | 🔍 Walk me through screen by screen |
 ```

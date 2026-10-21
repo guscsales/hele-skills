@@ -9,11 +9,15 @@ const SKILLS = [
     question: 'THE CONDUCTOR',
     detail: `The only entry point for product work. Auto-inits when .hele/ is
 missing. Detects Feature / Fast / Bugfix / Open, prints a Lane table,
-and runs the phase skills. Every stop ends in numbered Options (Approve,
-Tell me what you need, Work done, Let's formalize). Stubs ship with the
-PRD; QA writes screenshots into a human-readable QA_REPORT; verify
-replays that report; findings.json is written during the talk. Paths in
-chat are always the full PWD. Type it once — follow-ups stay sticky.`,
+and runs the phase skills. Real stops end in numbered Options
+(Approve, Tell me what you need, Work done, Let's formalize). After
+the PRD is approved (and design, when there are new screens), the
+agents write the plan, build, and auto-verify with no sign-off. Your
+next prompt is the manual walk. A database change or a red QA run
+still stops. Stubs ship with the PRD; QA writes screenshots into a
+human-readable QA_REPORT; verify replays that report; findings.json
+is written during the talk. Paths in chat are always the full PWD.
+Type it once — follow-ups stay sticky.`,
   },
   {
     name: 'init',
@@ -36,7 +40,8 @@ ask — you do not type /hele-init first.`,
 unambiguous, then writes (or patches) the PRD and dispatches Wylie for
 stubs in the SAME stop. The PRD is human-readable markdown with no XML
 (same rule as QA_REPORT). Emits a PRD delta (New vs Added) with absolute
-paths. Guards the anti-duplicate gate. Option 1 → design or plan.
+paths. Guards the anti-duplicate gate. Option 1 → design, or build
+and auto-verify when design is not needed. The plan is not a sign-off.
 Normally started by /hele-yolo Feature lane or Let's formalize.`,
   },
   {
@@ -47,7 +52,8 @@ Normally started by /hele-yolo Feature lane or Let's formalize.`,
     detail: `Agent Vega asks which design tool and devices, then specs every
 screen of the increment. Skipped when no new screens need design or
 designSystem.enabled is false. Started by yolo after PRD+stubs approval
-when screens are new.`,
+when screens are new. Approving the spec starts the agent run — the
+execution plan is not a separate sign-off.`,
   },
   {
     name: 'plan',
@@ -56,8 +62,10 @@ when screens are new.`,
     question: 'HOW TO BUILD',
     detail: `Agent Lisbon reads the real codebase and LEARNINGS.md before
 planning. Small dependency-ordered tasks with owner agents and TDD done
-criteria become beads issues. Database tasks bring in Agent Red John —
-DB_CHANGES approval is BLOCKING.`,
+criteria become beads issues. The plan is for the agents — no human
+sign-off; build starts as soon as it is written. Database tasks bring
+in Agent Red John — DB_CHANGES approval is BLOCKING and pauses the
+chain before build.`,
   },
   {
     name: 'stubs',
@@ -77,8 +85,10 @@ builds the human replay from the QA report.`,
     extras: ['▸ --from-qa → fixes the QA report'],
     detail: `Coordination loop: bd ready → background engineer agents, TDD,
 Lisbon shape review in parallel, Hightower PRD conformance. Migrations
-only against approved DB_CHANGES. --from-qa is a FIX round from the QA
-report, then back to QA for the increment slice.`,
+only against approved DB_CHANGES. When the suite is green, auto-verify
+starts in the same turn — no approval to run QA. --from-qa is a FIX
+round from the QA report, then back to auto-verify for the increment
+slice.`,
   },
   {
     name: 'qa',
@@ -89,8 +99,8 @@ report, then back to QA for the increment slice.`,
     detail: `Turns stubs into Playwright tests for THIS INCREMENT only. Saves
 a screenshot per stub under increments/.../screenshots/. Writes a
 human-readable QA_REPORT.md (no XML) with setup, data, steps, expected
-vs happened, and images. Chat uses full PWD paths. Green → verify;
-red → Options → build --from-qa.`,
+vs happened, and images. Chat uses full PWD paths. Green → the manual
+walk starts immediately; red → Options → build --from-qa.`,
   },
   {
     name: 'verify-work',
@@ -118,7 +128,8 @@ on disk.`,
     artifact: 'patched PRD + new increment + spine',
     question: 'FAST / BUGFIX LANE',
     detail: `Update lane under /hele-yolo: find the PRD, patch when needed,
-stub delta, new increment, then plan → build → QA → verify. Beads on.
+stub delta, new increment, then the agents plan, build, and auto-verify
+with no plan sign-off. Your next prompt is the manual walk. Beads on.
 Schema and security stay with Red John / Jane gates — not a bounce to
 another command.`,
   },

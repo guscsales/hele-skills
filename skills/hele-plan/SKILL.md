@@ -2,10 +2,11 @@
 name: hele-plan
 description: >-
   Agent Lisbon (Staff Engineer) turns an approved PRODUCT_DESCRIPTION (and
-  DESIGN_SPEC when one exists) into an EXECUTION_PLAN for the increment, plus
-  a beads epic with tasks the engineers can execute. Use when the user invokes
-  /hele-plan, asks to plan a hele feature/increment, asks "how do we build
-  this" for an approved PRD, or after a design spec is approved.
+  DESIGN_SPEC when one exists) into an EXECUTION_PLAN for the agents, plus
+  a beads epic, then starts the build. The plan is not a human sign-off.
+  Use when the user invokes /hele-plan, asks to plan a hele feature/increment,
+  asks "how do we build this" for an approved PRD, or after a design spec
+  is approved.
 ---
 
 # hele-plan
@@ -27,7 +28,7 @@ Do **not** stop when:
 - the PRD reuses existing screens only (copy/behavior/backend behind current UI), or
 - the human already chose a backend-first / no-design slice.
 
-In those cases: proceed; Staff Briefing `Design` cell = `not needed`; record the skip in the plan's `<out-of-plan>`. An explicit `/hele-design` from the human still works as an override.
+In those cases: proceed; Staff Note `Design` cell = `not needed`; record the skip in the plan's `<out-of-plan>`. An explicit `/hele-design` from the human still works as an override.
 </phase>
 
 <phase name="2-study">
@@ -41,7 +42,7 @@ Questions she cannot answer from code or docs go to the human now (AskUserQuesti
 </phase>
 
 <phase name="3-plan-and-epic">
-1. Write `increments/NNN-<slug>/EXECUTION_PLAN.md` from the template — v1.0 draft, `based_on` listing the exact PRD (and DESIGN_SPEC) versions.
+1. Write `increments/NNN-<slug>/EXECUTION_PLAN.md` from the template — v1.0, `status: ready` once phase 4 starts the build (`draft` only while a DB_CHANGES approval is still open), `based_on` listing the exact PRD (and DESIGN_SPEC) versions.
 2. Tasks: small, dependency-ordered, each with `agent=` (cho / van-pelt / jane / rigsby), `<files>`, `<tests>` (the TDD definition of done), `<depends-on>`. Security-relevant increments (auth, permissions, payments, PII, migrations) MUST include a Jane task.
 3. **Paper/Figma gate.** Approved DESIGN_SPEC with `tool: paper` or `tool: figma` → the plan MUST include a dedicated `<paper-to-code>` (or `<figma-to-code>`) section that names:
    - the skill/command (`/hele-paper-to-code` for Paper; Figma MCP / Figma tools for Figma);
@@ -49,27 +50,29 @@ Questions she cannot answer from code or docs go to the human now (AskUserQuesti
    - node/artboard ids **per Van Pelt task**;
    - the rule: plan and DESIGN_SPEC prose = behavior and structure; pixels come from `get_jsx` (Paper) or the Figma equivalent. Screenshots are verification only. MCP/tool down → stop — do not invent UI from the plan.
    Each `<task agent="van-pelt">` UI `<description>` MUST **start** with that gate and the exact artboard ids for that task (never "see DESIGN_SPEC"). Do not treat DESIGN_SPEC `<layout>` as the visual source of truth — that paragraph is for `tool: code-reference` only.
-4. **DB gate — Agent Red John.** Any task touching schema, indexes, backfills, or production seeds (new queries against existing structures do NOT count) → dispatch `[AGENT DBA] Red John` (`${CLAUDE_PLUGIN_ROOT}/agents/dba-red-john.md` + `templates/db-changes.md`). He writes `increments/NNN/DB_CHANGES.md` (current vs proposed ER diagrams, DB-n changes, rollback, risks) and presents his signature block for a **separate, blocking approval**: the plan CANNOT be approved while DB_CHANGES is draft. If `.hele/DATABASE.md` doesn't exist yet, he creates it first from the actual current schema.
+4. **DB gate — Agent Red John.** Any task touching schema, indexes, backfills, or production seeds (new queries against existing structures do NOT count) → dispatch `[AGENT DBA] Red John` (`${CLAUDE_PLUGIN_ROOT}/agents/dba-red-john.md` + `templates/db-changes.md`). He writes `increments/NNN/DB_CHANGES.md` (current vs proposed ER diagrams, DB-n changes, rollback, risks) and presents his signature block for a **separate, blocking approval**: build does not start while DB_CHANGES is draft. The plan itself is not the thing being approved. If `.hele/DATABASE.md` doesn't exist yet, he creates it first from the actual current schema.
 5. Register in beads: one epic for the increment, one issue per task (title `T<n>: <description>`, dependencies mirrored), then write each issue id back into the plan's `beads=""` attributes. Use the `bd` CLI; discover exact syntax via `bd --help` when needed.
 6. Update `index.json` docs (`plan: "1.0"`, and `db` when DB_CHANGES exists).
 </phase>
 
-<phase name="4-briefing-and-approval">
-Present Lisbon's Staff Briefing (her persona block: plan + design status + team per task + beads counts + top risks + Files + Actions), as chat text — never fenced. Match the tables exactly: Report/Scope, Field/Value, one risk per row, clickable Files links, then the canonical `Actions` table — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command.
+<phase name="4-note-and-build">
+The plan is for the agents. Do not ask the human to approve it. Do not emit an Actions table for it.
 
-1. ✅ Approve → build this increment
-2. ✏️ Tell me what you need (tasks, approach, staffing)
-3. 🔍 Walk through task by task
+Present Lisbon's Staff Note (her persona block: plan + design status + team per task + beads counts + top risks + Files) as chat text — never fenced. Match the tables exactly: Report/Scope, Field/Value, one risk per row, clickable Files links. No Actions table. No "your call". Never draw `─`/`═` divider lines.
 
-Forbidden: wrapping the briefing or Actions table in a markdown code fence; drawing box-drawing divider lines.
+Set `status: ready` in the plan frontmatter (legacy docs may say `approved` — same meaning: the agents may build). Stubs already exist from the PRD stop — do not run hele-stubs again unless TEST_STUBS is missing or STALE against the PRD. based_on drift (PRD patched since) → flag STALE and reconcile before starting build.
 
-On `1`: `status: approved` in the plan frontmatter, then immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-build/SKILL.md` and execute it in this same turn. Do not wait for a second prompt; do not ask the human to type a slash command. Stubs already exist from the PRD stop — do not run hele-stubs again unless TEST_STUBS is missing or STALE against the PRD. based_on drift (PRD patched since) → flag STALE and reconcile before approval. **DB_CHANGES still draft → plan approval is refused** — present Red John's block first; his option 1 continues this plan approval.
+**DB_CHANGES still draft → do not start build.** In the Staff Note, set Next to `waiting on DB changes`. Then present Red John's block. His option `1` marks the schema approved, sets this plan `ready`, and starts build. That schema stop is the only pause in this phase.
+
+Otherwise, immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-build/SKILL.md` and execute it in this same turn. Do not wait for a second prompt. Do not ask the human to type a slash command. Build dispatches engineers and ends the turn. Auto-verify runs when the suite is green. The human's next prompt is the manual walk.
 </phase>
 
 <rules>
 - The plan is per-increment and freezes after build — a scope change mid-build is a new plan version (patch) with a changelog line, never a silent edit.
+- The human does not sign the EXECUTION_PLAN. PRD approval (and design approval, when that stop happened) already cleared this increment.
 - NOTES.md hints are input, not orders — where she deviates from a human hint she says why in `<approach>`.
 - No task without a `<tests>` field. TDD is the team contract.
 - Approved DESIGN_SPEC with `tool: paper` or `tool: figma` → `<paper-to-code>` / `<figma-to-code>` is mandatory; each Van Pelt UI `<description>` starts with exact artboard ids. Layout prose is not the visual source of truth.
-- Artifacts English; chat in the human's language; approval explicit.
+- Questions she cannot answer from code or docs are asked in phase 2, before the plan exists. That is not a plan sign-off.
+- Artifacts English; chat in the human's language.
 </rules>

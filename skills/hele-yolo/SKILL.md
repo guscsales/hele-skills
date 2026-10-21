@@ -23,7 +23,7 @@ This skill stays in force for the rest of this conversation and for as long as `
 </sticky>
 
 <philosophy>
-One command. The human types `/hele-yolo <something>`. You detect the lane, run the right phase skills, and every stop ends in numbered options. The human never memorizes a skill catalog. Option `1` always advances; option `2` is "tell me what you need" (or Let's formalize when that is the close pair). Free text stays in the current phase.
+One command. The human types `/hele-yolo <something>`. You detect the lane, run the right phase skills, and every real stop ends in numbered options. The human never memorizes a skill catalog. Option `1` always advances; option `2` is "tell me what you need" (or Let's formalize when that is the close pair). Free text stays in the current phase. The execution plan is not a stop: after the PRD is approved (and the design, when that stop happened), plan → build → auto-verify run on their own. The next prompt is the manual walk, unless a database change or a red QA run needs a decision.
 </philosophy>
 
 <context>
@@ -64,8 +64,8 @@ Vega only when `settings.designSystem.enabled` is not false **and** the ask need
 Rate the ask before anything else. Print the **Lane** table from `chat-reports.md` — one row only.
 
 **One routing rule:** does the ask name a capability the product does not have today?
-- **Yes → Feature lane.** Announce `Starting feature lane · PRD: <slug or new>`. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-feature/SKILL.md` (interview → new PRD + stubs + increment `001`). Then the spine: design (only if new screens and design enabled) → plan → build → QA → verify. Each stop's option `1` starts the next skill in the same turn — never ask the human to type a slash command.
-- **No, and it's about code → Fast or Bugfix.** Bugfix when behavior today is wrong; Fast when it is a small addition to what exists. Announce `Starting bugfix lane · PRD: <slug>` or `Starting fast feature lane · PRD: <slug>`. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-fast/SKILL.md` (update-lane: find PRD, patch it, stub delta, new increment, then the same plan → build → QA → verify spine). Schema and security stay in the lane with Red John / Jane gates — they are not hard exits to another command.
+- **Yes → Feature lane.** Announce `Starting feature lane · PRD: <slug or new>`. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-feature/SKILL.md` (interview → new PRD + stubs + increment `001`). Then the spine: design (only if new screens and design enabled) → agents write the plan, build, and auto-verify with no sign-off → manual verify. A real stop's option `1` starts the next skill in the same turn — never ask the human to type a slash command. Do not stop to approve the execution plan.
+- **No, and it's about code → Fast or Bugfix.** Bugfix when behavior today is wrong; Fast when it is a small addition to what exists. Announce `Starting bugfix lane · PRD: <slug>` or `Starting fast feature lane · PRD: <slug>`. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-fast/SKILL.md` (update-lane: find PRD, patch it, stub delta, new increment, then the same agent run — plan, build, auto-verify — and the manual walk). Schema and security stay in the lane with Red John / Jane gates — they are not hard exits to another command.
 - **Neither → Open lane.** Research, PR review, investigation, design exploration. No PRD, no increment, no Cho/Van Pelt implementation. Print the Open row. Dispatch a specialist, relay, end with the close Options: Work done / Let's formalize / Tell me what you need. Stay in the loop.
 
 Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes from their words before creating a Feature. Matches → ask: attach to `<slug>` or genuinely new.
@@ -76,14 +76,16 @@ An increment already in `built` | `qa` | `verifying` | `iterating` on the **same
 <phase name="2-spine">
 Feature / Fast / Bugfix share this spine. **Phases are the existing skills — never reimplement them.** Read the skill file and put its contract in the worker prompt (or execute it as the conductor reading that skill). A skill missing or erroring → report, don't improvise.
 
-1. **PRD + stubs** — Hightower writes/patches the PRD; Wylie writes stubs in the **same stop** (see hele-feature). Approval covers both. PRD delta table is mandatory. Option `1` → design or plan.
-2. **Design** — only when new screens and `designSystem.enabled` is not false. Else skip; NOTES.md records why.
-3. **Plan** — Lisbon's EXECUTION_PLAN + beads. Option `1` → build.
-4. **Build** — engineers on beads. Option `1` / done → QA.
-5. **QA** — Wylie, Playwright, screenshots into `QA_REPORT.md`. Option `1` on green → verify; on red → fix round (`hele-build --from-qa`).
-6. **Verify** — human replays the QA_REPORT steps. Close Options: Work done / iterate / draft PR (/ Let's formalize only if a PRD is still missing).
+1. **PRD + stubs** — Hightower writes/patches the PRD; Wylie writes stubs in the **same stop** (see hele-feature). Approval covers both. PRD delta table is mandatory. Option `1` → design, or the agent run when design is not needed.
+2. **Design** — only when new screens and `designSystem.enabled` is not false. Else skip; NOTES.md records why. This is a human stop. Option `1` → the agent run.
+3. **Agent run — no Options table, no sign-off on the plan:**
+   - **Plan** — Lisbon writes EXECUTION_PLAN + beads for the agents and sets it `ready`. Do not ask the human to approve it.
+   - **DB schema** — if DB_CHANGES is draft, that approval is a stop. Option `1` approves the schema and starts build. No schema change → do not pause.
+   - **Build** — engineers on beads. When the suite is green, start QA in the same turn. Do not ask to run QA.
+   - **Auto-verify (QA)** — Wylie, Playwright, screenshots into `QA_REPORT.md`. All passing → start the manual walk in the same turn. Red → Options to fix (`hele-build --from-qa`), then this auto-verify again.
+4. **Manual verify** — the human's next prompt. They replay the QA_REPORT steps. Close Options: Work done / iterate / draft PR (/ Let's formalize only if a PRD is still missing).
 
-Every stop uses the Options table from `chat-reports.md`. Paths are always the full PWD.
+Real stops use the Options table from `chat-reports.md`. The plan, the build, and a green auto-verify do not. Paths are always the full PWD.
 </phase>
 
 <phase name="3-open">
