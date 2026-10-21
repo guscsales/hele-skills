@@ -29,7 +29,7 @@ Bootstraps `.hele/` (settings, index, state, LEARNINGS, **findings.json**, featu
 
 ## /hele-feature
 
-Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits PRD delta (**New** vs **Added**, grouped by PRD, absolute path). Option `1` → design, or build and auto-verify when design is not needed.
+Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits a PRD delta (new rules, and was → now on rewrites, grouped by PRD, absolute path) plus an Open these table. Option `1` → design, or build and auto-verify when design is not needed.
 
 ## /hele-fast
 
@@ -53,7 +53,7 @@ Coordination loop on beads. Background engineers. When the suite is green, auto-
 
 ## /hele-qa
 
-Agent Wylie. Playwright for this increment's stubs. **Screenshot per stub** under `increments/…/screenshots/`. Human-readable **QA_REPORT.md** (no XML): setup, data, steps, expected vs happened, images. Chat shows absolute paths. Green → the manual walk starts immediately. Red → Options → fix round.
+Agent Wylie. Playwright for this increment's stubs. Screenshots wait until the page is still. At most **10** stay under `increments/…/screenshots/`; the rest are chat only. Human-readable **QA_REPORT.md** (no XML) leads with the screen before and after this increment, then setup, data, steps, expected vs happened. Questions are asked before the file is written. Chat shows absolute paths. Green → the manual walk starts immediately. Red → Options → fix round.
 
 ## /hele-verify-work
 
@@ -73,6 +73,6 @@ Read-only board. Versions, drift, next action. Does not steal the sticky lane.
 
 ## Output rules (all stops)
 
-See `templates/chat-reports.md`: Lane table, Options table, Files with full PWD, PRD delta, QA screenshots table. Never fence a report. Never box-drawing in chat.
+See `templates/chat-reports.md`: Lane table, Options table, Files with full PWD, PRD delta (was → now), Open these, QA shots table. Never fence a report. Never box-drawing in chat.
 
 Next: [CLI Reference](cli.md)

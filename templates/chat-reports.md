@@ -10,13 +10,13 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 |---|---|
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (full PWD) · continue the ask already in flight |
-| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (full PWD) · Options |
+| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (full PWD) · Open these · Options |
 | Design | Report frame · Field/Value · Files (full PWD) · Options |
 | Plan | Staff note · Files (full PWD) · no Options — start build (draft DB_CHANGES → Red John's Options instead) |
 | Build green | short PM report · no Options — start auto-verify |
 | Dispatch | Dispatch table · one line "I'm here" · end the turn |
-| QA green | Report frame · Test results with screenshots · Files (full PWD) · no Options — start the manual walk |
-| QA red | Report frame · Test results with screenshots · Files (full PWD) · Options |
+| QA green | Report frame · Test results with screenshots · Shots (kept / chat) · Files (full PWD) · Open these · no Options — start the manual walk |
+| QA red | Report frame · Test results with screenshots · Shots (kept / chat) · Files (full PWD) · Open these · Options |
 | Verify — each flow | Report frame · Setup · steps from QA_REPORT · screenshot path · Options |
 | Verify — close | Report frame · Flow/Verdict · Files (full PWD) · Options (Work done / iterate / draft PR) |
 | Open lane | Report frame · relay · Files if any (full PWD) · Options (Work done / Let's formalize / keep going) |
@@ -31,6 +31,7 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 - **One item per table row** for lists (issues, failures, files, decisions, options). Never concatenate two `❌` / `✅` / `⏭️` items into the same cell, and never smash `#1 · #2 · #3` onto one line.
 - Agent tags are formal identifiers: `[AGENT PM] Hightower`. In prose, use the spoken form: "Agent Hightower".
 - **Every path is the whole PWD.** Screenshots, PRDs, stubs, plans, QA reports, verify files, findings, and any other file the agent writes or points at use the absolute path (`pwd` + the file), in every chat table. A repo-relative link is not enough. One row per file. Example: `/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md`.
+- **PRD and QA stops print an Open these table immediately before Options** (a green QA run has no Options — the table still prints, then the manual walk starts). Project root first, then one row per file the human should open: every PRD this stop created or patched, and on a QA stop the `QA_REPORT.md`. Never fold two PRDs into one row. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above, one blockquote: `> 📌 **Was / now for each rule is in the delta above.**` The ids sit at the bottom; the sentences sit in the delta.
 - **Every interactive stop ends with the Options table** (below). Never a sentence that says what to type next. Never one line that crams `1 · 2 · 3` together. One option per row. Option `1` is Approve (or Work done when the work can close) and starts that work in the same turn. Option `2` is Tell me what you need (or Let's formalize when the close pair is the point of the stop). Free text means "tell me what you need" and stays in the current phase.
 - **Open channel.** The main session is the human's line. Doing work (review, suite, artifacts, codebase reads) is a background sub-agent — Lisbon and Hightower included. After a Dispatch table, **end the turn**. Never wait, never explore "while you wait". "Waiting for subagent" in the main chat is a bug. If the human talks while a worker runs, answer them.
 - **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for THIS runtime (`cursor` in Cursor, `claude-code` in Claude Code). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug. The human named a different model this turn → that worker only; the cell is that override. Do not tell the human to switch the session model picker — the main chat stays on whatever they already selected; that is the open channel, not a defect.
@@ -91,23 +92,54 @@ Prose summary first (the human's language), then tables. Never a box around the 
 
 ## PRD delta (mandatory whenever a PRD is created or patched)
 
-Group by PRD. Absolute path on the group. Two buckets only — unchanged rules stay out.
+The full rule list hides what moved. Print a count line, then one group per PRD (slug as a heading, absolute path under it). Unchanged rules stay out. Empty buckets are omitted.
 
 ```
-| PRD | Path |
+1 new rule and 1 rewritten, in checkout-discount.
+
+### checkout-discount
+
+/absolute/pwd/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md
+
+New (1)
+
+| Rule | What it says |
 |---|---|
-| checkout-discount | /absolute/pwd/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md |
+| BR-4 — Stacking cap | A second coupon cannot push the discount past 30% of the subtotal |
 
-| Kind | Item | What landed |
+Rewritten (1)
+
+| Rule | Was | Now |
 |---|---|---|
-| New | BR-4 — Stacking cap | A second coupon cannot push the discount past 30% of the subtotal |
-| Added | BR-1 — Points cover first | Clarified that points apply before card, never after |
-| New | Flow — Apply coupon | Happy-path mermaid for the coupon step |
+| BR-1 — Points cover first | Points apply after the card when both are used. | Points apply before the card, never after. |
 ```
 
-- **New** — a rule, flow, or scope item that did not exist in the previous version. A brand-new PRD is entirely New.
-- **Added** — material attached to a rule, flow, or section that already existed.
-- A patch that touches two features prints two PRD groups.
+- **New** — a rule or flow that was not in the previous version. A first version is entirely this bucket (`First version — N rules.`), with no Was / Now table.
+- **Rewritten** — a rule or flow that already had an id. Was is the sentence that was on disk; Now is the sentence that replaced it. One row per id.
+- **Already the rule** — bugfix only, when the PRD text stays put because the code broke a rule it already states. Columns: Rule · What it already says. No Was / Now, because nothing in the doc moved.
+- Two features in one stop → two groups, and the count line names both.
+
+## Open these (PRD and QA stops — right before Options)
+
+Project root, then each file. The Moved cell is ids, not sentences.
+
+```
+| Open | Path | Moved |
+|---|---|---|
+| Project | /absolute/pwd | — |
+| PRD · checkout-discount | /absolute/pwd/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md | new BR-4 · rewritten BR-1 |
+
+> 📌 **Was / now for each rule is in the delta above.**
+```
+
+QA stop uses the same shape with a QA report row and no Moved column:
+
+```
+| Open | Path |
+|---|---|
+| Project | /absolute/pwd |
+| QA report | /absolute/pwd/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md |
+```
 
 ## Stubs in full (PRD + stubs stop — every stub, nothing summarized)
 
@@ -255,9 +287,22 @@ The human replies with a number (or free text). Never end an interactive phase w
 |---|---|---|---|
 | TS-001 | BR-1 | ✅ | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/TS-001.png |
 | TS-002 | BR-2 | ❌ product-bug | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/TS-002.png |
+| TS-009 | BR-4 | ✅ | chat only |
 ```
 
-Show the screenshots inline (Read the PNG) right after this table. Then the Files table with the QA_REPORT absolute path.
+Show the kept PNGs inline (Read each file) right after this table. A `chat only` row has no embed in the report — still Read it in the session if the human needs it.
+
+## Shots (QA stop — right after the inline images)
+
+One row per capture. **Kept** is `in the increment` (committed, max 10) or `chat only` (under `.hele/tmp/captures/`, not committed).
+
+```
+| Stub | Kept | Path |
+|---|---|---|
+| before / after | in the increment | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/before.png |
+| TS-001 | in the increment | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/TS-001.png |
+| TS-009 | chat only | /absolute/pwd/.hele/tmp/captures/<slug>/001-<slug>/TS-009.png |
+```
 
 ## Open-lane relay
 

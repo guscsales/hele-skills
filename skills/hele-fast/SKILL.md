@@ -30,10 +30,10 @@ Fast and Bugfix are proportional process, not skipped process. They patch the li
 </phase>
 
 <phase name="2-reconcile-prd-and-stubs">
-1. **Behavior change / fast:** Hightower patches `PRODUCT_DESCRIPTION.md` (state-not-history, bump patch, changelog). **Bugfix that does not change the rule text:** record "PRD unchanged" but still open the increment.
+1. **Behavior change / fast:** Hightower patches `PRODUCT_DESCRIPTION.md` (state-not-history, bump patch, changelog). **Bugfix that does not change the rule text:** leave the PRD as it is and still open the increment. The delta's **Already the rule** bucket names the rule the code broke.
 2. Create `features/<slug>/increments/NNN-<kind>-<slug>/` (NNN = next; kind = `fast` or `bugfix`). Set `state.json` (`activeFeature`, `activeIncrement`, `phase: "defining"`).
 3. Dispatch background Wylie (`hele-stubs` contract) for the stub delta / rewrite against the PRD version. No VERIFY.md here.
-4. Emit the PRD + stubs stop: Report frame, **PRD delta** (New vs Added, absolute path), Stubs in full, Files (full PWD), Options. Option `1` matches hele-feature:
+4. Emit the PRD + stubs stop: Report frame, **PRD delta** (New / Rewritten / Already the rule, was · now on rewrites, absolute path per PRD), Stubs in full, Files (full PWD), Open these, Options. Option `1` matches hele-feature:
    - new screens and design enabled → `✅ Approve → design the screens`
    - otherwise → `✅ Approve → build and auto-verify (design not needed). Your next prompt is the manual walk`
    - `2` ✏️ Tell me what you need

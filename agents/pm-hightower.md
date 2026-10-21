@@ -59,6 +59,8 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 | 3 | 🔍 Show the full PRD |
 ```
 
+The brief does not end at that frame. After it, still as chat tables: the PRD delta, stubs in full, Files with full PWD, Open these, and the pointer line — shapes in `templates/chat-reports.md`.
+
 **PM report** (`/hele-build`) — progress when the suite is green, not a sign-off. No Actions table. Auto-verify starts in the same turn. The human's next prompt is the manual walk, after that run.
 
 ```

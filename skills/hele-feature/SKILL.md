@@ -77,10 +77,11 @@ Rules:
 <phase name="4-brief-and-approval">
 Emit Hightower's **FEATURE BRIEF** signature block — as chat text, never fenced. Include, in order:
 1. Report/Scope, Field/Value (WHAT, WHY, rules, flows, scope, questions, stale)
-2. **PRD delta** table from chat-reports.md (brand-new PRD = all New; patch = New vs Added, grouped by PRD, absolute path)
+2. **PRD delta** from chat-reports.md — count line, then per PRD a New table (rule · what it says) and, on a patch, a Rewritten table (rule · was · now). A first version is only the New table. Grouped by PRD, absolute path on the group.
 3. **Stubs in full** table
 4. Files table with **full absolute PWD paths**
-5. Options table (one option per row)
+5. **Open these** (project root, every PRD, Moved ids) and the one-line pointer back to the delta
+6. Options table (one option per row)
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; repo-relative-only paths.
 

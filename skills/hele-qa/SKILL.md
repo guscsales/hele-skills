@@ -26,7 +26,7 @@ Invoked as `/hele-qa --generate-fixes-report`: a QA run already happened but `in
 
 <phase name="1-setup">
 1. Detect the project's Playwright setup (`playwright.config.*`, e2e folder, npm scripts). Present → follow its conventions. Absent → INSTALL IT, no asking: packages + browsers, config with `webServer`, `e2e/` folder, `test:e2e` script. Announce what was set up in one line.
-2. Ensure `increments/NNN-<slug>/screenshots/` exists.
+2. Ensure `increments/NNN-<slug>/screenshots/` exists, and `.hele/tmp/captures/<slug>/<increment>/` for shots that will not be committed (`.hele/tmp/` is gitignored).
 3. Map stubs → spec files: one spec per flow/screen area, one `test()` per stub, the stub id ALWAYS in the title — `test('TS-012: …', ...)`.
 </phase>
 
@@ -36,7 +36,37 @@ Dispatch **background** Wylie subagents to write the specs — description `[AGE
 1. Cover every increment-set stub not yet implemented: `kind: e2e` → browser spec; `kind: api` → request-context spec; `kind: unit-expectation` → verify engineers' suite covers it.
 2. The stub is the contract — Given/When/Then maps to arrange/act/assert.
 3. Deterministic: proper waits, seeded data, stable selectors. Always headless.
-4. **Screenshot proof:** every e2e test writes a PNG to `increments/NNN-<slug>/screenshots/TS-nnn.png` on the final assertion screen (pass or fail). Copy/path must be stable for the QA_REPORT embed.
+4. **Screenshot proof.** Capture every e2e stub, pass or fail. The frame is the settled screen, not the motion that got there.
+   - Wait until the thing the stub proves is in its final state (the side panel open, the dialog up, the row gone). `toBeVisible` during a slide is too early.
+   - Then wait until the page is still. Call this before every `screenshot`:
+
+     ```js
+     async function waitUntilStill(page) {
+       await page.waitForLoadState('networkidle');
+       await page.evaluate(async () => {
+         const deadline = performance.now() + 5000;
+         for (;;) {
+           const running = document.getAnimations({ subtree: true })
+             .filter((a) => a.playState === 'running' && a.effect?.getTiming?.().iterations !== Infinity);
+           if (running.length === 0) return;
+           const left = deadline - performance.now();
+           if (left <= 0) {
+             running.forEach((a) => a.finish());
+             return;
+           }
+           await Promise.race([
+             Promise.all(running.map((a) => a.finished.catch(() => {}))),
+             new Promise((r) => setTimeout(r, left)),
+           ]);
+         }
+       });
+     }
+     ```
+
+     A spinner that loops forever is ignored. A drawer, fade, or layout shift is not. Shot mid-transition → delete it and take another after `waitUntilStill`.
+   - Write the PNG to `increments/NNN-<slug>/screenshots/TS-nnn.png` first. Two stubs that finish on the same screen are captured at the moment that separates them (the toggled control, the new count), never the same pixels twice.
+   - When the change is visible, also capture the key screen on the base (without this increment) as `before.png` and the same screen after as `after.png` — up to 3 pairs, `before-2.png` / `after-2.png`. No real before → say why in the report; do not fake one.
+   - One `00-app-up.png` once the app is serving, before the stub shots.
 5. Stubs already implemented are NOT rewritten unless the stub body changed.
 </phase>
 
@@ -47,16 +77,28 @@ Dispatch **background** Wylie subagents to write the specs — description `[AGE
 4. Flaky on first pass → retry once; still flaky → the TEST is wrong, fix the test.
 5. Update `status` in TEST_STUBS.md only for stubs in the run set.
 6. Classify every failure: `product-bug` → beads `QA: TS-nnn …`; `contract-question` → no beads yet; `polish`; `blocked`. Wylie never fixes product code.
-7. Write `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. **Human-readable markdown, no XML tags.** Include Setup, per-stub steps/data/expected/happened, embedded `./screenshots/TS-nnn.png`, Failures table, History. Also draft/refresh `VERIFY.md` from this report's steps and data so verify can replay them (see hele-verify-work).
+7. **Ask before the report exists.** Gather every question the run raised — a contract the stub and the product disagree on, a PRD line that no longer matches, a behavior no stub covers — and ask them in one AskUserQuestion batch. Each answer is a Decisions row and a route: PRD patch through Hightower, a fix task, or backlog. Do not leave a question inside the report.
+8. **Keep 10 shots in the increment, shrink them, park the rest.** Priority for the files that stay in `screenshots/`: side-by-side pair, main journey, failures, `00-app-up.png`. Move the overflow to `.hele/tmp/captures/<slug>/<increment>/`. Then, in `screenshots/` only:
+
+   ```bash
+   npx -y sharp-cli -i 'screenshots/*.png' -o screenshots -c 9 --palette
+   test "$(ls screenshots/*.png 2>/dev/null | wc -l)" -le 10
+   shasum screenshots/*.png | awk '{print $1}' | sort | uniq -d
+   ```
+
+   The checksum list must be empty. A duplicate means recapture, not a second copy of the same frame.
+9. Write `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. **Human-readable markdown, no XML tags.** Side by side first, then Setup, results, a replay per stub, Decisions, failures, History. Embed only kept shots (`./screenshots/TS-nnn.png`). A PNG in `screenshots/` that the report does not embed gets deleted. Also draft/refresh `VERIFY.md` from this report's steps and data so verify can replay them (see hele-verify-work).
 </phase>
 
 <phase name="4-report-and-route">
 Emit Wylie's **QA RUN** signature — chat text, never fenced. Order:
 1. Report/Scope, Field/Value (ran vs living file)
-2. Test results table with **absolute PWD screenshot paths**
-3. Show screenshots inline (Read the PNGs)
-4. Files table with absolute path of QA_REPORT.md
-5. Options table only when the run is not fully green. A fully green run has no Options of its own — the manual walk's Options follow immediately.
+2. Test results table with **absolute PWD screenshot paths** (`chat only` when the shot was not kept)
+3. Show the kept screenshots inline (Read the PNGs)
+4. Shots table from chat-reports.md (kept vs chat only, full PWD)
+5. Files table with the absolute path of QA_REPORT.md
+6. Open these table (project root + QA report)
+7. Options table only when the run is not fully green. A fully green run has no Options of its own — the manual walk's Options follow immediately.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; XML in QA_REPORT.
 

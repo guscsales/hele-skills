@@ -46,7 +46,7 @@ In the world of AI and agents, why should this flow be any different? It shouldn
  ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Hightower + Agent Wylie                        │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
- │ ▸ PRD delta: New vs Added (full PWD paths)           │
+ │ ▸ PRD delta: was → now, full PWD paths               │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -97,7 +97,7 @@ You type one command. Lisbon detects the lane and runs the phase skills. Real st
 | Bugfix | Behavior today is wrong | Same as Fast (reconcile docs, new increment, spine) |
 | Open | Research, review, investigation, design explore | No PRD until you pick Let's formalize |
 
-First time in a repo, init runs by itself. Findings land in `.hele/findings.json` while you talk (durable lessons → `LEARNINGS.md`). QA writes screenshots into a human-readable `QA_REPORT.md`; verify replays those same steps. Every file path in chat is the full working-directory path. A PRD change always prints a New vs Added delta.
+First time in a repo, init runs by itself. Findings land in `.hele/findings.json` while you talk (durable lessons → `LEARNINGS.md`). QA writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. Shots wait until the page is still, and at most 10 stay in the increment. Verify replays those same steps. Every file path in chat is the full working-directory path. A PRD change prints the new rules and, for a rewrite, the old sentence next to the new one.
 
 ### The iterate loop
 
@@ -156,7 +156,7 @@ Models live in `.hele/settings.json` (`agents.models`) — judgment work (PRDs, 
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # TS-nnn.png proof from Playwright
+          screenshots/         # up to 10 settled PNGs; overflow is chat-only under .hele/tmp/captures/
 ```
 
 ## Versioning rules

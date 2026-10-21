@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.16.0 — 2026-10-21
+
+- feat: a PRD patch prints the new rules and, when a rule was rewritten, the old sentence next to the new one. A bugfix that leaves the doc alone names the rule the code already broke. The stop ends with the files to open and the ids that moved.
+- feat: `QA_REPORT.md` opens with the screen before this increment and after it. Questions are asked before the file is written. Screenshots wait until the page is still (a side panel mid-slide is retaken). At most 10 shots stay in the increment; the rest are chat only.
+
 ## v0.15.0 — 2026-09-25
 
 - feat: `/hele-yolo` is the conductor — one command picks Feature / Fast / Bugfix / Open and runs the phase skills behind numbered Options (Approve, Tell me what you need, Work done, Let's formalize). Auto-inits when `.hele/` is missing. Stubs ship in the same stop as the PRD with a New vs Added delta. QA writes screenshot proof into a human-readable `QA_REPORT.md` (no XML); verify replays that report. Session findings go to `.hele/findings.json` (durable → `LEARNINGS.md`) — no close-gate retro. Every path in chat is the full PWD. Flow diagram + README redrawn around one entry point. Re-run `/hele-init` to refresh the session rule.

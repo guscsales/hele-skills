@@ -3368,7 +3368,7 @@ var FLOW_DIAGRAM = `
  \u256D\u2500 PRD + stubs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SAME STOP \u2500\u256E
  \u2502 Agent Hightower + Agent Wylie                        \u2502
  \u2502 \u25B8 PRODUCT_DESCRIPTION.md + TEST_STUBS.md             \u2502
- \u2502 \u25B8 PRD delta: New vs Added (full PWD paths)           \u2502
+ \u2502 \u25B8 PRD delta: was \u2192 now, full PWD paths               \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502
     \u25BC
@@ -3447,8 +3447,9 @@ ask \u2014 you do not type /hele-init first.`
     detail: `Agent Hightower interviews until scope and business rules are
 unambiguous, then writes (or patches) the PRD and dispatches Wylie for
 stubs in the SAME stop. The PRD is human-readable markdown with no XML
-(same rule as QA_REPORT). Emits a PRD delta (New vs Added) with absolute
-paths. Guards the anti-duplicate gate. Option 1 \u2192 design, or build
+(same rule as QA_REPORT). Emits a PRD delta (new rules, and was \u2192 now
+on rewrites) with absolute paths, plus an Open these table. Guards the
+anti-duplicate gate. Option 1 \u2192 design, or build
 and auto-verify when design is not needed. The plan is not a sign-off.
 Normally started by /hele-yolo Feature lane or Let's formalize.`
   },
@@ -3504,11 +3505,12 @@ slice.`
     artifact: "Playwright + screenshots + QA_REPORT.md",
     question: "SCREENSHOT PROOF",
     extras: ["\u25B8 --generate-fixes-report \u2192 approve \u2192 --from-qa"],
-    detail: `Turns stubs into Playwright tests for THIS INCREMENT only. Saves
-a screenshot per stub under increments/.../screenshots/. Writes a
-human-readable QA_REPORT.md (no XML) with setup, data, steps, expected
-vs happened, and images. Chat uses full PWD paths. Green \u2192 the manual
-walk starts immediately; red \u2192 Options \u2192 build --from-qa.`
+    detail: `Turns stubs into Playwright tests for THIS INCREMENT only.
+Screenshots wait until the page is still, then at most 10 stay in the
+increment (shrunk); the rest are chat only. QA_REPORT.md leads with the
+screen before this increment and after it, and records decisions instead
+of open questions. Chat uses full PWD paths. Green \u2192 the manual walk
+starts immediately; red \u2192 Options \u2192 build --from-qa.`
   },
   {
     name: "verify-work",
