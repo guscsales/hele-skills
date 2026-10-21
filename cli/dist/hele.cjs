@@ -3353,7 +3353,7 @@ function installCommand(opts) {
 var FLOW_DIAGRAM = `
  \u256D\u2500 You \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 START \u2500\u256E
  \u2502 /hele-yolo "what you need"                           \u2502
- \u2502 One command. It picks the lane and runs the rest.   \u2502
+ \u2502 One command. It picks the lane and runs the rest.    \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502
     \u25BC
@@ -3365,46 +3365,33 @@ var FLOW_DIAGRAM = `
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502  feature / fast / bugfix \u2014 yolo runs these
     \u25BC
- \u256D\u2500 PRD + stubs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SAME STOP \u2500\u256E
+ \u256D\u2500 PRD + stubs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SAME STOP \u2500\u256E
  \u2502 Agent Hightower + Agent Wylie                        \u2502
  \u2502 \u25B8 PRODUCT_DESCRIPTION.md + TEST_STUBS.md             \u2502
  \u2502 \u25B8 PRD delta: New vs Added (full PWD paths)           \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502
     \u25BC
- \u256D\u2500 design (only if new screens) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
+ \u256D\u2500 design (only if new screens) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 STOP \u2500\u256E
  \u2502 Agent Vega \xB7 skipped when no new screens / no design \u2502
  \u2502 \u25B8 DESIGN_SPEC.md                                     \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
-    \u2502
+    \u2502  approved PRD, and design when this stop happened
     \u25BC
- \u256D\u2500 plan \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
- \u2502 Agent Lisbon                                         \u2502
- \u2502 \u25B8 EXECUTION_PLAN.md + beads                          \u2502
- \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
-    \u2502
-    \u25BC
- \u256D\u2500 build \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
- \u2502 Agents Cho, Van Pelt, Jane, Rigsby                   \u2502\u25C4\u2500\u2500\u2510
- \u2502 \u25B8 code + passing tests                               \u2502   \u2502
- \u2502 \u25B8 from-qa \u2192 fixes the QA report                      \u2502   \u2502
+ \u256D\u2500 agents \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 plan \xB7 build \xB7 auto-verify \u2500\u2500\u2500\u2500\u2500\u2500\u256E
+ \u2502 Lisbon \xB7 EXECUTION_PLAN.md + beads \xB7 no sign-off     \u2502
+ \u2502 Cho, Van Pelt, Jane, Rigsby \xB7 code + passing tests   \u2502\u25C4\u2500\u2500\u2510
+ \u2502 Wylie \xB7 Playwright + screenshots + QA_REPORT.md      \u2502   \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F   \u2502
-    \u2502                                                       \u2502
-    \u25BC                                                       \u2502
- \u256D\u2500 QA \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SCREENSHOT PROOF \u2500\u256E      \u2502
- \u2502 Agent Wylie                                       \u2502      \u2502
- \u2502 \u25B8 Playwright + screenshots + QA_REPORT.md         \u2502\u2500\u2500\u2510   \u2502
- \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F  \u2502   \u2502
-    \u2502                                                   \u2502   \u2502
-    \u2502     \u256D\u2500 QA generate-fixes-report \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E   \u2502   \u2502
-    \u2502     \u2502 reconstruct QA_REPORT \u2192 approve fixes   \u2502\u25C4\u2500\u2500\u2518   \u2502
-    \u2502     \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F       \u2502
-    \u2502                        \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518
+    \u2502 green                                                 \u2502
+    \u2502     \u256D\u2500 QA red / generate-fixes-report \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E    \u2502
+    \u2502     \u2502 approve fixes \u2192 build + auto-verify again  \u2502\u2500\u2500\u2500\u2500\u2518
+    \u2502     \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u25BC
- \u256D\u2500 verify \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 YOU REPLAY QA \u2500\u256E
- \u2502 Agent Wylie + you                                  \u2502
- \u2502 \u25B8 same steps + data from QA_REPORT \u2192 VERIFY.md     \u2502
- \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+ \u256D\u2500 manual verify \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 YOUR NEXT PROMPT \u2500\u2500\u2500\u2500\u2500\u256E
+ \u2502 Agent Wylie + you                                    \u2502
+ \u2502 \u25B8 same steps + data from QA_REPORT \u2192 VERIFY.md       \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502
     \u25BC
  \u256D\u2500 close \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
@@ -3414,7 +3401,8 @@ var FLOW_DIAGRAM = `
 
  \u256D\u2500 always \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
  \u2502 First time in a repo \u2192 init runs by itself         \u2502
- \u2502 Every stop ends with numbered options              \u2502
+ \u2502 Stops: PRD, design, DB schema, QA red, verify,     \u2502
+ \u2502 close. The execution plan is for the agents.       \u2502
  \u2502 Open lane stays a conversation until formalize     \u2502
  \u2502 /hele-status \u2014 the board (read-only)               \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
@@ -3429,11 +3417,15 @@ var SKILLS = [
     question: "THE CONDUCTOR",
     detail: `The only entry point for product work. Auto-inits when .hele/ is
 missing. Detects Feature / Fast / Bugfix / Open, prints a Lane table,
-and runs the phase skills. Every stop ends in numbered Options (Approve,
-Tell me what you need, Work done, Let's formalize). Stubs ship with the
-PRD; QA writes screenshots into a human-readable QA_REPORT; verify
-replays that report; findings.json is written during the talk. Paths in
-chat are always the full PWD. Type it once \u2014 follow-ups stay sticky.`
+and runs the phase skills. Real stops end in numbered Options
+(Approve, Tell me what you need, Work done, Let's formalize). After
+the PRD is approved (and design, when there are new screens), the
+agents write the plan, build, and auto-verify with no sign-off. Your
+next prompt is the manual walk. A database change or a red QA run
+still stops. Stubs ship with the PRD; QA writes screenshots into a
+human-readable QA_REPORT; verify replays that report; findings.json
+is written during the talk. Paths in chat are always the full PWD.
+Type it once \u2014 follow-ups stay sticky.`
   },
   {
     name: "init",
@@ -3456,7 +3448,8 @@ ask \u2014 you do not type /hele-init first.`
 unambiguous, then writes (or patches) the PRD and dispatches Wylie for
 stubs in the SAME stop. The PRD is human-readable markdown with no XML
 (same rule as QA_REPORT). Emits a PRD delta (New vs Added) with absolute
-paths. Guards the anti-duplicate gate. Option 1 \u2192 design or plan.
+paths. Guards the anti-duplicate gate. Option 1 \u2192 design, or build
+and auto-verify when design is not needed. The plan is not a sign-off.
 Normally started by /hele-yolo Feature lane or Let's formalize.`
   },
   {
@@ -3467,7 +3460,8 @@ Normally started by /hele-yolo Feature lane or Let's formalize.`
     detail: `Agent Vega asks which design tool and devices, then specs every
 screen of the increment. Skipped when no new screens need design or
 designSystem.enabled is false. Started by yolo after PRD+stubs approval
-when screens are new.`
+when screens are new. Approving the spec starts the agent run \u2014 the
+execution plan is not a separate sign-off.`
   },
   {
     name: "plan",
@@ -3476,8 +3470,10 @@ when screens are new.`
     question: "HOW TO BUILD",
     detail: `Agent Lisbon reads the real codebase and LEARNINGS.md before
 planning. Small dependency-ordered tasks with owner agents and TDD done
-criteria become beads issues. Database tasks bring in Agent Red John \u2014
-DB_CHANGES approval is BLOCKING.`
+criteria become beads issues. The plan is for the agents \u2014 no human
+sign-off; build starts as soon as it is written. Database tasks bring
+in Agent Red John \u2014 DB_CHANGES approval is BLOCKING and pauses the
+chain before build.`
   },
   {
     name: "stubs",
@@ -3497,8 +3493,10 @@ builds the human replay from the QA report.`
     extras: ["\u25B8 --from-qa \u2192 fixes the QA report"],
     detail: `Coordination loop: bd ready \u2192 background engineer agents, TDD,
 Lisbon shape review in parallel, Hightower PRD conformance. Migrations
-only against approved DB_CHANGES. --from-qa is a FIX round from the QA
-report, then back to QA for the increment slice.`
+only against approved DB_CHANGES. When the suite is green, auto-verify
+starts in the same turn \u2014 no approval to run QA. --from-qa is a FIX
+round from the QA report, then back to auto-verify for the increment
+slice.`
   },
   {
     name: "qa",
@@ -3509,8 +3507,8 @@ report, then back to QA for the increment slice.`
     detail: `Turns stubs into Playwright tests for THIS INCREMENT only. Saves
 a screenshot per stub under increments/.../screenshots/. Writes a
 human-readable QA_REPORT.md (no XML) with setup, data, steps, expected
-vs happened, and images. Chat uses full PWD paths. Green \u2192 verify;
-red \u2192 Options \u2192 build --from-qa.`
+vs happened, and images. Chat uses full PWD paths. Green \u2192 the manual
+walk starts immediately; red \u2192 Options \u2192 build --from-qa.`
   },
   {
     name: "verify-work",
@@ -3538,7 +3536,8 @@ on disk.`
     artifact: "patched PRD + new increment + spine",
     question: "FAST / BUGFIX LANE",
     detail: `Update lane under /hele-yolo: find the PRD, patch when needed,
-stub delta, new increment, then plan \u2192 build \u2192 QA \u2192 verify. Beads on.
+stub delta, new increment, then the agents plan, build, and auto-verify
+with no plan sign-off. Your next prompt is the manual walk. Beads on.
 Schema and security stay with Red John / Jane gates \u2014 not a bounce to
 another command.`
   },

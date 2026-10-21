@@ -4,7 +4,7 @@
 export const FLOW_DIAGRAM = `
  ╭─ You ──────────────────────────────────────── START ─╮
  │ /hele-yolo "what you need"                           │
- │ One command. It picks the lane and runs the rest.   │
+ │ One command. It picks the lane and runs the rest.    │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -16,46 +16,33 @@ export const FLOW_DIAGRAM = `
  ╰──────────────────────────────────────────────────────╯
     │  feature / fast / bugfix — yolo runs these
     ▼
- ╭─ PRD + stubs ─────────────────────────── SAME STOP ─╮
+ ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Hightower + Agent Wylie                        │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
  │ ▸ PRD delta: New vs Added (full PWD paths)           │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ design (only if new screens) ───────────────────────╮
+ ╭─ design (only if new screens) ──────────────── STOP ─╮
  │ Agent Vega · skipped when no new screens / no design │
  │ ▸ DESIGN_SPEC.md                                     │
  ╰──────────────────────────────────────────────────────╯
-    │
+    │  approved PRD, and design when this stop happened
     ▼
- ╭─ plan ───────────────────────────────────────────────╮
- │ Agent Lisbon                                         │
- │ ▸ EXECUTION_PLAN.md + beads                          │
- ╰──────────────────────────────────────────────────────╯
-    │
-    ▼
- ╭─ build ──────────────────────────────────────────────╮
- │ Agents Cho, Van Pelt, Jane, Rigsby                   │◄──┐
- │ ▸ code + passing tests                               │   │
- │ ▸ from-qa → fixes the QA report                      │   │
+ ╭─ agents ─────────── plan · build · auto-verify ──────╮
+ │ Lisbon · EXECUTION_PLAN.md + beads · no sign-off     │
+ │ Cho, Van Pelt, Jane, Rigsby · code + passing tests   │◄──┐
+ │ Wylie · Playwright + screenshots + QA_REPORT.md      │   │
  ╰──────────────────────────────────────────────────────╯   │
-    │                                                       │
-    ▼                                                       │
- ╭─ QA ─────────────────────────── SCREENSHOT PROOF ─╮      │
- │ Agent Wylie                                       │      │
- │ ▸ Playwright + screenshots + QA_REPORT.md         │──┐   │
- ╰───────────────────────────────────────────────────╯  │   │
-    │                                                   │   │
-    │     ╭─ QA generate-fixes-report ──────────────╮   │   │
-    │     │ reconstruct QA_REPORT → approve fixes   │◄──┘   │
-    │     ╰──────────────────┬──────────────────────╯       │
-    │                        └──────────────────────────────┘
+    │ green                                                 │
+    │     ╭─ QA red / generate-fixes-report ───────────╮    │
+    │     │ approve fixes → build + auto-verify again  │────┘
+    │     ╰────────────────────────────────────────────╯
     ▼
- ╭─ verify ────────────────────────── YOU REPLAY QA ─╮
- │ Agent Wylie + you                                  │
- │ ▸ same steps + data from QA_REPORT → VERIFY.md     │
- ╰────────────────────────────────────────────────────╯
+ ╭─ manual verify ─────────────── YOUR NEXT PROMPT ─────╮
+ │ Agent Wylie + you                                    │
+ │ ▸ same steps + data from QA_REPORT → VERIFY.md       │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
  ╭─ close ────────────────────────────────────────────╮
@@ -65,7 +52,8 @@ export const FLOW_DIAGRAM = `
 
  ╭─ always ───────────────────────────────────────────╮
  │ First time in a repo → init runs by itself         │
- │ Every stop ends with numbered options              │
+ │ Stops: PRD, design, DB schema, QA red, verify,     │
+ │ close. The execution plan is for the agents.       │
  │ Open lane stays a conversation until formalize     │
  │ /hele-status — the board (read-only)               │
  ╰────────────────────────────────────────────────────╯

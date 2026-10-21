@@ -4,7 +4,7 @@ doc: EXECUTION_PLAN
 increment: NNN-<increment-slug>
 version: "1.0"
 based_on: PRODUCT_DESCRIPTION vX.Y # add DESIGN_SPEC vX.Y when one exists
-status: draft # draft | approved | built
+status: ready # draft | ready | built — legacy files may say approved; treat that as ready
 updated: YYYY-MM-DD
 ---
 
@@ -12,6 +12,10 @@ updated: YYYY-MM-DD
 RULES FOR THIS DOCUMENT
 - Per-increment and disposable: it plans THIS delivery only. After the build
   it freezes (status: built) and becomes history — never edit a built plan.
+- Written for the agents, not as a document the human signs. status ready
+  means build may start. The human already approved the PRD (and the
+  DESIGN_SPEC, when one exists). Leave status draft only while a
+  DB_CHANGES approval is still open.
 - Written for an agent with ZERO memory: name real files, real patterns,
   real constraints. "Improve the service" is not a plan.
 - Every task maps to a beads issue once /hele-plan registers the epic.

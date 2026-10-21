@@ -31,7 +31,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 <phase name="2-write">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
 2. **Do not draft VERIFY.md** — `/hele-qa` writes the human replay script from the QA run.
-3. Return to the parent skill: stub table rows, absolute path of TEST_STUBS.md, version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with Files (full PWD) and Options — option `1` → plan this increment (not build).
+3. Return to the parent skill: stub table rows, absolute path of TEST_STUBS.md, version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with Files (full PWD) and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the manual walk.
 </phase>
 
 <rules>

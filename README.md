@@ -31,7 +31,7 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 ```
  ╭─ You ──────────────────────────────────────── START ─╮
  │ /hele-yolo "what you need"                           │
- │ One command. It picks the lane and runs the rest.   │
+ │ One command. It picks the lane and runs the rest.    │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -43,46 +43,33 @@ In the world of AI and agents, why should this flow be any different? It shouldn
  ╰──────────────────────────────────────────────────────╯
     │  feature / fast / bugfix — yolo runs these
     ▼
- ╭─ PRD + stubs ─────────────────────────── SAME STOP ─╮
+ ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Hightower + Agent Wylie                        │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
  │ ▸ PRD delta: New vs Added (full PWD paths)           │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
- ╭─ design (only if new screens) ───────────────────────╮
+ ╭─ design (only if new screens) ──────────────── STOP ─╮
  │ Agent Vega · skipped when no new screens / no design │
  │ ▸ DESIGN_SPEC.md                                     │
  ╰──────────────────────────────────────────────────────╯
-    │
+    │  approved PRD, and design when this stop happened
     ▼
- ╭─ plan ───────────────────────────────────────────────╮
- │ Agent Lisbon                                         │
- │ ▸ EXECUTION_PLAN.md + beads                          │
- ╰──────────────────────────────────────────────────────╯
-    │
-    ▼
- ╭─ build ──────────────────────────────────────────────╮
- │ Agents Cho, Van Pelt, Jane, Rigsby                   │◄──┐
- │ ▸ code + passing tests                               │   │
- │ ▸ from-qa → fixes the QA report                      │   │
+ ╭─ agents ─────────── plan · build · auto-verify ──────╮
+ │ Lisbon · EXECUTION_PLAN.md + beads · no sign-off     │
+ │ Cho, Van Pelt, Jane, Rigsby · code + passing tests   │◄──┐
+ │ Wylie · Playwright + screenshots + QA_REPORT.md      │   │
  ╰──────────────────────────────────────────────────────╯   │
-    │                                                       │
-    ▼                                                       │
- ╭─ QA ─────────────────────────── SCREENSHOT PROOF ─╮      │
- │ Agent Wylie                                       │      │
- │ ▸ Playwright + screenshots + QA_REPORT.md         │──┐   │
- ╰───────────────────────────────────────────────────╯  │   │
-    │                                                   │   │
-    │     ╭─ QA generate-fixes-report ──────────────╮   │   │
-    │     │ reconstruct QA_REPORT → approve fixes   │◄──┘   │
-    │     ╰──────────────────┬──────────────────────╯       │
-    │                        └──────────────────────────────┘
+    │ green                                                 │
+    │     ╭─ QA red / generate-fixes-report ───────────╮    │
+    │     │ approve fixes → build + auto-verify again  │────┘
+    │     ╰────────────────────────────────────────────╯
     ▼
- ╭─ verify ────────────────────────── YOU REPLAY QA ─╮
- │ Agent Wylie + you                                  │
- │ ▸ same steps + data from QA_REPORT → VERIFY.md     │
- ╰────────────────────────────────────────────────────╯
+ ╭─ manual verify ─────────────── YOUR NEXT PROMPT ─────╮
+ │ Agent Wylie + you                                    │
+ │ ▸ same steps + data from QA_REPORT → VERIFY.md       │
+ ╰──────────────────────────────────────────────────────╯
     │
     ▼
  ╭─ close ────────────────────────────────────────────╮
@@ -92,7 +79,8 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 
  ╭─ always ───────────────────────────────────────────╮
  │ First time in a repo → init runs by itself         │
- │ Every stop ends with numbered options              │
+ │ Stops: PRD, design, DB schema, QA red, verify,     │
+ │ close. The execution plan is for the agents.       │
  │ Open lane stays a conversation until formalize     │
  │ /hele-status — the board (read-only)               │
  ╰────────────────────────────────────────────────────╯
@@ -100,11 +88,11 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 
 ### Lanes inside `/hele-yolo`
 
-You type one command. Lisbon detects the lane and runs the phase skills. Every stop ends in numbered options — `1` approves and starts the next phase; `2` is tell me what you need; close stops include **Work done** and **Let's formalize**.
+You type one command. Lisbon detects the lane and runs the phase skills. Real stops end in numbered options — `1` approves and starts the next phase; `2` is tell me what you need; close stops include **Work done** and **Let's formalize**. The execution plan is not one of those stops.
 
 | Lane | When | What happens |
 |---|---|---|
-| Feature | Product does not do this today | New PRD + stubs + increment `001`, then design? → plan → build → QA → verify |
+| Feature | Product does not do this today | New PRD + stubs + increment `001`, then design if needed, then the agents plan, build, and auto-verify. Your next prompt is the manual walk |
 | Fast | Small addition to what exists | Patch PRD + stub delta + new increment, same spine |
 | Bugfix | Behavior today is wrong | Same as Fast (reconcile docs, new increment, spine) |
 | Open | Research, review, investigation, design explore | No PRD until you pick Let's formalize |

@@ -51,12 +51,12 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Approve contract → /hele-build — the engineering team executes the plan |
+| 1 | ✅ Approve contract → build and auto-verify — the plan is for the agents |
 | 2 | ✏️ Adjust |
 | 3 | 🔍 Show stubs for a specific rule |
 ```
 
-**QA run** (`/hele-qa`):
+**QA run** (`/hele-qa`): all-green has no Actions table and no Next command — start the manual verify walk in the same turn. Failures and blocked stubs stop with the Actions table below (the example is the red shape). Do not start the manual walk until the run is fully green.
 
 ```
 | Report | Scope |
@@ -82,9 +82,12 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 |---|---|
 | [QA_REPORT.md](.hele/features/<slug>/increments/NNN-<slug>/QA_REPORT.md) | run recorded |
 
-| Next | Command |
+| Actions | Your call |
 |---|---|
-| ▶ | <exact next command> |
+| 1 | ✅ Approve fixes → build from this QA report |
+| 2 | ✏️ Decide the contract-questions first |
+| 3 | 🔍 Walk me through a failure |
+| 4 | ✏️ Tell me what you need |
 ```
 
 **Verify run** (`/hele-verify-work`) — all-verified close gate. Option 1 starts `/hele-retro`; option 2 closes without retro; option 3 starts `/hele-iterate`. Issues found: swap Actions for a Next table (`/hele-iterate`) and stop; do not start iterate, close, or retro in that turn.

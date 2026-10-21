@@ -24,7 +24,7 @@ Render the Status Board (chat-reports.md canonical block) as chat text — never
 
 Forbidden: wrapping the board in a markdown code fence; drawing box-drawing divider lines.
 
-End with the Next table — the single most useful action given the state (e.g. stale plan → plan refresh via yolo; PRD draft → approve; phase verifying with a late find → iterate; phase yolo → /hele-yolo to resume; all green, no active increment → /hele-yolo for the next idea).
+End with the Next table — the single most useful action given the state (e.g. stale plan → refresh it inside the agent run, do not ask the human to approve it; PRD draft → approve; phase verifying → the manual walk; phase yolo → /hele-yolo to resume; all green, no active increment → /hele-yolo for the next idea). A plan with status ready is not waiting on the human. A draft plan beside a draft DB_CHANGES is the schema stop.
 </phase>
 
 <rules>

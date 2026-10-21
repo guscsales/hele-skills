@@ -61,7 +61,7 @@ For every user-facing flow in the PRD:
 <phase name="4-report-and-approval">
 Emit Vega's signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (tool, devices, DS, screens, artboards), Files with a clickable DESIGN_SPEC.md link, then the canonical `Actions` table — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command.
 
-1. ✅ Approve → plan this increment
+1. ✅ Approve → build and auto-verify (the plan is for the agents; your next prompt is the manual walk)
 2. ✏️ Tell me what you need
 3. 🔍 Walk me through screen by screen
 

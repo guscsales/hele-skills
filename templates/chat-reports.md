@@ -2,7 +2,7 @@
 
 Every hele skill reports in chat using this shared visual language. The human is a visual person — reports must be scannable at a glance. Content stays king: formatting makes it readable, never replaces substance.
 
-Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` is the only command the human types for product work; every stop below ends in numbered options.
+Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` is the only command the human types for product work. Real stops end in numbered options. The execution plan, the build, and a green auto-verify do not stop — after the PRD is approved (and design, when that stop happened), those run on their own and the next prompt is the manual walk.
 
 ## Per-stop checklist
 
@@ -11,9 +11,12 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (full PWD) · continue the ask already in flight |
 | PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (full PWD) · Options |
-| Design / Plan / Build | Report frame · Field/Value · Files (full PWD) · Options |
+| Design | Report frame · Field/Value · Files (full PWD) · Options |
+| Plan | Staff note · Files (full PWD) · no Options — start build (draft DB_CHANGES → Red John's Options instead) |
+| Build green | short PM report · no Options — start auto-verify |
 | Dispatch | Dispatch table · one line "I'm here" · end the turn |
-| QA | Report frame · Test results with screenshots · Files (full PWD) · Options |
+| QA green | Report frame · Test results with screenshots · Files (full PWD) · no Options — start the manual walk |
+| QA red | Report frame · Test results with screenshots · Files (full PWD) · Options |
 | Verify — each flow | Report frame · Setup · steps from QA_REPORT · screenshot path · Options |
 | Verify — close | Report frame · Flow/Verdict · Files (full PWD) · Options (Work done / iterate / draft PR) |
 | Open lane | Report frame · relay · Files if any (full PWD) · Options (Work done / Let's formalize / keep going) |
@@ -45,9 +48,9 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 ```
 | Lane | PRD | Path |
 |---|---|---|
-| 🆕 Feature | <slug> or new | PRD + stubs → design? → plan → build → QA → verify |
-| ⚡ Fast | <slug> | patch PRD + stubs → plan → build → QA → verify |
-| 🐛 Bugfix | <slug> | patch PRD + stubs → plan → build → QA → verify |
+| 🆕 Feature | <slug> or new | PRD + stubs → design? → agents build + auto-verify → you verify |
+| ⚡ Fast | <slug> | patch PRD + stubs → design? → agents build + auto-verify → you verify |
+| 🐛 Bugfix | <slug> | patch PRD + stubs → design? → agents build + auto-verify → you verify |
 | 🎼 Open | — | research / review / investigation / design explore — no PRD until Let's formalize |
 ```
 
@@ -204,12 +207,14 @@ Whenever a skill produces an artifact the human must sign off on, or a phase tha
 
 **Never compress this into one line.** Forbidden: `🗳️ YOUR CALL — 1. ✅ Approve · 2. ✏️ Adjust · 3. …`.
 
-### Mid-pipeline (PRD, design, plan, stubs already covered, build, QA red)
+### Mid-pipeline sign-offs (PRD, design, DB changes, QA red)
+
+The EXECUTION_PLAN is not a sign-off. After the PRD is approved (and the design, when that stop happened), Lisbon writes the plan for the agents and the conductor runs build then auto-verify with no Options table. The next Options the human sees are the manual verify walk — unless a draft DB_CHANGES or a red QA run stops first.
 
 ```
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Approve → <next phase in words, e.g. plan this increment> |
+| 1 | ✅ Approve → <next phase in words, e.g. build and auto-verify> |
 | 2 | ✏️ Tell me what you need |
 | 3 | <context-specific option> |
 ```
@@ -238,7 +243,7 @@ Whenever a skill produces an artifact the human must sign off on, or a phase tha
 The human replies with a number (or free text). Never end an interactive phase without offering these options.
 
 **On `1` (Approve / Work done):** in THIS SAME TURN, before stopping:
-1. Mark the artifact approved (frontmatter + index as the skill specifies) when that applies. Never mark approved without this explicit `1`.
+1. Mark the artifact approved (frontmatter + index as the skill specifies) when that applies. Never mark a PRD, design spec, or DB_CHANGES approved without this explicit `1`. The execution plan is not in this list — set it `ready` and start build without waiting for a `1`.
 2. Immediately do the work named in option 1 — read `${CLAUDE_PLUGIN_ROOT}/skills/<next>/SKILL.md` and execute that skill, or close the increment. Do not wait for a second prompt. Do not ask the human to type a slash command.
 
 **On `2` / `3` / free text:** stay in this skill (or run Let's formalize / iterate / draft PR when that is what the chosen row says); do not silently advance.

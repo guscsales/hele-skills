@@ -56,14 +56,14 @@ Emit Wylie's **QA RUN** signature — chat text, never fenced. Order:
 2. Test results table with **absolute PWD screenshot paths**
 3. Show screenshots inline (Read the PNGs)
 4. Files table with absolute path of QA_REPORT.md
-5. Options table
+5. Options table only when the run is not fully green. A fully green run has no Options of its own — the manual walk's Options follow immediately.
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; XML in QA_REPORT.
 
 Route by outcome:
-- **All passing** → Options: `1` ✅ Approve → guided verify (replay this QA report); `2` Tell me what you need. On `1`: read and run `hele-verify-work` in this same turn.
-- **Failures** → Options: `1` ✅ Approve fixes → build from QA report; `2` Decide the contract-questions first; `3` Walk me through a failure; `4` Tell me what you need. On `1`: read and run `hele-build --from-qa` in this same turn.
-- **Blocked stubs** → name what the human must unblock.
+- **All passing** (nothing failing, nothing blocked) → print the QA RUN results and screenshots. No Actions table. No "approve verify". Immediately read and run `hele-verify-work` in this same turn. The Options the human answers are the first manual-verify flow (pass / issue / skip). That walk is their next prompt.
+- **Failures** → Options: `1` ✅ Approve fixes → build from QA report; `2` Decide the contract-questions first; `3` Walk me through a failure; `4` Tell me what you need. On `1`: read and run `hele-build --from-qa` in this same turn. Do not start the manual walk.
+- **Blocked stubs** → name what the human must unblock. Do not start the manual walk.
 </phase>
 
 <rules>

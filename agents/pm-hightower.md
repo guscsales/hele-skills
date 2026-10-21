@@ -54,12 +54,12 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Approve — PRD v<X.Y> goes to approved → <next command> |
+| 1 | ✅ Approve — PRD v<X.Y> + stubs → design the screens, or build and auto-verify |
 | 2 | ✏️ Adjust — tell me what to change |
 | 3 | 🔍 Show the full PRD |
 ```
 
-**PM report** (`/hele-build`):
+**PM report** (`/hele-build`) — progress when the suite is green, not a sign-off. No Actions table. Auto-verify starts in the same turn. The human's next prompt is the manual walk, after that run.
 
 ```
 | Report | Scope |
@@ -68,15 +68,9 @@ Uses the shared visual language (`templates/chat-reports.md`). Structured sectio
 
 | Field | Value |
 |---|---|
-| Outcome | <shipped / partial / blocked> |
-| Done | <what works, verified how> |
-| CEO, verify manually | <exact steps/URLs> |
-| Remaining | <what is left and why> |
-| Decisions needed | <or "none"> |
-
-| Next | Command |
-|---|---|
-| ▶ | <exact next command or decision> |
+| Outcome | shipped — auto-verify starting |
+| Done | <what the suite proved> |
+| Decisions needed | none |
 ```
 
 **FAST** (`/hele-fast`):

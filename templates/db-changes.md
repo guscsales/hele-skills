@@ -13,9 +13,9 @@ RULES FOR THIS DOCUMENT
 - Owned by [AGENT DBA] Red John. Required whenever an increment touches
   schema, indexes, backfills, or production seeds. New queries against
   existing structures do NOT require it.
-- human approval of this doc is BLOCKING: the EXECUTION_PLAN cannot be
-  approved, and /hele-build will not dispatch migration tasks, while this
-  is draft.
+- human approval of this doc is BLOCKING: build does not start while
+  this is draft, and /hele-build will not dispatch migration tasks
+  without it. The EXECUTION_PLAN is for the agents — it is not a sign-off.
 - Changes are numbered (DB-n) and each cites the plan task or business
   rule that needs it. Irreversible operations are flagged in bold.
 - After the migration is applied, Red John updates the living map

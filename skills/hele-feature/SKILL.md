@@ -86,9 +86,9 @@ Forbidden: wrapping the report in a markdown code fence; drawing box-drawing div
 
 Option 1 names the next phase in words — not a slash the human must type:
 
-- **`settings.designSystem.enabled` is false** → `✅ Approve — PRD v<X.Y> + stubs → plan this increment (this project has no design, so Vega sits out)`. Write `features/<slug>/NOTES.md`: `Design not needed — this project has no design; Vega sits out.`
+- **`settings.designSystem.enabled` is false** → `✅ Approve — PRD v<X.Y> + stubs → build and auto-verify (this project has no design, so Vega sits out). Your next prompt is the manual walk`. Write `features/<slug>/NOTES.md`: `Design not needed — this project has no design; Vega sits out.`
 - **New screens or visual layout/component work** → `✅ Approve — PRD v<X.Y> + stubs → design the screens`
-- **Existing screens reused or backend/infra only** → `✅ Approve — PRD v<X.Y> + stubs → plan this increment (design not needed)`. Write NOTES.md bullet: `Design not needed — existing screens reused; no DESIGN_SPEC this increment.`
+- **Existing screens reused or backend/infra only** → `✅ Approve — PRD v<X.Y> + stubs → build and auto-verify (design not needed). Your next prompt is the manual walk`. Write NOTES.md bullet: `Design not needed — existing screens reused; no DESIGN_SPEC this increment.`
 - **Unsure** → ask once; do not auto-chain until the human picks. Missing `designSystem.enabled` means `true`.
 
 Option 2: `✏️ Tell me what you need`. Option 3+: context extras.
