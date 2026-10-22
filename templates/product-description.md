@@ -7,7 +7,10 @@
 - Human-readable markdown ONLY. No XML section tags. A person opens this file
   and understands the product: what, why, flows, rules, scope. Agents find
   sections by the ## / ### headings below.
-- status: approved requires Open questions to be empty (or the section omitted).
+- Written only after every product question is answered. No Open
+  questions section. A question still open means do not create this
+  file (new feature) and do not patch it (update). A recommendation
+  belongs in the question, not in a rule written ahead of the answer.
 - Business rules are numbered (BR-n) and testable — TEST_STUBS reference them.
   Each rule is a ### BR-n — Title heading with enough prose to review alone.
 - Each named flow: ### caption, then a short prose paragraph, then the mermaid,
@@ -90,12 +93,6 @@ Optional. Kill ambiguity: terms the team must use consistently. Omit this sectio
 | Term | Meaning |
 |---|---|
 | <term> | <meaning> |
-
-## Open questions
-
-Must be empty (or omit this section) before `status: approved`. Owner is who must answer.
-
-- OQ-1: <question> (owner: human)
 
 ## Changelog
 

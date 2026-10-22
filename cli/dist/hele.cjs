@@ -3358,12 +3358,19 @@ var FLOW_DIAGRAM = `
     \u2502
     \u25BC
  \u256D\u2500 It detects the lane \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
- \u2502 Feature   new PRD + stubs + increment 001            \u2502
- \u2502 Fast      patch the PRD + a new increment            \u2502
- \u2502 Bugfix    patch the PRD + a new increment            \u2502
+ \u2502 Feature   questions, then PRD + stubs + 001          \u2502
+ \u2502 Fast      questions when a rule would change         \u2502
+ \u2502 Bugfix    questions only when the rule changes       \u2502
  \u2502 Open      research, review, investigation, design    \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502  feature / fast / bugfix \u2014 yolo runs these
+    \u25BC
+ \u256D\u2500 questions \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 STOP \u2500\u256E
+ \u2502 Agent Hightower                                      \u2502
+ \u2502 \u25B8 answer every product question before a write       \u2502
+ \u2502 \u25B8 a recommendation is an option, not a rule          \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+    \u2502  zero unanswered product questions
     \u25BC
  \u256D\u2500 PRD + stubs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SAME STOP \u2500\u256E
  \u2502 Agent Hightower + Agent Wylie                        \u2502
@@ -3401,8 +3408,8 @@ var FLOW_DIAGRAM = `
 
  \u256D\u2500 always \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
  \u2502 First time in a repo \u2192 init runs by itself         \u2502
- \u2502 Stops: PRD, design, DB schema, QA red, verify,     \u2502
- \u2502 close. The execution plan is for the agents.       \u2502
+ \u2502 Stops: questions, PRD, design, DB schema,          \u2502
+ \u2502 QA red, verify, close. The plan is for agents.     \u2502
  \u2502 Open lane stays a conversation until formalize     \u2502
  \u2502 /hele-status \u2014 the board (read-only)               \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
@@ -3417,15 +3424,16 @@ var SKILLS = [
     question: "THE CONDUCTOR",
     detail: `The only entry point for product work. Auto-inits when .hele/ is
 missing. Detects Feature / Fast / Bugfix / Open, prints a Lane table,
-and runs the phase skills. Real stops end in numbered Options
-(Approve, Tell me what you need, Work done, Let's formalize). After
-the PRD is approved (and design, when there are new screens), the
-agents write the plan, build, and auto-verify with no sign-off. Your
-next prompt is the manual walk. A database change or a red QA run
-still stops. Stubs ship with the PRD; QA writes screenshots into a
-human-readable QA_REPORT; verify replays that report; findings.json
-is written during the talk. Paths in chat are always the full PWD.
-Type it once \u2014 follow-ups stay sticky.`
+and runs the phase skills. Product questions are a stop that writes
+nothing \u2014 a PRD exists only after every one is answered. Real stops
+end in numbered Options (Approve, Tell me what you need, Work done,
+Let's formalize). After the PRD is approved (and design, when there
+are new screens), the agents write the plan, build, and auto-verify
+with no sign-off. Your next prompt is the manual walk. A database
+change or a red QA run still stops. Stubs ship with the PRD; QA
+writes screenshots into a human-readable QA_REPORT; verify replays
+that report; findings.json is written during the talk. Paths in chat
+are always the full PWD. Type it once \u2014 follow-ups stay sticky.`
   },
   {
     name: "init",
@@ -3444,14 +3452,16 @@ ask \u2014 you do not type /hele-init first.`
     agent: "Agent Hightower",
     artifact: "PRODUCT_DESCRIPTION.md + TEST_STUBS.md",
     question: "WHAT & WHY",
-    detail: `Agent Hightower interviews until scope and business rules are
-unambiguous, then writes (or patches) the PRD and dispatches Wylie for
-stubs in the SAME stop. The PRD is human-readable markdown with no XML
-(same rule as QA_REPORT). Emits a PRD delta (new rules, and was \u2192 now
-on rewrites) with absolute paths, plus an Open these table. Guards the
-anti-duplicate gate. Option 1 \u2192 design, or build
-and auto-verify when design is not needed. The plan is not a sign-off.
-Normally started by /hele-yolo Feature lane or Let's formalize.`
+    detail: `Agent Hightower asks until every product question is answered.
+That round writes nothing \u2014 a recommendation is an option in the
+question, not a rule already in a file. Only then does she write (or
+patch) the PRD and dispatch Wylie for stubs in the SAME stop. The PRD
+is human-readable markdown with no XML (same rule as QA_REPORT).
+Emits a PRD delta (new rules, and was \u2192 now on rewrites) with absolute
+paths, plus an Open these table. Guards the anti-duplicate gate.
+Option 1 \u2192 design, or build and auto-verify when design is not needed.
+The plan is not a sign-off. Normally started by /hele-yolo Feature
+lane or Let's formalize.`
   },
   {
     name: "design",
@@ -3537,11 +3547,12 @@ on disk.`
     agent: "Agents Hightower & Lisbon",
     artifact: "patched PRD + new increment + spine",
     question: "FAST / BUGFIX LANE",
-    detail: `Update lane under /hele-yolo: find the PRD, patch when needed,
-stub delta, new increment, then the agents plan, build, and auto-verify
-with no plan sign-off. Your next prompt is the manual walk. Beads on.
-Schema and security stay with Red John / Jane gates \u2014 not a bounce to
-another command.`
+    detail: `Update lane under /hele-yolo: questions first when a rule would
+change, then find the PRD and patch it, stub delta, new increment,
+then the agents plan, build, and auto-verify with no plan sign-off.
+A bugfix that leaves the rule text alone does not stop to ask. Your
+next prompt is the manual walk. Beads on. Schema and security stay
+with Red John / Jane gates \u2014 not a bounce to another command.`
   },
   {
     name: "iterate",
@@ -3549,8 +3560,10 @@ another command.`
     artifact: "beads on the open increment",
     question: "THE ITERATE LOOP",
     detail: `Late find after build. Lisbon classifies and dispatches the
-changed slice via beads. Still under the /hele-yolo sticky session when
-picked from Options. New stubs \u2192 QA; else verify.`
+changed slice via beads. A behavior change with a product question
+still open waits \u2014 the PRD is not patched ahead of the answer. Still
+under the /hele-yolo sticky session when picked from Options. New
+stubs \u2192 QA; else verify.`
   },
   {
     name: "status",

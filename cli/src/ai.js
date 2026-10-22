@@ -9,15 +9,16 @@ const SKILLS = [
     question: 'THE CONDUCTOR',
     detail: `The only entry point for product work. Auto-inits when .hele/ is
 missing. Detects Feature / Fast / Bugfix / Open, prints a Lane table,
-and runs the phase skills. Real stops end in numbered Options
-(Approve, Tell me what you need, Work done, Let's formalize). After
-the PRD is approved (and design, when there are new screens), the
-agents write the plan, build, and auto-verify with no sign-off. Your
-next prompt is the manual walk. A database change or a red QA run
-still stops. Stubs ship with the PRD; QA writes screenshots into a
-human-readable QA_REPORT; verify replays that report; findings.json
-is written during the talk. Paths in chat are always the full PWD.
-Type it once — follow-ups stay sticky.`,
+and runs the phase skills. Product questions are a stop that writes
+nothing — a PRD exists only after every one is answered. Real stops
+end in numbered Options (Approve, Tell me what you need, Work done,
+Let's formalize). After the PRD is approved (and design, when there
+are new screens), the agents write the plan, build, and auto-verify
+with no sign-off. Your next prompt is the manual walk. A database
+change or a red QA run still stops. Stubs ship with the PRD; QA
+writes screenshots into a human-readable QA_REPORT; verify replays
+that report; findings.json is written during the talk. Paths in chat
+are always the full PWD. Type it once — follow-ups stay sticky.`,
   },
   {
     name: 'init',
@@ -36,14 +37,16 @@ ask — you do not type /hele-init first.`,
     agent: 'Agent Hightower',
     artifact: 'PRODUCT_DESCRIPTION.md + TEST_STUBS.md',
     question: 'WHAT & WHY',
-    detail: `Agent Hightower interviews until scope and business rules are
-unambiguous, then writes (or patches) the PRD and dispatches Wylie for
-stubs in the SAME stop. The PRD is human-readable markdown with no XML
-(same rule as QA_REPORT). Emits a PRD delta (new rules, and was → now
-on rewrites) with absolute paths, plus an Open these table. Guards the
-anti-duplicate gate. Option 1 → design, or build
-and auto-verify when design is not needed. The plan is not a sign-off.
-Normally started by /hele-yolo Feature lane or Let's formalize.`,
+    detail: `Agent Hightower asks until every product question is answered.
+That round writes nothing — a recommendation is an option in the
+question, not a rule already in a file. Only then does she write (or
+patch) the PRD and dispatch Wylie for stubs in the SAME stop. The PRD
+is human-readable markdown with no XML (same rule as QA_REPORT).
+Emits a PRD delta (new rules, and was → now on rewrites) with absolute
+paths, plus an Open these table. Guards the anti-duplicate gate.
+Option 1 → design, or build and auto-verify when design is not needed.
+The plan is not a sign-off. Normally started by /hele-yolo Feature
+lane or Let's formalize.`,
   },
   {
     name: 'design',
@@ -129,11 +132,12 @@ on disk.`,
     agent: 'Agents Hightower & Lisbon',
     artifact: 'patched PRD + new increment + spine',
     question: 'FAST / BUGFIX LANE',
-    detail: `Update lane under /hele-yolo: find the PRD, patch when needed,
-stub delta, new increment, then the agents plan, build, and auto-verify
-with no plan sign-off. Your next prompt is the manual walk. Beads on.
-Schema and security stay with Red John / Jane gates — not a bounce to
-another command.`,
+    detail: `Update lane under /hele-yolo: questions first when a rule would
+change, then find the PRD and patch it, stub delta, new increment,
+then the agents plan, build, and auto-verify with no plan sign-off.
+A bugfix that leaves the rule text alone does not stop to ask. Your
+next prompt is the manual walk. Beads on. Schema and security stay
+with Red John / Jane gates — not a bounce to another command.`,
   },
   {
     name: 'iterate',
@@ -141,8 +145,10 @@ another command.`,
     artifact: 'beads on the open increment',
     question: 'THE ITERATE LOOP',
     detail: `Late find after build. Lisbon classifies and dispatches the
-changed slice via beads. Still under the /hele-yolo sticky session when
-picked from Options. New stubs → QA; else verify.`,
+changed slice via beads. A behavior change with a product question
+still open waits — the PRD is not patched ahead of the answer. Still
+under the /hele-yolo sticky session when picked from Options. New
+stubs → QA; else verify.`,
   },
   {
     name: 'status',

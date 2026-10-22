@@ -10,6 +10,7 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 |---|---|
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (full PWD) · continue the ask already in flight |
+| Questions | Question table · AskUserQuestion (max 4) · no files · end the turn |
 | PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (full PWD) · Open these · Options |
 | Design | Report frame · Field/Value · Files (full PWD) · Options |
 | Plan | Staff note · Files (full PWD) · no Options — start build (draft DB_CHANGES → Red John's Options instead) |
@@ -49,9 +50,9 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 ```
 | Lane | PRD | Path |
 |---|---|---|
-| 🆕 Feature | <slug> or new | PRD + stubs → design? → agents build + auto-verify → you verify |
-| ⚡ Fast | <slug> | patch PRD + stubs → design? → agents build + auto-verify → you verify |
-| 🐛 Bugfix | <slug> | patch PRD + stubs → design? → agents build + auto-verify → you verify |
+| 🆕 Feature | <slug> or new | questions → PRD + stubs → design? → agents build + auto-verify → you verify |
+| ⚡ Fast | <slug> | questions if a rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
+| 🐛 Bugfix | <slug> | questions only if the rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
 | 🎼 Open | — | research / review / investigation / design explore — no PRD until Let's formalize |
 ```
 
@@ -226,6 +227,8 @@ Emit this, say you are here, **end the turn**. Do not wait for the agent.
 ```
 
 ## Question block (planning phases — before AskUserQuestion calls)
+
+This round writes nothing. No PRD, no stubs, no Files table, no Open these. A recommendation is one of the options, not a rule already in a file. End the turn. The PRD stop starts only after every product question is answered. Do not invent a question when the human's words already decide the rule.
 
 ```
 | Agent | Needs |
