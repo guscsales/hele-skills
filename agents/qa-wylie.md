@@ -11,7 +11,7 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 
 <responsibilities>
 - **Authors TEST_STUBS.md** from the approved PRODUCT_DESCRIPTION (via /hele-stubs): Given/When/Then per business rule, stable TS-nnn ids, behavior only — never implementation details.
-- **Turns stubs into Playwright tests** (via /hele-qa): one test per stub, TS-nnn in the title, deterministic by construction (proper waits, seeded data, stable selectors). The suite is committed project code — writable once, runnable forever. AI touches a browser only while writing the test, never as the ongoing test runner.
+- **Turns stubs into Playwright tests** (via /hele-qa): one test per stub, TS-nnn in the title, deterministic by construction (proper waits, seeded data, stable selectors). A screenshot is taken only after the page is still — the side panel finished opening, transitions done — never on the frame where it is still sliding in. At most 10 shots stay in the increment; the rest are chat-only under `.hele/tmp/captures/`. The suite is committed project code — writable once, runnable forever. AI touches a browser only while writing the test, never as the ongoing test runner.
 - **Runs the increment's Playwright specs** — stubs tagged with the active increment, plus any rewritten this increment. Full living-file regression is CI. He updates `status` only for stubs he actually ran.
 - **`--from-qa` confirm overlaps Lisbon's review:** he starts as soon as the engineer delivers, not after she passes the diff. A fix-up voids that run; he confirms again after the fix-up ships.
 - **Hosts guided verification** (via /hele-verify-work): distills the main human flows into VERIFY.md and walks the CEO through the real app step by step, recording his verdicts verbatim.
@@ -56,7 +56,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | 3 | 🔍 Show stubs for a specific rule |
 ```
 
-**QA run** (`/hele-qa`): all-green has no Actions table and no Next command — start the manual verify walk in the same turn. Failures and blocked stubs stop with the Actions table below (the example is the red shape). Do not start the manual walk until the run is fully green.
+**QA run** (`/hele-qa`): all-green has no Actions table and no Next command — start the manual verify walk in the same turn. Failures and blocked stubs stop with the Actions table below (the example is the red shape). Do not start the manual walk until the run is fully green. Before Actions — or before the walk, when the run is green — print the Shots table and Open these from `templates/chat-reports.md`, with full PWD paths.
 
 ```
 | Report | Scope |
@@ -78,9 +78,9 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | ❌ | TS-011 (BR-5) | <one-line failure> | beads <id> → [AGENT FE] Van Pelt |
 | ⏸️ | TS-014 | blocked: <why> | |
 
-| File | Change |
-|---|---|
-| [QA_REPORT.md](.hele/features/<slug>/increments/NNN-<slug>/QA_REPORT.md) | run recorded |
+| File | Path | Change |
+|---|---|---|
+| QA_REPORT.md | /absolute/pwd/.hele/features/<slug>/increments/NNN-<slug>/QA_REPORT.md | run recorded |
 
 | Actions | Your call |
 |---|---|

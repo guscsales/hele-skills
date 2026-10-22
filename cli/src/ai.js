@@ -39,8 +39,9 @@ ask — you do not type /hele-init first.`,
     detail: `Agent Hightower interviews until scope and business rules are
 unambiguous, then writes (or patches) the PRD and dispatches Wylie for
 stubs in the SAME stop. The PRD is human-readable markdown with no XML
-(same rule as QA_REPORT). Emits a PRD delta (New vs Added) with absolute
-paths. Guards the anti-duplicate gate. Option 1 → design, or build
+(same rule as QA_REPORT). Emits a PRD delta (new rules, and was → now
+on rewrites) with absolute paths, plus an Open these table. Guards the
+anti-duplicate gate. Option 1 → design, or build
 and auto-verify when design is not needed. The plan is not a sign-off.
 Normally started by /hele-yolo Feature lane or Let's formalize.`,
   },
@@ -96,11 +97,12 @@ slice.`,
     artifact: 'Playwright + screenshots + QA_REPORT.md',
     question: 'SCREENSHOT PROOF',
     extras: ['▸ --generate-fixes-report → approve → --from-qa'],
-    detail: `Turns stubs into Playwright tests for THIS INCREMENT only. Saves
-a screenshot per stub under increments/.../screenshots/. Writes a
-human-readable QA_REPORT.md (no XML) with setup, data, steps, expected
-vs happened, and images. Chat uses full PWD paths. Green → the manual
-walk starts immediately; red → Options → build --from-qa.`,
+    detail: `Turns stubs into Playwright tests for THIS INCREMENT only.
+Screenshots wait until the page is still, then at most 10 stay in the
+increment (shrunk); the rest are chat only. QA_REPORT.md leads with the
+screen before this increment and after it, and records decisions instead
+of open questions. Chat uses full PWD paths. Green → the manual walk
+starts immediately; red → Options → build --from-qa.`,
   },
   {
     name: 'verify-work',

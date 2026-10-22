@@ -76,13 +76,13 @@ An increment already in `built` | `qa` | `verifying` | `iterating` on the **same
 <phase name="2-spine">
 Feature / Fast / Bugfix share this spine. **Phases are the existing skills — never reimplement them.** Read the skill file and put its contract in the worker prompt (or execute it as the conductor reading that skill). A skill missing or erroring → report, don't improvise.
 
-1. **PRD + stubs** — Hightower writes/patches the PRD; Wylie writes stubs in the **same stop** (see hele-feature). Approval covers both. PRD delta table is mandatory. Option `1` → design, or the agent run when design is not needed.
+1. **PRD + stubs** — Hightower writes/patches the PRD; Wylie writes stubs in the **same stop** (see hele-feature). Approval covers both. The PRD delta is mandatory (new rules, and was → now when a rule was rewritten), then Open these. Option `1` → design, or the agent run when design is not needed.
 2. **Design** — only when new screens and `designSystem.enabled` is not false. Else skip; NOTES.md records why. This is a human stop. Option `1` → the agent run.
 3. **Agent run — no Options table, no sign-off on the plan:**
    - **Plan** — Lisbon writes EXECUTION_PLAN + beads for the agents and sets it `ready`. Do not ask the human to approve it.
    - **DB schema** — if DB_CHANGES is draft, that approval is a stop. Option `1` approves the schema and starts build. No schema change → do not pause.
    - **Build** — engineers on beads. When the suite is green, start QA in the same turn. Do not ask to run QA.
-   - **Auto-verify (QA)** — Wylie, Playwright, screenshots into `QA_REPORT.md`. All passing → start the manual walk in the same turn. Red → Options to fix (`hele-build --from-qa`), then this auto-verify again.
+   - **Auto-verify (QA)** — Wylie, Playwright. Shots wait until the page is still; at most 10 stay in the increment. `QA_REPORT.md` opens with the screen before this increment and after it. All passing → start the manual walk in the same turn. Red → Options to fix (`hele-build --from-qa`), then this auto-verify again.
 4. **Manual verify** — the human's next prompt. They replay the QA_REPORT steps. Close Options: Work done / iterate / draft PR (/ Let's formalize only if a PRD is still missing).
 
 Real stops use the Options table from `chat-reports.md`. The plan, the build, and a green auto-verify do not. Paths are always the full PWD.

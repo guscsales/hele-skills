@@ -19,7 +19,7 @@ export const FLOW_DIAGRAM = `
  ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Hightower + Agent Wylie                        │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
- │ ▸ PRD delta: New vs Added (full PWD paths)           │
+ │ ▸ PRD delta: was → now, full PWD paths               │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼

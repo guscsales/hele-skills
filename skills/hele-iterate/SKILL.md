@@ -76,7 +76,7 @@ The next skill is mechanical — Lisbon does not ask:
 - **New or rewritten TEST_STUBS** → `/hele-qa` (Wylie writes/updates the Playwright tests and re-runs this increment's slice — not the living-file regression).
 - **Stubs untouched** (bug whose contract already existed) → `/hele-verify-work` (resume from the first `pending` flow; touched flows were already reset).
 
-Emit Lisbon's **ITERATE** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (discovery, classification, called, tasks, stubs, memory), Files with clickable links, then the canonical `Actions` table. Never draw `─`/`═` divider lines.
+Emit Lisbon's **ITERATE** signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (discovery, classification, called, tasks, stubs, memory), Files with full PWD paths. When this turn patched a PRD, insert the PRD delta and Open these from chat-reports.md before Actions. Then the canonical `Actions` table. Never draw `─`/`═` divider lines.
 
 1. ✅ Continue → the command from the rule above (name it)
 2. ✏️ Another discovery — stay in /hele-iterate

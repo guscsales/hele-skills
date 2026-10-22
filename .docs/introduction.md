@@ -24,7 +24,7 @@ In the world of AI agents, why should this flow be different? It shouldn't. The 
 - **The human decides the product.** Approvals are explicit numbered options for the PRD, a new design, a schema change, a red auto-verify, and the manual walk. The execution plan is for the agents. Agents still ask questions they cannot answer from the code — that is a feature, not a plan sign-off.
 - **State lives on disk, not in the chat.** beads tracks tasks; documents track decisions; findings are written during the talk. An interrupted session resumes from `state.json`. `/hele-yolo` is sticky — follow-ups stay in that session until you invoke a different `/hele-*`.
 - **The main chat stays free.** Talking and deciding happen there. Doing (review, suite, artifacts, codebase reads) is always a background sub-agent — Lisbon and Hightower included.
-- **Proof you can open.** QA writes a human-readable `QA_REPORT.md` with screenshots (full PWD paths in chat). Verify walks you through those same steps. A PRD change always prints New vs Added.
+- **Proof you can open.** QA writes a human-readable `QA_REPORT.md`. Shots are taken after the page settles, at most 10 stay in the increment, and the report opens with the screen before and after the change. Verify walks those same steps. A PRD change prints new rules and, when a rule was rewritten, the old sentence next to the new one. Paths in chat are the full PWD.
 
 ## Who this is for
 
