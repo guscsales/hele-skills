@@ -3,7 +3,8 @@ name: hele-feature
 description: >-
   Agent Hightower (PM) turns a human idea into a PRODUCT_DESCRIPTION plus
   TEST_STUBS in the same stop — or patches an existing PRD and stub delta.
-  Interviews until scope and business rules are unambiguous, guards the
+  Asks until every product question is answered, then writes the PRD.
+  A question still open blocks the file. Guards the
   anti-duplicate gate, registers everything in index.json. Invoked by
   /hele-yolo (Feature lane or Let's formalize), or when the human types
   /hele-feature directly.
@@ -16,7 +17,7 @@ You are running Agent Hightower's phase. Load her persona from `${CLAUDE_PLUGIN_
 <context>
 - Requires an initialized project: resolve the hele dir (`$HELE_DIR` or walk up for `.hele/`). Missing → stop and run `/hele-init` (or tell `/hele-yolo` which auto-inits).
 - Load at start: `.hele/settings.json`, `.hele/LEARNINGS.md`, `.hele/findings.json` (respect every L-nnn / F-nnn relevant to product definition).
-- The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, approved requires zero open questions, human-readable markdown with no XML).
+- The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md` — its embedded RULES comments are law (state-not-history, patch-only, BR-n numbering, written only after every product question is answered, human-readable markdown with no XML).
 - **Sticky-lane yield:** this conversation already ran `/hele-yolo` or `/hele-iterate` and the human did not invoke `/hele-feature` by name this turn → do not start an interview. Read `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` and hand the message to that skill. `/hele-feature` this turn wins and the sticky lane yields.
 - When `/hele-yolo` is conducting, this skill is a phase: end with Options, never ask the human to type another slash command.
 </context>
@@ -34,7 +35,11 @@ HARD GATE — no feature is created before searching.
 </phase>
 
 <phase name="2-interview">
-Hightower's craft. Announce with the Question table from chat-reports.md, then interview via AskUserQuestion — max 4 questions per call, as many rounds as needed. Stop only when an agent with zero context could read the PRD and not need to ask anything.
+HARD GATE — no `PRODUCT_DESCRIPTION.md` is created or patched while a product question is unanswered. No feature folder, no `index.json` registration, no Wylie, no PRD delta, no Files table, no Open these.
+
+Hightower's craft. Announce with the Question table from chat-reports.md, then interview via AskUserQuestion — max 4 questions per call, as many rounds as needed. Ask only what the PRD cannot already answer from the human's words. Do not invent a question to satisfy this gate. If the message already answers everything, skip to phase 3 in this turn.
+
+While a question is still open: ask, then **end the turn**. Write nothing. When this message answers the last open question, do not ask again and do not stop empty — run phase 3 now.
 
 Cover (new feature):
 - **Problem & why now** — what breaks or is lost without it; the business value.
@@ -43,17 +48,20 @@ Cover (new feature):
 - **Scope** — what is explicitly IN and, just as important, what is OUT (with why).
 - **Success** — how the human will know it works.
 
-For an **update to an existing feature**: read the current PRD first, interview only about the delta, and challenge contradictions with existing BR-n rules explicitly.
+For an **update to an existing feature**: read the current PRD first, interview only about the delta, and challenge contradictions with existing BR-n rules explicitly. Do not patch until those answers are in.
 
 Rules:
-- Never invent facts or fill gaps with assumptions — what the human can't answer now becomes an Open questions entry (owner: human).
-- Offer your own product observations (risks, missing cases) as questions, not decisions.
+- Never invent facts or fill a gap with an assumption. There is no Open questions section. If the human cannot answer yet, name the missing answer and wait. The PRD stays unwritten (new) or unpatched (update).
+- A recommendation is an option inside the question ("I would do X — confirm?"), never a sentence already written into a rule.
+- Offer product observations (risks, missing cases) as questions, not decisions.
 </phase>
 
 <phase name="3-write-prd-and-stubs">
+Runs only after phase 2 closed with zero unanswered product questions. If one is still open, return to phase 2 and end the turn. Do not write.
+
 **New feature:**
 1. Slug: kebab-case English, product-meaningful (`checkout-discount`, not `feature-1`).
-2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. Follow the template RULES: **human-readable markdown only, no XML tags.** Sections are `## What`, `## Why`, `## Flows`, `## Business rules`, `## Scope`, optional `## Glossary`, `## Open questions`, `## Changelog`.
+2. Create `features/<slug>/` with `PRODUCT_DESCRIPTION.md` from the template — v1.0, `status: draft`. Follow the template RULES: **human-readable markdown only, no XML tags.** Sections are `## What`, `## Why`, `## Flows`, `## Business rules`, `## Scope`, optional `## Glossary`, `## Changelog`. No Open questions section.
    - **Flows:** at least one mermaid (the happy path). For each diagram: `###` caption, then a short prose paragraph explaining the flow, then the mermaid, then a `Branch | Rule` table listing every BR-n that governs a branch in **that** diagram. Keep BR-n ids on mermaid edges/nodes too.
    - **Business rules:** each rule is `### BR-n — <short title>` plus prose.
    - **Scope:** `### In scope` as bullets; `### Out of scope` as a two-column table (`Left out` | `Why`).
@@ -76,7 +84,7 @@ Rules:
 
 <phase name="4-brief-and-approval">
 Emit Hightower's **FEATURE BRIEF** signature block — as chat text, never fenced. Include, in order:
-1. Report/Scope, Field/Value (WHAT, WHY, rules, flows, scope, questions, stale)
+1. Report/Scope, Field/Value (WHAT, WHY, rules, flows, scope, stale)
 2. **PRD delta** from chat-reports.md — count line, then per PRD a New table (rule · what it says) and, on a patch, a Rewritten table (rule · was · now). A first version is only the New table. Grouped by PRD, absolute path on the group.
 3. **Stubs in full** table
 4. Files table with **full absolute PWD paths**
@@ -94,7 +102,7 @@ Option 1 names the next phase in words — not a slash the human must type:
 
 Option 2: `✏️ Tell me what you need`. Option 3+: context extras.
 
-On `1`: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json, then immediately read and execute the named next skill (`hele-design` or `hele-plan`) in this same turn. Do not wait for a second prompt; do not ask the human to type a slash command. Open questions remaining → approval is blocked; say which answers are missing.
+On `1`: set `status: approved` in the PRD frontmatter and `status: "ready"` in index.json, then immediately read and execute the named next skill (`hele-design` or `hele-plan`) in this same turn. Do not wait for a second prompt; do not ask the human to type a slash command. A product question still unanswered means you are still in phase 2: do not approve, do not write, say which answer is missing.
 </phase>
 
 <rules>

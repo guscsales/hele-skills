@@ -16,9 +16,9 @@ The conductor. Agent Lisbon talks; specialists work in the background.
 
 | Lane | Meaning |
 |---|---|
-| Feature | New capability → PRD + stubs + `001` → spine |
-| Fast | Small addition → patch PRD + new increment → spine |
-| Bugfix | Wrong behavior → reconcile + new increment → spine |
+| Feature | New capability → questions, then PRD + stubs + `001` → spine |
+| Fast | Small addition → questions when a rule changes, then patch PRD + new increment → spine |
+| Bugfix | Wrong behavior → questions only when the rule changes, then reconcile + new increment → spine |
 | Open | Research / review / investigation / design explore — no PRD until Let's formalize |
 
 **Sticky:** type `/hele-yolo` once. Later prompts stay here. A bare message is another ask or an Options reply.
@@ -29,11 +29,11 @@ Bootstraps `.hele/` (settings, index, state, LEARNINGS, **findings.json**, featu
 
 ## /hele-feature
 
-Agent Hightower. Anti-duplicate gate, interview, then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits a PRD delta (new rules, and was → now on rewrites, grouped by PRD, absolute path) plus an Open these table. Option `1` → design, or build and auto-verify when design is not needed.
+Agent Hightower. Anti-duplicate gate, then questions until none remain. That round writes nothing — a recommendation is an option, not a rule already in a file. Only then **PRD and stubs in the same stop** (Wylie, blind to the plan). PRD is human-readable markdown (no XML) — same rule as QA_REPORT. Emits a PRD delta (new rules, and was → now on rewrites, grouped by PRD, absolute path) plus an Open these table. Option `1` → design, or build and auto-verify when design is not needed.
 
 ## /hele-fast
 
-Update-lane procedure yolo runs for Fast / Bugfix: find PRD, patch when needed, stub delta, new increment, then the same spine. The plan is for the agents. Beads on. Schema / security stay with Red John / Jane — not a bounce to another command.
+Update-lane procedure yolo runs for Fast / Bugfix: questions first when a rule would change, then find the PRD, patch when needed, stub delta, new increment, then the same spine. A bugfix that leaves the rule text alone does not stop to ask. The plan is for the agents. Beads on. Schema / security stay with Red John / Jane — not a bounce to another command.
 
 ## /hele-design
 

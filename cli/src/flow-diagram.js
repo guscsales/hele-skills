@@ -9,12 +9,19 @@ export const FLOW_DIAGRAM = `
     │
     ▼
  ╭─ It detects the lane ────────────────────────────────╮
- │ Feature   new PRD + stubs + increment 001            │
- │ Fast      patch the PRD + a new increment            │
- │ Bugfix    patch the PRD + a new increment            │
+ │ Feature   questions, then PRD + stubs + 001          │
+ │ Fast      questions when a rule would change         │
+ │ Bugfix    questions only when the rule changes       │
  │ Open      research, review, investigation, design    │
  ╰──────────────────────────────────────────────────────╯
     │  feature / fast / bugfix — yolo runs these
+    ▼
+ ╭─ questions ─────────────────────────────────── STOP ─╮
+ │ Agent Hightower                                      │
+ │ ▸ answer every product question before a write       │
+ │ ▸ a recommendation is an option, not a rule          │
+ ╰──────────────────────────────────────────────────────╯
+    │  zero unanswered product questions
     ▼
  ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Hightower + Agent Wylie                        │
@@ -52,8 +59,8 @@ export const FLOW_DIAGRAM = `
 
  ╭─ always ───────────────────────────────────────────╮
  │ First time in a repo → init runs by itself         │
- │ Stops: PRD, design, DB schema, QA red, verify,     │
- │ close. The execution plan is for the agents.       │
+ │ Stops: questions, PRD, design, DB schema,          │
+ │ QA red, verify, close. The plan is for agents.     │
  │ Open lane stays a conversation until formalize     │
  │ /hele-status — the board (read-only)               │
  ╰────────────────────────────────────────────────────╯

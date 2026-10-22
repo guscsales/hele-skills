@@ -36,12 +36,19 @@ In the world of AI and agents, why should this flow be any different? It shouldn
     │
     ▼
  ╭─ It detects the lane ────────────────────────────────╮
- │ Feature   new PRD + stubs + increment 001            │
- │ Fast      patch the PRD + a new increment            │
- │ Bugfix    patch the PRD + a new increment            │
+ │ Feature   questions, then PRD + stubs + 001          │
+ │ Fast      questions when a rule would change         │
+ │ Bugfix    questions only when the rule changes       │
  │ Open      research, review, investigation, design    │
  ╰──────────────────────────────────────────────────────╯
     │  feature / fast / bugfix — yolo runs these
+    ▼
+ ╭─ questions ─────────────────────────────────── STOP ─╮
+ │ Agent Hightower                                      │
+ │ ▸ answer every product question before a write       │
+ │ ▸ a recommendation is an option, not a rule          │
+ ╰──────────────────────────────────────────────────────╯
+    │  zero unanswered product questions
     ▼
  ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Hightower + Agent Wylie                        │
@@ -79,8 +86,8 @@ In the world of AI and agents, why should this flow be any different? It shouldn
 
  ╭─ always ───────────────────────────────────────────╮
  │ First time in a repo → init runs by itself         │
- │ Stops: PRD, design, DB schema, QA red, verify,     │
- │ close. The execution plan is for the agents.       │
+ │ Stops: questions, PRD, design, DB schema,          │
+ │ QA red, verify, close. The plan is for agents.     │
  │ Open lane stays a conversation until formalize     │
  │ /hele-status — the board (read-only)               │
  ╰────────────────────────────────────────────────────╯
@@ -92,9 +99,9 @@ You type one command. Lisbon detects the lane and runs the phase skills. Real st
 
 | Lane | When | What happens |
 |---|---|---|
-| Feature | Product does not do this today | New PRD + stubs + increment `001`, then design if needed, then the agents plan, build, and auto-verify. Your next prompt is the manual walk |
-| Fast | Small addition to what exists | Patch PRD + stub delta + new increment, same spine |
-| Bugfix | Behavior today is wrong | Same as Fast (reconcile docs, new increment, spine) |
+| Feature | Product does not do this today | Questions until none remain, then new PRD + stubs + increment `001`, then design if needed, then the agents plan, build, and auto-verify. Your next prompt is the manual walk |
+| Fast | Small addition to what exists | Questions when a rule would change, then patch PRD + stub delta + new increment, same spine |
+| Bugfix | Behavior today is wrong | Questions only when the rule changes, then reconcile docs, new increment, spine |
 | Open | Research, review, investigation, design explore | No PRD until you pick Let's formalize |
 
 First time in a repo, init runs by itself. Findings land in `.hele/findings.json` while you talk (durable lessons → `LEARNINGS.md`). QA writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. Shots wait until the page is still, and at most 10 stay in the increment. Verify replays those same steps. Every file path in chat is the full working-directory path. A PRD change prints the new rules and, for a rewrite, the old sentence next to the new one.

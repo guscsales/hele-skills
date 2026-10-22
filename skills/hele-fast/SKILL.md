@@ -2,7 +2,8 @@
 name: hele-fast
 description: >-
   Update lane for /hele-yolo: Fast (small addition) or Bugfix (behavior today
-  is wrong). Finds the PRD, patches it when needed, writes the stub delta,
+  is wrong). Asks first when a rule would change, then finds the PRD,
+  patches it, writes the stub delta,
   opens a new increment, then runs the same spine: the agents plan, build,
   and auto-verify with no plan sign-off, then the human does the manual walk.
   Schema and security stay in the lane with Red John / Jane gates. Invoked by
@@ -30,14 +31,15 @@ Fast and Bugfix are proportional process, not skipped process. They patch the li
 </phase>
 
 <phase name="2-reconcile-prd-and-stubs">
-1. **Behavior change / fast:** Hightower patches `PRODUCT_DESCRIPTION.md` (state-not-history, bump patch, changelog). **Bugfix that does not change the rule text:** leave the PRD as it is and still open the increment. The delta's **Already the rule** bucket names the rule the code broke.
-2. Create `features/<slug>/increments/NNN-<kind>-<slug>/` (NNN = next; kind = `fast` or `bugfix`). Set `state.json` (`activeFeature`, `activeIncrement`, `phase: "defining"`).
-3. Dispatch background Wylie (`hele-stubs` contract) for the stub delta / rewrite against the PRD version. No VERIFY.md here.
-4. Emit the PRD + stubs stop: Report frame, **PRD delta** (New / Rewritten / Already the rule, was · now on rewrites, absolute path per PRD), Stubs in full, Files (full PWD), Open these, Options. Option `1` matches hele-feature:
+1. **Product questions first.** If the change would add or rewrite a rule, and the PRD plus the human's words do not already answer it, ask (Question table, AskUserQuestion, max 4). A recommendation is an option in the question ("I would do X — confirm?"), never a rule written ahead of the answer. **End the turn.** Do not patch, do not open the increment, do not dispatch Wylie, do not print a PRD delta, Files, or Open these. When this message answers the last question, run the rest of this phase now. Do not invent a question when the words already decide the rule. If the human cannot answer yet, name the missing answer and wait — there is no Open questions section to park it. **Bugfix that does not change the rule text:** nothing to ask. Leave the PRD and continue.
+2. **Behavior change / fast:** Hightower patches `PRODUCT_DESCRIPTION.md` (state-not-history, bump patch, changelog). **Bugfix that does not change the rule text:** leave the PRD as it is and still open the increment. The delta's **Already the rule** bucket names the rule the code broke.
+3. Create `features/<slug>/increments/NNN-<kind>-<slug>/` (NNN = next; kind = `fast` or `bugfix`). Set `state.json` (`activeFeature`, `activeIncrement`, `phase: "defining"`).
+4. Dispatch background Wylie (`hele-stubs` contract) for the stub delta / rewrite against the PRD version. No VERIFY.md here.
+5. Emit the PRD + stubs stop: Report frame, **PRD delta** (New / Rewritten / Already the rule, was · now on rewrites, absolute path per PRD), Stubs in full, Files (full PWD), Open these, Options. Option `1` matches hele-feature:
    - new screens and design enabled → `✅ Approve → design the screens`
    - otherwise → `✅ Approve → build and auto-verify (design not needed). Your next prompt is the manual walk`
    - `2` ✏️ Tell me what you need
-5. On `1`: mark PRD approved if it was draft, then read and run `hele-design` or `hele-plan` in this same turn. `hele-plan` writes the plan for the agents and starts the build. Do not stop to approve the plan.
+6. On `1`: mark PRD approved if it was draft, then read and run `hele-design` or `hele-plan` in this same turn. `hele-plan` writes the plan for the agents and starts the build. Do not stop to approve the plan. A product question still unanswered means step 1 is not finished: do not approve, do not patch, say which answer is missing.
 </phase>
 
 <phase name="3-spine">

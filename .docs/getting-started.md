@@ -42,8 +42,8 @@ After you approve the PRD (and the design, when there are new screens), the agen
 
 **Lanes**
 
-- **Feature** — product does not do this today → new PRD + stubs (same stop) + increment `001` → design if needed → agents plan, build, and auto-verify → you replay the QA steps.
-- **Fast / Bugfix** — small addition or wrong behavior → patch PRD + stub delta + new increment → same spine. Schema and security stay in the lane with their gates.
+- **Feature** — product does not do this today → questions until none remain (that round writes nothing), then new PRD + stubs (same stop) + increment `001` → design if needed → agents plan, build, and auto-verify → you replay the QA steps.
+- **Fast / Bugfix** — small addition or wrong behavior → the same question gate when a rule would change, then patch PRD + stub delta + new increment → same spine. A bugfix that leaves the rule text alone does not stop to ask. Schema and security stay in the lane with their gates.
 - **Open** — research, PR review, investigation, design explore → no PRD until you pick **Let's formalize**.
 
 Paths in chat are always the full working-directory path. A PRD change always prints what is **New** vs **Added**, grouped by PRD.

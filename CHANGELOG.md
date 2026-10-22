@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.17.0 — 2026-10-22
+
+- feat: a PRD is written only after every product question is answered. The question round writes nothing — a recommendation is an option in the question, not a rule already in the file. Fast, bugfix, and iterate use the same gate when a rule would change. A bugfix that leaves the rule text alone does not stop to ask.
+
 ## v0.16.0 — 2026-10-21
 
 - feat: a PRD patch prints the new rules and, when a rule was rewritten, the old sentence next to the new one. A bugfix that leaves the doc alone names the rule the code already broke. The stop ends with the files to open and the ids that moved.
