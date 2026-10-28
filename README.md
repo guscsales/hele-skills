@@ -1,6 +1,6 @@
 ![hele — agents with memory](assets/banner.svg)
 
-A feature-delivery harness for Claude Code. One command: `/hele`. It picks the lane and runs the rest.
+A feature-delivery harness for agents like Claude Code, Cursor and others. One command: `/hele`. It picks the lane and runs the rest.
 
 📚 **[Full documentation](.docs/README.md)** with introduction, getting started, skills and CLI references · [Changelog](CHANGELOG.md)
 

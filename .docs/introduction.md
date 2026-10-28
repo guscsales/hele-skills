@@ -1,6 +1,8 @@
 # Introduction
 
-hele-skills is a feature-delivery harness for Claude Code. One command: `/hele`. It picks the lane and runs the rest.
+![hele — agents with memory](../assets/banner.svg)
+
+hele-skills is a feature-delivery harness for agents like Claude Code, Cursor and others. One command: `/hele`. It picks the lane and runs the rest.
 
 **Core belief:** agents have no memory, so we build it for them. Every feature leaves behind documents that explain WHAT it is and WHY it exists, HOW it was built, and HOW to validate it. Future sessions read those documents instead of guessing.
 
@@ -87,7 +89,7 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on 
 
 ## Dedication
 
-The name honors my wife Helena, I dedicate this project to her.
+The name honors my wife Helena, I dedicate this project to her. Thank you for being by my side every day of my life and for believing in me even in the times when I didn’t believe in myself, with love, Gus.
 
 ## What you'll find here
 
