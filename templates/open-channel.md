@@ -24,7 +24,7 @@ A dispatch turn has exactly four steps, then you **STOP**:
 2. Spawn the sub-agent in the **background** — never foreground, never blocking. `/hele-fast` follow-ups on the same increment **resume** the same worker id instead of spawning a copy (Cursor Task `resume`; Claude Code continue that agent). Interrupt if the human changed the ask while it is still running.
    - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug. You already failed the open channel.
    - **Claude Code:** Agent tool, async / do not block this turn.
-3. Emit the Dispatch table. One prose line: you are here, they can talk.
+3. Emit the Dispatch table. One prose line after it, in the human's language: the thread stays open while the agents work. That line is a status, not an invitation. Never "I'm here", "you can talk", "Estou aqui", or "Pode falar".
 4. **END THE TURN.** Do not wait for the worker. You will be notified when it finishes.
 
 Forbidden after a spawn: waiting, polling, Await, "check if Lisbon finished", starting the next phase in this same turn, exploring "while you wait".
