@@ -4,7 +4,8 @@ description: >-
   Guided human verification. Agent Wylie walks one flow at a time using
   three tables copied from the increment's QA_REPORT: how to open the page,
   the data the run used, and the steps. The human marks each flow. Close
-  options are Work done, adjust this increment, or draft a PR.
+  The close is the Options table in templates/chat-reports.md:
+  number, emoji, words. Not a Work done / iterate / draft PR table.
 ---
 
 # hele-verify-work
@@ -34,7 +35,7 @@ Present **one** flow, then stop. The message is the tables from `templates/chat-
 3. **Steps** — one row per step: what to do, what they should see.
 4. **Proof** — a clickable link to the screenshot of what pass looked like, and the image itself.
 
-Then Options for this flow only:
+Then the Options table from `templates/chat-reports.md` "Manual verify — one flow", and nothing after it. No line that starts with `Options:`.
 
 | Actions | Your call |
 |---|---|
@@ -52,23 +53,33 @@ Do not fix the product during the walk. A later resume starts at the first flow 
 </phase>
 
 <phase name="3-report">
-When the flows are done, emit a VERIFY RUN as chat text. Files are clickable links. Never box-drawing. Never a code fence.
+When the flows are done, copy the **Verify close** block from `templates/chat-reports.md`. That block is the whole message: report frame, counts, the VERIFY.md link, then the Options table. Wait for the number.
 
-**All verified** — wait for the number:
+Forbidden, even if it feels familiar:
+
+- a heading `VERIFY RUN <slug> all-verified`
+- a table whose first column is `Work done`, `iterate`, or `draft PR`
+- a line `Options: 1 Work done 2 iterate 3 draft PR`
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Work done — close the increment |
-| 2 | ✏️ Back to the PRD — update it and run the flow again |
-| 3 | 🚀 Open a draft PR |
-| 4 | 📝 Let's formalize — only when a PRD is still missing |
+| 1 | 🚀 Work done — close and open a ready PR |
+| 2 | 📝 Work done — close and open a draft PR |
+| 3 | ✅ Work done — close, no PR |
+| 4 | ✏️ Back to the PRD — tell me what's wrong, or what to iterate |
 
-On `1`: the increment is closed. Plan `status: built` if it is not already. Beads epic closed. `index.json` keeps slug, summary, aliases, and doc versions. Do not write a feature status. Do not write `state.json`. Emit **INCREMENT CLOSED**.
-On `2`: read `${CLAUDE_PLUGIN_ROOT}/skills/hele/SKILL.md` and run its adjust phase on this same increment.
-On `3`: draft PR only. Title with no conventional-commit prefix. Body from the repo's PR template. Watch CI. Report the CI state.
-On `4`: only if no PRD exists. Run hele-feature.
+On `1`, `2`, or `3`: the increment is closed. Plan `status: built` if it is not already. Beads epic closed. `index.json` keeps slug, summary, aliases, and doc versions. Do not write a feature status. Do not write `state.json`. Emit **INCREMENT CLOSED**.
+On `1`: then push the branch and open a PR ready for review. `gh pr create` with no `--draft`. Title with no conventional-commit prefix. Body from the repo's PR template. Watch CI. Report the PR link and the CI state.
+On `2`: same close, then push and open a draft. `gh pr create --draft`. Same title and body rules. Report the link.
+On `3`: close and stop. Do not push. Do not open a PR.
+On `4`: if they only picked `4`, ask what is wrong or what they want to iterate. Question table, write nothing, end the turn. If their words already say the change, read `${CLAUDE_PLUGIN_ROOT}/skills/hele/SKILL.md` and run its adjust phase on this same increment. Free text that describes a fix is this option, not option 2.
 
-**Issues still open** — Options: `1` adjust this increment; `2` tell me what you need. Do not adjust unless they pick it.
+**Issues still open** — the same report frame, then the issues table from chat-reports.md. Do not rewind unless they pick `1`.
+
+| Actions | Your call |
+|---|---|
+| 1 | ✏️ Back to the PRD — update it and run the flow again |
+| 2 | ✏️ Tell me what you need |
 </phase>
 
 <rules>

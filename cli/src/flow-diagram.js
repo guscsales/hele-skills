@@ -59,7 +59,8 @@ export const FLOW_DIAGRAM = `
     │
     ▼
  ╭─ close ────────────────────────────────────────────╮
- │ Work done · adjust this increment · draft PR       │
+ │ 1 ready PR · 2 draft PR · 3 close, no PR           │
+ │ 4 back to the PRD                                  │
  ╰────────────────────────────────────────────────────╯
 
  ╭─ always ───────────────────────────────────────────╮

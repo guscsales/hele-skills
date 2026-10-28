@@ -3412,7 +3412,8 @@ var FLOW_DIAGRAM = `
     \u2502
     \u25BC
  \u256D\u2500 close \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
- \u2502 Work done \xB7 adjust this increment \xB7 draft PR       \u2502
+ \u2502 1 ready PR \xB7 2 draft PR \xB7 3 close, no PR           \u2502
+ \u2502 4 back to the PRD                                  \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
 
  \u256D\u2500 always \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
@@ -3528,8 +3529,8 @@ A red run also offers to approve the failing tests.`
     detail: `One flow at a time. The chat is the QA report's Open, Data,
 and Steps tables, plus the screenshot of what pass looked like. A fix
 described on a flow goes back to the PRD, then the flow runs again.
-Flows already marked pass are not shown again. Close options: Work
-done, adjust this increment, draft PR.`
+Flows already marked pass are not shown again. Close: 1 ready
+PR, 2 draft PR, 3 close with no PR, 4 back to the PRD.`
   },
   {
     name: "fast",

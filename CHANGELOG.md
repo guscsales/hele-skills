@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.0.1 — 2026-10-28
+
+- fix: every stop ends with the Options table from `templates/chat-reports.md` — a number, an emoji, and the words. A `Work done` / `iterate` / `draft PR` table, and a line `Options: 1 …`, are not a menu.
+- feat: when manual verify is done, option 1 closes and opens a ready PR, option 2 closes and opens a draft PR, option 3 closes with no PR, and option 4 goes back to the PRD.
+
 ## v1.0.0 — 2026-10-28
 
 - feat: the entry point is `/hele`. Agent Lisbon is the Builder (PM and staff). Agent Hightower is the DBA.
