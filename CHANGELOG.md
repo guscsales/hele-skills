@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.17.2 — 2026-10-28
+
+- fix: `hele install` initializes the beads database and leaves `AGENTS.md`, `CLAUDE.md`, and the Claude/Codex integration files alone. `/hele-init` only runs that command.
+
 ## v0.17.1 — 2026-10-22
 
 - docs: the README leads with the four lanes and the agent team, including the Claude Code and Cursor model defaults.

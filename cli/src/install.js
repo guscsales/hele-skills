@@ -11,16 +11,21 @@ function bdVersion() {
 export function installCommand(opts) {
   printBanner();
 
-  const existing = bdVersion();
-  if (existing) {
-    console.log(`✅ beads already installed: ${existing}`);
-    return;
-  }
-  if (opts.check) {
+  let version = bdVersion();
+  if (version) {
+    console.log(`✅ beads already installed: ${version}`);
+  } else if (opts.check) {
     console.log('⚠️  beads (bd) not installed — run: hele install');
     process.exit(1);
+  } else {
+    installBdBinary();
   }
 
+  if (opts.check) return;
+  initBeadsProject();
+}
+
+function installBdBinary() {
   console.log('📦 installing beads (bd)...');
   try {
     if (has('brew')) {
@@ -35,12 +40,22 @@ export function installCommand(opts) {
     // fall through to the final check — the installer's own output explains the failure
   }
 
-  const installed = bdVersion();
-  if (installed) {
-    console.log(`✅ beads installed: ${installed}`);
-    console.log("▶ NEXT: run /hele-init in your project (it runs 'bd init --quiet' for you)");
-  } else {
-    console.log('❌ install failed — see https://beads.gascity.com/');
+  const version = bdVersion();
+  if (!version) {
+    console.log('❌ install failed');
     process.exit(1);
   }
+  console.log(`✅ beads installed: ${version}`);
+  console.log('▶ NEXT: run /hele-init in your project');
+}
+
+function initBeadsProject() {
+  const res = spawnSync('bd', ['init', '--quiet', '--skip-agents', '--init-if-missing'], {
+    stdio: 'inherit',
+  });
+  if (res.status !== 0) {
+    console.log('❌ beads init failed');
+    process.exit(res.status || 1);
+  }
+  console.log('✅ beads database ready');
 }

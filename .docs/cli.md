@@ -62,11 +62,11 @@ Defaults for a new project:
 
 ## hele install
 
-Installs [beads](https://beads.gascity.com/) (`bd`), the issue tracker the harness runs on.
+Installs [beads](https://beads.gascity.com/) (`bd`) when the binary is missing, then initializes the project database in the current directory. Agent instruction files (`AGENTS.md`, `CLAUDE.md`, Claude/Codex integration) are left alone. `/hele-init` runs this command and does not call `bd` itself.
 
 ```bash
-hele install            # via Homebrew when available, official script otherwise
-hele install --check    # just report whether bd is present
+hele install            # binary if needed, then the project database
+hele install --check    # just report whether bd is present (no init)
 ```
 
 ## hele ai

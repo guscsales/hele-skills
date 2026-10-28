@@ -228,7 +228,7 @@ hele ai [skill]          understand the AI workflow — skills, agents, artifact
 hele find <query...>     search the feature index (agents MUST use this, never ad-hoc grep)
 hele find --list         list all registered features
 hele config get|set|add  read/write .hele/settings.json by dot path
-hele install [--check]   install the beads CLI (brew or official script)
+hele install [--check]   install bd if needed, then init the project database
 hele --help              banner + full listing
 ```
 
