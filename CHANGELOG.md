@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.17.3 — 2026-10-28
+
+- fix: after a dispatch, the one line says the thread stays open while the agents work. "I'm here" / "Estou aqui. Pode falar." is no longer the closer. Re-run `/hele-init` to refresh the session rule.
+
 ## v0.17.2 — 2026-10-28
 
 - fix: `hele install` initializes the beads database and leaves `AGENTS.md`, `CLAUDE.md`, and the Claude/Codex integration files alone. `/hele-init` only runs that command.
