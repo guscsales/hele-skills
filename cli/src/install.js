@@ -38,9 +38,9 @@ export function installCommand(opts) {
   const installed = bdVersion();
   if (installed) {
     console.log(`✅ beads installed: ${installed}`);
-    console.log("▶ NEXT: run /hele-init in your project (it runs 'bd init --quiet --skip-agents' for you)");
+    console.log('▶ NEXT: run /hele-init in your project');
   } else {
-    console.log('❌ install failed — see https://beads.gascity.com/');
+    console.log('❌ install failed');
     process.exit(1);
   }
 }
