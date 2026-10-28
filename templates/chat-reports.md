@@ -15,7 +15,7 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 | Design | Report frame · Field/Value · Files (full PWD) · Options |
 | Plan | Staff note · Files (full PWD) · no Options — start build (draft DB_CHANGES → Red John's Options instead) |
 | Build green | short PM report · no Options — start auto-verify |
-| Dispatch | Dispatch table · one line "I'm here" · end the turn |
+| Dispatch | Dispatch table · one line: the thread stays open while the agents work · end the turn |
 | QA green | Report frame · Test results with screenshots · Shots (kept / chat) · Files (full PWD) · Open these · no Options — start the manual walk |
 | QA red | Report frame · Test results with screenshots · Shots (kept / chat) · Files (full PWD) · Open these · Options |
 | Verify — each flow | Report frame · Setup · steps from QA_REPORT · screenshot path · Options |
@@ -218,7 +218,7 @@ When the human typed `/hele-init` alone:
 
 ## Dispatch announcement (when spawning an agent)
 
-Emit this, say you are here, **end the turn**. Do not wait for the agent.
+Emit this, then one line in the human's language: the thread stays open while the agents work. Never "I'm here", "you can talk", "Estou aqui", or "Pode falar". **End the turn.** Do not wait for the agent.
 
 ```
 | Dispatch | Agent | Model | Work |
