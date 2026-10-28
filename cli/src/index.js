@@ -35,7 +35,7 @@ program
 
 program
   .command('install')
-  .description('install the beads CLI (bd) via brew or the official script')
+  .description('install the beads CLI (bd) if needed, then init the project database')
   .option('--check', 'only report whether bd is installed')
   .action((opts) => installCommand(opts));
 

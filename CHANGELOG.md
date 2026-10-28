@@ -4,7 +4,7 @@ Every released version, newest first. Each entry lists the commits that shipped 
 
 ## v0.17.2 — 2026-10-28
 
-- fix: `/hele-init` runs `bd init --quiet --skip-agents`, so beads creates the database and leaves `AGENTS.md`, `CLAUDE.md`, and the Claude/Codex integration files alone.
+- fix: `hele install` initializes the beads database and leaves `AGENTS.md`, `CLAUDE.md`, and the Claude/Codex integration files alone. `/hele-init` only runs that command.
 
 ## v0.17.1 — 2026-10-22
 

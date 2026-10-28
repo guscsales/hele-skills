@@ -3318,15 +3318,19 @@ function bdVersion() {
 }
 function installCommand(opts) {
   printBanner();
-  const existing = bdVersion();
-  if (existing) {
-    console.log(`\u2705 beads already installed: ${existing}`);
-    return;
-  }
-  if (opts.check) {
+  let version = bdVersion();
+  if (version) {
+    console.log(`\u2705 beads already installed: ${version}`);
+  } else if (opts.check) {
     console.log("\u26A0\uFE0F  beads (bd) not installed \u2014 run: hele install");
     process.exit(1);
+  } else {
+    installBdBinary();
   }
+  if (opts.check) return;
+  initBeadsProject();
+}
+function installBdBinary() {
   console.log("\u{1F4E6} installing beads (bd)...");
   try {
     if (has("brew")) {
@@ -3339,14 +3343,23 @@ function installCommand(opts) {
     }
   } catch {
   }
-  const installed = bdVersion();
-  if (installed) {
-    console.log(`\u2705 beads installed: ${installed}`);
-    console.log("\u25B6 NEXT: run /hele-init in your project");
-  } else {
+  const version = bdVersion();
+  if (!version) {
     console.log("\u274C install failed");
     process.exit(1);
   }
+  console.log(`\u2705 beads installed: ${version}`);
+  console.log("\u25B6 NEXT: run /hele-init in your project");
+}
+function initBeadsProject() {
+  const res = (0, import_node_child_process.spawnSync)("bd", ["init", "--quiet", "--skip-agents", "--init-if-missing"], {
+    stdio: "inherit"
+  });
+  if (res.status !== 0) {
+    console.log("\u274C beads init failed");
+    process.exit(res.status || 1);
+  }
+  console.log("\u2705 beads database ready");
 }
 
 // src/flow-diagram.js
@@ -3443,9 +3456,9 @@ are always the full PWD. Type it once \u2014 follow-ups stay sticky.`
     detail: `Bootstraps the harness: creates .hele/ (settings.json, index.json,
 state.json, LEARNINGS.md, findings.json, features/), installs the sticky
 session rule so /hele-yolo stays in force for follow-ups, asks how design
-works, and makes sure beads (bd) is installed. Init runs
-bd init --quiet --skip-agents, so AGENTS.md and CLAUDE.md stay
-untouched. Idempotent. When
+works, and runs hele install for beads. That command creates the
+project database and leaves AGENTS.md and CLAUDE.md untouched.
+Idempotent. When
 /hele-yolo finds no .hele/, it runs this automatically and continues the
 ask \u2014 you do not type /hele-init first.`
   },
@@ -3629,6 +3642,6 @@ program2.name("hele").description("hele \u2014 feature-delivery harness CLI").ve
 );
 program2.command("find").description("search the feature index (anti-duplicate gate; agents MUST use this, never ad-hoc grep)").argument("[query...]", "search terms").option("--list", "list all registered features").option("--json", "machine-readable output").action((query, opts) => findCommand(query, opts));
 program2.command("config").description("read/write .hele/settings.json by dot path").argument("<action>", "get | set | add | list").argument("[path]", "dot path, e.g. agents.maxParallel").argument("[value]", "value (JSON parsed when possible)").action((action, dotPath, value) => configCommand(action, dotPath, value));
-program2.command("install").description("install the beads CLI (bd) via brew or the official script").option("--check", "only report whether bd is installed").action((opts) => installCommand(opts));
+program2.command("install").description("install the beads CLI (bd) if needed, then init the project database").option("--check", "only report whether bd is installed").action((opts) => installCommand(opts));
 program2.command("ai").description("understand the AI workflow \u2014 skills, agents, and what each phase produces").argument("[skill]", "skill name for details (e.g. plan, feature, qa)").action((skill) => aiCommand(skill));
 program2.parse();

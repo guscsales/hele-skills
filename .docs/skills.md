@@ -25,7 +25,7 @@ The conductor. Agent Lisbon talks; specialists work in the background.
 
 ## /hele-init
 
-Bootstraps `.hele/` (settings, index, state, LEARNINGS, **findings.json**, features/), sticky session rule, beads (`bd init --quiet --skip-agents` — the database only; `AGENTS.md` and `CLAUDE.md` stay untouched). Idempotent. When started by yolo, continues the ask after the report. No skill menu.
+Bootstraps `.hele/` (settings, index, state, LEARNINGS, **findings.json**, features/), sticky session rule, and beads by running `hele install` (the database only; `AGENTS.md` and `CLAUDE.md` stay untouched). Idempotent. When started by yolo, continues the ask after the report. No skill menu.
 
 ## /hele-feature
 

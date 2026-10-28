@@ -28,9 +28,9 @@ are always the full PWD. Type it once — follow-ups stay sticky.`,
     detail: `Bootstraps the harness: creates .hele/ (settings.json, index.json,
 state.json, LEARNINGS.md, findings.json, features/), installs the sticky
 session rule so /hele-yolo stays in force for follow-ups, asks how design
-works, and makes sure beads (bd) is installed. Init runs
-bd init --quiet --skip-agents, so AGENTS.md and CLAUDE.md stay
-untouched. Idempotent. When
+works, and runs hele install for beads. That command creates the
+project database and leaves AGENTS.md and CLAUDE.md untouched.
+Idempotent. When
 /hele-yolo finds no .hele/, it runs this automatically and continues the
 ask — you do not type /hele-init first.`,
   },

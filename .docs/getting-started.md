@@ -15,7 +15,7 @@ claude plugin install hele-skills@hele -s project   # this repo, shared with the
 
 You can type `/hele-init` once, or skip it: the first `/hele-yolo` in a repo that has no `.hele/` runs init by itself (folder name, design question, beads), then continues your ask.
 
-Init creates the harness folder (`.hele/` by default), `findings.json`, installs the sticky session rule so `/hele-yolo` stays in force for follow-ups, and makes sure [beads](https://beads.gascity.com/) (`bd`) is installed. The beads database is created with `bd init --quiet --skip-agents`, so `AGENTS.md` and `CLAUDE.md` stay untouched. Idempotent. It never overwrites an existing file.
+Init creates the harness folder (`.hele/` by default), `findings.json`, installs the sticky session rule so `/hele-yolo` stays in force for follow-ups, and runs `hele install` for [beads](https://beads.gascity.com/) (`bd`). That command creates the project database and leaves `AGENTS.md` and `CLAUDE.md` untouched. Idempotent. It never overwrites an existing file.
 
 ## Ship with one command
 

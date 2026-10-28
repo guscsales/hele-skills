@@ -5,8 +5,8 @@ description: >-
   directory (settings.json, index.json, state.json, LEARNINGS.md,
   findings.json, features/), installs the sticky-lane session rule so
   /hele-yolo stays in force for follow-up prompts and "build until pass"
-  phrases dispatch [AGENT] Summer, interviews the human about design system
-  and beads, initializes the beads database, and reports readiness.
+  phrases dispatch [AGENT] Summer, interviews the human about the design
+  system, runs hele install to set up beads, and reports readiness.
   Use when the user invokes /hele-init, says "set up hele", "initialize
   hele", or when /hele-yolo (or any hele skill) runs in a project that has
   no .hele directory yet — yolo auto-runs this before lane detection.
@@ -65,9 +65,7 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
    line, never delete — supersede with a new entry referencing the old one.
    ```
 3. `findings.json`: `[]` — append-only session findings (`F-nnn`) written during `/hele-yolo`.
-4. Beads is mandatory. Check with `${CLAUDE_PLUGIN_ROOT}/scripts/hele install --check`:
-   - Present → run `bd init --quiet --skip-agents` at the project root if no beads database exists yet. `--skip-agents` creates the `.beads/` database and does not create or rewrite `AGENTS.md`, `CLAUDE.md`, or the Claude/Codex integration files. The project keeps its own agent instructions.
-   - Missing → offer to install now (AskUserQuestion): run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` on yes; on no, give the command (`hele install`, or `brew install beads`) and mark the report `⚠️ beads missing — plan and build are blocked until installed`.
+4. Beads is mandatory. Run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` at the project root. That command installs `bd` when it is missing and initializes the project database. Do not run `bd` yourself. If the command fails, mark the report `⚠️ beads missing — plan and build are blocked until installed`.
 5. Design setting from the interview, written into `settings.designSystem` (same as before). Missing `enabled` on an old settings file means `true`.
 6. Session rule — sticky yolo + open channel. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into `.claude/rules/hele-session.md` (create parent dirs). **Always rewrite** that file. Claude Code only: do **not** create `.cursor/` or write a Cursor session rule.
 </phase>
