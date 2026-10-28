@@ -3342,7 +3342,7 @@ function installCommand(opts) {
   const installed = bdVersion();
   if (installed) {
     console.log(`\u2705 beads installed: ${installed}`);
-    console.log("\u25B6 NEXT: run /hele-init in your project (it runs 'bd init --quiet' for you)");
+    console.log("\u25B6 NEXT: run /hele-init in your project (it runs 'bd init --quiet --skip-agents' for you)");
   } else {
     console.log("\u274C install failed \u2014 see https://beads.gascity.com/");
     process.exit(1);
@@ -3443,7 +3443,9 @@ are always the full PWD. Type it once \u2014 follow-ups stay sticky.`
     detail: `Bootstraps the harness: creates .hele/ (settings.json, index.json,
 state.json, LEARNINGS.md, findings.json, features/), installs the sticky
 session rule so /hele-yolo stays in force for follow-ups, asks how design
-works, and makes sure beads (bd) is installed. Idempotent. When
+works, and makes sure beads (bd) is installed. Init runs
+bd init --quiet --skip-agents, so AGENTS.md and CLAUDE.md stay
+untouched. Idempotent. When
 /hele-yolo finds no .hele/, it runs this automatically and continues the
 ask \u2014 you do not type /hele-init first.`
   },

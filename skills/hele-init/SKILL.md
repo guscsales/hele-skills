@@ -66,7 +66,7 @@ Do NOT ask about task tracking — beads is the harness standard, not a choice. 
    ```
 3. `findings.json`: `[]` — append-only session findings (`F-nnn`) written during `/hele-yolo`.
 4. Beads is mandatory. Check with `${CLAUDE_PLUGIN_ROOT}/scripts/hele install --check`:
-   - Present → run `bd init --quiet` at the project root if no beads database exists yet.
+   - Present → run `bd init --quiet --skip-agents` at the project root if no beads database exists yet. `--skip-agents` creates the `.beads/` database and does not create or rewrite `AGENTS.md`, `CLAUDE.md`, or the Claude/Codex integration files. The project keeps its own agent instructions.
    - Missing → offer to install now (AskUserQuestion): run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` on yes; on no, give the command (`hele install`, or `brew install beads`) and mark the report `⚠️ beads missing — plan and build are blocked until installed`.
 5. Design setting from the interview, written into `settings.designSystem` (same as before). Missing `enabled` on an old settings file means `true`.
 6. Session rule — sticky yolo + open channel. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into `.claude/rules/hele-session.md` (create parent dirs). **Always rewrite** that file. Claude Code only: do **not** create `.cursor/` or write a Cursor session rule.
