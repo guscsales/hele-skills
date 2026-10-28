@@ -61,7 +61,7 @@ Agent Wylie. Playwright for this increment's stubs. Screenshots wait until the p
 
 ## /hele-verify-work
 
-One flow at a time. The message is those three tables, copied from the QA report, plus the screenshot of what pass looked like. A flow already marked pass is not shown again. A fix described on a flow goes back to the PRD, then the flow runs again. Close options: Work done · adjust this increment · draft PR.
+One flow at a time. The message is those three tables, copied from the QA report, plus the screenshot of what pass looked like. A flow already marked pass is not shown again. A fix described on a flow goes back to the PRD, then the flow runs again. The close is the Options table from `templates/chat-reports.md`: 1 close and open a ready PR, 2 close and open a draft PR, 3 close with no PR, 4 back to the PRD.
 
 ## Output rules
 

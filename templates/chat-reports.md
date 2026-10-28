@@ -18,7 +18,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 | Dispatch | Dispatch table · one line that the thread stays open · end the turn |
 | QA report | Report frame · Test results · Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
 | Verify — each flow | Open table · Data table · Steps table · screenshot link · Options |
-| Verify — close | Flow/Verdict · Files (links) · Options (Work done / back to the PRD / draft PR) |
+| Verify — close | Report frame · counts · Files (links) · the Options table below, and nothing after it |
 | Open lane | Report frame · relay · Files if any (links) · Options (Work done / Let's formalize / keep going) |
 
 <rules>
@@ -32,7 +32,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
   `[PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)`
 
 - **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above: `> 📌 **Was / now for each rule is in the delta above.**`
-- **Every interactive stop ends with the Options table.** One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need. Free text stays in the current phase.
+- **Every interactive stop ends with the Options table, and that table is the only menu.** Columns are `Actions` and `Your call`. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2. Free text stays in the current phase. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
 - **Open channel.** After a Dispatch table, end the turn. The one line says the thread stays open while the agents work. "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
 - **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug.
 - File artifacts are plain markdown. No emoji inside `.hele/` files.
@@ -199,20 +199,45 @@ The EXECUTION_PLAN is not a sign-off. After the PRD (and design, when that stop 
 
 ### Verify close (after all flows)
 
+Copy this block. The Options table is the menu. Do not add a heading line `VERIFY RUN … all-verified`. Do not add a table of `Work done` / `iterate` / `draft PR`. Do not add a line `Options: 1 Work done 2 iterate 3 draft PR`.
+
+```
+| Report | Scope |
+|---|---|
+| 🧪 VERIFY RUN | <feature> · increment <NNN> |
+
+| Verified | Issues | Skipped |
+|---|---|---|
+| 2 | 0 | 0 |
+
+| File | Change |
+|---|---|
+| [VERIFY.md](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/VERIFY.md) | done |
+
+| Actions | Your call |
+|---|---|
+| 1 | 🚀 Work done — close and open a ready PR |
+| 2 | 📝 Work done — close and open a draft PR |
+| 3 | ✅ Work done — close, no PR |
+| 4 | ✏️ Back to the PRD — tell me what's wrong, or what to iterate |
+```
+
+A ready PR is ready for review. A draft PR is a draft. Free text that describes a fix is option 4, not option 2. If they only pick `4`, ask what is wrong before writing anything.
+
+**Issues still open** — same report frame, then this menu. Do not rewind unless they pick `1`.
+
 ```
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Work done — close the increment |
-| 2 | ✏️ Back to the PRD — update it and run the flow again |
-| 3 | 🚀 Open a draft PR |
-| 4 | 📝 Let's formalize — only when a PRD is still missing |
+| 1 | ✏️ Back to the PRD — update it and run the flow again |
+| 2 | ✏️ Tell me what you need |
 ```
 
 **On `1`:** do the work named in that row in this same turn. Mark a PRD, design spec, or DB_CHANGES approved only when the human picks `1` on that document. The execution plan is set `ready` without waiting for a `1`.
 
 **On `2` / free text of a document stop:** stay here. Do not silently advance.
 
-**Verify close option 2, or a fix described on the flow in front of them:** rewind to the PRD on this increment and run the flow again. Do not walk a flow they already marked pass, unless this fix changed it.
+**Verify close option 4, or a fix described on the flow in front of them:** rewind to the PRD on this increment and run the flow again. Do not walk a flow they already marked pass, unless this fix changed it. Options 1 and 2 close first, then open the PR. Option 3 closes and stops.
 
 ## Manual verify — one flow
 

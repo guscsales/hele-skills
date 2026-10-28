@@ -83,7 +83,7 @@ Feature / Fast / Bugfix share this spine. Read the skill file and follow it. A s
    - **DB schema** — if DB_CHANGES is draft, that approval is a stop. Option `1` approves the schema and starts build.
    - **Build** — engineers on beads. When the suite is green, start QA in the same turn.
    - **Auto-verify** — Wylie, Playwright. Shots wait until the page is still. At most 10 stay in the increment. `QA_REPORT.md` opens with the screen before and after. The report is a stop. Option `1` continues to the manual walk. Option `2` fixes something they saw in the report (adjust: back to the PRD). A red run adds a row to approve the failing tests (`hele-build --from-qa`), then auto-verify again.
-4. **Manual verify** — only after they pick continue on the QA report. Wylie prints, for one flow at a time, the Open, Data, and Steps tables copied from the QA report. He does not print a flow the human already marked pass on this increment, unless this rewind changed that flow. Close Options: Work done / adjust this increment / draft PR.
+4. **Manual verify** — only after they pick continue on the QA report. Wylie prints, for one flow at a time, the Open, Data, and Steps tables copied from the QA report. He does not print a flow the human already marked pass on this increment, unless this rewind changed that flow. The close is the Verify close block in `templates/chat-reports.md`. `1` closes and opens a ready PR. `2` closes and opens a draft PR. `3` closes with no PR. `4` goes back to the PRD. Not a Work done / iterate / draft PR table, and not a line `Options: 1 …`.
 </phase>
 
 <phase name="adjust">
@@ -104,7 +104,7 @@ Say it in one line before any question: going back to the PRD, then the flow run
 Open lane only.
 
 1. Dispatch the specialist that fits. Announce. END THE TURN.
-2. On report-in, relay. Options: `1` Work done. `2` Let's formalize — run hele-feature, then the spine. `3` Tell me what you need.
+2. On report-in, relay. End with the Open-lane Options table from `templates/chat-reports.md`. `1` Work done. `2` Let's formalize — run hele-feature, then the spine. `3` Tell me what you need. Nothing after the table.
 3. No product code from Cho or Van Pelt. Vega may spec. She does not implement.
 </phase>
 

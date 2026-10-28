@@ -89,7 +89,7 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 | 4 | ✏️ Decide the contract-questions first |
 ```
 
-**Verify run** (`/hele-verify-work`) — after the flows. Option 1 closes the increment. Option 2 goes back to the PRD and the flow runs again. Option 3 opens a draft PR. Flows already marked pass are not part of this run.
+**Verify run** (`/hele-verify-work`) — copy the Verify close block from `templates/chat-reports.md`. Option 1 closes and opens a ready PR. Option 2 closes and opens a draft PR. Option 3 closes with no PR. Option 4 goes back to the PRD. The menu is the Options table (number, emoji, words). Do not print a `Work done` / `iterate` / `draft PR` table, and do not print a line `Options: 1 …`. Flows already marked pass are not part of this run.
 
 ```
 | Report | Scope |
@@ -106,9 +106,10 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Work done — close the increment |
-| 2 | ✏️ Back to the PRD — update it and run the flow again |
-| 3 | 🚀 Open a draft PR |
+| 1 | 🚀 Work done — close and open a ready PR |
+| 2 | 📝 Work done — close and open a draft PR |
+| 3 | ✅ Work done — close, no PR |
+| 4 | ✏️ Back to the PRD — tell me what's wrong, or what to iterate |
 ```
 
 **Increment closed:**
