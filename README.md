@@ -34,7 +34,7 @@ Everyone is talking about AI and coding agents. After some time reflecting, I re
 
 See if this looks like your context as a Software Engineer at a tech company:
 
-> There is a task. A product manager understands the what, the why, and how to validate that feature. Along the way they ask a lot of questions to the people involved: sales, the customer themselves, the company's leadership and so on. In many cases they still don't talk to you directly. In the end, the PM consolidate everything into a file known as a *"Product Requirement"*, *"PRD"*, *"Product Scope"*, *"Epic"*. It has plenty of fancy names.
+> There is a task. A product manager understands the what, the why, and how to validate that feature. Along the way they ask a lot of questions to the people involved: sales, the customer themselves, the company's CEO and so on. In many cases they still don't talk to you directly. In the end, the PM consolidate everything into a file known as a *"Product Requirement"*, *"PRD"*, *"Product Scope"*, *"Epic"*. It has plenty of fancy names.
 >
 > Once that exists, the staff engineer (or the engineering manager) picks up the file, understands it (or goes back to product with questions) and, together with the team, splits the work across frontend, backend, design, infra - whatever it takes. Now the group has its tasks and executes like a conductor coordinating an orchestra. When someone gets stuck, it escalates to the manager, the staff engineer, or product. If that person can't solve it either, they go find the answers and come back with direction. The cycle repeats until what needs to be done is finally done.
 >
@@ -121,44 +121,46 @@ Hele Skills Solves That. Welcome to you next level of creation.
  ╰────────────────────────────────────────────────────╯
 ```
 
-### Output is everything: instead of skills you have stops
+### Output Is Everything: instead of skills you have "stops"
 
-All the outputs are well defined. You know what is happening, and what your next decision is. It can be a question, the PRD, or the QA report.
+All the outputs are well defined, you're not walking blindly, you know what's happening. It can be a question, it can be reviewing the PRD or the QA Report. Most importantly, you know what your next decision is.
 
-Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need. When an open lane finishes, the close includes **Work done** or **Let's formalize in a real PRD**.
+Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. When you finish a open lane the close stops include **Work done**, in case you don't want to continue or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
 
-The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then a replay. Each replay is three tables: how to open the page, the data the run used, and the steps. When the report is ready, you choose: continue to the manual walk, or fix something you saw. The walk copies those tables, one flow at a time, with the screenshot of what pass looked like.
+The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. The proof of validation using screenshots for each necessary use case. When that report is ready, you choose: continue to the manual walk, or fix something you saw.
 
-Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line. A raw path in a column wraps and stops being a link.
+In a manual verification you as human replay those same steps, in tables: how to open the page, the data, and each step, with the screenshot of what pass looked like. Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line. If it's correct, you move to the next verification, if need fix you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again.
 
-### A fix during the walk goes back to the PRD
+### "hmm, I forgot this actually"
 
-When you are in the manual walk and something needs a fix, Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. A flow you already marked pass is not shown again, unless that fix changed it. She does not open a new feature for that correction.
+Already past build and you found something you did not plan for? You can open a new PR, but sometimes you just want to fix at time.
+
+Still under `/hele`, Agent Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. Not a new Feature lane, a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
 
 ## The agent team
 
-You talk to Lisbon in the main session. She is the Builder: product manager and staff engineer. The heavy work (review, the suite, artifacts, reading code) goes to background subagents.
+You talk to Lisbon in the main session. She is the Builder: product manager and staff engineer. The heavy work like review, the suite, artifacts, reading code goes to background subagents. Here's the team:
 
 | Agent | Role |
 | --- | --- |
-| Lisbon | The Builder. Owns the PRD, the plan, and the dispatch. |
-| Vega | The designer. UI spec when there is a new screen. Optional. Paper, Figma, or a code reference. |
-| Cho | Backend. |
-| Van Pelt | Frontend, from the design spec. |
+| Lisbon | The Builder. Owns the PRD and chases delivery. Takes care of the plan, dispatches the team and obeys the defined rules. |
+| Vega | The Designer. UI spec when there is a new screen, you can connect to Figma, Paper or even use some frontend skill to create screens. It's also optional. |
+| Cho | The Backend Engineer, it codes all the backend side of the feature. |
+| Van Pelt | The Frontend Engineer, it codes all the frontend from the design spec. |
 | Hightower | The DBA. A schema change stops and asks for your approval before any migration. |
-| Jane | Security. Threat model on risky increments. |
-| Rigsby | Infra. CI, deploys, YAML. |
-| Wylie | QA. Writes the stubs, runs Playwright, takes the screenshots, and walks you through the same steps in tables. |
-| Summer | Build until pass. Fixes the project compile until it is green. |
+| Jane | The Security Engineer. Threat model on risky increments using specific skills of security. |
+| Rigsby | The Infra Engineer. Takes care of CI, deploys, YAML files and similar. |
+| Wylie | The QA Engineer. Writes the stubs, runs Playwright, takes the screenshots, hosts the guided verification, writes the QA Report for the human. |
+| Summer | The "Build until pass" agent. Fixes the project compile until it is green, fixing typescript issues and things related. |
 
-You answer what the agents cannot know, and you pick the numbered options.
+Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
 
-Defaults live in `.hele/settings.json` (`agents.models`). Judgment sits on the strong model. Execution volume sits on the cheaper one. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
+Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
 
 | Agent | Key | Claude Code | Cursor |
 | --- | --- | --- | --- |
 | Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
+| Lisbon, suite (Coding) | `staff-lisbon-run` | sonnet | composer |
 | Vega (Design) | `design-vega` | opus | opus |
 | Hightower (DB) | `dba-hightower` | sonnet | grok |
 | Cho (Backend) | `backend-cho` | sonnet | composer |
@@ -166,29 +168,29 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment sits on the s
 | Jane (Security) | `security-jane` | opus | grok |
 | Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
 | Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
+| Wylie (Testing Stubs) | `qa-wylie-run` | sonnet | composer |
+| Summer (Build Checker) | `staff-lisbon-run` | sonnet | composer |
 
 ## Project layout (created by /hele-init)
 
 ```
 .hele/
-  settings.json            # models, max agents, design system paths
-  index.json               # registry of features (slug, aliases, doc versions)
-  DESIGN_SYSTEM.md         # Vega's map of the design system, when one exists
-  DATABASE.md              # Hightower's living schema map
+  settings.json            # models, max agents, design system paths, everything
+  index.json               # registry of ALL features (slug, aliases, versions)
+  DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
+  DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
   features/
     <slug>/
-      PRODUCT_DESCRIPTION.md   # living doc — current product, patch versions only
-      TEST_STUBS.md            # living doc — written with the PRD
+      PRODUCT_DESCRIPTION.md   # living doc — current state, patch versions only
+      TEST_STUBS.md            # living doc — written with the PRD; QA runs the increment slice
       increments/
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, for the agents
-          DESIGN_SPEC.md       # when UI is involved
-          DB_CHANGES.md        # when the DB is touched — blocking approval
-          QA_REPORT.md         # the run, with open / data / steps tables
-          VERIFY.md            # the same tables, plus your verdicts
-          screenshots/         # up to 10 settled PNGs
+          DESIGN_SPEC.md       # per-increment, when UI is involved
+          DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
+          QA_REPORT.md         # human-readable QA run + screenshots/
+          VERIFY.md            # guided replay of the QA report
+          screenshots/         # up to 10 settled PNGs, compressed with sharp; overflow is chat-only under .hele/tmp/captures/
 ```
 
 There is no `state.json`. The feature is the folder. The increment is the folder this run is building. Beads hold the open tasks.

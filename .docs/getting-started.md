@@ -29,22 +29,28 @@ Agent Lisbon, the Builder, detects the lane and runs the rest. You never type `/
 
 | Lane | When | What happens |
 | --- | --- | --- |
-| Feature | The product does not do this yet. | Questions until none remain, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. |
-| Fast | A small addition to what already exists. | Questions if a rule would change, then a PRD patch and a new increment. |
-| Bugfix | Today's behavior is wrong. | Questions only if the rule text changes. Same spine as Fast. |
-| Open | Research, review, investigation, design exploration. | A conversation, until you pick **Let's formalize** or say you're done. |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Questions until none remain, then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
+| The Fast Lane | A small addition to what already exists, a product increment. | Asks questions if necessary, then a PRD patch an update and create a new increment for your feature. |
+| The Bugfix Lane | Today's behavior is wrong. | Asks questions if necessary, reconciles the docs, and follows the same spine of the fast lane. |
+| The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
-### Stops
+### Output is everything: instead of skills you have "stops"
 
-Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need.
+All the outputs are well defined, you're not walking blindly, you know what's happening. It can be a question, it can be reviewing the PRD or the QA Report. Most importantly, you know what your next decision is.
 
-After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. The QA report is your next prompt. You choose to continue to the manual walk, or to fix something you saw in the report. The walk is one flow at a time, in three tables: how to open the page, the data the run used, and the steps. The screenshot of what pass looked like is a link. If it is correct, you move to the next flow. If it needs a fix, you say so. Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. A flow you already marked pass is not shown again, unless that fix changed it. A database change still stops and asks.
+Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. When you finish an open lane the close stops include **Work done**, in case you don't want to continue, or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
 
-Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path.
+After you approve the PRD (and the design, when there are new screens), the agents write the execution plan, build, and run auto-verify on their own. The QA report is your next prompt. You choose: continue to the manual walk, or fix something you saw. You replay those same steps, in tables, using clear data with clear instructions. If it's correct, you move to the next verification. If it needs a fix, you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again. A database change or a red auto-verify still stops and asks.
 
-### A fix during the walk goes back to the PRD
+The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. The proof of validation using screenshots for each necessary use case.
 
-You are in the manual walk and something needs a fix. Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. A flow you already marked pass is not shown again, unless that fix changed it. She does not open a new feature for that correction.
+Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line.
+
+### "hmm, I forgot this actually"
+
+Already past build and you found something you did not plan for? You can open a new PR, but sometimes you just want to fix at the time.
+
+Still under `/hele`, Agent Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. Not a new Feature lane, but a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
 
 You talk to Lisbon. Review, the suite, and reading code go to background subagents. The roster is in [The agent team](introduction.md#the-agent-team).
 
@@ -59,22 +65,22 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
 
 ```
 .hele/
-  settings.json
-  index.json
-  DESIGN_SYSTEM.md         # when a design system exists
-  DATABASE.md              # Hightower's schema map
+  settings.json            # models, max agents, design system paths, everything
+  index.json               # registry of ALL features (slug, aliases, versions)
+  DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
+  DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
   features/
     <slug>/
-      PRODUCT_DESCRIPTION.md
-      TEST_STUBS.md
+      PRODUCT_DESCRIPTION.md   # living doc, current state, patch versions only
+      TEST_STUBS.md            # living doc, written with the PRD; QA runs the increment slice
       increments/
         001-<name>/
-          EXECUTION_PLAN.md
-          DESIGN_SPEC.md
-          DB_CHANGES.md
-          QA_REPORT.md
-          VERIFY.md
-          screenshots/
+          EXECUTION_PLAN.md    # per-increment, for the agents
+          DESIGN_SPEC.md       # per-increment, when UI is involved
+          DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
+          QA_REPORT.md         # human-readable QA run + screenshots/
+          VERIFY.md            # guided replay of the QA report
+          screenshots/         # up to 10 settled PNGs, compressed with sharp; overflow is chat-only under .hele/tmp/captures/
 ```
 
 Documents a new team member, human or agent, can read and understand the product from.
