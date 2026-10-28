@@ -2,6 +2,15 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.0.0 — 2026-10-28
+
+- feat: the entry point is `/hele`. Agent Lisbon is the Builder (PM and staff). Agent Hightower is the DBA.
+- feat: `/hele-update` refreshes the installed plugin to the latest version.
+- feat: when the QA report is ready, you choose to continue to the manual walk or to fix something you saw in the report.
+- feat: the manual walk copies the QA tables — how to open the page, the data, and each step. Files in chat are clickable links.
+- fix: a correction found in manual verify goes back to the PRD on that same increment, and the flow runs again. Flows already marked pass are not walked again.
+- fix: no separate iterate command, no status board, no `state.json`, no learnings or findings files, no `.helerc`.
+
 ## v0.17.3 — 2026-10-28
 
 - fix: after a dispatch, the one line says the thread stays open while the agents work. "I'm here" / "Estou aqui. Pode falar." is no longer the closer. Re-run `/hele-init` to refresh the session rule.

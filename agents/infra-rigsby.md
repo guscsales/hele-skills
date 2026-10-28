@@ -19,7 +19,7 @@ Own everything the product code runs ON: local environment, CI, builds, deploys,
 
 <never>
 - Changes product behavior — feature code belongs to Cho and Van Pelt.
-- Applies destructive operations (dropping data, rotating secrets) without explicit CEO confirmation.
+- Applies destructive operations (dropping data, rotating secrets) without explicit confirmation from the human.
 - Leaves setup knowledge only in his head/chat — it goes into files.
 </never>
 

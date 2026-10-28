@@ -3,7 +3,8 @@ import path from 'node:path';
 
 /**
  * Resolve the hele directory: $HELE_DIR if set, otherwise walk up from cwd
- * looking for `.hele/`. Returns null when not found.
+ * looking for `.hele/`. Returns null when not found. The folder is always
+ * `.hele/` — there is no alternate name.
  */
 export function resolveHeleDir() {
   const env = process.env.HELE_DIR;
@@ -15,17 +16,6 @@ export function resolveHeleDir() {
   for (;;) {
     const candidate = path.join(cur, '.hele');
     if (fs.existsSync(candidate) && fs.statSync(candidate).isDirectory()) return candidate;
-    // custom folder name: .helerc at the project root points to it
-    const rc = path.join(cur, '.helerc');
-    if (fs.existsSync(rc)) {
-      try {
-        const { dirName } = JSON.parse(fs.readFileSync(rc, 'utf8'));
-        const custom = path.join(cur, dirName);
-        if (dirName && fs.existsSync(custom) && fs.statSync(custom).isDirectory()) return custom;
-      } catch {
-        // malformed .helerc — keep walking
-      }
-    }
     const parent = path.dirname(cur);
     if (parent === cur) return null;
     cur = parent;

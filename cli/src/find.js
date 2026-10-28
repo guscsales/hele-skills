@@ -124,7 +124,7 @@ export function findCommand(queryWords, opts) {
     if (!features.length) console.log('NO FEATURES REGISTERED');
     for (const f of features) {
       const docs = f.docs ?? {};
-      console.log(`${(f.slug ?? '?').padEnd(32)} [${f.status ?? '?'}] prd v${docs.prd ?? '-'} · ${f.summary ?? ''}`);
+      console.log(`${(f.slug ?? '?').padEnd(32)} prd v${docs.prd ?? '-'} · ${f.summary ?? ''}`);
     }
     return;
   }
@@ -151,7 +151,7 @@ export function findCommand(queryWords, opts) {
     console.log(`INDEX MATCHES for "${query}":`);
     for (const s of scored) {
       const docs = s.docs ?? {};
-      console.log(`  ${String(s.score).padStart(3)}  ${s.slug.padEnd(32)} [${s.status ?? '?'}] prd v${docs.prd ?? '-'} · via ${s.matchedOn}`);
+      console.log(`  ${String(s.score).padStart(3)}  ${s.slug.padEnd(32)} prd v${docs.prd ?? '-'} · via ${s.matchedOn}`);
     }
   } else if (fallback.length) {
     console.log(`NO INDEX MATCHES — content matches for "${query}":`);
@@ -160,6 +160,6 @@ export function findCommand(queryWords, opts) {
     }
     console.log('NOTE: content-only match usually means index.json aliases are missing — fix the index.');
   } else {
-    console.log(`NO MATCHES for "${query}" — safe to treat as a new feature (confirm with the CEO).`);
+    console.log(`NO MATCHES for "${query}" — safe to treat as a new feature (confirm with the human).`);
   }
 }

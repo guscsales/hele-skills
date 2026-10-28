@@ -34,26 +34,18 @@ test('walks up to find .hele from a nested directory', () => {
   inDir(nested, () => assert.equal(resolveHeleDir(), path.join(root, '.hele')));
 });
 
-test('resolves a custom folder name via .helerc', () => {
+test('ignores .helerc — only .hele counts', () => {
   const root = tmpProject();
   fs.mkdirSync(path.join(root, '.memory'));
   fs.writeFileSync(path.join(root, '.helerc'), '{"dirName": ".memory"}');
-  inDir(root, () => assert.equal(resolveHeleDir(), path.join(root, '.memory')));
-});
-
-test('.helerc works from a nested directory too', () => {
-  const root = tmpProject();
-  fs.mkdirSync(path.join(root, '.memory'));
-  fs.writeFileSync(path.join(root, '.helerc'), '{"dirName": ".memory"}');
-  const nested = path.join(root, 'app');
-  fs.mkdirSync(nested);
-  inDir(nested, () => assert.equal(resolveHeleDir(), path.join(root, '.memory')));
-});
-
-test('malformed .helerc is ignored, walk continues', () => {
-  const root = tmpProject();
-  fs.writeFileSync(path.join(root, '.helerc'), 'not json');
   inDir(root, () => assert.equal(resolveHeleDir(), null));
+});
+
+test('.hele is found even when a .helerc sits beside it', () => {
+  const root = tmpProject();
+  fs.mkdirSync(path.join(root, '.hele'));
+  fs.writeFileSync(path.join(root, '.helerc'), '{"dirName": ".memory"}');
+  inDir(root, () => assert.equal(resolveHeleDir(), path.join(root, '.hele')));
 });
 
 test('returns null when nothing is found', () => {

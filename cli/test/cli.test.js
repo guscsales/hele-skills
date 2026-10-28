@@ -49,7 +49,8 @@ function hele(cwd, ...args) {
 test('find --list shows registered features', () => {
   const out = hele(fixtureProject(), 'find', '--list');
   assert.match(out, /inventory-control/);
-  assert.match(out, /\[building\]/);
+  assert.match(out, /Track stock levels/);
+  assert.doesNotMatch(out, /\[building\]/);
 });
 
 test('find matches an accented pt-BR alias', () => {

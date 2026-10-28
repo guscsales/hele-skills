@@ -1,54 +1,54 @@
 # Chat Report Visual Language
 
-Every hele skill reports in chat using this shared visual language. The human is a visual person — reports must be scannable at a glance. Content stays king: formatting makes it readable, never replaces substance.
+Every hele skill reports in chat using this shared visual language. Reports must be scannable. Content stays king.
 
-Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` is the only command the human types for product work. Real stops end in numbered options. The execution plan, the build, and a green auto-verify do not stop — after the PRD is approved (and design, when that stop happened), those run on their own and the next prompt is the manual walk.
+Read this file before the first report of a `/hele` session. `/hele` is the only command the human types for product work. Real stops end in numbered options. The execution plan and the build do not stop. After the PRD is approved (and design, when that stop happened), those run on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw.
 
 ## Per-stop checklist
 
 | Stop | Must print, in this order |
 |---|---|
 | Lane | Lane table (one row) · then continue into that lane |
-| Init | Report frame · Field/Value · Files (full PWD) · continue the ask already in flight |
+| Init | Report frame · Field/Value · Files (links) · continue the ask already in flight |
 | Questions | Question table · AskUserQuestion (max 4) · no files · end the turn |
-| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (full PWD) · Open these · Options |
-| Design | Report frame · Field/Value · Files (full PWD) · Options |
-| Plan | Staff note · Files (full PWD) · no Options — start build (draft DB_CHANGES → Red John's Options instead) |
-| Build green | short PM report · no Options — start auto-verify |
-| Dispatch | Dispatch table · one line: the thread stays open while the agents work · end the turn |
-| QA green | Report frame · Test results with screenshots · Shots (kept / chat) · Files (full PWD) · Open these · no Options — start the manual walk |
-| QA red | Report frame · Test results with screenshots · Shots (kept / chat) · Files (full PWD) · Open these · Options |
-| Verify — each flow | Report frame · Setup · steps from QA_REPORT · screenshot path · Options |
-| Verify — close | Report frame · Flow/Verdict · Files (full PWD) · Options (Work done / iterate / draft PR) |
-| Open lane | Report frame · relay · Files if any (full PWD) · Options (Work done / Let's formalize / keep going) |
-| Findings | Silent append to findings.json; promote durable lessons to LEARNINGS.md |
+| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (links) · Open these · Options |
+| Design | Report frame · Field/Value · Files (links) · Options |
+| Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
+| Build green | short report · no Options — start auto-verify |
+| Dispatch | Dispatch table · one line that the thread stays open · end the turn |
+| QA report | Report frame · Test results · Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
+| Verify — each flow | Open table · Data table · Steps table · screenshot link · Options |
+| Verify — close | Flow/Verdict · Files (links) · Options (Work done / back to the PRD / draft PR) |
+| Open lane | Report frame · relay · Files if any (links) · Options (Work done / Let's formalize / keep going) |
 
 <rules>
-- **NEVER wrap a report in a code fence.** Reports are emitted as normal chat text — markdown prose plus markdown tables. The ``` fences in THIS file and in persona `<communication>` blocks only delimit the shape; copying them into chat makes reports unreadable. Code fences in chat are reserved for actual code, commands, and file contents.
-- **Skills must not paste a fenced copy of the report the agent should emit.** Point to the persona signature block and describe the shape in prose.
-- **Tables, never lines.** Every structured section is a markdown table with a header row, a separator, and data rows. Conversational prose around the tables is fine.
-- **Box-drawing is banned in chat.** Never emit `─`, `═`, `━`, `│`, `╭`, `╰`, `╮`, `╯`, or any other box-drawing / rule characters to frame a report.
-- One emoji per section header cell — never per sentence.
-- **One item per table row** for lists (issues, failures, files, decisions, options). Never concatenate two `❌` / `✅` / `⏭️` items into the same cell, and never smash `#1 · #2 · #3` onto one line.
-- Agent tags are formal identifiers: `[AGENT PM] Hightower`. In prose, use the spoken form: "Agent Hightower".
-- **Every path is the whole PWD.** Screenshots, PRDs, stubs, plans, QA reports, verify files, findings, and any other file the agent writes or points at use the absolute path (`pwd` + the file), in every chat table. A repo-relative link is not enough. One row per file. Example: `/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md`.
-- **PRD and QA stops print an Open these table immediately before Options** (a green QA run has no Options — the table still prints, then the manual walk starts). Project root first, then one row per file the human should open: every PRD this stop created or patched, and on a QA stop the `QA_REPORT.md`. Never fold two PRDs into one row. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above, one blockquote: `> 📌 **Was / now for each rule is in the delta above.**` The ids sit at the bottom; the sentences sit in the delta.
-- **Every interactive stop ends with the Options table** (below). Never a sentence that says what to type next. Never one line that crams `1 · 2 · 3` together. One option per row. Option `1` is Approve (or Work done when the work can close) and starts that work in the same turn. Option `2` is Tell me what you need (or Let's formalize when the close pair is the point of the stop). Free text means "tell me what you need" and stays in the current phase.
-- **Open channel.** The main session is the human's line. Doing work (review, suite, artifacts, codebase reads) is a background sub-agent — Lisbon and Hightower included. After a Dispatch table, **end the turn**. Never wait, never explore "while you wait". "Waiting for subagent" in the main chat is a bug. If the human talks while a worker runs, answer them.
-- **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for THIS runtime (`cursor` in Cursor, `claude-code` in Claude Code). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug. The human named a different model this turn → that worker only; the cell is that override. Do not tell the human to switch the session model picker — the main chat stays on whatever they already selected; that is the open channel, not a defect.
-- File artifacts are exempt: markdown docs stay clean, no box-drawing frames or emoji inside `.hele/` files.
-- Chat language follows the human (pt-BR in, pt-BR out). Artifacts are always English.
-- **`.hele/` is a placeholder, not a hardcoded path.** The harness folder is `.hele/` at the project root by default, but the human may have named it differently at init: a `.helerc` file at the root (`{"dirName": "<name>"}`) points to the real folder. Every skill resolves the dir first (`.hele` → else `.helerc`) and uses the resolved name in paths.
-- Say **the human**, never "CEO", in every report and skill this harness edits.
-- **Suggest `/clear` only when a phase closed without auto-chaining** (Work done, status, or the human explicitly paused). Approval gates auto-chain: option `1` starts the next phase in the same turn, so do not suggest `/clear` there. `/hele-yolo` is sticky: do not tell the human to re-type `/hele-yolo` for the next prompt.
+- **NEVER wrap a report in a code fence.** Reports are chat text: prose plus markdown tables. The fences in this file only delimit the shape. Code fences in chat are for actual code, commands, and file contents.
+- **Tables, never lines.** Never emit box-drawing characters to frame a report.
+- One emoji per section header cell.
+- **One item per table row.**
+- Agent tags are formal identifiers: `[AGENT] Lisbon`, `[AGENT DBA] Hightower`. In prose: "Agent Lisbon", "Agent Hightower".
+- **Every file is a markdown link.** The visible text is the file name. The target is the absolute path, on one line, with no space and no line break inside the URL. Do not put the raw path in a Path column. A path that wraps in a cell is not a link. One file per row.
+
+  `[PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)`
+
+- **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above: `> 📌 **Was / now for each rule is in the delta above.**`
+- **Every interactive stop ends with the Options table.** One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need. Free text stays in the current phase.
+- **Open channel.** After a Dispatch table, end the turn. The one line says the thread stays open while the agents work. "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
+- **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug.
+- File artifacts are plain markdown. No emoji inside `.hele/` files.
+- Chat language follows the human. Artifacts are English.
+- The harness folder is always `.hele/` at the project root. Do not invent another name. Do not write `.helerc`.
+- Say **the human**. Never "CEO".
+- Do not write `state.json`, a feature status, `NOTES.md`, `LEARNINGS.md`, or `findings.json`.
+- **Suggest `/clear` only when a phase closed without auto-chaining.** `/hele` is sticky: do not tell the human to re-type it.
 </rules>
 
 <canonical-blocks>
 
-## Lane announcement (first reply of /hele-yolo — print the one row that applies)
+## Lane announcement (first reply of /hele — print the one row that applies)
 
 ```
-| Lane | PRD | Path |
+| Lane | PRD | What happens |
 |---|---|---|
 | 🆕 Feature | <slug> or new | questions → PRD + stubs → design? → agents build + auto-verify → you verify |
 | ⚡ Fast | <slug> | questions if a rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
@@ -56,51 +56,26 @@ Read this file before the first report of a `/hele-yolo` session. `/hele-yolo` i
 | 🎼 Open | — | research / review / investigation / design explore — no PRD until Let's formalize |
 ```
 
-## Report frame (any skill's final output)
+## Files table
 
-Prose summary first (the human's language), then tables. Never a box around the report.
+The file name is the link. There is no Path column.
 
 ```
-| Report | Scope |
+| File | Change |
 |---|---|
-| <emoji> <REPORT NAME> | <feature/project> |
-
-| Field | Value |
-|---|---|
-| <label> | <value> |
-
-| File | Path | Change |
-|---|---|---|
-| PRODUCT_DESCRIPTION.md | /absolute/pwd/.hele/features/<slug>/PRODUCT_DESCRIPTION.md | created v1.0 |
-
-| Actions | Your call |
-|---|---|
-| 1 | ✅ Approve → <what starts next, in words> |
-| 2 | ✏️ Tell me what you need |
-| 3 | <context-specific option> |
+| [PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md) | created v1.0 |
+| [TEST_STUBS.md](/Users/you/project/.hele/features/checkout-discount/TEST_STUBS.md) | created v1.0 |
+| [index.json](/Users/you/project/.hele/index.json) | feature registered |
 ```
 
-## Files table (full PWD — every report that wrote to disk)
+## PRD delta (whenever a PRD is created or patched)
 
-```
-| File | Path | Change |
-|---|---|---|
-| PRODUCT_DESCRIPTION.md | /absolute/pwd/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md | created v1.0 |
-| TEST_STUBS.md | /absolute/pwd/.hele/features/checkout-discount/TEST_STUBS.md | created v1.0 |
-| index.json | /absolute/pwd/.hele/index.json | updated (feature registered) |
-| state.json | /absolute/pwd/.hele/state.json | updated (activeFeature) |
-```
-
-## PRD delta (mandatory whenever a PRD is created or patched)
-
-The full rule list hides what moved. Print a count line, then one group per PRD (slug as a heading, absolute path under it). Unchanged rules stay out. Empty buckets are omitted.
+Print a count line, then one group per PRD. The heading is a link. Unchanged rules stay out. Empty buckets are omitted.
 
 ```
 1 new rule and 1 rewritten, in checkout-discount.
 
-### checkout-discount
-
-/absolute/pwd/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md
+### [checkout-discount](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)
 
 New (1)
 
@@ -115,74 +90,39 @@ Rewritten (1)
 | BR-1 — Points cover first | Points apply after the card when both are used. | Points apply before the card, never after. |
 ```
 
-- **New** — a rule or flow that was not in the previous version. A first version is entirely this bucket (`First version — N rules.`), with no Was / Now table.
-- **Rewritten** — a rule or flow that already had an id. Was is the sentence that was on disk; Now is the sentence that replaced it. One row per id.
-- **Already the rule** — bugfix only, when the PRD text stays put because the code broke a rule it already states. Columns: Rule · What it already says. No Was / Now, because nothing in the doc moved.
-- Two features in one stop → two groups, and the count line names both.
+- **New** — a rule or flow that was not in the previous version. A first version is only this bucket.
+- **Rewritten** — an id that already existed. Was is the sentence that was on disk. Now is the sentence that replaced it.
+- **Already the rule** — bugfix only, when the PRD text stays because the code broke a rule it already states. Columns: Rule · What it already says.
 
-## Open these (PRD and QA stops — right before Options)
-
-Project root, then each file. The Moved cell is ids, not sentences.
+## Open these
 
 ```
-| Open | Path | Moved |
-|---|---|---|
-| Project | /absolute/pwd | — |
-| PRD · checkout-discount | /absolute/pwd/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md | new BR-4 · rewritten BR-1 |
+| Open | Moved |
+|---|---|
+| [Project](/Users/you/project) | — |
+| [PRD · checkout-discount](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md) | new BR-4 · rewritten BR-1 |
 
 > 📌 **Was / now for each rule is in the delta above.**
 ```
 
-QA stop uses the same shape with a QA report row and no Moved column:
+QA stop:
 
 ```
-| Open | Path |
-|---|---|
-| Project | /absolute/pwd |
-| QA report | /absolute/pwd/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md |
+| Open |
+|---|
+| [Project](/Users/you/project) |
+| [QA report](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md) |
 ```
 
-## Stubs in full (PRD + stubs stop — every stub, nothing summarized)
+## Stubs in full
 
 ```
 | Stub | Kind | Rule | Given | When | Then |
 |---|---|---|---|---|---|
 | TS-001 | e2e | BR-1 | member with 1,200 pts, $9.00 order | taps Pay with points, confirms | order completes, no card step, balance shows 300 pts |
-| TS-002 | e2e | BR-1 | member with 200 pts, $9.00 order | taps Pay with points, then taps the card | receipt shows $2.00 points + $7.00 card |
 ```
 
-## Status board (used by /hele-status)
-
-```
-| Report | Scope |
-|---|---|
-| 📊 HELE STATUS | <project> |
-
-| Feature | Status |
-|---|---|
-| checkout-discount | building |
-| user-onboarding | idea |
-
-| Feature | Doc | Version | Health |
-|---|---|---|---|
-| checkout-discount | 📕 PRODUCT_DESCRIPTION | v1.4 | ✅ |
-| checkout-discount | 📘 TEST_STUBS | v1.2 | ✅ based on PRD v1.4 |
-| checkout-discount | 📗 EXECUTION_PLAN | v1.0 | ⚠️ based on PRD v1.3 — STALE |
-| checkout-discount | 🎨 DESIGN_SPEC | v1.1 | ✅ based on PRD v1.4 |
-| checkout-discount | 🧿 beads | 3 done · 2 in progress · 1 blocked | increment 002-coupon-stacking |
-
-| Field | Value |
-|---|---|
-| Learnings | <n> · newest L-nnn |
-| Findings | <n> in findings.json |
-
-| Actions | Your call |
-|---|---|
-| 1 | ▶ Continue — /hele-yolo with the next ask |
-| 2 | ✏️ Tell me what you need |
-```
-
-## Init report (used by /hele-init — including when yolo auto-runs it)
+## Init report
 
 ```
 | Report | Scope |
@@ -191,120 +131,159 @@ QA stop uses the same shape with a QA report row and no Moved column:
 
 | Field | Value |
 |---|---|
-| Folder | `.hele/` created / already existed |
-| Beads | ✅ bd <version> · db ready  /  ⚠️ not installed → <install hint> |
+| Folder | `.hele/` |
+| Beads | ✅ bd <version> · db ready  /  ⚠️ not installed |
 | Design system | <n> path(s) registered / none yet / none — Vega sits out |
 
-| File | Path | Change |
-|---|---|---|
-| settings.json | /absolute/pwd/.hele/settings.json | created / kept |
-| index.json | /absolute/pwd/.hele/index.json | created (0 features) / kept |
-| state.json | /absolute/pwd/.hele/state.json | created / kept |
-| LEARNINGS.md | /absolute/pwd/.hele/LEARNINGS.md | created / kept |
-| findings.json | /absolute/pwd/.hele/findings.json | created / kept |
-| hele-session.md | /absolute/pwd/.claude/rules/hele-session.md | written (sticky yolo + open channel) |
+| File | Change |
+|---|---|
+| [settings.json](/Users/you/project/.hele/settings.json) | created / kept |
+| [index.json](/Users/you/project/.hele/index.json) | created / kept |
+| [hele-session.md](/Users/you/project/.claude/rules/hele-session.md) | written |
 ```
 
-When init was started by `/hele-yolo`, do **not** offer a menu of skills. Continue the original ask (lane detection) in the same turn after the report.
+When init was started by `/hele`, continue the original ask in the same turn. No skill menu.
 
 When the human typed `/hele-init` alone:
 
 ```
 | Actions | Your call |
 |---|---|
-| 1 | ▶ Continue → /hele-yolo "<your idea>" |
+| 1 | ▶ Continue → /hele "<your idea>" |
 | 2 | ✏️ Tell me what you need |
 ```
 
-## Dispatch announcement (when spawning an agent)
+## Dispatch announcement
 
-Emit this, then one line in the human's language: the thread stays open while the agents work. Never "I'm here", "you can talk", "Estou aqui", or "Pode falar". **End the turn.** Do not wait for the agent.
+Emit this, say the thread stays open, **end the turn**.
 
 ```
 | Dispatch | Agent | Model | Work |
 |---|---|---|---|
-| 🕵️ | [AGENT STAFF] Lisbon | grok | plan increment 002-coupon-stacking |
+| 🏗️ | [AGENT] Lisbon | opus | plan increment 002-coupon-stacking |
 ```
 
-## Question block (planning phases — before AskUserQuestion calls)
+## Question block
 
-This round writes nothing. No PRD, no stubs, no Files table, no Open these. A recommendation is one of the options, not a rule already in a file. End the turn. The PRD stop starts only after every product question is answered. Do not invent a question when the human's words already decide the rule.
+This round writes nothing. No PRD, no stubs, no Files table. A recommendation is one of the options. End the turn.
 
 ```
 | Agent | Needs |
 |---|---|
-| [AGENT PM] Hightower | 3 answers |
+| [AGENT] Lisbon | 3 answers |
 ```
 
-## Options table (MANDATORY at the end of every interactive phase)
+## Options table
 
-Whenever a skill produces an artifact the human must sign off on, or a phase that must not auto-advance, it ends the report with numbered options — one option per row. **Option 1 is the forward move:** its cell names what will run next in words (never "type /hele-…"), and typing `1` both approves AND starts that work in the same turn. Free text counts as option 2.
+Option 1 names what runs next, in words. Typing `1` approves and starts that work in the same turn. Free text counts as option 2.
 
-**Never compress this into one line.** Forbidden: `🗳️ YOUR CALL — 1. ✅ Approve · 2. ✏️ Adjust · 3. …`.
-
-### Mid-pipeline sign-offs (PRD, design, DB changes, QA red)
-
-The EXECUTION_PLAN is not a sign-off. After the PRD is approved (and the design, when that stop happened), Lisbon writes the plan for the agents and the conductor runs build then auto-verify with no Options table. The next Options the human sees are the manual verify walk — unless a draft DB_CHANGES or a red QA run stops first.
+The EXECUTION_PLAN is not a sign-off. After the PRD (and design, when that stop happened), the agents plan, build, and run QA. The QA report is the next Options, unless a draft DB_CHANGES stops first.
 
 ```
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Approve → <next phase in words, e.g. build and auto-verify> |
+| 1 | ✅ Approve → <next phase in words> |
 | 2 | ✏️ Tell me what you need |
 | 3 | <context-specific option> |
 ```
 
-### Close / open-lane stop
+### Close of an open lane
 
 ```
 | Actions | Your call |
 |---|---|
-| 1 | ✅ Work done — stop here |
+| 1 | ✅ Work done |
 | 2 | 📝 Let's formalize — turn this into a PRD, stubs, and an increment |
 | 3 | ✏️ Tell me what you need / keep going |
 ```
 
-### Verify close (after all flows verified)
+### Verify close (after all flows)
 
 ```
 | Actions | Your call |
 |---|---|
 | 1 | ✅ Work done — close the increment |
-| 2 | ✏️ Fold a late find back in (iterate on this increment) |
+| 2 | ✏️ Back to the PRD — update it and run the flow again |
 | 3 | 🚀 Open a draft PR |
 | 4 | 📝 Let's formalize — only when a PRD is still missing |
 ```
 
-The human replies with a number (or free text). Never end an interactive phase without offering these options.
+**On `1`:** do the work named in that row in this same turn. Mark a PRD, design spec, or DB_CHANGES approved only when the human picks `1` on that document. The execution plan is set `ready` without waiting for a `1`.
 
-**On `1` (Approve / Work done):** in THIS SAME TURN, before stopping:
-1. Mark the artifact approved (frontmatter + index as the skill specifies) when that applies. Never mark a PRD, design spec, or DB_CHANGES approved without this explicit `1`. The execution plan is not in this list — set it `ready` and start build without waiting for a `1`.
-2. Immediately do the work named in option 1 — read `${CLAUDE_PLUGIN_ROOT}/skills/<next>/SKILL.md` and execute that skill, or close the increment. Do not wait for a second prompt. Do not ask the human to type a slash command.
+**On `2` / free text of a document stop:** stay here. Do not silently advance.
 
-**On `2` / `3` / free text:** stay in this skill (or run Let's formalize / iterate / draft PR when that is what the chosen row says); do not silently advance.
+**Verify close option 2, or a fix described on the flow in front of them:** rewind to the PRD on this increment and run the flow again. Do not walk a flow they already marked pass, unless this fix changed it.
 
-## Test results (QA stop — screenshots shown)
+## Manual verify — one flow
+
+This is the auto-verify, in tables a person can follow. Copy the cells from `QA_REPORT.md`. Do not paraphrase them into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
+
+```
+| Report | Scope |
+|---|---|
+| 👀 VERIFY | <feature> · <flow title> · TS-001 · BR-1 |
+
+| Open | |
+|---|---|
+| URL | http://localhost:3000/checkout |
+| Start | `npm run dev` |
+| Land | Open the app, click Cart, then Pay |
+
+| Data | Value |
+|---|---|
+| Login | member@example.com |
+| Seed | member with 1,200 points |
+| Input | order total $9.00 |
+
+| Step | Do this | You should see |
+|---|---|---|
+| 1 | Tap Pay with points | the confirmation dialog |
+| 2 | Confirm | the order completes and the balance shows 300 points |
+
+| Proof | |
+|---|---|
+| Pass looked like | [TS-001.png](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/screenshots/TS-001.png) |
+
+| Actions | Your call |
+|---|---|
+| 1 | ✅ Pass — mark verified |
+| 2 | ❌ Issue — tell me what's wrong |
+| 3 | ⏭️ Skip this flow |
+```
+
+Show the screenshot image as well as the link. If Open, Data, or Steps would be empty, the QA report is incomplete: fill it before walking the human. Do not invent a shorter script.
+
+## Test results (QA stop)
 
 ```
 | Stub | Rule | Result | Screenshot |
 |---|---|---|---|
-| TS-001 | BR-1 | ✅ | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/TS-001.png |
-| TS-002 | BR-2 | ❌ product-bug | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/TS-002.png |
+| TS-001 | BR-1 | ✅ | [TS-001.png](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/screenshots/TS-001.png) |
 | TS-009 | BR-4 | ✅ | chat only |
 ```
 
-Show the kept PNGs inline (Read each file) right after this table. A `chat only` row has no embed in the report — still Read it in the session if the human needs it.
+Show the kept PNGs inline right after this table.
 
-## Shots (QA stop — right after the inline images)
+## QA report — your call
 
-One row per capture. **Kept** is `in the increment` (committed, max 10) or `chat only` (under `.hele/tmp/captures/`, not committed).
+Every ready report ends with this table. End the turn. Do not open the first manual-verify flow until they pick `1`. On `2`, if they already said what to fix, rewind to the PRD. If they only picked `2`, ask what they saw.
 
 ```
-| Stub | Kept | Path |
+| Actions | Your call |
+|---|---|
+| 1 | ✅ Continue to manual verify |
+| 2 | ✏️ Fix something I saw in the QA report |
+```
+
+A red run adds rows under those two: approve fixes for the failing tests, and decide the contract-questions first. A blocked stub is named above the table. The two rows stay.
+
+## Shots
+
+```
+| Stub | Kept | Screenshot |
 |---|---|---|
-| before / after | in the increment | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/before.png |
-| TS-001 | in the increment | /absolute/pwd/.hele/features/<slug>/increments/001-<slug>/screenshots/TS-001.png |
-| TS-009 | chat only | /absolute/pwd/.hele/tmp/captures/<slug>/001-<slug>/TS-009.png |
+| before / after | in the increment | [before.png](/Users/you/project/.hele/features/<slug>/increments/001-<slug>/screenshots/before.png) |
+| TS-009 | chat only | [TS-009.png](/Users/you/project/.hele/tmp/captures/<slug>/001-<slug>/TS-009.png) |
 ```
 
 ## Open-lane relay

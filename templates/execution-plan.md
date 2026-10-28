@@ -19,8 +19,8 @@ RULES FOR THIS DOCUMENT
 - Written for an agent with ZERO memory: name real files, real patterns,
   real constraints. "Improve the service" is not a plan.
 - Every task maps to a beads issue once /hele-plan registers the epic.
-- based_on MUST point at the PRD version this plan was written against —
-  /hele-status uses it to detect drift.
+- based_on MUST point at the PRD version this plan was written against.
+  If the PRD moved, reconcile the plan before building.
 - Required when DESIGN_SPEC.tool is paper: include <paper-to-code>
   (skill /hele-paper-to-code, file id + page, artboard ids per Van Pelt
   task). Pixels from get_jsx; plan/DESIGN_SPEC prose is behavior and

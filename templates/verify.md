@@ -1,12 +1,14 @@
 <!-- RULES:
-- Written/refreshed by /hele-qa from the latest QA_REPORT.md. Verdicts recorded
+- Written by /hele-qa from the latest QA_REPORT.md. Verdicts recorded
   during /hele-verify-work. Frozen when the increment closes.
-- Flows are the SAME steps and data the QA run used — the human replays the
-  proof, not a reinvented script.
+- Each flow is the SAME Open, Data, and Steps tables the QA report used.
+  The human replays that proof. Do not invent a shorter script.
 - verdict per flow: pending | verified | issue | skipped. An issue keeps the
-  human's words verbatim and points at its beads task or PRD note.
-- Written in English, like every artifact. Prefer plain markdown over XML for
-  human readability; keep flow markers only if agents need them.
+  human's words verbatim.
+- A rewind to the PRD keeps every verdict that is still verified, unless
+  that fix touched the flow. Those sections are not replaced and are not
+  shown again. Every other flow is refreshed from the new QA report as pending.
+- Written in English.
 -->
 ---
 feature: <slug>
@@ -20,27 +22,28 @@ updated: <YYYY-MM-DD>
 
 # Guided Verification — <feature> · increment NNN
 
-Replays the QA run. Same data, same steps, screenshot of what "pass" looked like.
+Same URL, same data, same steps as the QA run. One section per flow.
 
-## Setup
+## V1 — <goal> · BR-n · TS-nnn · verdict: pending
 
-| Item | Value |
+| Open | |
 |---|---|
-| App | <how it was started / URL — from QA_REPORT> |
-| Login(s) | <from QA_REPORT> |
-| Data | <from QA_REPORT> |
-| QA report | <absolute path to QA_REPORT.md> |
+| URL | <from QA_REPORT> |
+| Start | <command> |
+| Land | <clicks> |
 
-## V1 — <goal from QA stub/flow> · covers BR-n, TS-nnn · verdict: pending
+| Data | Value |
+|---|---|
+| Login | <from QA_REPORT> |
+| Seed | <from QA_REPORT> |
+| Input | <from QA_REPORT> |
 
-**QA screenshot (what pass looked like):** `<absolute or ./screenshots/TS-nnn.png>`
-
-| # | Step | Expect |
+| Step | Do this | You should see |
 |---|---|---|
-| 1 | <from QA_REPORT steps> | <expected> |
-| 2 | <…> | <…> |
+| 1 | <from QA_REPORT> | <expected> |
+
+**Screenshot:** `./screenshots/TS-nnn.png`
 
 **Verdict:** pending
-**Notes:** <human's words on issue, verbatim> → beads <id> | PRD note
 
-*(One section per flow / stub group distilled from QA_REPORT — 3–8 journeys.)*
+**Notes:** <human's words on an issue, verbatim>
