@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v0.17.1 — 2026-10-22
+
+- docs: the README leads with the four lanes and the agent team, including the Claude Code and Cursor model defaults.
+- feat: new projects default Hightower, Lisbon, Jane, and Wylie stubs to opus on Claude Code.
+
 ## v0.17.0 — 2026-10-22
 
 - feat: a PRD is written only after every product question is answered. The question round writes nothing — a recommendation is an option in the question, not a rule already in the file. Fast, bugfix, and iterate use the same gate when a rule would change. A bugfix that leaves the rule text alone does not stop to ask.

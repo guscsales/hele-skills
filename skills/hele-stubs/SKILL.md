@@ -20,7 +20,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 </context>
 
 <phase name="1-derive">
-**Stub authoring is judgment work — it always runs as a background Wylie sub-agent**, never inline. Dispatch ONE **background** subagent, description `[AGENT QA] Wylie — derive stubs`, `model` from `settings.agents.models["qa-wylie-stubs"]` (per-runtime; default `fable`; `inherit` → omit), prompt = persona + PRD + existing TEST_STUBS + the template + rules 1–4 below; he writes the stubs file and returns the draft for the parent to present. Announce. Stay free. Questions and approval NEVER move to the subagent.
+**Stub authoring is judgment work — it always runs as a background Wylie sub-agent**, never inline. Dispatch ONE **background** subagent, description `[AGENT QA] Wylie — derive stubs`, `model` from `settings.agents.models["qa-wylie-stubs"]` (per-runtime; default `opus`; `inherit` → omit), prompt = persona + PRD + existing TEST_STUBS + the template + rules 1–4 below; he writes the stubs file and returns the draft for the parent to present. Announce. Stay free. Questions and approval NEVER move to the subagent.
 
 1. Walk every `### BR-n` and every named flow under `## Flows` of the PRD version being covered. Each testable behavior → one stub: **Given** / **When** / **Then**.
 2. Cover the unhappy paths the rules imply — empty states, limits, permission denials, the `no` branches of the flow diagrams.
