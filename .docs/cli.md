@@ -47,18 +47,17 @@ Defaults for a new project:
 
 | Agent | Key | Claude Code | Cursor |
 | --- | --- | --- | --- |
-| Hightower (PM) | `pm-hightower` | opus | grok |
-| Lisbon (Staff) | `staff-lisbon` | opus | grok |
-| Lisbon, suite (Coding) | `staff-lisbon-run` | sonnet | composer |
+| Lisbon (Builder) | `staff-lisbon` | opus | grok |
+| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
 | Vega (Design) | `design-vega` | opus | opus |
-| Red John (DB) | `dba-red-john` | sonnet | grok |
+| Hightower (DB) | `dba-hightower` | sonnet | grok |
 | Cho (Backend) | `backend-cho` | sonnet | composer |
 | Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
 | Jane (Security) | `security-jane` | opus | grok |
 | Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
 | Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Testing Stubs) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build Checker) | `staff-lisbon-run` | sonnet | composer |
+| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
+| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
 
 ## hele install
 
@@ -71,7 +70,7 @@ hele install --check    # just report whether bd is present (no init)
 
 ## hele ai
 
-The interactive explainer: what the workflow is, who the agents are, what each phase produces. The overview diagram (one command `/hele-yolo`, lane detection, PRD+stubs same stop, QA screenshots, verify replays the report) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
+The interactive explainer: what the workflow is, who the agents are, what each phase produces. The overview diagram (one command `/hele`, lane detection, PRD and stubs in the same stop, QA screenshots, verify copies the report's tables) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
 
 ```bash
 hele ai            # the full pipeline, boxed

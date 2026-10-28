@@ -77,15 +77,28 @@ One paragraph: run-set size (this increment, not the living file), what passed, 
 
 **Rule:** BR-n — <title>
 
-**Data used:** <exact inputs, user, cart, flags>
+**Data used** and **Steps** are tables, not a sentence. Copy this shape into every replay so the human walk can follow it without rewriting it:
 
-**Steps:**
-1. <what the test did, in user terms — screen, login, clicks>
-2. <…>
+| Open | |
+|---|---|
+| URL | <exact url> |
+| Start | <command that served the app> |
+| Land | <clicks from a cold open to this screen> |
 
-**Expected:** <what the stub demands, in product words>
+| Data | Value |
+|---|---|
+| Login | <role and credentials the test used> |
+| Seed | <records, ids> |
+| Input | <every value typed or selected> |
 
-**Happened:** <what the app actually did>
+| Step | Do this | You should see |
+|---|---|---|
+| 1 | <user action> | <observable result> |
+| 2 | <…> | <…> |
+
+**Expected:** <what the stub demands>
+
+**Happened:** <what the app did>
 
 ![TS-nnn](screenshots/TS-nnn.png)
 

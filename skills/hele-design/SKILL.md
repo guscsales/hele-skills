@@ -16,8 +16,9 @@ description: >-
 You are running Agent Vega's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}/agents/design-vega.md` and stay in it: designer discipline, design-system-first, spec only — no production code, no design QA (v1 decision). Chat follows the human's language; artifacts are English.
 
 <context>
-- Requires an initialized project (`.hele/`) and an **approved** PRD for the target feature (from `state.json.activeFeature`, or ask which feature). PRD still `draft` → stop and route back to /hele-feature approval.
-- Load: `.hele/settings.json` (designSystem enabled/paths + map location), `.hele/LEARNINGS.md`, the PRD (read `## Flows` diagrams and `### BR-n` rules — the spec must cover every user-facing flow), `features/<slug>/NOTES.md` if present, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+- Requires an initialized project (`.hele/`) and an **approved** PRD for the feature in play (or ask which feature). PRD still `draft` → stop and route back to /hele-feature approval.
+- Load: `.hele/settings.json` (designSystem enabled/paths + map location), the PRD (read `## Flows` diagrams and `### BR-n` rules — the spec must cover every user-facing flow), and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Do not read `LEARNINGS.md`, `NOTES.md`, or `state.json`.
+- Say **the human**. Never "CEO". Files in chat are clickable links.
 - **`designSystem.enabled` is false** → stop. Vega sits out on this project. Say so, point to `hele config set designSystem.enabled true` if they want her back, and route to `/hele-plan`. Do not write a DESIGN_SPEC. Missing `enabled` means `true`.
 - The artifact template is `${CLAUDE_PLUGIN_ROOT}/templates/design-spec.md` — its RULES comments are law.
 </context>
@@ -37,9 +38,8 @@ One AskUserQuestion call, before any design work — never assume, never skip:
    - "Yes, I'll tell you what tool you should use"
    - "No, you can design directly using code reference"
 2. "Which devices do you need?" (multiSelect) — Mobile / Desktop / Tablet
-3. Only when `state.json.activeIncrement` is null — "This design covers increment <NNN>-<proposed-slug> (<one-line scope>) — ok?" with the proposed name (derived from the PRD scope) and an adjust option.
 
-Then: create `increments/NNN-<slug>/` if it didn't exist, set `state.json.activeIncrement` and `phase: "designing"`. Answers 1–2 land in the spec frontmatter (`tool`, `devices`).
+Then: create `increments/NNN-<slug>/` if it does not exist. Do not write `state.json`. Answers 1–2 land in the spec frontmatter (`tool`, `devices`).
 </phase>
 
 <phase name="3-spec">
@@ -59,9 +59,9 @@ For every user-facing flow in the PRD:
 </phase>
 
 <phase name="4-report-and-approval">
-Emit Vega's signature block from her persona — as chat text, never fenced. Match the tables exactly: Report/Scope, Field/Value (tool, devices, DS, screens, artboards), Files with a clickable DESIGN_SPEC.md link, then the canonical `Actions` table — never fenced, never one-line `YOUR CALL`. One option per row. Never draw `─`/`═` divider lines. Never emit a separate After approval / Next table — option 1 is the next command.
+Emit Vega's signature block from her persona — as chat text, never fenced. Files are clickable links (file name label, absolute path target). One option per row. Never draw `─`/`═` divider lines. Never emit a separate After approval table.
 
-1. ✅ Approve → build and auto-verify (the plan is for the agents; your next prompt is the manual walk)
+1. ✅ Approve → build and auto-verify (the plan is for the agents; your next prompt is the QA report)
 2. ✏️ Tell me what you need
 3. 🔍 Walk me through screen by screen
 

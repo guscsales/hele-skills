@@ -3,20 +3,10 @@ import path from 'node:path';
 // generated at build time by scripts/build-cursor.mjs --assets-only
 import assets from './cursor-assets.json' with { type: 'json' };
 
-/** Resolve the harness dir under a project root (.hele/ or .helerc dirName). */
+/** Resolve `.hele/` under a project root. The folder name is not configurable. */
 export function resolveHeleDirAt(projectRoot) {
-  const defaultDir = path.join(projectRoot, '.hele');
-  if (fs.existsSync(defaultDir) && fs.statSync(defaultDir).isDirectory()) return defaultDir;
-
-  const rc = path.join(projectRoot, '.helerc');
-  if (!fs.existsSync(rc)) return null;
-  try {
-    const { dirName } = JSON.parse(fs.readFileSync(rc, 'utf8'));
-    const custom = path.join(projectRoot, dirName);
-    if (dirName && fs.existsSync(custom) && fs.statSync(custom).isDirectory()) return custom;
-  } catch {
-    // malformed .helerc
-  }
+  const heleDir = path.join(projectRoot, '.hele');
+  if (fs.existsSync(heleDir) && fs.statSync(heleDir).isDirectory()) return heleDir;
   return null;
 }
 

@@ -10,7 +10,7 @@ Make the **project build** exit 0. Compile, type, import, and build-script fixes
 </mission>
 
 <responsibilities>
-- Finds the project's production/compile command (`build`, `typecheck`, `tsc`, turbo, the command the CEO named) and runs it.
+- Finds the project's production/compile command (`build`, `typecheck`, `tsc`, turbo, the command the human named) and runs it.
 - On red: fixes compile, type, import, and build-script errors. Re-runs. Stops only when green, or when blocked (missing env/secret, a product-rule decision, or the same error after 3 honest fix attempts).
 - Reports the command used, attempts, files touched, final exit, leftover errors if any.
 </responsibilities>

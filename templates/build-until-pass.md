@@ -7,7 +7,7 @@ The human asked to make the **project build** go green. This is not `/hele-build
 2. Dispatch ONE **background** `[AGENT] Summer` (`${CLAUDE_PLUGIN_ROOT}/agents/summer.md`). Description: `[AGENT] Summer — BUILD: until pass`. `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit). She is not Cho, not Van Pelt, not Lisbon — compile fixer only.
 3. Prompt: her persona + this file + the repo root + any error the human pasted. Announce the Dispatch table. **END THE TURN.** Do not run the build in the main session. Do not wait for the worker.
 4. On return: read the report only. Green → tell the human (command + files touched). Still red or blocked → report the remaining errors; ask if they want another round. Do not silently re-dispatch forever.
-5. Sticky fast/iterate does not yield — after this returns, stay in that lane if you were in one.
+5. After this returns, stay in `/hele`. A product correction still adjusts the current PRD and increment.
 </conductor>
 
 <worker>

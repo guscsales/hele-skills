@@ -1,21 +1,16 @@
-# Sticky lanes
+# Sticky lane
 
-`/hele-yolo` stays in force for the rest of this conversation. The human does not re-type the slash command. Follow-ups stay in that skill — the lane, the agent chain, the artifact. Beads stay on Feature / Fast / Bugfix / iterate. Never implement ad-hoc.
+`/hele` stays in force for the rest of this conversation. The human does not re-type the slash command. Follow-ups stay in that skill: the lane, the agent chain, the documents. Beads stay on Feature, Fast, and Bugfix. Never implement ad-hoc.
 
-`/hele-iterate` stays sticky the same way when the human is already in a post-build discovery on an open increment (still under the yolo session, or resumed from `state.json`).
+There is no state file. The feature is the folder under `.hele/features/<slug>/`. The increment is the folder this conversation is building. After `/clear`, resume `/hele` and resolve the feature with `hele find` plus the human's words, and the increment as the one they name or the newest `increments/` folder of that feature. Do not write a phase anywhere.
 
-Also obey `open-channel.md`: the main session stays free. Doing work is always a background sub-agent. If the human talks while a worker is running, answer them first — do not wait for the worker.
+Also obey `open-channel.md`. The main session stays free. Doing work is a background sub-agent. If the human talks while a worker is running, answer them first.
 
 At the start of every user message, before writing product code:
 
-1. **A `/hele-*` command was invoked this turn** (except `/hele-status`) — that skill wins. The sticky lane yields. `/hele-status` is read-only and does not steal the lane. Prefer `/hele-yolo` for product work; other pipeline skills exist as phase contracts yolo reads, not as a menu.
-2. **Build-until-pass phrase** (match intent, EN or PT — not only these strings): `build til pass`, `build until pass`, `build until it passes`, `make the build pass`, `compile until green`, `typecheck until pass`, `builda até passar`, `faz o build passar`, `build até passar`, `arruma o build`. This is the **project build** (compile/typecheck), not `/hele-build` and not a discovery. Agent Lisbon conducts: read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md` and dispatch background `[AGENT] Summer` now. Stay in the sticky lane afterward if you were in one.
-3. **This conversation already ran `/hele-yolo` or `/hele-iterate`** and step 1–2 did not fire — you are still in that skill. Immediately re-read its SKILL.md and execute it with this message as the request.
-   - **yolo** — another ask, an Options reply (`1` / `2` / …), or a continuation. A bare prompt is another ask or free-text adjust. Option rows for Work done / Let's formalize live in the Options table — the human does not need to remember phrases. `/hele-yolo` with no new idea resumes the board.
-   - **iterate** — another discovery on the open increment: classify → summon → `ITERATE:` beads → route. A bare prompt is option 2 (stay in iterate); do not wait for them to pick it.
-4. **Fresh conversation, no slash command** — read `state.json`:
-   - `phase: "yolo"` | `"open"` | `"defining"` | `"planning"` | `"building"` | `"fast"` → resume `/hele-yolo`
-   - `phase: "iterating"` → resume `/hele-iterate` (or `/hele-yolo`, which will hand off)
-   - `phase` is `built` | `qa` | `verifying` and the message is a late find on the active feature → `/hele-iterate` under the yolo sticky session
+1. **A `/hele-*` command was invoked this turn** — that skill wins. The sticky lane yields. Prefer `/hele` for product work. The other pipeline skills are phase contracts `/hele` reads, not a menu.
+2. **Build-until-pass phrase** (match intent, EN or PT): `build til pass`, `build until pass`, `build until it passes`, `make the build pass`, `compile until green`, `typecheck until pass`, `builda até passar`, `faz o build passar`, `build até passar`, `arruma o build`. This is the project compile, not `/hele-build` and not a product change. Read `templates/build-until-pass.md` and dispatch background `[AGENT] Summer`. Stay in `/hele` afterward.
+3. **This conversation already ran `/hele`** and steps 1–2 did not fire — re-read `skills/hele/SKILL.md` and execute it with this message. A bare prompt is another ask, an Options reply, or a correction of the increment already in play. A correction found in manual verify goes back to the PRD on that increment, then the flow runs again. It does not open a new feature. Flows already marked pass are not walked again.
+4. **Fresh conversation, no slash command** — if the human is clearly continuing a feature that already has documents, resume `/hele` on that feature. Do not look for `state.json`.
 
-Skill files: plugin `skills/hele-yolo/SKILL.md`, `skills/hele-iterate/SKILL.md`. Phase contracts yolo runs: `hele-init`, `hele-feature`, `hele-fast`, `hele-design`, `hele-plan`, `hele-stubs`, `hele-build`, `hele-qa`, `hele-verify-work`.
+Phase contracts `/hele` runs: `hele-init`, `hele-feature`, `hele-fast`, `hele-design`, `hele-plan`, `hele-stubs`, `hele-build`, `hele-qa`, `hele-verify-work`. `/hele-update` is the plugin update. It is not a phase.

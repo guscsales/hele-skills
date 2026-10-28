@@ -10,7 +10,7 @@ updated: YYYY-MM-DD
 
 <!--
 RULES FOR THIS DOCUMENT
-- Owned by [AGENT DBA] Red John. Required whenever an increment touches
+- Owned by [AGENT DBA] Hightower. Required whenever an increment touches
   schema, indexes, backfills, or production seeds. New queries against
   existing structures do NOT require it.
 - human approval of this doc is BLOCKING: build does not start while
@@ -18,7 +18,7 @@ RULES FOR THIS DOCUMENT
   without it. The EXECUTION_PLAN is for the agents — it is not a sign-off.
 - Changes are numbered (DB-n) and each cites the plan task or business
   rule that needs it. Irreversible operations are flagged in bold.
-- After the migration is applied, Red John updates the living map
+- After the migration is applied, Hightower updates the living map
   .hele/DATABASE.md to the new current state.
 -->
 

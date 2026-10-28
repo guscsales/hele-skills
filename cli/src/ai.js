@@ -3,52 +3,45 @@ import { FLOW_DIAGRAM } from './flow-diagram.js';
 
 const SKILLS = [
   {
-    name: 'yolo',
-    agent: 'Agent Lisbon',
+    name: 'hele',
+    command: '/hele',
+    agent: 'Agent Lisbon, the Builder',
     artifact: 'lane → phase skills behind Options',
     question: 'THE CONDUCTOR',
     detail: `The only entry point for product work. Auto-inits when .hele/ is
-missing. Detects Feature / Fast / Bugfix / Open, prints a Lane table,
-and runs the phase skills. Product questions are a stop that writes
-nothing — a PRD exists only after every one is answered. Real stops
-end in numbered Options (Approve, Tell me what you need, Work done,
-Let's formalize). After the PRD is approved (and design, when there
-are new screens), the agents write the plan, build, and auto-verify
-with no sign-off. Your next prompt is the manual walk. A database
-change or a red QA run still stops. Stubs ship with the PRD; QA
-writes screenshots into a human-readable QA_REPORT; verify replays
-that report; findings.json is written during the talk. Paths in chat
-are always the full PWD. Type it once — follow-ups stay sticky.`,
+missing. Detects Feature / Fast / Bugfix / Open and runs the phase
+skills. Product questions are a stop that writes nothing. After the
+PRD is approved (and design, when there are new screens), the agents
+write the plan, build, and auto-verify with no sign-off. The QA
+report is your next prompt: continue to the manual walk, or fix what
+you saw. The walk is tables for how to open the page, the data, and
+each step. A fix goes back to the PRD on that same increment, and the
+flow runs again. Flows already marked pass are not walked again. A
+database change still stops. Files in chat are clickable links. Type
+it once — follow-ups stay sticky.`,
   },
   {
     name: 'init',
     agent: 'the harness',
-    artifact: '.hele/ skeleton + findings.json',
+    artifact: '.hele/ settings, index, features/',
     question: 'SETUP',
     detail: `Bootstraps the harness: creates .hele/ (settings.json, index.json,
-state.json, LEARNINGS.md, findings.json, features/), installs the sticky
-session rule so /hele-yolo stays in force for follow-ups, asks how design
-works, and runs hele install for beads. That command creates the
-project database and leaves AGENTS.md and CLAUDE.md untouched.
-Idempotent. When
-/hele-yolo finds no .hele/, it runs this automatically and continues the
-ask — you do not type /hele-init first.`,
+features/), installs the sticky session rule so /hele stays in force,
+asks how design works, and runs hele install for beads. That command
+creates the project database and leaves AGENTS.md and CLAUDE.md
+untouched. The folder is always .hele/. No state file. When /hele
+finds no .hele/, it runs this and continues the ask.`,
   },
   {
     name: 'feature',
-    agent: 'Agent Hightower',
+    agent: 'Agent Lisbon',
     artifact: 'PRODUCT_DESCRIPTION.md + TEST_STUBS.md',
     question: 'WHAT & WHY',
-    detail: `Agent Hightower asks until every product question is answered.
-That round writes nothing — a recommendation is an option in the
-question, not a rule already in a file. Only then does she write (or
-patch) the PRD and dispatch Wylie for stubs in the SAME stop. The PRD
-is human-readable markdown with no XML (same rule as QA_REPORT).
-Emits a PRD delta (new rules, and was → now on rewrites) with absolute
-paths, plus an Open these table. Guards the anti-duplicate gate.
-Option 1 → design, or build and auto-verify when design is not needed.
-The plan is not a sign-off. Normally started by /hele-yolo Feature
-lane or Let's formalize.`,
+    detail: `Agent Lisbon asks until every product question is answered.
+That round writes nothing. Only then does she write or patch the PRD
+and dispatch Wylie for stubs in the same stop. Emits a PRD delta and
+clickable file links. Option 1 goes to design, or to build and
+auto-verify when design is not needed. Started by /hele.`,
   },
   {
     name: 'design',
@@ -57,31 +50,27 @@ lane or Let's formalize.`,
     question: 'HOW IT LOOKS',
     detail: `Agent Vega asks which design tool and devices, then specs every
 screen of the increment. Skipped when no new screens need design or
-designSystem.enabled is false. Started by yolo after PRD+stubs approval
-when screens are new. Approving the spec starts the agent run — the
-execution plan is not a separate sign-off.`,
+designSystem.enabled is false. Approving the spec starts the agent run.
+The execution plan is not a separate sign-off.`,
   },
   {
     name: 'plan',
     agent: 'Agent Lisbon',
     artifact: 'EXECUTION_PLAN.md + beads',
     question: 'HOW TO BUILD',
-    detail: `Agent Lisbon reads the real codebase and LEARNINGS.md before
-planning. Small dependency-ordered tasks with owner agents and TDD done
-criteria become beads issues. The plan is for the agents — no human
-sign-off; build starts as soon as it is written. Database tasks bring
-in Agent Red John — DB_CHANGES approval is BLOCKING and pauses the
-chain before build.`,
+    detail: `Agent Lisbon reads the real codebase before planning. Tasks with
+owners and TDD criteria become beads issues. The plan is for the agents.
+Build starts as soon as it is written. Database tasks bring in Agent
+Hightower. DB_CHANGES approval is blocking and pauses the chain.`,
   },
   {
     name: 'stubs',
     agent: 'Agent Wylie',
     artifact: 'TEST_STUBS.md',
     question: 'HOW TO VALIDATE',
-    detail: `Agent Wylie derives Given/When/Then stubs from the PRD only
-(never from the plan). Runs inside the Feature / Fast stop with the PRD —
-not a separate command under /hele-yolo. Does not draft VERIFY.md; QA
-builds the human replay from the QA report.`,
+    detail: `Agent Wylie derives Given/When/Then stubs from the PRD only,
+never from the plan. Runs inside the Feature or Fast stop. Does not
+draft VERIFY.md. QA builds the human replay from the QA report.`,
   },
   {
     name: 'build',
@@ -89,12 +78,10 @@ builds the human replay from the QA report.`,
     artifact: 'code + passing tests',
     question: 'THE CONSTRUCTION',
     extras: ['▸ --from-qa → fixes the QA report'],
-    detail: `Coordination loop: bd ready → background engineer agents, TDD,
-Lisbon shape review in parallel, Hightower PRD conformance. Migrations
-only against approved DB_CHANGES. When the suite is green, auto-verify
-starts in the same turn — no approval to run QA. --from-qa is a FIX
-round from the QA report, then back to auto-verify for the increment
-slice.`,
+    detail: `Coordination loop: bd ready, background engineers, TDD, Lisbon
+review in parallel. Migrations only against approved DB_CHANGES. When
+the suite is green, auto-verify starts in the same turn. --from-qa is
+a fix round from the QA report, then back to auto-verify.`,
   },
   {
     name: 'qa',
@@ -102,63 +89,43 @@ slice.`,
     artifact: 'Playwright + screenshots + QA_REPORT.md',
     question: 'SCREENSHOT PROOF',
     extras: ['▸ --generate-fixes-report → approve → --from-qa'],
-    detail: `Turns stubs into Playwright tests for THIS INCREMENT only.
-Screenshots wait until the page is still, then at most 10 stay in the
-increment (shrunk); the rest are chat only. QA_REPORT.md leads with the
-screen before this increment and after it, and records decisions instead
-of open questions. Chat uses full PWD paths. Green → the manual walk
-starts immediately; red → Options → build --from-qa.`,
+    detail: `Turns this increment's stubs into Playwright tests. Screenshots
+wait until the page is still. At most 10 stay in the increment. Each
+replay is three tables: how to open the page, the data, the steps.
+The report stops. Continue to the manual walk, or fix what you saw.
+A red run also offers to approve the failing tests.`,
   },
   {
     name: 'verify-work',
     agent: 'Agent Wylie + you',
-    artifact: 'VERIFY.md (replay of QA_REPORT)',
+    artifact: 'VERIFY.md (the QA tables, for you)',
     question: 'YOU REPLAY QA',
-    detail: `Walks you through the same steps and data from QA_REPORT.md,
-showing the screenshot of what pass looked like. Close Options: Work
-done, iterate, draft PR — no retro. Findings are written during the
-/hele-yolo session, not at this gate.`,
-  },
-  {
-    name: 'retro',
-    agent: 'session findings',
-    artifact: 'findings.json + LEARNINGS.md',
-    question: 'DURING THE TALK',
-    detail: `Not a close-gate command. /hele-yolo appends .hele/findings.json
-when you correct it or name a preference, and promotes durable lessons
-to LEARNINGS.md. Invoking /hele-retro only reconciles what is already
-on disk.`,
+    detail: `One flow at a time. The chat is the QA report's Open, Data,
+and Steps tables, plus the screenshot of what pass looked like. A fix
+described on a flow goes back to the PRD, then the flow runs again.
+Flows already marked pass are not shown again. Close options: Work
+done, adjust this increment, draft PR.`,
   },
   {
     name: 'fast',
-    agent: 'Agents Hightower & Lisbon',
+    agent: 'Agent Lisbon',
     artifact: 'patched PRD + new increment + spine',
     question: 'FAST / BUGFIX LANE',
-    detail: `Update lane under /hele-yolo: questions first when a rule would
-change, then find the PRD and patch it, stub delta, new increment,
-then the agents plan, build, and auto-verify with no plan sign-off.
-A bugfix that leaves the rule text alone does not stop to ask. Your
-next prompt is the manual walk. Beads on. Schema and security stay
-with Red John / Jane gates — not a bounce to another command.`,
+    detail: `Update lane under /hele. Questions first when a rule would
+change, then patch the PRD, stub delta, new increment, then plan, build,
+and auto-verify. A bugfix that leaves the rule text alone does not stop
+to ask. A correction of the increment already in play stays on that
+increment. Schema and security stay with Hightower and Jane.`,
   },
   {
-    name: 'iterate',
-    agent: 'Agent Lisbon',
-    artifact: 'beads on the open increment',
-    question: 'THE ITERATE LOOP',
-    detail: `Late find after build. Lisbon classifies and dispatches the
-changed slice via beads. A behavior change with a product question
-still open waits — the PRD is not patched ahead of the answer. Still
-under the /hele-yolo sticky session when picked from Options. New
-stubs → QA; else verify.`,
-  },
-  {
-    name: 'status',
+    name: 'update',
+    command: '/hele-update',
     agent: 'the harness',
-    artifact: 'read-only board',
-    question: 'WHERE ARE WE',
-    detail: `Reads index, state, doc frontmatter, beads, and findings counts.
-Shows versions, STALE drift, and the single most useful next action.`,
+    artifact: 'hele-skills@hele at the latest version',
+    question: 'UPDATE',
+    detail: `Refreshes the marketplace, then updates the installed plugin.
+Reports the version before and after. A restart loads the new skills.
+Does not touch the PRD or open a product lane.`,
   },
 ];
 
@@ -194,7 +161,7 @@ export function aiCommand(skillName) {
       console.error(`unknown skill "${skillName}" — try: ${SKILLS.map((s) => s.name).join(', ')}`);
       process.exit(1);
     }
-    console.log(boxTop(`/hele-${skill.name}`, skill.question));
+    console.log(boxTop(skill.command ?? `/hele-${skill.name}`, skill.question));
     console.log(boxRow(skill.agent, bold));
     console.log(boxRow(`▸ ${skill.artifact}`, dim));
     for (const extra of skill.extras ?? []) console.log(boxRow(extra, dim));
@@ -211,11 +178,11 @@ export function aiCommand(skillName) {
   console.log(FLOW_DIAGRAM);
   console.log('');
   console.log(boxTop('memory', ''));
-  console.log(boxRow('living: PRD · TEST_STUBS · DATABASE · LEARNINGS · findings'));
+  console.log(boxRow('living: PRD · TEST_STUBS · DATABASE'));
   console.log(boxRow('frozen: PLAN · DESIGN · DB_CHANGES · QA_REPORT · VERIFY'));
   console.log(boxBottom());
   console.log('');
-  console.log(` ${dim('detail per skill:')} hele ai <name> ${dim('(e.g. hele ai yolo)')}`);
+  console.log(` ${dim('detail per skill:')} hele ai <name> ${dim('(e.g. hele ai plan)')}`);
 }
 
 export { SKILLS };

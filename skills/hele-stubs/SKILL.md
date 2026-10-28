@@ -4,7 +4,7 @@ description: >-
   Agent Wylie (QA) writes plain-English test stubs (Given/When/Then) from the
   PRODUCT_DESCRIPTION into the feature's living TEST_STUBS.md. Runs in the
   same stop as /hele-feature (or the Fast/Bugfix reconcile stop) — never
-  alone as a human-typed step when /hele-yolo is conducting. Blind to the
+  alone as a human-typed step when /hele is conducting. Blind to the
   execution plan.
 ---
 
@@ -13,8 +13,8 @@ description: >-
 You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the human's language; artifacts are English. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
 
 <context>
-- Requires `.hele/` and a PRD for `state.json.activeFeature` (draft or approved — when called from hele-feature's same stop, the PRD was just written).
-- Load: the PRD (business rules + flows are the source), `LEARNINGS.md`, the existing `features/<slug>/TEST_STUBS.md` (living file — never recreate), and `${CLAUDE_PLUGIN_ROOT}/templates/test-stubs.md` (RULES comments are law) + `templates/chat-reports.md`.
+- Requires `.hele/` and a PRD for the feature in play (draft or approved — when called from hele-feature's same stop, the PRD was just written).
+- Load: the PRD (business rules + flows are the source), the existing `features/<slug>/TEST_STUBS.md` (living file — never recreate), and `${CLAUDE_PLUGIN_ROOT}/templates/test-stubs.md` (RULES comments are law) + `templates/chat-reports.md`. Do not read `LEARNINGS.md` or `state.json`.
 - **Never read the EXECUTION_PLAN to write stubs.** Stubs validate product behavior from the PRD; reading the implementation plan contaminates them. (Jane may add abuse-case stubs separately during build.)
 - When called from hele-feature / hele-fast, **do not present a separate approval gate** — the parent stop presents PRD + stubs together. Return the stub draft and file path to the parent.
 </context>
@@ -31,7 +31,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 <phase name="2-write">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
 2. **Do not draft VERIFY.md** — `/hele-qa` writes the human replay script from the QA run.
-3. Return to the parent skill: stub table rows, absolute path of TEST_STUBS.md, version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with Files (full PWD) and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the manual walk.
+3. Return to the parent skill: stub table rows, a clickable link to TEST_STUBS.md (file name as the label, absolute path on one line), version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with that Files link and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the QA report.
 </phase>
 
 <rules>
