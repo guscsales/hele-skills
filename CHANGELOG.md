@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.0.2 — 2026-10-28
+
+- docs: the README and introduction describe hele as a harness for agents like Claude Code, Cursor, and others. The introduction shows the banner and the dedication.
+
 ## v1.0.1 — 2026-10-28
 
 - fix: every stop ends with the Options table from `templates/chat-reports.md` — a number, an emoji, and the words. A `Work done` / `iterate` / `draft PR` table, and a line `Options: 1 …`, are not a menu.
