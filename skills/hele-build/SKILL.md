@@ -27,13 +27,15 @@ Invoked as `/hele-build --from-qa` (or right after the human approves the QA gat
 
 <context>
 - Requires: EXECUTION_PLAN for the increment in play with `status: ready` (legacy `approved` counts as ready), beads epic registered, TEST_STUBS present from the PRD stop (missing → run stubs first via the feature skill). Do not ask the human to approve the plan. Do not read or write `state.json`.
+- `origin: absorb` on the plan → stop. That increment is closed history. A change is a new increment via `/hele`, not this loop.
+- Issues titled `ABSORB:` are not build tasks. Leave them. If `bd ready` returns only those, there is nothing to dispatch.
 - **DB gate:** if `increments/NNN/DB_CHANGES.md` exists and is not `approved`, migration/backfill tasks are NOT dispatched — no exceptions. A draft DB_CHANGES pauses the chain on Hightower's block before build starts. Other tasks may proceed only when build is already in flight and the schema tasks are the ones held.
 - Load: the plan, the PRD, the DESIGN_SPEC (if any), `settings.json` (`agents.maxParallel`, `agents.models`), `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Do not write a phase file.
 </context>
 
 <phase name="1-dispatch-loop">
 Repeat until no tasks remain:
-1. `bd ready` → tasks whose dependencies are done. **File-overlap guard before dispatching:** intersect the `files` lists of the candidate batch (plus tasks already in flight) — two tasks sharing ANY file never run in parallel; dispatch one, hold the other for the next free slot (state the hold as a 1-row table: Hold | Reason → T6 | shares routes/index.ts with T5). beads orders by dependency; this guard orders by physical file — both are needed. Then dispatch up to `agents.maxParallel` in parallel.
+1. `bd ready` → tasks whose dependencies are done. Drop any issue whose title starts with `ABSORB:`. **File-overlap guard before dispatching:** intersect the `files` lists of the candidate batch (plus tasks already in flight) — two tasks sharing ANY file never run in parallel; dispatch one, hold the other for the next free slot (state the hold as a 1-row table: Hold | Reason → T6 | shares routes/index.ts with T5). beads orders by dependency; this guard orders by physical file — both are needed. Then dispatch up to `agents.maxParallel` in parallel.
 2. Each engineer task = one **background** subagent (Cursor Task `run_in_background: true` / Claude Code Agent async — do not block this turn). The dispatch `description` MUST carry the persona and the task — `[AGENT BE] Cho — T3: inventory API routes` — so the human can tell who is working on what in the task list. Prompt assembled from:
    - the persona file content + the task block from the plan (description, files, tests, beads id) + the relevant PRD rules;
    - for Van Pelt: the DESIGN_SPEC screens for her task, its `tool` value, and the artboard links/ids — with the explicit instruction to fetch the artboards through that tool (Paper/Figma MCP) and implement from what they actually show, per her persona's fidelity rules;

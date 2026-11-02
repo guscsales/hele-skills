@@ -72,7 +72,7 @@ Runs only after phase 2 closed with zero unanswered product questions.
    - Flows: at least one mermaid. Per diagram: `###` caption, a short paragraph, the mermaid, then a Branch | Rule table of the BR-n ids in **that** diagram.
    - Each rule is `### BR-n — <short title>` plus prose.
    - Scope: `### In scope` as bullets. `### Out of scope` as Left out | Why.
-3. Create `features/<slug>/increments/001-<slug>/`.
+3. Create `features/<slug>/increments/001-<slug>/` when `increments/` is empty. When folders already exist (including `origin: absorb`), the next number is one higher than the highest. Do not reuse a closed absorb increment.
 4. Register in `index.json`: slug, title, one-line summary, aliases (the human's own words, both languages), `docs: {prd: "1.0"}`. Do not write a `status` field.
 5. Do not write `state.json` or `NOTES.md`. Technical hints from the human stay in the conversation. Lisbon uses them when she writes the plan. They do not go in the PRD.
 

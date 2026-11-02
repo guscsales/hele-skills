@@ -123,6 +123,22 @@ play stays on that increment. Schema and security stay with Hightower
 and Jane.`,
   },
   {
+    name: 'absorb',
+    command: '/hele-absorb',
+    agent: 'Agent Lisbon, captain',
+    artifact: 'PRDs + stubs + closed increments',
+    question: 'SNAPSHOT',
+    detail: `Reads an existing app into .hele memory. Specialists cover the
+whole product in parallel — server, screens, git history, schema, and
+the design system when design is on — coordinated by beads. Lisbon
+consolidates. You approve one table: feature, increment, what exists
+today, evidence. Option 1 writes the files. Option 2 says what is
+wrong, and a new table comes back before anything is written. Each
+PRD is the current behavior. Increments are closed history (origin
+absorb, no tasks). The next /hele change uses the next number. Not a
+lane. Resume does not pick those increments up.`,
+  },
+  {
     name: 'update',
     command: '/hele-update',
     agent: 'the harness',

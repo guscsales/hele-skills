@@ -35,4 +35,4 @@ Forbidden after a spawn: waiting, polling, starting the next phase in this same 
 A later turn resumes when a sub-agent report arrives, or the human speaks. If they spoke while work is in flight, **answer them first**. Then, if a report is in, read only that report and dispatch the next work the same way.
 </turn>
 
-Beads are the task trace for Feature, Fast, Bugfix, and an adjustment of the current increment. Owner matches the persona (`[AGENT] Lisbon — REVIEW: T3`, `[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`).
+Beads are the task trace for Feature, Fast, Bugfix, an adjustment of the current increment, and `/hele-absorb` (titles start with `ABSORB:`). Owner matches the persona (`[AGENT] Lisbon — REVIEW: T3`, `[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`). Build ignores `ABSORB:` issues.

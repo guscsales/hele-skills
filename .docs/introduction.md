@@ -19,6 +19,8 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
+An existing app is not a lane. `/hele-absorb` reads it and, after you approve one snapshot, writes the feature PRDs, stubs, and closed increments. The next change is `/hele`.
+
 ## The vision
 
 Everyone is talking about AI and coding agents. After some time reflecting, I reached a surprising conclusion: in terms of software engineering structure, nothing changed. What changed is the scale and who operates that structure. It used to be a boss with **10 humans on the team**. Now it's a programmer with **10 agents on the team**.

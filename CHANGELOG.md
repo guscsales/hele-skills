@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.0.5 — 2026-11-02
+
+- feat: `/hele-absorb` snapshots an existing app into feature PRDs, stubs, and closed increments. Specialists read the whole product on beads. Files are written only after you approve the snapshot. Absorbed increments stay out of resume and out of the build loop.
+
 ## v1.0.4 — 2026-11-02
 
 - feat: before a PRD write, Lisbon investigates first and, if useful questions remain, stops with one pack: `1` accept all recommendations, `2` answer one by one, `3` reply in words. Follow-ups that belong in that pack stay there. Late doubts mid-path are still allowed.
