@@ -19,6 +19,8 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane.                                                                                          |
 | The Open Lane    | Research, review, investigation, design exploration, anything else.   | A conversation, with no PRD, until you pick **Let's formalize or say you're done.**                                                                                                                              |
 
+Already have an app? `/hele-absorb` reverse engineer the current snapshot it into `.hele/` after you approval. Read more in the [Absorb](.docs/absorb.md) docs.
+
 ## Install
 
 ```bash
