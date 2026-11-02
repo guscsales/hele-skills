@@ -57,7 +57,6 @@ You talk to Lisbon. Review, the suite, and reading code go to background subagen
 ## Also useful
 
 - **build until pass**: say `build til pass` or `builda até passar`. Lisbon dispatches Summer for the project compile. That is not the increment build loop.
-- **`/hele-absorb`**: the app already exists and `.hele/` has no memory of it. Lisbon's team reads the repo and you approve one snapshot before any PRD is written. Those increments are closed history. The next change still starts with `/hele`.
 - `/clear` between phases when a report says it is safe. The documents and the beads are on disk.
 
 The main chat is yours. Doing work runs in the background. After a dispatch, the turn ends. Talk anytime.

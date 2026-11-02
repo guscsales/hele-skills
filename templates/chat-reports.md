@@ -20,8 +20,6 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 | Verify — each flow | Open table · Data table · Steps table · screenshot link · Options |
 | Verify — close | Report frame · counts · Files (links) · the Options table below, and nothing after it |
 | Open lane | Report frame · relay · Files if any (links) · Options (Work done / Let's formalize / keep going) |
-| Absorb snapshot | Report frame · snapshot table · already documented (if any) · doubts (if any) · Options (approve / what's wrong) · no files · end the turn |
-| Absorb done | Report frame · counts · Files (links) · Open these · Options (done / tell me what you need) |
 
 <rules>
 - **NEVER wrap a report in a code fence.** Reports are chat text: prose plus markdown tables. The fences in this file only delimit the shape. Code fences in chat are for actual code, commands, and file contents.
@@ -343,70 +341,6 @@ A red run adds rows under those two: approve fixes for the failing tests, and de
 |---|---|---|
 | before / after | in the increment | [before.png](/Users/you/project/.hele/features/<slug>/increments/001-<slug>/screenshots/before.png) |
 | TS-009 | chat only | [TS-009.png](/Users/you/project/.hele/tmp/captures/<slug>/001-<slug>/TS-009.png) |
-```
-
-## Absorb snapshot (`/hele-absorb`)
-
-The whole product, one row per increment. Print this only after the read epic is closed. Write no `.hele/` feature file in this turn. Evidence cells are markdown links. Omit the already-documented table when every slug is new. Omit the doubts table when nothing would change the cut.
-
-```
-| Report | Scope |
-|---|---|
-| 🗺️ ABSORB | <project name> · snapshot |
-
-| Field | Value |
-|---|---|
-| Features | <n> |
-| Increments | <n> |
-| Read epic | closed |
-
-| Feature | Increment | What exists today | Evidence |
-|---|---|---|---|
-| orders | 001-place-order | A visitor can place an order | [place.test.ts](/Users/you/project/tests/place.test.ts) |
-
-| Already documented | What 1 will do |
-|---|---|
-| billing | leave the PRD as it is |
-
-| # | Doubt | Recommendation |
-|---|---|---|
-| 1 | The screen allows cancel after ship. The API rejects it. | The API rule stands — shipped orders cannot be cancelled |
-
-| Actions | Your call |
-|---|---|
-| 1 | ✅ Approve → write the PRDs, stubs, and closed increments |
-| 2 | ✏️ Tell me what's wrong |
-```
-
-`1` accepts the cut and every recommendation, then starts the write epic in that same turn. `2` and free text stay on the snapshot. The next table is the full map again. Files land only after `1`.
-
-## Absorb done
-
-```
-| Report | Scope |
-|---|---|
-| 🗺️ ABSORB | <project name> · written |
-
-| Field | Value |
-|---|---|
-| Features | <n> written |
-| Increments | <n> closed |
-| Stubs | <n> pending |
-
-| File | Change |
-|---|---|
-| [PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/orders/PRODUCT_DESCRIPTION.md) | created v1.0 |
-| [TEST_STUBS.md](/Users/you/project/.hele/features/orders/TEST_STUBS.md) | created v1.0 |
-| [index.json](/Users/you/project/.hele/index.json) | features registered |
-
-| Open |
-|---|
-| [index.json](/Users/you/project/.hele/index.json) |
-
-| Actions | Your call |
-|---|---|
-| 1 | ✅ Done |
-| 2 | ✏️ Tell me what you need |
 ```
 
 ## Open-lane relay

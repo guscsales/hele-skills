@@ -27,7 +27,7 @@ The snapshot is the product as it behaves today. One living PRD per feature (sta
 
 Nothing is written under `.hele/features/`, and `DATABASE.md` / `DESIGN_SYSTEM.md` are not created, until the human picks `1` on the snapshot. Option `2` and free text mean the cut is wrong. Re-read only what they named. Print a new full table. Still no files.
 
-Approved increments are closed history. Each folder gets an `EXECUTION_PLAN.md` with `status: built`, `origin: absorb`, and an empty `<tasks>` block. No beads epic for that increment. No `QA_REPORT.md`, `VERIFY.md`, `DESIGN_SPEC.md`, or `DB_CHANGES.md`. The next `/hele` change uses the next increment number. Resume does not pick up `origin: absorb`.
+Approved increments are closed records of what already exists. Each folder gets an `EXECUTION_PLAN.md` with `status: built`, `origin: absorb`, and an empty `<tasks>` block. No beads epic for that increment. No `QA_REPORT.md`, `VERIFY.md`, `DESIGN_SPEC.md`, or `DB_CHANGES.md`. This skill does not call `/hele`, and `/hele` does not call this skill.
 </philosophy>
 
 <context>
@@ -35,7 +35,7 @@ Approved increments are closed history. Each folder gets an `EXECUTION_PLAN.md` 
 - Beads is mandatory. `${CLAUDE_PLUGIN_ROOT}/scripts/hele install --check`. Missing → stop. The report says beads are required. Do not read the repo anyway.
 - Load `settings.json` (`agents.maxParallel`, `agents.models`, `designSystem`). Models from `settings.agents.models` for this runtime. Never dispatch on the session model. Never invent a model string. Never dispatch a nameless agent.
 - Do not create `state.json`, `NOTES.md`, `LEARNINGS.md`, or `findings.json`. Reader findings live in the bead body. Scratch under `.hele/tmp/` is deleted before the snapshot is shown.
-- Titles start with `ABSORB:`. Build ignores those issues. Discover `bd` syntax with `bd --help` when you create, depend, comment, or close. Do not guess flags.
+- Titles start with `ABSORB:`. Close every bead in an epic before you leave that epic. Do not leave `ABSORB:` issues open. Discover `bd` syntax with `bd --help` when you create, depend, comment, or close. Do not guess flags.
 - Cap in-flight workers at `agents.maxParallel`. Two feature beads whose path lists share a file never run in parallel.
 - Scope is the whole product. Do not ask the human to pick an area first.
 </context>
@@ -100,10 +100,39 @@ Main session. Read feature bead bodies only.
 
 1. Write the snapshot into a bead `ABSORB: consolidate` (blocked on every feature bead), then close every bead in the `ABSORB: read` epic, including consolidate. The closed consolidate body is the copy you re-print after `/clear`.
 2. Delete any `.hele/tmp/` scratch from this run.
-3. Print the Absorb snapshot from `templates/chat-reports.md`. One row per increment. Evidence cells are markdown links (file name label, absolute path target). A feature with no increment yet is one row with increment `—`.
-4. **Already documented** — a second table, only for slugs `hele find` already owns. Those rows are not rewritten on `1`.
-5. **Doubts** — a third table, only for conflicts that would change the cut or the meaning of a rule. Recommendation is what the code does today. Naming disagreements are not doubts. You already chose the cut.
-6. Options are exactly the two rows in that block. `1` accepts the cut and every recommendation. `2` and free text are phase 4. **END THE TURN.** Write no feature file, no `DATABASE.md`, no `DESIGN_SYSTEM.md`.
+3. Print the snapshot below as chat text. Never fence it. One row per increment. Evidence cells are markdown links (file name label, absolute path target). A feature with no increment yet is one row with increment `—`.
+4. **Already documented** — the second table, only for slugs `hele find` already owns. Omit the table when every slug is new. Those rows are not rewritten on `1`.
+5. **Doubts** — the third table, only for conflicts that would change the cut or the meaning of a rule. Omit it when there are none. Recommendation is what the code does today. Naming disagreements are not doubts. You already chose the cut.
+6. Options are exactly those two rows. `1` accepts the cut and every recommendation. `2` and free text are phase 4. **END THE TURN.** Write no feature file, no `DATABASE.md`, no `DESIGN_SYSTEM.md`.
+
+```
+| Report | Scope |
+|---|---|
+| 🗺️ ABSORB | <project name> · snapshot |
+
+| Field | Value |
+|---|---|
+| Features | <n> |
+| Increments | <n> |
+| Read epic | closed |
+
+| Feature | Increment | What exists today | Evidence |
+|---|---|---|---|
+| orders | 001-place-order | A visitor can place an order | [place.test.ts](/Users/you/project/tests/place.test.ts) |
+
+| Already documented | What 1 will do |
+|---|---|
+| billing | leave the PRD as it is |
+
+| # | Doubt | Recommendation |
+|---|---|---|
+| 1 | The screen allows cancel after ship. The API rejects it. | The API rule stands — shipped orders cannot be cancelled |
+
+| Actions | Your call |
+|---|---|
+| 1 | ✅ Approve → write the PRDs, stubs, and closed increments |
+| 2 | ✏️ Tell me what's wrong |
+```
 </phase>
 
 <phase name="4-correct">
@@ -188,16 +217,42 @@ When the index bead is closed, close the write epic and run phase 6.
 </phase>
 
 <phase name="6-done">
-Print the report frame, a Field/Value count (features, increments, stubs), the Files table (one link per file), and Open these. Then the Options table: `1` done, `2` tell me what you need. Nothing after it. **END THE TURN.**
+Print this report as chat text. Never fence it. One file per row in the Files table. Nothing after the Options table. **END THE TURN.**
+
+```
+| Report | Scope |
+|---|---|
+| 🗺️ ABSORB | <project name> · written |
+
+| Field | Value |
+|---|---|
+| Features | <n> written |
+| Increments | <n> closed |
+| Stubs | <n> pending |
+
+| File | Change |
+|---|---|
+| [PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/orders/PRODUCT_DESCRIPTION.md) | created v1.0 |
+| [TEST_STUBS.md](/Users/you/project/.hele/features/orders/TEST_STUBS.md) | created v1.0 |
+| [index.json](/Users/you/project/.hele/index.json) | features registered |
+
+| Open |
+|---|
+| [index.json](/Users/you/project/.hele/index.json) |
+
+| Actions | Your call |
+|---|---|
+| 1 | ✅ Done |
+| 2 | ✏️ Tell me what you need |
+```
 
 On `2` or free text that names a wrong rule: patch that PRD in place (patch bump, changelog), re-dispatch Wylie for those stubs only, leave `origin: absorb` plans frozen. Do not re-survey the whole app. On free text that says the cut itself is wrong, phase 4 for the features they named, then a new snapshot before further writes. A new product idea yields to `/hele`.
 </phase>
 
 <rules>
 - The snapshot stop writes nothing. Approval is `1` on that table.
-- `ABSORB:` beads are closed when their epic finishes. A later `bd ready` in build must not see them open. Phase 5 closes the write epic before phase 6.
+- `ABSORB:` beads are closed when their epic finishes. Phase 5 closes the write epic before phase 6. Do not leave one open.
 - An absorbed plan is `status: built` and `origin: absorb`. Do not set `ready`. Do not leave tasks.
-- Next product increment number is one higher than the highest existing `increments/` folder, absorbed folders included.
 - Artifacts English. Chat follows the human. Files in chat are clickable links. Never fence a report. Never box-drawing.
 - Lisbon does not write production code. Wylie does not fix product code. Vega does not implement. Hightower does not write application code.
 </rules>

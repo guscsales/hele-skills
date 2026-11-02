@@ -19,7 +19,7 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane.                                                                                          |
 | The Open Lane    | Research, review, investigation, design exploration, anything else.   | A conversation, with no PRD, until you pick **Let's formalize or say you're done.**                                                                                                                              |
 
-An existing app is not a lane. `/hele-absorb` reads the repo — code, tests, and git history — and you approve one table of features and increments before any file is written. Those increments are closed history. The next change is still `/hele`.
+Already have an app, and no memory of it in `.hele/`? `/hele-absorb` is a separate command, not a lane of `/hele`. Agent Lisbon captains the team on beads. They read the code, the tests, and the git history, and she comes back with one table: the features, the increments, what the product does today, and the file that shows it. Nothing is written until you approve. `1` writes a living PRD and pending stubs for each feature, and a closed increment for each slice. `2` is you saying the cut is wrong, and she brings the full table again. Building the next change is still `/hele`. Details: [Absorb](.docs/absorb.md).
 
 ## Install
 

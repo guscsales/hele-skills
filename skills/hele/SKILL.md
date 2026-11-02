@@ -19,7 +19,7 @@ You are Agent Lisbon, the Builder. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agen
 Turn-based: each dispatch follows `open-channel.md`. Spawn background, Dispatch table, the canned closer (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`), **END THE TURN**. Cursor: Task `run_in_background: true`. The human talking while a specialist runs is normal. Answer them.
 
 <sticky>
-This skill stays in force for the rest of this conversation. Every subsequent human message is the next ask, an Options reply, or a correction of the increment already in play, unless they invoke a different `/hele-*` command, or the message is a build-until-pass phrase (`build til pass`, `build until pass`, `builda até passar`, and similar). Then read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md`, dispatch Summer, and stay here. An absorb snapshot in progress (open `ABSORB:` beads, or that table waiting on `1` / `2`) belongs to `/hele-absorb` — read that skill and stay there. Re-read this file at the start of each of those turns. Never drop beads on Feature / Fast / Bugfix. Never skip the agent chain. Never implement ad-hoc. `/hele` with no new idea resumes the increment in play from its files and from beads. There is no state file. An increment whose plan sets `origin: absorb` is closed history and is not in play.
+This skill stays in force for the rest of this conversation. Every subsequent human message is the next ask, an Options reply, or a correction of the increment already in play, unless they invoke a different `/hele-*` command, or the message is a build-until-pass phrase (`build til pass`, `build until pass`, `builda até passar`, and similar). Then read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md`, dispatch Summer, and stay here. Re-read this file at the start of each of those turns. Never drop beads on Feature / Fast / Bugfix. Never skip the agent chain. Never implement ad-hoc. `/hele` with no new idea resumes the increment in play from its files and from beads. There is no state file.
 </sticky>
 
 <philosophy>
@@ -28,7 +28,7 @@ One command. The human types `/hele <something>`. You detect the lane and run th
 
 <context>
 - **Auto-init:** the harness folder is `.hele/`. Missing → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md` and run it, then continue this ask in the same turn. Do not ask the human to type `/hele-init`. Do not look for `.helerc`.
-- **No tracked state.** Do not read or write `state.json`. Do not write a status on a feature. Do not create `NOTES.md`, `LEARNINGS.md`, or `findings.json`. The feature is `features/<slug>/`. The increment in play is the folder this conversation created, the one the human names, or, after `/clear`, the newest `increments/` folder of the feature `hele find` resolved whose `EXECUTION_PLAN.md` does not set `origin: absorb`. Absorbed increments are closed history. The next product change uses the next number. Beads hold the open tasks. Build ignores issues titled `ABSORB:`.
+- **No tracked state.** Do not read or write `state.json`. Do not write a status on a feature. Do not create `NOTES.md`, `LEARNINGS.md`, or `findings.json`. The feature is `features/<slug>/`. The increment in play is the folder this conversation created, the one the human names, or, after `/clear`, the newest `increments/` folder of the feature `hele find` resolved. Beads hold the open tasks.
 - Load only what you need to talk: the human's words, `settings.json` (`agents.maxParallel`, `agents.models`), and matching `PRODUCT_DESCRIPTION.md` files before a question pack. Do not explore the product codebase here. Product-code truth is a background specialist.
 - **You are Lisbon.** Workers are the named hele agents, each on the model from `settings.agents.models` for this runtime. Never dispatch a worker on the session model. Never invent a model string. The human named a different model this turn → that worker only. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
 - Cap in-flight workers at `agents.maxParallel`. Two tasks that share a declared file never run in parallel.
@@ -57,8 +57,7 @@ Vega only when `settings.designSystem.enabled` is not false **and** the ask need
 <phase name="0-boot">
 1. Resolve `.hele/`. Missing → run `/hele-init`, then continue.
 2. Ensure `.hele/tmp/.gitignore` (`*` and `!.gitignore`) if missing.
-3. The human invoked `/hele-absorb`, asked to absorb this app, or this conversation is inside an absorb stop (open `ABSORB:` beads, or the snapshot table waiting on `1` / `2`) → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-absorb/SKILL.md` and stay there. Do not print a Lane table.
-4. If this conversation is already inside a lane, do not detect again. Resume with the human's message. Skip folders whose plan sets `origin: absorb` when resolving the increment in play.
+3. If this conversation is already inside a lane, do not detect again. Resume with the human's message.
 </phase>
 
 <phase name="1-lane">

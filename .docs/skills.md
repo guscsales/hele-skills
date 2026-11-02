@@ -2,7 +2,7 @@
 
 **You type `/hele`.** Agent Lisbon, the Builder, detects the lane and runs the phase skills below. Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. The execution plan is not a stop. After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw. A database change still stops. Every file in a chat table is a clickable link: the label is the file name, the target is the absolute path on one line. Say **the human**.
 
-Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [absorb](#hele-absorb) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work)
+Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work)
 
 ## /hele
 
@@ -30,14 +30,6 @@ Bootstraps `.hele/` (settings, index, features/), the sticky session rule, and b
 ## /hele-update
 
 Updates the installed plugin to the latest version. Refreshes the `hele` marketplace, then runs `claude plugin update hele-skills@hele`. Reports the version before and after. A restart loads the new skills. It does not touch the PRD. After the restart, `/hele-init` once when `.hele/` already exists.
-
-## /hele-absorb
-
-Snapshots an existing app into `.hele/` memory. Not a lane, and not something `/hele` starts on its own.
-
-Agent Lisbon captains a beads epic. Specialists read the whole product in parallel: server, screens, git history, schema, and the design system when design is on. She consolidates. You get one table — feature, increment, what exists today, evidence — and two choices: `1` approve and write the files, `2` say what is wrong. Nothing is written before `1`. A correction comes back as a full table.
-
-Each feature gets one living PRD (current behavior) and living stubs (`pending`). Each increment is a closed `EXECUTION_PLAN.md` (`status: built`, `origin: absorb`, no tasks). No QA report, no verify script, no design spec. `DATABASE.md` and `DESIGN_SYSTEM.md` are created when those maps are missing. The next `/hele` change uses the next increment number. Resume skips absorbed increments.
 
 ## /hele-feature
 

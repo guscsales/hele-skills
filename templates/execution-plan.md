@@ -12,10 +12,6 @@ updated: YYYY-MM-DD
 RULES FOR THIS DOCUMENT
 - Per-increment and disposable: it plans THIS delivery only. After the build
   it freezes (status: built) and becomes history — never edit a built plan.
-- An absorbed increment is history, not work. `/hele-absorb` may write this
-  file with `status: built`, `origin: absorb`, and an empty `<tasks>` block.
-  Build does not run it. Resume does not pick it up. The next product change
-  uses the next increment number. Do not add tasks to that file later.
 - Written for the agents, not as a document the human signs. status ready
   means build may start. The human already approved the PRD (and the
   DESIGN_SPEC, when one exists). Leave status draft only while a
