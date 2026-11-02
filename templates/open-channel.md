@@ -24,7 +24,10 @@ A dispatch turn has exactly four steps, then you **STOP**:
 2. Spawn the sub-agent in the **background**. Never block this turn.
    - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug.
    - **Claude Code:** Agent tool, async. Do not block this turn.
-3. Emit the Dispatch table. One prose line: the thread stays open while the agents work. The human can talk.
+3. Emit the Dispatch table. One prose line after it — copy one of these two strings, nothing else:
+   - English: `Thread is opened, you can talk`
+   - Portuguese: `A thread continua aberta, pode falar.`
+   Never paraphrase. Never "fio". Never "O fio fica aberto". Never "I'm here" / "Estou aqui". Never add who is working.
 4. **END THE TURN.** Do not wait for the worker.
 
 Forbidden after a spawn: waiting, polling, starting the next phase in this same turn, exploring "while you wait".

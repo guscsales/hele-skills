@@ -15,7 +15,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 | Design | Report frame · Field/Value · Files (links) · Options |
 | Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
 | Build green | short report · no Options — start auto-verify |
-| Dispatch | Dispatch table · one line that the thread stays open · end the turn |
+| Dispatch | Dispatch table · one canned line (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`) · end the turn |
 | QA report | Report frame · Test results · Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
 | Verify — each flow | Open table · Data table · Steps table · screenshot link · Options |
 | Verify — close | Report frame · counts · Files (links) · the Options table below, and nothing after it |
@@ -33,7 +33,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 
 - **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above: `> 📌 **Was / now for each rule is in the delta above.**`
 - **Every interactive stop ends with the Options table, and that table is the only menu.** Columns are `Actions` and `Your call`. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2. Free text stays in the current phase. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
-- **Open channel.** After a Dispatch table, end the turn. The one line says the thread stays open while the agents work. "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
+- **Open channel.** After a Dispatch table, end the turn. The one line is `Thread is opened, you can talk` or `A thread continua aberta, pode falar.` Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
 - **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug.
 - File artifacts are plain markdown. No emoji inside `.hele/` files.
 - Chat language follows the human. Artifacts are English.
@@ -155,7 +155,7 @@ When the human typed `/hele-init` alone:
 
 ## Dispatch announcement
 
-Emit this, say the thread stays open, **end the turn**.
+Emit this, then one canned line — copy it, do not paraphrase. English: `Thread is opened, you can talk`. Portuguese: `A thread continua aberta, pode falar.` Never "fio". **End the turn.**
 
 ```
 | Dispatch | Agent | Model | Work |

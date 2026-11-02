@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.0.3 — 2026-11-02
+
+- fix: after a dispatch, the closer is canned — `Thread is opened, you can talk` or `A thread continua aberta, pode falar.` Never "fio" / "O fio fica aberto". Re-run `/hele-init` to refresh the session rule.
+
 ## v1.0.2 — 2026-10-28
 
 - docs: the README and introduction describe hele as a harness for agents like Claude Code, Cursor, and others. The introduction shows the banner and the dedication.
