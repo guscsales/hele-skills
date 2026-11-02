@@ -77,7 +77,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, for the agents
           DESIGN_SPEC.md       # per-increment, when UI is involved
-          DB_CHANGES.md        # human-readable schema delta, when the DB is touched, blocking approval; the same changes are in the plan
+          DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
           screenshots/         # up to 10 settled PNGs, compressed with sharp; overflow is chat-only under .hele/tmp/captures/
