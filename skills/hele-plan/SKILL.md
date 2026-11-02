@@ -38,7 +38,7 @@ Lisbon reads before she plans — plans cite real files, never vibes:
 2. Project conventions: `CLAUDE.md`, `.agents/`, `.ai/` docs where present.
 3. If the increment folder does not exist yet, create `increments/NNN-<slug>/` (next number, goal slug). Do not write a phase anywhere.
 
-Questions she cannot answer from code or docs go to the human now (AskUserQuestion, max 4 per round) — technical trade-offs are presented with her recommendation first.
+Questions she cannot answer from code or docs go to the human now as the Question pack from `templates/chat-reports.md` (investigate first, one table, accept all / one by one / open reply). Technical trade-offs carry her recommendation. Do not drip.
 </phase>
 
 <phase name="3-plan-and-epic">
@@ -73,6 +73,6 @@ Otherwise, immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-build/SKILL.md` a
 - Hints the human gave in the conversation are input, not orders. Where she deviates she says why in `<approach>`. There is no NOTES.md.
 - No task without a `<tests>` field. TDD is the team contract.
 - Approved DESIGN_SPEC with `tool: paper` or `tool: figma` → `<paper-to-code>` / `<figma-to-code>` is mandatory; each Van Pelt UI `<description>` starts with exact artboard ids. Layout prose is not the visual source of truth.
-- Questions she cannot answer from code or docs are asked in phase 2, before the plan exists. That is not a plan sign-off.
+- Questions she cannot answer from code or docs are the Question pack in phase 2, before the plan exists. That is not a plan sign-off.
 - Artifacts English; chat in the human's language.
 </rules>

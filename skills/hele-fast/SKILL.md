@@ -2,8 +2,10 @@
 name: hele-fast
 description: >-
   Update lane for /hele: Fast (small addition) or Bugfix (behavior today is
-  wrong). Asks first when a rule would change, then finds the PRD, patches
-  it, writes the stub delta, opens a new increment, and runs the same spine.
+  wrong). Investigates first. If a rule would change and useful questions
+  remain, one pack (accept all / one by one / open reply), then finds the
+  PRD, patches it, writes the stub delta, opens a new increment, and runs
+  the same spine.
   A correction of the increment already in play does not come here — /hele
   adjusts that PRD and that increment. Schema and security stay with
   Hightower and Jane.
@@ -23,14 +25,14 @@ Fast and Bugfix are proportional process, not skipped process. They patch the li
 
 <phase name="1-triage">
 1. Requires `.hele/`. A correction of the increment already in this conversation is not a new Fast or Bugfix. Stop and run `/hele`'s adjust phase on that same folder.
-2. Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes. The change belongs to the matched feature. No match → ask the human which feature, or hand back to the Feature lane.
+2. Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes. The change belongs to the matched feature. No match → that question is a row in the phase-2 pack (which feature, or Feature lane), not a separate turn.
 3. Classify: **bugfix** (the code violates a rule the PRD already states) or **fast** (a small addition). A brand-new capability the product does not have → Feature lane.
 4. Schema and security do not bounce to another command. Hightower and Jane stay on the spine.
 5. One-line verdict: lane, feature, classification. Then phase 2.
 </phase>
 
 <phase name="2-reconcile-prd-and-stubs">
-1. **Product questions first.** If the change would add or rewrite a rule, and the PRD plus the human's words do not already answer it, ask (Question table, max 4). A recommendation is an option in the question. **End the turn.** Do not patch, do not open the increment, do not dispatch Wylie. When this message answers the last question, continue now. **Bugfix that does not change the rule text:** nothing to ask. Leave the PRD.
+1. **Investigate, then one question pack.** Read the matched PRD. If the change would add or rewrite a rule, and the PRD plus the human's words do not already answer it, print the Question pack from `templates/chat-reports.md` (every remaining useful question, each with a recommendation, then Options: accept all / one by one / I'll reply in my own words). Anticipate edge cases in that same pack. A fact that needs product-code truth → dispatch a specialist; do not ask the human what the code does. **End the turn.** Do not patch, do not open the increment, do not dispatch Wylie. On `1`, apply every recommendation and continue now. On `2`, AskUserQuestion over the same pack. On `3` or free text, wait for the open answer. When the last question is answered, continue now. Do not invent a question. **Bugfix that does not change the rule text:** nothing to ask. Leave the PRD. A late doubt that could not have been in the pack uses the same shape.
 2. **Fast, or a bugfix that changes the rule:** patch `PRODUCT_DESCRIPTION.md` (rewrite in place, patch bump, changelog). **Bugfix that does not change the rule text:** leave the PRD. The delta's **Already the rule** bucket names the rule the code broke.
 3. Create `features/<slug>/increments/NNN-<kind>-<slug>/` (next number, kind = `fast` or `bugfix`). Do not write `state.json`.
 4. Dispatch background Wylie (`hele-stubs` contract, model `qa-wylie-stubs`) for the stub delta. No VERIFY.md here.

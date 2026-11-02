@@ -1,6 +1,6 @@
 # Skills Reference
 
-**You type `/hele`.** Agent Lisbon, the Builder, detects the lane and runs the phase skills below. Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need. The execution plan is not a stop. After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw. A database change still stops. Every file in a chat table is a clickable link: the label is the file name, the target is the absolute path on one line. Say **the human**.
+**You type `/hele`.** Agent Lisbon, the Builder, detects the lane and runs the phase skills below. Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. The execution plan is not a stop. After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw. A database change still stops. Every file in a chat table is a clickable link: the label is the file name, the target is the absolute path on one line. Say **the human**.
 
 Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [verify-work](#hele-verify-work)
 
@@ -16,9 +16,9 @@ The conductor. Agent Lisbon talks. Specialists work in the background.
 
 | Lane | When | What happens |
 | --- | --- | --- |
-| Feature | The product does not do this yet. | Questions until none remain, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. You walk the result in tables. |
-| Fast | A small addition to what already exists. | Questions if a rule would change, then a PRD patch and a new increment. Same spine. |
-| Bugfix | Today's behavior is wrong. | Questions only if the rule text changes. Same spine. |
+| Feature | The product does not do this yet. | Investigates first, then one question pack if anything useful remains, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. You walk the result in tables. |
+| Fast | A small addition to what already exists. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. Same spine. |
+| Bugfix | Today's behavior is wrong. | Question pack only if the rule text would change. Same spine. |
 | Open | Research, review, investigation, design exploration. | A conversation, until you pick **Let's formalize** or say you're done. |
 
 **Sticky:** type `/hele` once. Later prompts stay here.
@@ -33,11 +33,11 @@ Updates the installed plugin to the latest version. Refreshes the `hele` marketp
 
 ## /hele-feature
 
-Agent Lisbon. Anti-duplicate gate, then questions until none remain. That round writes nothing. Only then **PRD and stubs in the same stop** (Wylie, blind to the plan). Emits a PRD delta and clickable links. Option `1` goes to design, or to build and auto-verify when design is not needed.
+Agent Lisbon. Anti-duplicate gate, then she investigates. If useful questions remain, one pack (accept all / one by one / open reply). That round writes nothing. Only then **PRD and stubs in the same stop** (Wylie, blind to the plan). Emits a PRD delta and clickable links. Option `1` goes to design, or to build and auto-verify when design is not needed.
 
 ## /hele-fast
 
-Update lane `/hele` runs for Fast and Bugfix: questions first when a rule would change, then patch the PRD, stub delta, new increment, same spine. A bugfix that leaves the rule text alone does not stop to ask. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
+Update lane `/hele` runs for Fast and Bugfix: investigate first, then one question pack when a rule would change, then patch the PRD, stub delta, new increment, same spine. A bugfix that leaves the rule text alone does not stop to ask. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
 
 ## /hele-design
 

@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.0.4 — 2026-11-02
+
+- feat: before a PRD write, Lisbon investigates first and, if useful questions remain, stops with one pack: `1` accept all recommendations, `2` answer one by one, `3` reply in words. Follow-ups that belong in that pack stay there. Late doubts mid-path are still allowed.
+
 ## v1.0.3 — 2026-11-02
 
 - fix: after a dispatch, the closer is canned — `Thread is opened, you can talk` or `A thread continua aberta, pode falar.` Never "fio" / "O fio fica aberto". Re-run `/hele-init` to refresh the session rule.

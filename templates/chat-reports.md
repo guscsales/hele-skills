@@ -10,7 +10,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 |---|---|
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (links) · continue the ask already in flight |
-| Questions | Question table · AskUserQuestion (max 4) · no files · end the turn |
+| Questions | Question pack (investigate first) · Options 1/2/3 · no files · end the turn |
 | PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (links) · Open these · Options |
 | Design | Report frame · Field/Value · Files (links) · Options |
 | Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
@@ -32,7 +32,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
   `[PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)`
 
 - **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above: `> 📌 **Was / now for each rule is in the delta above.**`
-- **Every interactive stop ends with the Options table, and that table is the only menu.** Columns are `Actions` and `Your call`. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2. Free text stays in the current phase. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
+- **Every interactive stop ends with the Options table, and that table is the only menu.** Columns are `Actions` and `Your call`. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2 (the Question pack is that exception). Free text stays in the current phase. At the Question pack, free text is option 3. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
 - **Open channel.** After a Dispatch table, end the turn. The one line is `Thread is opened, you can talk` or `A thread continua aberta, pode falar.` Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
 - **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug.
 - File artifacts are plain markdown. No emoji inside `.hele/` files.
@@ -163,19 +163,51 @@ Emit this, then one canned line — copy it, do not paraphrase. English: `Thread
 | 🏗️ | [AGENT] Lisbon | opus | plan increment 002-coupon-stacking |
 ```
 
-## Question block
+## Question pack (before any PRD write)
 
-This round writes nothing. No PRD, no stubs, no Files table. A recommendation is one of the options. End the turn.
+Investigate first. This round writes nothing. No PRD, no stubs, no Files table. End the turn.
+
+**Investigate before a single question exists:**
+
+1. The human's words.
+2. Matching PRDs (`hele find`, then read those `PRODUCT_DESCRIPTION.md` files). That is talking, not exploring the product codebase.
+3. A fact that needs product-code or live-UI truth: dispatch a specialist, end the turn, wait for the report. Do not ask the human what the code already does.
+4. If those sources already decide every rule, skip this stop and write. Do not invent a question to satisfy the gate.
+
+**Then one pack.** Every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate (update `<slug>` vs new) is a row in this pack when matches exist, not a separate turn.
+
+Print, in this order: Agent/Needs, the question table, then the three Options. Chat follows the human's language. A recommendation is the default she would ship, not a rule already in a file.
 
 ```
 | Agent | Needs |
 |---|---|
-| [AGENT] Lisbon | 3 answers |
+| [AGENT] Lisbon | 4 answers |
+
+| # | Question | Recommendation |
+|---|---|---|
+| 1 | Update appointment-sheet, or a new feature? | Update appointment-sheet — the control already lives there |
+| 2 | What does monthly mean for a Tuesday 5:45 PM event? | Same weekday position (1st Tuesday), like Google Calendar |
+| 3 | Fifth Tuesday in a month that only has four? | Use the last Tuesday of that month |
+| 4 | Already-created future occurrences when frequency changes? | From the edited event onward; past stays intact |
+
+| Actions | Your call |
+|---|---|
+| 1 | ✅ Accept all recommendations → write the PRD |
+| 2 | ✏️ Answer one by one |
+| 3 | 💬 I'll reply in my own words |
 ```
+
+**On `1`:** apply every recommendation. Run the write phase now.
+
+**On `2`:** AskUserQuestion over the same pack (max 4 per call — widget cap). Do not add new topics. When the last answer is in, write.
+
+**On `3` or free text at this stop:** wait. The next message is the open answer. Free text here is option 3, not option 2. If the reply still leaves a useful question, a second pack of only the remainder. If it answers everything, write.
+
+**Late questions are allowed.** A new doubt that could not have been in the first pack (the human added scope, a contradiction found while writing, a design or QA discovery) uses this same pack. Do not restart a drip interview. Do not drip follow-ups that belonged in the first pack.
 
 ## Options table
 
-Option 1 names what runs next, in words. Typing `1` approves and starts that work in the same turn. Free text counts as option 2.
+Option 1 names what runs next, in words. Typing `1` approves and starts that work in the same turn. Free text counts as option 2, except at the Question pack, where free text is option 3.
 
 The EXECUTION_PLAN is not a sign-off. After the PRD (and design, when that stop happened), the agents plan, build, and run QA. The QA report is the next Options, unless a draft DB_CHANGES stops first.
 
@@ -235,7 +267,7 @@ A ready PR is ready for review. A draft PR is a draft. Free text that describes 
 
 **On `1`:** do the work named in that row in this same turn. Mark a PRD, design spec, or DB_CHANGES approved only when the human picks `1` on that document. The execution plan is set `ready` without waiting for a `1`.
 
-**On `2` / free text of a document stop:** stay here. Do not silently advance.
+**On `2` / free text of a document stop:** stay here. Do not silently advance. At the Question pack, free text is option 3.
 
 **Verify close option 4, or a fix described on the flow in front of them:** rewind to the PRD on this increment and run the flow again. Do not walk a flow they already marked pass, unless this fix changed it. Options 1 and 2 close first, then open the PR. Option 3 closes and stops.
 
