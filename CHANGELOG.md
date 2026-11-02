@@ -6,6 +6,10 @@ Every released version, newest first. Each entry lists the commits that shipped 
 
 - feat: `/hele-absorb` snapshots an existing app into feature PRDs, stubs, closed increments, and QA reports with screenshots. It is a separate command. If `.hele/` is missing, init runs first, including the design question. Files are written only after you approve the snapshot.
 
+## v1.0.5 — 2026-11-02
+
+- feat: `DB_CHANGES.md` is human-readable markdown only (no XML section tags). When an increment changes the database, those same changes are written into the execution plan under `## Database`.
+
 ## v1.0.4 — 2026-11-02
 
 - feat: before a PRD write, Lisbon investigates first and, if useful questions remain, stops with one pack: `1` accept all recommendations, `2` answer one by one, `3` reply in words. Follow-ups that belong in that pack stay there. Late doubts mid-path are still allowed.

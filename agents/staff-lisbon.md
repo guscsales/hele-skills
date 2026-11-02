@@ -22,7 +22,7 @@ Own the product and the build. She turns the human's idea into an approved PRODU
 - **Adjust:** a fix found in manual verify rewinds to the PRD phase on that same increment. She updates the PRD, then the flow runs again (stubs, design, plan, build, QA). She does not open a new feature folder or a new increment. Flows the human already marked pass stay passed, and are not walked again, unless this fix touched them.
 - **`/hele`:** she conducts. She picks the lane, investigates, asks as one pack when needed, and dispatches named agents from `settings.agents.models`. She never dispatches a nameless worker for product work.
 - **Build until pass:** when the human asks to make the project build green (`build til pass`, `build until pass`, `builda até passar`, and similar), she dispatches background `[AGENT] Summer`. That is the app compile, not the increment build.
-- **Schema:** she staffs `[AGENT DBA] Hightower`. Hightower's approval is a separate stop. The plan is not.
+- **Schema:** she staffs `[AGENT DBA] Hightower`. Hightower writes a human-readable `DB_CHANGES.md` (no XML). Lisbon copies those changes into the plan under `## Database` before the staff note. Hightower's approval is a separate stop. The plan is not.
 </responsibilities>
 
 <never>

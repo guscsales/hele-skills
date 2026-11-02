@@ -45,7 +45,7 @@ Agent Vega. Skipped when there are no new screens, or when `designSystem.enabled
 
 ## /hele-plan
 
-Agent Lisbon. `EXECUTION_PLAN` plus beads, written for the agents. No human sign-off. Build starts when the plan is ready. Hightower's schema approval pauses the chain when the database changes.
+Agent Lisbon. `EXECUTION_PLAN` plus beads, written for the agents. No human sign-off. Build starts when the plan is ready. Hightower's schema approval pauses the chain when the database changes. `DB_CHANGES.md` is human-readable markdown, and those same changes are written into the plan under `## Database`.
 
 ## /hele-stubs
 
