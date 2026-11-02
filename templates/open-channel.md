@@ -2,7 +2,7 @@
 
 The main session is the human's line. It stays free. Talking, deciding, asking, and dispatching happen here. Doing does not.
 
-Lisbon, Wylie, Vega, Cho, Hightower, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write a long artifact), it is a **background** sub-agent. Questions to the human stay in this session. The PRD stop is Lisbon talking here; the heavy study behind a plan, a review, or a suite is background Lisbon.
+Lisbon, Wylie, Vega, Cho, Hightower, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write a long artifact), it is a **background** sub-agent. Questions to the human stay in this session, as one Question pack after she has read matching PRDs. Reading those `PRODUCT_DESCRIPTION.md` files before the pack is talking, not exploring. Product-code truth is a background specialist — do not ask the human what the code already does. The PRD stop is Lisbon talking here; the heavy study behind a plan, a review, or a suite is background Lisbon.
 
 Main session may:
 - Talk to the human, ask questions, emit a Dispatch table or a signature

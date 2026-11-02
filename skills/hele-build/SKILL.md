@@ -47,9 +47,9 @@ Repeat until no tasks remain:
    Announce every dispatch. Stay free. **END THE TURN.**
    - Pass → close the engineer issue and the review issue.
    - Fix-ups → new beads, dispatch the owning engineer (not Lisbon commits). Any in-flight Wylie confirm for that task is discarded.
-   - PRD miss → Lisbon asks the human (AskUserQuestion), work continues on other ready tasks.
+   - PRD miss → Lisbon asks the human with the Question pack, work continues on other ready tasks.
    **Migration/backfill tasks get one extra gate before closing:** dispatch **background** `[AGENT DBA] Hightower` (`agents/dba-hightower.md`, model `dba-hightower`) to check the written migration against the approved DB_CHANGES. Mismatch → back to Cho; a genuinely necessary deviation → DB_CHANGES patch + human re-approval before the task closes. After the migration is applied, Hightower updates the living map `.hele/DATABASE.md`.
-4. Blocked or product-ambiguous → the question comes to the human immediately (AskUserQuestion), work continues on other ready tasks meanwhile.
+4. Blocked or product-ambiguous → the Question pack comes to the human immediately, work continues on other ready tasks meanwhile. Late doubts are allowed. Do not drip follow-ups that belonged in an earlier pack.
 </phase>
 
 <phase name="2-verify">

@@ -14,9 +14,9 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 
 | Lane | When | What happens |
 | --- | --- | --- |
-| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Questions until none remain, then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
-| The Fast Lane | A small addition to what already exists, a product increment. | Asks questions if necessary, then a PRD patch an update and create a new increment for your feature. |
-| The Bugfix Lane | Today's behavior is wrong. | Asks questions if necessary, reconciles the docs, and follows the same spine of the fast lane. |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
+| The Fast Lane | A small addition to what already exists, a product increment. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. |
+| The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
 ## The vision
@@ -76,7 +76,7 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on 
 - **Agents have no memory, so we build it for them.** Living documents (PRD, test stubs) carry the current truth. Per-increment documents (plan, design spec, QA report with screenshots, verify) freeze the history.
 - **One entry point.** `/hele` detects the Feature, Fast, Bugfix, or Open lane. Phase skills stay on disk as contracts the conductor runs. You pick numbered options, not a skill catalog.
 - **Process proportional to risk.** Full spine for Feature, Fast, and Bugfix. Open for research and reviews until you formalize. Hard gates (database, security) stay in the lane.
-- **The human decides the product.** Approvals are explicit numbered options for the PRD, a new design, a schema change, the QA report, and the manual walk. The execution plan is for the agents. Agents still ask questions they cannot answer from the code. That is a feature, not a plan sign-off. A product question still open means the PRD is not written yet.
+- **The human decides the product.** Approvals are explicit numbered options for the PRD, a new design, a schema change, the QA report, and the manual walk. The execution plan is for the agents. Agents investigate first and still ask questions they cannot answer from the files — one pack, before the PRD: accept all recommendations, answer one by one, or reply in words. Late doubts mid-path are allowed. A product question still open means the PRD is not written yet.
 - **State lives on disk, not in the chat.** beads tracks tasks. Documents track decisions. There is no state file and no feature-status board. An interrupted session resumes from the feature folder, the increment folder, and the beads. `/hele` is sticky: follow-ups stay in that session until you invoke a different `/hele-*`.
 - **The main chat stays free.** You talk to Lisbon there. Doing (review, suite, artifacts, codebase reads) is always a background sub-agent. After a dispatch, the turn ends.
 - **Proof you can open.** QA writes a human-readable `QA_REPORT.md`. Shots are taken after the page settles, at most 10 stay in the increment, and the report opens with the screen before and after the change. Verify walks those same steps, in tables: how to open the page, the data, and each step. A PRD change prints new rules and, when a rule was rewritten, the old sentence next to the new one. Every file in chat is a clickable link. The label is the file name. The target is the absolute path, on one line.

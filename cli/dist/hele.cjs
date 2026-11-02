@@ -3371,7 +3371,8 @@ var FLOW_DIAGRAM = `
     \u25BC
  \u256D\u2500 questions \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 STOP \u2500\u256E
  \u2502 Agent Lisbon                                         \u2502
- \u2502 \u25B8 answer every product question before a write       \u2502
+ \u2502 \u25B8 investigate first; ask only what files cannot      \u2502
+ \u2502 \u25B8 1 accept all \xB7 2 one by one \xB7 3 reply in words     \u2502
  \u2502 \u25B8 a recommendation is an option, not a rule          \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502  zero unanswered product questions
@@ -3436,8 +3437,10 @@ var SKILLS = [
     question: "THE CONDUCTOR",
     detail: `The only entry point for product work. Auto-inits when .hele/ is
 missing. Detects Feature / Fast / Bugfix / Open and runs the phase
-skills. Product questions are a stop that writes nothing. After the
-PRD is approved (and design, when there are new screens), the agents
+skills. Product questions are a stop that writes nothing: investigate
+first, then one pack if anything useful remains (accept all /
+one by one / reply in words). After the PRD is approved (and design,
+when there are new screens), the agents
 write the plan, build, and auto-verify with no sign-off. The QA
 report is your next prompt: continue to the manual walk, or fix what
 you saw. The walk is tables for how to open the page, the data, and
@@ -3463,11 +3466,13 @@ finds no .hele/, it runs this and continues the ask.`
     agent: "Agent Lisbon",
     artifact: "PRODUCT_DESCRIPTION.md + TEST_STUBS.md",
     question: "WHAT & WHY",
-    detail: `Agent Lisbon asks until every product question is answered.
-That round writes nothing. Only then does she write or patch the PRD
-and dispatch Wylie for stubs in the same stop. Emits a PRD delta and
-clickable file links. Option 1 goes to design, or to build and
-auto-verify when design is not needed. Started by /hele.`
+    detail: `Agent Lisbon investigates first. If useful product questions
+remain, one pack: accept all recommendations, answer one by one, or
+reply in words. That round writes nothing. Only then does she write
+or patch the PRD and dispatch Wylie for stubs in the same stop.
+Emits a PRD delta and clickable file links. Option 1 goes to design,
+or to build and auto-verify when design is not needed. Started by
+/hele.`
   },
   {
     name: "design",
@@ -3537,11 +3542,12 @@ PR, 2 draft PR, 3 close with no PR, 4 back to the PRD.`
     agent: "Agent Lisbon",
     artifact: "patched PRD + new increment + spine",
     question: "FAST / BUGFIX LANE",
-    detail: `Update lane under /hele. Questions first when a rule would
-change, then patch the PRD, stub delta, new increment, then plan, build,
-and auto-verify. A bugfix that leaves the rule text alone does not stop
-to ask. A correction of the increment already in play stays on that
-increment. Schema and security stay with Hightower and Jane.`
+    detail: `Update lane under /hele. Investigate first. One question pack
+when a rule would change, then patch the PRD, stub delta, new increment,
+then plan, build, and auto-verify. A bugfix that leaves the rule text
+alone does not stop to ask. A correction of the increment already in
+play stays on that increment. Schema and security stay with Hightower
+and Jane.`
   },
   {
     name: "update",

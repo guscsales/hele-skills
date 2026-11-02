@@ -70,7 +70,7 @@ hele install --check    # just report whether bd is present (no init)
 
 ## hele ai
 
-The interactive explainer: what the workflow is, who the agents are, what each phase produces. The overview diagram (one command `/hele`, lane detection, PRD and stubs in the same stop, QA screenshots, verify copies the report's tables) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
+The interactive explainer: what the workflow is, who the agents are, what each phase produces. The overview diagram (one command `/hele`, lane detection, one question pack, PRD and stubs in the same stop, QA screenshots, verify copies the report's tables) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
 
 ```bash
 hele ai            # the full pipeline, boxed

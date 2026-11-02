@@ -2,11 +2,12 @@
 name: hele-feature
 description: >-
   Agent Lisbon turns a human idea into a PRODUCT_DESCRIPTION plus TEST_STUBS
-  in the same stop, or patches an existing PRD and stub delta. Asks until
-  every product question is answered, then writes the PRD. A question still
-  open blocks the file. Guards the anti-duplicate gate and registers the
-  feature in index.json (no status field). Invoked by /hele (Feature lane
-  or Let's formalize), or when the human types /hele-feature directly.
+  in the same stop, or patches an existing PRD and stub delta. Investigates
+  first. If useful questions remain, one pack (accept all / one by one /
+  open reply), then writes the PRD. A question still open blocks the file.
+  Guards the anti-duplicate gate and registers the feature in index.json
+  (no status field). Invoked by /hele (Feature lane or Let's formalize),
+  or when the human types /hele-feature directly.
 ---
 
 # hele-feature
@@ -27,7 +28,7 @@ No feature is created before searching.
 
 1. Extract key terms in English and in the human's words.
 2. Probe with 2–3 queries: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find <terms>`. Never ad-hoc grep.
-3. Matches → ask: update `<slug>`, another listed match, or genuinely new. Never decide alone.
+3. Matches → name them. Do not AskUserQuestion here. The first row of the phase-2 pack is "update `<slug>` vs another listed match vs genuinely new", with a recommendation. Never decide alone.
 4. No matches → say so and proceed as new.
 5. A content-only match means aliases are missing. Fix `index.json` in this run.
 6. If `/hele` already decided this message is an adjustment of the increment in play, do not start a new feature. Hand it back to `/hele`'s adjust phase.
@@ -36,15 +37,30 @@ No feature is created before searching.
 <phase name="2-interview">
 No `PRODUCT_DESCRIPTION.md` is created or patched while a product question is unanswered. No feature folder, no index registration, no Wylie, no delta, no Files table.
 
-Ask via AskUserQuestion, max 4 questions per call, as many rounds as needed. Ask only what the PRD cannot already answer. If the message already answers everything, go to phase 3 in this turn.
+Investigate first, then one pack, then write. Do not drip questions across turns. The shape is the Question pack in `templates/chat-reports.md`.
 
-While a question is open: ask, then **end the turn**. Write nothing. When this message answers the last question, run phase 3 now.
+**Investigate (before any question):**
+1. The human's words.
+2. Matching PRDs — read those `PRODUCT_DESCRIPTION.md` files. Do not ask a question those files already answer.
+3. A fact that needs product-code or live-UI truth: dispatch a specialist, end the turn, wait for the report. Do not ask the human what the code already does.
+4. If the files and the human's words already decide every rule, skip to phase 3 in this turn. Do not invent a question to satisfy this gate.
 
-Cover, for a new feature: problem and why now, who uses it, business rules and the edges, what is in, what is out and why, how the human will know it works.
+**The pack:** every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate is a row in this pack when matches exist.
 
-For an update: read the current PRD first. Interview only the delta. Do not patch until those answers are in.
+Announce the pack (Agent/Needs, Question/Recommendation, then the three Options). Chat follows the human's language. **End the turn.** Write nothing.
 
-Never invent a fact. There is no Open questions section. A recommendation is an option inside the question ("I would do X — confirm?"), never a sentence already written into a rule.
+Cover, for a new feature — only the rows still unanswered after investigation: problem and why now, who uses it, business rules and the edges, what is in, what is out and why, how the human will know it works.
+
+For an update: read the current PRD first. Interview only the delta. Challenge contradictions with existing BR-n explicitly. Do not patch until those answers are in.
+
+**Options at this stop (not Approve / Tell me what you need):**
+- `1` Accept all recommendations → apply every recommendation, run phase 3 now.
+- `2` Answer one by one → AskUserQuestion over the same pack (max 4 per call, widget cap). Do not add new topics. When the last answer is in, run phase 3 now.
+- `3` or free text → wait. The next message is the open answer. Free text at this stop is option 3, not option 2. If the reply still leaves a useful question, a second pack of only the remainder. If it answers everything, run phase 3 now.
+
+**Late questions:** a new doubt that could not have been in the first pack (the human added scope, a contradiction found while writing, a design or QA discovery) uses the same pack. Do not restart a drip interview.
+
+Never invent a fact. There is no Open questions section. A recommendation is the default in the Recommendation cell, never a sentence already written into a rule.
 </phase>
 
 <phase name="3-write-prd-and-stubs">

@@ -14,9 +14,9 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 
 | Lane             | When                                                                  | What happens                                                                                                                                                                                                     |
 | ---------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Questions until none remain, then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
-| The Fast Lane    | A small addition to what already exists, a product increment.         | Asks questions if necessary, then a PRD patch an update and create a new increment for your feature.                                                                                                             |
-| The Bugfix Lane  | Today's behavior is wrong.                                            | Asks questions if necessary, reconciles the docs, and follows the same spine of the fast lane.                                                                                                                   |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
+| The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment.                                                                                                          |
+| The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane.                                                                                          |
 | The Open Lane    | Research, review, investigation, design exploration, anything else.   | A conversation, with no PRD, until you pick **Let's formalize or say you're done.**                                                                                                                              |
 
 ## Install
@@ -67,7 +67,8 @@ Hele Skills Solves That. Welcome to you next level of creation.
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │
- │ ▸ answer every product question before a write       │
+ │ ▸ investigate first; ask only what files cannot      │
+ │ ▸ 1 accept all · 2 one by one · 3 reply in words     │
  │ ▸ a recommendation is an option, not a rule          │
  ╰──────────────────────────────────────────────────────╯
     │  zero unanswered product questions
@@ -126,7 +127,7 @@ Hele Skills Solves That. Welcome to you next level of creation.
 
 All the outputs are well defined, you're not walking blindly, you know what's happening. It can be a question, it can be reviewing the PRD or the QA Report. Most importantly, you know what your next decision is.
 
-Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. When you finish a open lane the close stops include **Work done**, in case you don't want to continue or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
+Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. When you finish a open lane the close stops include **Work done**, in case you don't want to continue or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
 
 The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. The proof of validation using screenshots for each necessary use case. When that report is ready, you choose: continue to the manual walk, or fix something you saw.
 

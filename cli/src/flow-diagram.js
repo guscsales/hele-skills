@@ -18,7 +18,8 @@ export const FLOW_DIAGRAM = `
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │
- │ ▸ answer every product question before a write       │
+ │ ▸ investigate first; ask only what files cannot      │
+ │ ▸ 1 accept all · 2 one by one · 3 reply in words     │
  │ ▸ a recommendation is an option, not a rule          │
  ╰──────────────────────────────────────────────────────╯
     │  zero unanswered product questions

@@ -9,8 +9,10 @@
   sections by the ## / ### headings below.
 - Written only after every product question is answered. No Open
   questions section. A question still open means do not create this
-  file (new feature) and do not patch it (update). A recommendation
-  belongs in the question, not in a rule written ahead of the answer.
+  file (new feature) and do not patch it (update). Useful questions
+  land in one pack before this file exists (accept all / one by one /
+  open reply). A recommendation belongs in that pack, not in a rule
+  written ahead of the answer.
 - Business rules are numbered (BR-n) and testable — TEST_STUBS reference them.
   Each rule is a ### BR-n — Title heading with enough prose to review alone.
 - Each named flow: ### caption, then a short prose paragraph, then the mermaid,

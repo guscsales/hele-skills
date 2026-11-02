@@ -23,13 +23,13 @@ This skill stays in force for the rest of this conversation. Every subsequent hu
 </sticky>
 
 <philosophy>
-One command. The human types `/hele <something>`. You detect the lane and run the phase skills. Real stops end in numbered options. Option `1` always advances. Option `2` is "tell me what you need". Free text stays in the current phase. Product questions are a stop before any PRD write: Question table, no files, end the turn. A recommendation is an option in the question, not a rule already in a file. The execution plan is not a stop. After the PRD is approved (and the design, when that stop happened), plan → build → auto-verify run on their own. The next prompt after the agent run is the QA report. They choose to continue to the manual walk, or to fix something they saw. A database change is still its own stop. A correction found during manual verify goes back to the PRD phase on that same increment, updates it, and the flow runs again. Flows the human already marked pass are not walked again. It is not a new command and not a new feature.
+One command. The human types `/hele <something>`. You detect the lane and run the phase skills. Real stops end in numbered options. Option `1` always advances. Option `2` is "tell me what you need", except at the Question pack. Free text stays in the current phase. Product questions are a stop before any PRD write: investigate first, then one Question pack if anything useful remains (accept all recommendations / answer one by one / I'll reply in my own words), no files, end the turn. A recommendation is the default in that pack, not a rule already in a file. Late doubts that could not have been in the pack are allowed. Do not drip follow-ups that belonged in the first pack. The execution plan is not a stop. After the PRD is approved (and the design, when that stop happened), plan → build → auto-verify run on their own. The next prompt after the agent run is the QA report. They choose to continue to the manual walk, or to fix something they saw. A database change is still its own stop. A correction found during manual verify goes back to the PRD phase on that same increment, updates it, and the flow runs again. Flows the human already marked pass are not walked again. It is not a new command and not a new feature.
 </philosophy>
 
 <context>
 - **Auto-init:** the harness folder is `.hele/`. Missing → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md` and run it, then continue this ask in the same turn. Do not ask the human to type `/hele-init`. Do not look for `.helerc`.
 - **No tracked state.** Do not read or write `state.json`. Do not write a status on a feature. Do not create `NOTES.md`, `LEARNINGS.md`, or `findings.json`. The feature is `features/<slug>/`. The increment in play is the folder this conversation created, the one the human names, or, after `/clear`, the newest `increments/` folder of the feature `hele find` resolved. Beads hold the open tasks.
-- Load only what you need to talk: the human's words and `settings.json` (`agents.maxParallel`, `agents.models`). Do not explore the codebase here.
+- Load only what you need to talk: the human's words, `settings.json` (`agents.maxParallel`, `agents.models`), and matching `PRODUCT_DESCRIPTION.md` files before a question pack. Do not explore the product codebase here. Product-code truth is a background specialist.
 - **You are Lisbon.** Workers are the named hele agents, each on the model from `settings.agents.models` for this runtime. Never dispatch a worker on the session model. Never invent a model string. The human named a different model this turn → that worker only. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
 - Cap in-flight workers at `agents.maxParallel`. Two tasks that share a declared file never run in parallel.
 - Nothing external during the pipeline. No tickets, no messages, no notifications, no push. The only outward artifact is a **draft** PR, and only when the human picks that option.
@@ -51,7 +51,7 @@ Models always from `settings.agents.models` for this runtime. Every Dispatch row
 | Stubs / Playwright | `[AGENT QA] Wylie` | `qa-wylie-stubs` / `qa-wylie-run` |
 | Compile until green | `[AGENT] Summer` | `staff-lisbon-run` |
 
-Vega only when `settings.designSystem.enabled` is not false **and** the ask needs new screens. Schema → Hightower. Her `DB_CHANGES.md` approval is separate and blocking. Security surface → Jane. Product ambiguity → ask here, never guess.
+Vega only when `settings.designSystem.enabled` is not false **and** the ask needs new screens. Schema → Hightower. Her `DB_CHANGES.md` approval is separate and blocking. Security surface → Jane. Product ambiguity → the Question pack here, never guess.
 </staffing>
 
 <phase name="0-boot">
@@ -70,13 +70,13 @@ A correction of the increment already in play (the human is in manual verify, pi
 - **No, and it's about code → Fast or Bugfix.** Bugfix when behavior today is wrong. Fast when it is a small addition. Announce the lane and the PRD slug. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-fast/SKILL.md`. Schema and security stay in the lane with Hightower and Jane.
 - **Neither → Open lane.** Research, PR review, investigation, design exploration. No PRD, no increment, no Cho or Van Pelt implementation. Dispatch a specialist, relay, end with Work done / Let's formalize / Tell me what you need.
 
-Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes before creating a Feature. Matches → ask: attach to `<slug>` or genuinely new.
+Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes before creating a Feature. Matches → first row of the Question pack (attach to `<slug>` or genuinely new), not a separate turn.
 </phase>
 
 <phase name="2-spine">
 Feature / Fast / Bugfix share this spine. Read the skill file and follow it. A skill missing or erroring → report it. Do not improvise a replacement.
 
-1. **Questions, then PRD + stubs.** Lisbon asks until every product question is answered. That round writes nothing. Only then does she write or patch the PRD, and Wylie writes stubs in the **same stop**. The PRD delta is mandatory. Files are clickable links. Option `1` → design, or the agent run when design is not needed. A bugfix that leaves the rule text alone does not stop to ask.
+1. **Investigate, then questions, then PRD + stubs.** Lisbon reads matching PRDs first. If useful product questions remain, that round is one Question pack (see `templates/chat-reports.md`): every remaining question with a recommendation, then Options `1` accept all / `2` one by one / `3` I'll reply in my own words. That round writes nothing. Only then does she write or patch the PRD, and Wylie writes stubs in the **same stop**. The PRD delta is mandatory. Files are clickable links. Option `1` on the PRD → design, or the agent run when design is not needed. A bugfix that leaves the rule text alone does not stop to ask. A late doubt mid-path uses the same pack. Do not drip follow-ups that belonged in the first pack.
 2. **Design** — only when new screens and `designSystem.enabled` is not false. This is a human stop. Option `1` → the agent run. There is no `NOTES.md`. The skip is the option the human just picked, recorded later in the plan's `<out-of-plan>`.
 3. **Agent run — no Options table on the plan:**
    - **Plan** — Lisbon writes EXECUTION_PLAN + beads and sets the plan `ready`. Do not ask the human to approve it.
@@ -93,7 +93,7 @@ Say it in one line before any question: going back to the PRD, then the flow run
 
 1. Stay on `features/<slug>/` and the increment folder already in play. Do not create `increments/NNN-*`.
 2. Read `VERIFY.md`. Every flow with verdict `verified` stays verified, except a flow this fix touches (the one they were looking at, or a TS/BR they named). Those go back to `pending`.
-3. **PRD phase.** If a product rule would change and their words do not already decide it: Question table, end the turn, write nothing. A recommendation is an option in the question.
+3. **PRD phase.** If a product rule would change and their words do not already decide it: investigate, then the Question pack, end the turn, write nothing. A recommendation is the default in that pack.
 4. When the rule is decided, Lisbon patches `PRODUCT_DESCRIPTION.md` (rewrite in place, patch bump, changelog). If the code missed a rule the PRD already states, leave the text and name that rule in the delta's **Already the rule** bucket. The delta is mandatory, with clickable file links. A text change is the normal PRD stop: option `1` approves the patch and starts the flow again in the same turn. **Already the rule** does not wait. Start the flow in that same turn.
 5. From here the spine runs again on this increment. Stubs, when the contract changed (background Wylie, `qa-wylie-stubs`, no separate stubs approval). Design, when a new screen and design is enabled (human stop). Hightower, when the schema changes (her approval blocks migration work). Then Lisbon patches the plan (patch version + changelog line, same epic, do not throw the plan away), build, and QA.
 6. QA writes the new report. `VERIFY.md` keeps the sections that are still `verified`. Every other flow is refreshed from the new report as `pending`.
