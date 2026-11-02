@@ -65,7 +65,9 @@ The execution plan is not a separate sign-off.`,
     detail: `Agent Lisbon reads the real codebase before planning. Tasks with
 owners and TDD criteria become beads issues. The plan is for the agents.
 Build starts as soon as it is written. Database tasks bring in Agent
-Hightower. DB_CHANGES approval is blocking and pauses the chain.`,
+Hightower. DB_CHANGES.md is human-readable markdown. The same changes
+are written into the plan under ## Database. Her approval is blocking
+and pauses the chain.`,
   },
   {
     name: 'stubs',
