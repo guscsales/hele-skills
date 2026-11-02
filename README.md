@@ -189,7 +189,7 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on 
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, for the agents
           DESIGN_SPEC.md       # per-increment, when UI is involved
-          DB_CHANGES.md        # human-readable schema delta, when the DB is touched — blocking approval; the same changes are in the plan
+          DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
           screenshots/         # up to 10 settled PNGs, compressed with sharp; overflow is chat-only under .hele/tmp/captures/
@@ -203,7 +203,6 @@ There is no `state.json`. The feature is the folder. The increment is the folder
 - A ground-up rebuild is **a new feature folder**, never a major bump.
 - Derived docs carry `based_on: PRODUCT_DESCRIPTION vX.Y`. When the PRD moves, the next plan or spec reconciles before it builds.
 - `PRODUCT_DESCRIPTION` is written as **state, not history**: superseded rules are rewritten, not appended. History lives in the changelog and git. Sections are `## What`, `## Why`, `## Flows`, `## Business rules`, and so on.
-- `DB_CHANGES` is human-readable markdown: `## Current state`, `## Proposed`, `## Changes`, `## Data migration`, `## Rollback`, `## Risks`. When that file exists, the same changes are in the execution plan under `## Database`.
 - A document can be `draft` until you approve it (the PRD, a design spec, a schema change). That is the signature on the file. It is not a status board for the feature.
 
 ## Finding features (anti-duplicate)
