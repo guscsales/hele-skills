@@ -51,7 +51,7 @@ Models always from `settings.agents.models` for this runtime. Every Dispatch row
 | Stubs / Playwright | `[AGENT QA] Wylie` | `qa-wylie-stubs` / `qa-wylie-run` |
 | Compile until green | `[AGENT] Summer` | `staff-lisbon-run` |
 
-Vega only when `settings.designSystem.enabled` is not false **and** the ask needs new screens. Schema → Hightower. Her `DB_CHANGES.md` approval is separate and blocking. Security surface → Jane. Product ambiguity → the Question pack here, never guess.
+Vega only when `settings.designSystem.enabled` is not false **and** the ask needs new screens. Schema → Hightower. Her `DB_CHANGES.md` is human-readable markdown, and the same changes are written into the execution plan under `## Database`. That approval is separate and blocking. Security surface → Jane. Product ambiguity → the Question pack here, never guess.
 </staffing>
 
 <phase name="0-boot">

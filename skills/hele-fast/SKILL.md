@@ -41,7 +41,7 @@ Fast and Bugfix are proportional process, not skipped process. They patch the li
 </phase>
 
 <phase name="3-spine">
-From here the path matches Feature. Read each skill and execute it. Beads on every plan task. Schema → Hightower, blocking `DB_CHANGES`. Security → Jane. The next Options after this PRD stop are the QA report, unless design or a draft DB_CHANGES stops first. On that report they continue to the manual walk, or fix what they saw.
+From here the path matches Feature. Read each skill and execute it. Beads on every plan task. Schema → Hightower, blocking `DB_CHANGES` (human-readable, no XML; the same DB-n list goes in the plan's `## Database`). Security → Jane. The next Options after this PRD stop are the QA report, unless design or a draft DB_CHANGES stops first. On that report they continue to the manual walk, or fix what they saw.
 </phase>
 
 <rules>

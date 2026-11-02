@@ -21,6 +21,11 @@ RULES FOR THIS DOCUMENT
 - Every task maps to a beads issue once /hele-plan registers the epic.
 - based_on MUST point at the PRD version this plan was written against.
   If the PRD moved, reconcile the plan before building.
+- When this increment changes schema, indexes, backfills, or production
+  seeds, ## Database is required. It carries the same DB-n list as
+  DB_CHANGES.md, in human-readable markdown, written in the same turn.
+  A pointer to the other file is not the change. Omit ## Database when
+  nothing in the database changes. A later DB patch updates both files.
 - Required when DESIGN_SPEC.tool is paper: include <paper-to-code>
   (skill /hele-paper-to-code, file id + page, artboard ids per Van Pelt
   task). Pixels from get_jsx; plan/DESIGN_SPEC prose is behavior and
@@ -82,6 +87,42 @@ rule: plan/DESIGN_SPEC prose = behavior and structure; pixels from Figma MCP. Sc
 <out-of-plan>
 Things this increment intentionally does not address.
 </out-of-plan>
+
+## Database
+
+<!--
+Include this section only when the increment changes schema, indexes,
+backfills, or production seeds. Delete the heading when it does not.
+Same DB-n list as DB_CHANGES.md. Human-readable markdown. No XML.
+-->
+
+### Current
+
+The slice this increment builds on.
+
+### Proposed
+
+The same slice after the migration.
+
+### Changes
+
+| Id | Change | Why |
+|---|---|---|
+| DB-1 | DDL the migration task implements | T1 / BR-n |
+
+### Data migration
+
+Backfill or seed, with a volume estimate. "None" is a valid answer.
+
+### Rollback
+
+How to revert each DB-n. **IRREVERSIBLE:** name anything that cannot be undone.
+
+### Risks
+
+| Id | Risk | Mitigation |
+|---|---|---|
+| R-1 | Lock, size, or ordering | What Cho does about it |
 
 ## Changelog
 
