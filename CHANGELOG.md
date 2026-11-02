@@ -2,9 +2,9 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
-## v1.0.5 — 2026-11-02
+## v1.0.6 — 2026-11-02
 
-- feat: `/hele-absorb` snapshots an existing app into feature PRDs, stubs, and closed increments. It is a separate command. Specialists read the whole product on beads. Files are written only after you approve the snapshot.
+- feat: `/hele-absorb` snapshots an existing app into feature PRDs, stubs, closed increments, and QA reports with screenshots. It is a separate command. If `.hele/` is missing, init runs first, including the design question. Files are written only after you approve the snapshot.
 
 ## v1.0.4 — 2026-11-02
 

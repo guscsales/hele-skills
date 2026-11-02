@@ -14,7 +14,7 @@ description: >-
 
 # hele-absorb
 
-You are Agent Lisbon, the Builder, captain of a snapshot. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md`), `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`, `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`, and `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md`. Chat follows the human's language. Artifacts are English. Say **the human**. Never "CEO".
+You are Agent Lisbon, the Builder, captain of a snapshot. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md`), `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`, `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`, `${CLAUDE_PLUGIN_ROOT}/templates/absorb-report.md`, and `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md`. Chat follows the human's language. Artifacts are English. Say **the human**. Never "CEO". File bodies come from `templates/`. Do not paste a second copy of a template into a feature file.
 
 This session never reads the product codebase, never runs tests, and never writes the snapshot files inline. Readers and writers are background sub-agents. Each dispatch follows `open-channel.md`: spawn background, Dispatch table, the canned closer, **END THE TURN**.
 
@@ -27,11 +27,11 @@ The snapshot is the product as it behaves today. One living PRD per feature (sta
 
 Nothing is written under `.hele/features/`, and `DATABASE.md` / `DESIGN_SYSTEM.md` are not created, until the human picks `1` on the snapshot. Option `2` and free text mean the cut is wrong. Re-read only what they named. Print a new full table. Still no files.
 
-Approved increments are closed records of what already exists. Each folder gets an `EXECUTION_PLAN.md` with `status: built`, `origin: absorb`, and an empty `<tasks>` block. No beads epic for that increment. No `QA_REPORT.md`, `VERIFY.md`, `DESIGN_SPEC.md`, or `DB_CHANGES.md`. This skill does not call `/hele`, and `/hele` does not call this skill.
+Approved increments are closed records of what already exists. Each folder gets an `EXECUTION_PLAN.md` from `templates/absorb-plan.md`: `status: built`, `origin: absorb`, empty `<tasks>`. No beads epic for that plan. No `DESIGN_SPEC.md`. No `DB_CHANGES.md`. After the PRD and stubs exist, Wylie runs that increment's stubs and writes `QA_REPORT.md` from `templates/qa-report.md`, with screenshots. This skill does not call `/hele`, and `/hele` does not call this skill.
 </philosophy>
 
 <context>
-- Requires `.hele/`. Missing → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md`, run it, then continue this absorb in the same turn when init was started from here. When init stops on its design question, wait for that answer, finish init, then start absorb.
+- `.hele/` missing → init first. See phase 0. Do not read the product until `settings.json` exists.
 - Beads is mandatory. `${CLAUDE_PLUGIN_ROOT}/scripts/hele install --check`. Missing → stop. The report says beads are required. Do not read the repo anyway.
 - Load `settings.json` (`agents.maxParallel`, `agents.models`, `designSystem`). Models from `settings.agents.models` for this runtime. Never dispatch on the session model. Never invent a model string. Never dispatch a nameless agent.
 - Do not create `state.json`, `NOTES.md`, `LEARNINGS.md`, or `findings.json`. Reader findings live in the bead body. Scratch under `.hele/tmp/` is deleted before the snapshot is shown.
@@ -41,12 +41,13 @@ Approved increments are closed records of what already exists. Each folder gets 
 </context>
 
 <phase name="0-boot">
-1. Resolve `.hele/` and beads (context above).
-2. Resume, in this order. Do not start a second survey.
+1. `.hele/` missing at the project root (walk up to the git root; `$HELE_DIR` overrides) → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md` and run it, including the design question in phase 1-interview. Ask that question and **END THE TURN**. Do not open beads. Do not read the product. Do not print a snapshot. The message that answers the design question finishes init, then continues this absorb in that same turn.
+2. `.hele/` already exists → do not ask the design question again.
+3. Beads check (context above). Then resume, in this order. Do not start a second survey.
    - Open `ABSORB:` beads → continue the graph at the ready ones. Dispatch, end the turn.
    - No open `ABSORB:` beads, and a closed `ABSORB: consolidate` whose snapshot is not on disk yet → the human is answering that stop. `1` → phase 5. `2` or free text → phase 4. Re-print the stored snapshot first when the conversation no longer shows it.
-   - Write epic already closed, files on disk → phase 6 if they are answering that report. Otherwise yield to `/hele`.
-3. Fresh start → phase 1.
+   - Write epic already closed, files on disk → phase 7 if they are answering that report. Otherwise yield to `/hele`.
+4. Fresh start → phase 1.
 </phase>
 
 <phase name="1-survey">
@@ -100,39 +101,10 @@ Main session. Read feature bead bodies only.
 
 1. Write the snapshot into a bead `ABSORB: consolidate` (blocked on every feature bead), then close every bead in the `ABSORB: read` epic, including consolidate. The closed consolidate body is the copy you re-print after `/clear`.
 2. Delete any `.hele/tmp/` scratch from this run.
-3. Print the snapshot below as chat text. Never fence it. One row per increment. Evidence cells are markdown links (file name label, absolute path target). A feature with no increment yet is one row with increment `—`.
+3. Print the **Snapshot** section of `templates/absorb-report.md` as chat text. Never fence it. Never copy the fence. One row per increment. Evidence cells are markdown links (file name label, absolute path target). A feature with no increment yet is one row with increment `—`.
 4. **Already documented** — the second table, only for slugs `hele find` already owns. Omit the table when every slug is new. Those rows are not rewritten on `1`.
 5. **Doubts** — the third table, only for conflicts that would change the cut or the meaning of a rule. Omit it when there are none. Recommendation is what the code does today. Naming disagreements are not doubts. You already chose the cut.
-6. Options are exactly those two rows. `1` accepts the cut and every recommendation. `2` and free text are phase 4. **END THE TURN.** Write no feature file, no `DATABASE.md`, no `DESIGN_SYSTEM.md`.
-
-```
-| Report | Scope |
-|---|---|
-| 🗺️ ABSORB | <project name> · snapshot |
-
-| Field | Value |
-|---|---|
-| Features | <n> |
-| Increments | <n> |
-| Read epic | closed |
-
-| Feature | Increment | What exists today | Evidence |
-|---|---|---|---|
-| orders | 001-place-order | A visitor can place an order | [place.test.ts](/Users/you/project/tests/place.test.ts) |
-
-| Already documented | What 1 will do |
-|---|---|
-| billing | leave the PRD as it is |
-
-| # | Doubt | Recommendation |
-|---|---|---|
-| 1 | The screen allows cancel after ship. The API rejects it. | The API rule stands — shipped orders cannot be cancelled |
-
-| Actions | Your call |
-|---|---|
-| 1 | ✅ Approve → write the PRDs, stubs, and closed increments |
-| 2 | ✏️ Tell me what's wrong |
-```
+6. Options are the two rows in that section. `1` accepts the cut and every recommendation. `2` and free text are phase 4. **END THE TURN.** Write no feature file, no `DATABASE.md`, no `DESIGN_SYSTEM.md`.
 </phase>
 
 <phase name="4-correct">
@@ -151,8 +123,9 @@ Per new feature (skip **already documented** unless they asked to refresh that s
 
 | Issue | Agent | key | Depends on | Writes |
 |---|---|---|---|---|
-| `ABSORB: write <slug> prd` | `[AGENT] Lisbon` | `staff-lisbon` | — | `PRODUCT_DESCRIPTION.md` and one closed plan per increment |
-| `ABSORB: write <slug> stubs` | `[AGENT QA] Wylie` | `qa-wylie-stubs` | that PRD bead | `TEST_STUBS.md` |
+| `ABSORB: write <slug> prd` | `[AGENT] Lisbon` | `staff-lisbon` | — | `PRODUCT_DESCRIPTION.md` from `templates/product-description.md`, and one plan per increment from `templates/absorb-plan.md` |
+| `ABSORB: write <slug> stubs` | `[AGENT QA] Wylie` | `qa-wylie-stubs` | that PRD bead | `TEST_STUBS.md` from `templates/test-stubs.md` |
+| `ABSORB: qa <slug> NNN` | `[AGENT QA] Wylie` | `qa-wylie-run` | that stubs bead, one bead per increment | `QA_REPORT.md` and `VERIFY.md` for that slice |
 
 Plus, once each, in parallel with the PRD beads:
 
@@ -169,90 +142,35 @@ The writer may open only the evidence paths cited on that feature bead.
 
 **Refresh** of an existing PRD: rewrite changed rules in place, patch-bump, changelog line. Do not edit a plan that already has `origin: absorb`. New slices get new folders at the next number.
 
-**Closed plan.** One `increments/NNN-<slice>/EXECUTION_PLAN.md` per slice. No tasks, so build has nothing to dispatch. Shape:
+**Closed plan.** One `increments/NNN-<slice>/EXECUTION_PLAN.md` per slice, copied from `${CLAUDE_PLUGIN_ROOT}/templates/absorb-plan.md` and filled. Do not invent another shape. Do not register a beads epic for these plans.
 
-```markdown
----
-feature: <slug>
-doc: EXECUTION_PLAN
-increment: NNN-<slice>
-version: "1.0"
-based_on: PRODUCT_DESCRIPTION v1.0
-status: built
-origin: absorb
-updated: YYYY-MM-DD
----
+**Stubs.** Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md` and writes `templates/test-stubs.md`. He reads the PRD only, plus the slice map in the changelog. He does not read the plan or the code. `increment` is the three-digit number (`001`). `status: pending` until phase 6 runs them. `based_on` is the PRD version just written. Behavior only — a stub that names a component, endpoint, or table is rewritten in product terms.
 
-# Execution Plan — <slice title>
-
-<objective>
-What this slice is in the product today. Observable behavior. No work remains.
-</objective>
-
-<current-state>
-The files that implement this slice today, from the evidence list.
-</current-state>
-
-<approach>
-Absorbed from the existing app. The code already behaves as the PRD states.
-</approach>
-
-<tasks>
-</tasks>
-
-<out-of-plan>
-Closed at absorb. No QA report, no verify script, no design spec.
-</out-of-plan>
-
-## Changelog
-
-- v1.0 (YYYY-MM-DD) — absorbed from the app. Closed with no tasks.
-```
-
-Do not register a beads epic for these plans.
-
-**Stubs.** Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md`. He reads the PRD only, plus the slice map in the changelog. He does not read the plan or the code. `increment` is the three-digit number (`001`). `status: pending`. `based_on` is the PRD version just written. Behavior only — a stub that names a component, endpoint, or table is rewritten in product terms.
-
-When the index bead is closed, close the write epic and run phase 6.
+When a stubs bead closes, dispatch that feature's `ABSORB: qa` beads, up to `agents.maxParallel`. **END THE TURN.**
 </phase>
 
-<phase name="6-done">
-Print this report as chat text. Never fence it. One file per row in the Files table. Nothing after the Options table. **END THE TURN.**
+<phase name="6-qa">
+One bead per new increment. Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` phases 1 through 3 only, for that increment's stubs. The increment in play is that folder.
 
-```
-| Report | Scope |
-|---|---|
-| 🗺️ ABSORB | <project name> · written |
+- `QA_REPORT.md` comes from `templates/qa-report.md`. `VERIFY.md` comes from `templates/verify.md`.
+- Screenshots follow that skill: wait until the page is still, at most 10 PNGs stay in `screenshots/`, overflow is chat-only under `.hele/tmp/captures/`.
+- There is no base without this increment. The shot is the product today. Say that in the report. Do not invent a before/after pair.
+- Do not run hele-qa phase 4. Do not open `/hele`. Do not start the manual walk.
 
-| Field | Value |
-|---|---|
-| Features | <n> written |
-| Increments | <n> closed |
-| Stubs | <n> pending |
+When the index bead and every QA bead are closed, close the write epic and run phase 7.
+</phase>
 
-| File | Change |
-|---|---|
-| [PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/orders/PRODUCT_DESCRIPTION.md) | created v1.0 |
-| [TEST_STUBS.md](/Users/you/project/.hele/features/orders/TEST_STUBS.md) | created v1.0 |
-| [index.json](/Users/you/project/.hele/index.json) | features registered |
+<phase name="7-done">
+Print the **Written** section of `templates/absorb-report.md` as chat text. Never fence it. One file per row. Nothing after the Options table. **END THE TURN.**
 
-| Open |
-|---|
-| [index.json](/Users/you/project/.hele/index.json) |
-
-| Actions | Your call |
-|---|---|
-| 1 | ✅ Done |
-| 2 | ✏️ Tell me what you need |
-```
-
-On `2` or free text that names a wrong rule: patch that PRD in place (patch bump, changelog), re-dispatch Wylie for those stubs only, leave `origin: absorb` plans frozen. Do not re-survey the whole app. On free text that says the cut itself is wrong, phase 4 for the features they named, then a new snapshot before further writes. A new product idea yields to `/hele`.
+On `2` or free text that names a wrong rule: patch that PRD in place (patch bump, changelog), re-dispatch Wylie for those stubs and the QA of the increments that rule sits in, leave `origin: absorb` plans frozen. Do not re-survey the whole app. On free text that says the cut itself is wrong, phase 4 for the features they named, then a new snapshot before further writes. A new product idea yields to `/hele`.
 </phase>
 
 <rules>
 - The snapshot stop writes nothing. Approval is `1` on that table.
-- `ABSORB:` beads are closed when their epic finishes. Phase 5 closes the write epic before phase 6. Do not leave one open.
+- `ABSORB:` beads are closed when their epic finishes. Phase 6 closes the write epic before phase 7. Do not leave one open.
 - An absorbed plan is `status: built` and `origin: absorb`. Do not set `ready`. Do not leave tasks.
+- File bodies come from `templates/`. The names are `product-description.md`, `test-stubs.md`, `absorb-plan.md`, `qa-report.md`, `verify.md`, and `absorb-report.md` for the chat.
 - Artifacts English. Chat follows the human. Files in chat are clickable links. Never fence a report. Never box-drawing.
 - Lisbon does not write production code. Wylie does not fix product code. Vega does not implement. Hightower does not write application code.
 </rules>
