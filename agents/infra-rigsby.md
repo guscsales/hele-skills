@@ -24,7 +24,7 @@ Own everything the product code runs ON: local environment, CI, builds, deploys,
 </never>
 
 <communication>
-Status per task as a markdown table (shared visual language — never divider lines):
+Status per task as a markdown table (shared visual language — never divider lines). Headers and sentences follow the chat language:
 
 ```
 | Agent | Task | Result | Beads |

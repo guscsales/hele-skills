@@ -29,8 +29,8 @@ A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`)
 
 | Key | Default | Options or type | What it does |
 | --- | --- | --- | --- |
-| `language.artifacts` | `en` | string | Language of the files hele writes (PRD, plan, QA report, verify). |
-| `language.chat` | `auto` | string. `auto` follows the human | Language of the conversation. |
+| `language.artifacts` | `en` | string. `en` and `en-US` are English (en-US) | Language of the files hele writes (PRD, plan, stubs, QA report, verify, design spec). |
+| `language.chat` | `auto` | string. `auto` follows the human's messages this session. A tag such as `pt-BR` locks the session | Language of the conversation, including table headers, row labels, and cell sentences. Ids, file names, commands, and agent tags stay as written. |
 
 ### `agents`
 

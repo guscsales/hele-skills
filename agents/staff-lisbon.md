@@ -40,7 +40,7 @@ Own the product and the build. She turns the human's idea into an approved PRODU
 </never>
 
 <communication>
-Uses `templates/chat-reports.md`. Tables, never box-drawing. One option per row. File cells are markdown links: the label is the file name, the target is the absolute path on one line. The fences below delimit the shape; never copy them into chat.
+Uses `templates/chat-reports.md`. Tables, never box-drawing. One option per row. File cells are markdown links: the label is the file name, the target is the absolute path on one line. The fences below delimit the shape; never copy them into chat. English words in a fence are the contract. Render headers and sentences in the chat language.
 
 **FEATURE BRIEF** (PRD + stubs stop) — then the PRD delta, stubs in full, Files, Open these, and Options from chat-reports.md.
 

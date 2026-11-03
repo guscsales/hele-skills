@@ -2,6 +2,23 @@
 
 Every hele skill reports in chat using this shared visual language. Reports must be scannable. Content stays king.
 
+## Language
+
+Read `.hele/settings.json` → `language`. A missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`.
+
+- `language.chat` is `auto` unless the project set a tag (`pt-BR`, `en`). `auto` is the language of the human's messages in this session. One session, one chat language.
+- `language.artifacts` is the language of every file hele writes (PRD, plan, stubs, QA report, verify, design spec). Default `en` is English (en-US). `en-US` is the same language.
+
+The fenced tables in this file are the shape: column count, order, emoji, one item per row. The English words inside them are the contract names. They are not text to paste.
+
+When chat is not English, write every word the human reads in the chat language: column headers, row labels, section labels (`New`, `Rewritten`, `Already the rule`), option sentences, and every cell that is a sentence. Leave file names, slugs, ids (`BR-4`, `TS-001`), versions, commands, code, model names, and agent tags (`[AGENT] Lisbon`) as written.
+
+A fact that lives in an artifact is restated in the chat language. The file on disk stays in `language.artifacts`. Do not paste the artifact sentence into the table. Do not change the fact. Do not collapse a table into a paragraph.
+
+The human writes in Portuguese. `| Field | Value |` is the wrong table. `| Campo | Valor |` is that table. `| Actions | Your call |` is the wrong menu. `| Ações | Sua escolha |` is that menu. `New (7)` is the wrong bucket. `Novas (7)` is that bucket. `not needed` is the wrong cell. `não entra` is that cell. The same rule applies to any other chat language.
+
+The Dispatch closer is one copied sentence. English: `Thread is opened, you can talk`. Portuguese: `A thread continua aberta, pode falar.` Any other chat language: one sentence with that meaning. Never "fio".
+
 Read this file before the first report of a `/hele` session. `/hele` is the only command the human types for product work. Real stops end in numbered options. The execution plan and the build do not stop. After the PRD is approved (and design, when that stop happened), those run on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw.
 
 ## Per-stop checklist
@@ -31,12 +48,12 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 
   `[PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)`
 
-- **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only (`new BR-4 · rewritten BR-1`). A first version says `first version`. Under the table, when a delta was printed above: `> 📌 **Was / now for each rule is in the delta above.**`
-- **Every interactive stop ends with the Options table, and that table is the only menu.** Columns are `Actions` and `Your call`. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2 (the Question pack is that exception). Free text stays in the current phase. At the Question pack, free text is option 3. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
-- **Open channel.** After a Dispatch table, end the turn. The one line is `Thread is opened, you can talk` or `A thread continua aberta, pode falar.` Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
+- **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only. The English contract is `new BR-4 · rewritten BR-1`; render `new` and `rewritten` in the chat language. A first version says the chat-language rendering of `first version`. Under the table, when a delta was printed above, one line in the chat language: was / now for each rule is in the delta above. The English contract is `> 📌 **Was / now for each rule is in the delta above.**`
+- **Every interactive stop ends with the Options table, and that table is the only menu.** The two columns are the Actions column and the Your call column. Render those headers in the chat language. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2 (the Question pack is that exception). Free text stays in the current phase. At the Question pack, free text is option 3. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
+- **Open channel.** After a Dispatch table, end the turn. The one line is the Dispatch closer from Language. Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
 - **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. `inherit` or missing → omit the Task model field and write `inherit` in the cell. Never pass the session model to a worker. Never invent a slug.
 - File artifacts are plain markdown. No emoji inside `.hele/` files.
-- Chat language follows the human. Artifacts are English.
+- Chat, including table headers and cells, is `language.chat`. Files hele writes are `language.artifacts`. See Language.
 - The harness folder is always `.hele/` at the project root. Do not invent another name. Do not write `.helerc`.
 - Say **the human**. Never "CEO".
 - Do not write `state.json`, a feature status, `NOTES.md`, `LEARNINGS.md`, or `findings.json`.
@@ -44,6 +61,8 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 </rules>
 
 <canonical-blocks>
+
+The fences delimit the shape. Render every header, label, and sentence in the chat language. Do not paste the English words when chat is not English.
 
 ## Lane announcement (first reply of /hele — print the one row that applies)
 
@@ -155,7 +174,7 @@ When the human typed `/hele-init` alone:
 
 ## Dispatch announcement
 
-Emit this, then one canned line — copy it, do not paraphrase. English: `Thread is opened, you can talk`. Portuguese: `A thread continua aberta, pode falar.` Never "fio". **End the turn.**
+Emit this, then the Dispatch closer from Language. Copy that one sentence. Do not paraphrase. Never "fio". **End the turn.**
 
 ```
 | Dispatch | Agent | Model | Work |
@@ -176,7 +195,7 @@ Investigate first. This round writes nothing. No PRD, no stubs, no Files table. 
 
 **Then one pack.** Every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate (update `<slug>` vs new) is a row in this pack when matches exist, not a separate turn.
 
-Print, in this order: Agent/Needs, the question table, then the three Options. Chat follows the human's language. A recommendation is the default she would ship, not a rule already in a file.
+Print, in this order: Agent/Needs, the question table, then the three Options. Headers and cells are in the chat language. A recommendation is the default she would ship, not a rule already in a file.
 
 ```
 | Agent | Needs |
@@ -231,7 +250,7 @@ The EXECUTION_PLAN is not a sign-off. After the PRD (and design, when that stop 
 
 ### Verify close (after all flows)
 
-Copy this block. The Options table is the menu. Do not add a heading line `VERIFY RUN … all-verified`. Do not add a table of `Work done` / `iterate` / `draft PR`. Do not add a line `Options: 1 Work done 2 iterate 3 draft PR`.
+Print this shape in the chat language. The Options table is the menu. Do not add a heading line `VERIFY RUN … all-verified`. Do not add a table of `Work done` / `iterate` / `draft PR`. Do not add a line `Options: 1 Work done 2 iterate 3 draft PR`.
 
 ```
 | Report | Scope |
@@ -273,7 +292,7 @@ A ready PR is ready for review. A draft PR is a draft. Free text that describes 
 
 ## Manual verify — one flow
 
-This is the auto-verify, in tables a person can follow. Copy the cells from `QA_REPORT.md`. Do not paraphrase them into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
+This is the auto-verify, in tables a person can follow. Take the facts from `QA_REPORT.md` and write the cells in the chat language. Keep every step as its own row. Do not paste the English sentences when chat is not English. Do not collapse the steps into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
 
 ```
 | Report | Scope |
@@ -313,7 +332,7 @@ Show the screenshot image as well as the link. If Open, Data, or Steps would be 
 ## Test results (QA stop)
 
 ```
-Stub and Rule cells carry the title. A bare `TS-008` or `BR-9` is wrong. The Screenshot cell is a link, `chat only`, or `mapped test`.
+Stub and Rule cells carry the title. A bare `TS-008` or `BR-9` is wrong. The Screenshot cell is a link, or the chat-language rendering of `chat only` or `mapped test`.
 
 | Stub | Rule | Result | Screenshot |
 |---|---|---|---|

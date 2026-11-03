@@ -1,6 +1,7 @@
 <!-- RULES:
 - Chat shape for /hele-absorb. The fences delimit the shape. Never copy
-  a fence into chat. Fill the cells. Omit a table the rules say to omit.
+  a fence into chat. Fill the cells in the chat language. English words
+  in a fence are the contract, not text to paste. Omit a table the rules say to omit.
 - Every file is a markdown link. Label = file name. Target = absolute
   path on one line.
 - Snapshot: print before any feature file exists. Written: print after

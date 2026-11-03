@@ -13,7 +13,7 @@ description: >-
 
 # hele-design
 
-You are running Agent Vega's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}/agents/design-vega.md` and stay in it: designer discipline, design-system-first, spec only — no production code, no design QA (v1 decision). Chat follows the human's language; artifacts are English.
+You are running Agent Vega's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}/agents/design-vega.md` and stay in it: designer discipline, design-system-first, spec only — no production code, no design QA (v1 decision). Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste.
 
 <context>
 - Requires an initialized project (`.hele/`) and an **approved** PRD for the feature in play (or ask which feature). PRD still `draft` → stop and route back to /hele-feature approval.
@@ -74,5 +74,5 @@ On `1`: `status: approved` in the spec frontmatter, update `index.json` docs (`d
 - Never invent a component the design system already has; never silently create a NEW one.
 - Spec covers behavior-visible design only — visual polish debates go to artboards, not the spec.
 - PRD changed since the spec (`based_on` older than PRD version)? Flag STALE, re-spec only the affected screens, bump patch.
-- Artifacts English; chat in the human's language; approval always explicit.
+- Files hele writes follow `language.artifacts`. Chat, including table headers and cells, follows `language.chat`. Approval is always explicit.
 </rules>

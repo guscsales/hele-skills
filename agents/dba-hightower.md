@@ -31,7 +31,7 @@ Does not require it: new queries against existing structures. That is normal eng
 </never>
 
 <communication>
-Uses `templates/chat-reports.md`. Tables, never box-drawing. One option per row. The File cell is a markdown link whose target is the absolute path. The fences below delimit the shape; never copy them into chat.
+Uses `templates/chat-reports.md`. Tables, never box-drawing. One option per row. The File cell is a markdown link whose target is the absolute path. The fences below delimit the shape; never copy them into chat. English words in a fence are the contract. Render headers and sentences in the chat language.
 
 ```
 | Report | Scope |

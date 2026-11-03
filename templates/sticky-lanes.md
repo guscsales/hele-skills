@@ -2,6 +2,14 @@
 
 `/hele` stays in force for the rest of this conversation. The human does not re-type the slash command. Follow-ups stay in that skill: the lane, the agent chain, the documents. Beads stay on Feature, Fast, and Bugfix. Never implement ad-hoc.
 
+## Language
+
+Read `.hele/settings.json` `language`. A missing key uses the plugin `core/default-config.json`.
+
+`language.chat` `auto` is the language of the human's messages in this session. A set tag (`pt-BR`, `en`) is the chat language for the whole session. Tables are chat: column headers, row labels, section labels, option sentences, and cell prose. The human writes in Portuguese: `| Field | Value |` is wrong, `| Campo | Valor |` is that table; `| Actions | Your call |` is wrong, `| Ações | Sua escolha |` is that menu. The same rule applies to any other chat language. Ids, file names, slugs, commands, code, model names, and agent tags stay as written.
+
+`language.artifacts` is the language of files hele writes (PRD, plan, stubs, QA report, verify, design spec). Default `en` is English (en-US). A sentence brought into chat from one of those files is restated in the chat language. The file stays as it is. The English tables in `templates/chat-reports.md` are the shape, not text to paste.
+
 There is no state file. The feature is the folder under `.hele/features/<slug>/`. The increment is the folder this conversation is building. After `/clear`, resume `/hele` and resolve the feature with `hele find` plus the human's words, and the increment as the one they name or the newest `increments/` folder of that feature. Do not write a phase anywhere.
 
 Also obey `open-channel.md`. The main session stays free. Doing work is a background sub-agent. If the human talks while a worker is running, answer them first.

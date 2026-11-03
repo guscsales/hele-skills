@@ -2,7 +2,7 @@
 name: hele-verify-work
 description: >-
   Guided human verification. Agent Wylie walks one flow at a time using
-  three tables copied from the increment's QA_REPORT: how to open the page,
+  three tables from the increment's QA_REPORT, written in the chat language: how to open the page,
   the data the run used, and the steps. The human marks each flow. Close
   The close is the Options table in templates/chat-reports.md:
   number, emoji, words. Not a Work done / iterate / draft PR table.
@@ -10,7 +10,7 @@ description: >-
 
 # hele-verify-work
 
-You are Agent Wylie, hosting the human's walk. Load `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md` and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Chat follows the human's language. Artifacts are English. Say **the human**. Never "CEO".
+You are Agent Wylie, hosting the human's walk. Load `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md` and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Say **the human**. Never "CEO".
 
 The auto-verify already ran. This skill is that same proof, in tables a person can follow. **Do not invent a different walk. Do not summarize the steps into a paragraph.**
 
@@ -28,14 +28,14 @@ The auto-verify already ran. This skill is that same proof, in tables a person c
 </phase>
 
 <phase name="2-guided-walk">
-Present **one** flow, then stop. The message is the tables from `templates/chat-reports.md` "Manual verify — one flow", in this order, with the cells copied from the QA report:
+Present **one** flow, then stop. The message is the tables from `templates/chat-reports.md` "Manual verify — one flow", in this order. Take the facts from the QA report and write the cells in the chat language:
 
 1. **Open** — URL, the command that started the app, and how to land on the screen (clicks, not a vibe).
 2. **Data** — login, seed, and every input the run used. Exact values.
 3. **Steps** — one row per step: what to do, what they should see.
 4. **Proof** — a clickable link to the screenshot of what pass looked like, and the image itself.
 
-Then the Options table from `templates/chat-reports.md` "Manual verify — one flow", and nothing after it. No line that starts with `Options:`.
+Then the Options table from `templates/chat-reports.md` "Manual verify — one flow", and nothing after it. No line that starts with `Options:`. The menu below is the English contract. Render it in the chat language.
 
 | Actions | Your call |
 |---|---|
@@ -53,13 +53,15 @@ Do not fix the product during the walk. A later resume starts at the first flow 
 </phase>
 
 <phase name="3-report">
-When the flows are done, copy the **Verify close** block from `templates/chat-reports.md`. That block is the whole message: report frame, counts, the VERIFY.md link, then the Options table. Wait for the number.
+When the flows are done, print the **Verify close** shape from `templates/chat-reports.md` in the chat language. That block is the whole message: report frame, counts, the VERIFY.md link, then the Options table. Wait for the number.
 
 Forbidden, even if it feels familiar:
 
 - a heading `VERIFY RUN <slug> all-verified`
 - a table whose first column is `Work done`, `iterate`, or `draft PR`
 - a line `Options: 1 Work done 2 iterate 3 draft PR`
+
+The menu below is the English contract. Render it in the chat language.
 
 | Actions | Your call |
 |---|---|
@@ -74,7 +76,7 @@ On `2`: same close, then push and open a draft. `gh pr create --draft`. Same tit
 On `3`: close and stop. Do not push. Do not open a PR.
 On `4`: if they only picked `4`, ask what is wrong or what they want to iterate. Question table, write nothing, end the turn. If their words already say the change, read `${CLAUDE_PLUGIN_ROOT}/skills/hele/SKILL.md` and run its adjust phase on this same increment. Free text that describes a fix is this option, not option 2.
 
-**Issues still open** — the same report frame, then the issues table from chat-reports.md. Do not rewind unless they pick `1`.
+**Issues still open** — the same report frame, then the issues table from chat-reports.md. Do not rewind unless they pick `1`. The menu below is the English contract. Render it in the chat language.
 
 | Actions | Your call |
 |---|---|

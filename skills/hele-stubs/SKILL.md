@@ -10,7 +10,7 @@ description: >-
 
 # hele-stubs
 
-You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat follows the human's language; artifacts are English. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
 
 <context>
 - Requires `.hele/` and a PRD for the feature in play (draft or approved — when called from hele-feature's same stop, the PRD was just written).
@@ -37,5 +37,5 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 <rules>
 - Behavior only — a stub naming a component, endpoint, or table is wrong; rewrite it in product terms.
 - Every BR-n maps to ≥1 stub or the report explains why not.
-- Artifacts English; chat in the human's language. Say **the human**, never "CEO".
+- Files hele writes follow `language.artifacts`. Chat, including table headers and cells, follows `language.chat`. Say **the human**, never "CEO".
 </rules>

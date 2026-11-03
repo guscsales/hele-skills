@@ -63,10 +63,10 @@ Tip: check the whole configuration in [Configuration](configuration.md).
 
 ## /hele-verify-work
 
-One flow at a time. The message is those three tables, copied from the QA report, plus the screenshot of what pass looked like. A flow already marked pass is not shown again. A fix described on a flow goes back to the PRD, then the flow runs again. The close is the Options table from `templates/chat-reports.md`: 1 close and open a ready PR, 2 close and open a draft PR, 3 close with no PR, 4 back to the PRD.
+One flow at a time. The message is those three tables, facts from the QA report written in the chat language, plus the screenshot of what pass looked like. A flow already marked pass is not shown again. A fix described on a flow goes back to the PRD, then the flow runs again. The close is the Options table from `templates/chat-reports.md`: 1 close and open a ready PR, 2 close and open a draft PR, 3 close with no PR, 4 back to the PRD.
 
 ## Output rules
 
-See `templates/chat-reports.md`. Lane table, Options table, Files as links, PRD delta (was → now), Open these, QA shots. Never fence a report. Never box-drawing in chat. Never a raw path in its own column.
+See `templates/chat-reports.md`. Lane table, Options table, Files as links, PRD delta (was → now), Open these, QA shots. Chat, including those tables, follows `language.chat`. Files follow `language.artifacts` (default English, en-US). Never fence a report. Never box-drawing in chat. Never a raw path in its own column.
 
 Next: [CLI Reference](cli.md)
