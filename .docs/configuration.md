@@ -36,17 +36,25 @@ A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`)
 
 | Key | Default | Options or type | What it does |
 | --- | --- | --- | --- |
-| `agents.maxParallel` | `4` | positive integer | How many background workers stay in flight. Two tasks that share a file still never run together. |
-| `agents.models.staff-lisbon` | claude-code `opus`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Lisbon, the Builder. Judgment work. A plain string applies to both runtimes. `inherit` or a missing runtime key uses the session model. |
-| `agents.models.staff-lisbon-run` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Lisbon's suite, and Summer's compile-until-green. Execution volume. |
-| `agents.models.design-vega` | claude-code `opus`, cursor `opus` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Vega, design specs. |
-| `agents.models.dba-hightower` | claude-code `sonnet`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Hightower, the DBA. |
-| `agents.models.backend-cho` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Cho, backend. |
-| `agents.models.frontend-van-pelt` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Van Pelt, frontend. |
-| `agents.models.security-jane` | claude-code `opus`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Jane, security. |
-| `agents.models.infra-rigsby` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Rigsby, infra. |
-| `agents.models.qa-wylie-stubs` | claude-code `opus`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Wylie writing stubs. |
-| `agents.models.qa-wylie-run` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Wylie running tests. |
+| `maxParallel` | `4` | positive integer | How many background workers stay in flight. Two tasks that share a file still never run together. |
+
+### `agents.models`
+
+Which model each role uses. Judgment work sits on the strong model. Execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is an object `{ claude-code, cursor }`, a plain string, or `inherit`. A plain string applies to both runtimes. `inherit`, or a missing runtime key, uses the session model. Summer uses `staff-lisbon-run`.
+
+| Agent | Key | Claude Code | Cursor |
+| --- | --- | --- | --- |
+| Lisbon (Builder) | `staff-lisbon` | opus | grok |
+| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
+| Vega (Design) | `design-vega` | opus | opus |
+| Hightower (DB) | `dba-hightower` | sonnet | grok |
+| Cho (Backend) | `backend-cho` | sonnet | composer |
+| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
+| Jane (Security) | `security-jane` | opus | grok |
+| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
+| Wylie (Writing stubs) | `qa-wylie-stubs` | opus | grok |
+| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
+| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
 
 ### `beads`
 
