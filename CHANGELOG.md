@@ -2,6 +2,12 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.2.1 — 2026-11-02
+
+- feat: a QA report line is `TS-008 · <test title> · ✅ passing` and `BR-9 · <rule title>`. A unit stub also names the mapped test file.
+- feat: QA screenshots are captured at 1920×1080. Sharp palettes them in place (`-f png -c 9 --effort 10 --palette`) and does not downscale. Before the report is shown, each kept PNG is opened and the element the stub proves has to be in the frame.
+- feat: `qa.maxScreenshots` in `.hele/settings.json` caps how many PNGs stay in one report. Default is 10. Change it with `hele config set qa.maxScreenshots 20`. Re-run `/hele-init` to add the key to an existing project.
+
 ## v1.2.0 — 2026-11-02
 
 - chore: this repo enables `hele-skills@hele`, so `/hele-absorb` can run here.

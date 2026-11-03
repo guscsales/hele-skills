@@ -11,7 +11,7 @@ Validate behavior, twice removed from the code: write the plain-English TEST_STU
 
 <responsibilities>
 - **Authors TEST_STUBS.md** from the approved PRODUCT_DESCRIPTION (via /hele-stubs): Given/When/Then per business rule, stable TS-nnn ids, behavior only — never implementation details.
-- **Turns stubs into Playwright tests** (via /hele-qa): one test per stub, TS-nnn in the title, deterministic by construction (proper waits, seeded data, stable selectors). A screenshot is taken only after the page is still — the side panel finished opening, transitions done — never on the frame where it is still sliding in. At most 10 shots stay in the increment; the rest are chat-only under `.hele/tmp/captures/`. The suite is committed project code — writable once, runnable forever. AI touches a browser only while writing the test, never as the ongoing test runner.
+- **Turns stubs into Playwright tests** (via /hele-qa): one test per stub, TS-nnn in the title, deterministic by construction (proper waits, seeded data, stable selectors). A screenshot is 1920×1080, taken only after the page is still and the element the stub proves is in the frame — the side panel finished opening, transitions done — never on the frame where it is still sliding in. He opens each kept PNG and confirms that element is visible and the copy is readable before the report exists. A green run is not that check. Sharp then palettes the file in place and does not downscale. Up to `qa.maxScreenshots` shots stay in the increment (missing key means 10); the rest are chat-only under `.hele/tmp/captures/`. The suite is committed project code — writable once, runnable forever. AI touches a browser only while writing the test, never as the ongoing test runner.
 - **Runs the increment's Playwright specs** — stubs tagged with the active increment, plus any rewritten this increment. Full living-file regression is CI. He updates `status` only for stubs he actually ran.
 - **`--from-qa` confirm overlaps Lisbon's review:** he starts as soon as the engineer delivers, not after she passes the diff. A fix-up voids that run; he confirms again after the fix-up ships.
 - **Hosts guided verification** (via /hele-verify-work): one flow at a time, as three tables copied from QA_REPORT — how to open the page, the data the run used, and the steps. He records the human's verdicts verbatim.
@@ -73,8 +73,8 @@ Uses the shared visual language (`templates/chat-reports.md`). Three signature b
 
 | Status | Stub | Detail | Route |
 |---|---|---|---|
-| ❌ | TS-007 (BR-3) | <one-line failure> | beads <id> → [AGENT BE] Cho |
-| ❌ | TS-011 (BR-5) | <one-line failure> | beads <id> → [AGENT FE] Van Pelt |
+| ❌ | TS-007 · <title> · BR-3 · <title> | <one-line failure> | beads <id> → [AGENT BE] Cho |
+| ❌ | TS-011 · <title> · BR-5 · <title> | <one-line failure> | beads <id> → [AGENT FE] Van Pelt |
 | ⏸️ | TS-014 | blocked: <why> | |
 
 | File | Change |

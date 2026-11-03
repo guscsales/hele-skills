@@ -42,7 +42,7 @@ Real stops end in numbered options: `1` approves and starts the next phase; `2` 
 
 After you approve the PRD (and the design, when there are new screens), the agents write the execution plan, build, and run auto-verify on their own. The QA report is your next prompt. You choose: continue to the manual walk, or fix something you saw. You replay those same steps, in tables, using clear data with clear instructions. If it's correct, you move to the next verification. If it needs a fix, you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again. A database change or a red auto-verify still stops and asks.
 
-The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. The proof of validation using screenshots for each necessary use case.
+The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. Each stub line is the id, the test title, and the status. Each rule line carries the rule title. The proof of validation using screenshots for each necessary use case.
 
 Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line.
 
@@ -66,7 +66,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
 
 ```
 .hele/
-  settings.json            # models, max agents, design system paths, everything
+  settings.json            # models, max agents, screenshot cap, design system paths
   index.json               # registry of ALL features (slug, aliases, versions)
   DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
   DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
@@ -81,7 +81,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
           DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to 10 settled PNGs, compressed with sharp; overflow is chat-only under .hele/tmp/captures/
+          screenshots/         # up to qa.maxScreenshots (default 10); 1920×1080, sharp palette, no downscale
 ```
 
 Documents a new team member, human or agent, can read and understand the product from.

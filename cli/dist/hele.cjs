@@ -3523,8 +3523,10 @@ a fix round from the QA report, then back to auto-verify.`
     question: "SCREENSHOT PROOF",
     extras: ["\u25B8 --generate-fixes-report \u2192 approve \u2192 --from-qa"],
     detail: `Turns this increment's stubs into Playwright tests. Screenshots
-wait until the page is still. At most 10 stay in the increment. Each
-replay is three tables: how to open the page, the data, the steps.
+are 1920\xD71080 and wait until the page is still, with the proven
+element in the frame. Sharp palettes them in place. Up to
+qa.maxScreenshots stay (default 10). Each replay names the test and
+the rule, then three tables: how to open the page, the data, the steps.
 The report stops. Continue to the manual walk, or fix what you saw.
 A red run also offers to approve the failing tests.`
   },

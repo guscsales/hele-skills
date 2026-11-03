@@ -49,7 +49,7 @@ Do not ask about the folder name. Do not ask about task tracking. Beads is the s
      features/          ← empty, plus .gitkeep
    ```
 2. Beads is mandatory. Run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` at the project root. That command installs `bd` when it is missing and initializes the project database. Do not run `bd` yourself. On failure, the report says `⚠️ beads missing — plan and build are blocked until installed`.
-3. When `settings.json` or `index.json` already exist, migrate them in place. Do not replace either file with the template. Model keys: if `agents.models` has `dba-red-john` and not `dba-hightower`, rename that key to `dba-hightower` and keep its value. Remove `pm-hightower` (Lisbon is `staff-lisbon`). Do not change any other model value. Index: delete a `status` field on each feature when one is present. Leave slug, summary, aliases, and doc versions.
+3. When `settings.json` or `index.json` already exist, migrate them in place. Do not replace either file with the template. Model keys: if `agents.models` has `dba-red-john` and not `dba-hightower`, rename that key to `dba-hightower` and keep its value. Remove `pm-hightower` (Lisbon is `staff-lisbon`). Do not change any other model value. QA budget: if `qa.maxScreenshots` is missing, set it to `10`. Do not change a number that is already there. Index: delete a `status` field on each feature when one is present. Leave slug, summary, aliases, and doc versions.
 4. Session rule. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into `.claude/rules/hele-session.md`. **Always rewrite** that file. Do not create `.cursor/`.
 </phase>
 
@@ -62,7 +62,7 @@ Render the Init report from chat-reports.md as chat text. Files are clickable li
 </phase>
 
 <rules>
-- Idempotent. Existing files are not replaced with the template. The session rule is always rewritten. Model keys and a leftover feature `status` in `index.json` are migrated in place. Existing design answers are never re-asked.
+- Idempotent. Existing files are not replaced with the template. The session rule is always rewritten. Model keys, a missing `qa.maxScreenshots` (filled as 10), and a leftover feature `status` in `index.json` are migrated in place. Existing design answers are never re-asked. A `qa.maxScreenshots` the human already set is left alone.
 - Artifacts are English. Chat follows the human's language.
 - No feature folders and no PRDs here.
 </rules>
