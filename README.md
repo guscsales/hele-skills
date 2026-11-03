@@ -159,7 +159,9 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
 
-Defaults live in [`core/default-config.json`](core/default-config.json). Init copies that file to `.hele/settings.json`. A key the project has not set still uses the default file. Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime. What the keys mean, and how to change one: [Configuration](.docs/configuration.md).
+Defaults live in [`core/default-config.json`](core/default-config.json). Init copies that file to `.hele/settings.json`. A key the project has not set still uses the default file. Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime.
+
+Tip: check the whole configuration in [Configuration](.docs/configuration.md).
 
 ## Project layout (created by /hele-init)
 

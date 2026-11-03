@@ -61,6 +61,8 @@ Only after the approval. Every file is copied from `templates/` and filled. The 
 | `DATABASE.md` | — | Created when a schema exists and the file is missing. |
 | `DESIGN_SYSTEM.md` | — | Created when design is on and the file is missing. |
 
+Tip: check the whole configuration in [Configuration](configuration.md).
+
 `DESIGN_SPEC.md` and `DB_CHANGES.md` are not written. Nothing in the schema is being changed, and no new screen is being designed.
 
 The beads she opened are closed before she stops. Findings stay in those beads, not in a notes file.

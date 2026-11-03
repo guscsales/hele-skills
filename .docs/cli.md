@@ -30,7 +30,7 @@ hele find --json estoque         # machine-readable (what agents consume)
 
 ## hele config
 
-Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. The keys and their defaults are [`core/default-config.json`](../core/default-config.json), explained in [Configuration](configuration.md). A key the project file does not have uses that file.
+Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. A key the project file does not have uses [`core/default-config.json`](../core/default-config.json).
 
 ```bash
 hele config list                                     # whole settings file
@@ -42,7 +42,9 @@ hele config set agents.models.backend-cho.cursor composer
 hele config add designSystem.paths "src/design"     # append to a list (deduped)
 ```
 
-Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies everywhere. Change one with `hele config set agents.models.backend-cho.claude-code opus`. The model for each role is in [`core/default-config.json`](../core/default-config.json). [Configuration](configuration.md) says what every key does.
+Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies everywhere. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
+
+Tip: check the whole configuration in [Configuration](configuration.md).
 
 ## hele install
 

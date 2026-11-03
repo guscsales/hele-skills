@@ -59,6 +59,8 @@ Coordination loop on beads. Background engineers. When the suite is green, auto-
 
 Agent Wylie. Playwright for this increment's stubs. Screenshots are 1920×1080, taken after the page is still, with the element the stub proves in the frame. Sharp palettes them in place and does not downscale. Up to 10 stay in the increment (`qa.maxScreenshots`). `QA_REPORT.md` leads with the screen before and after. Each stub line is `TS-nnn · <title> · status` and each rule line is `BR-n · <title>`. Then, per stub, tables for how to open the page, the data, and the steps. The report stops with two choices: continue to the manual walk, or fix something you saw. A red run also offers to approve the failing tests.
 
+Tip: check the whole configuration in [Configuration](configuration.md).
+
 ## /hele-verify-work
 
 One flow at a time. The message is those three tables, copied from the QA report, plus the screenshot of what pass looked like. A flow already marked pass is not shown again. A fix described on a flow goes back to the PRD, then the flow runs again. The close is the Options table from `templates/chat-reports.md`: 1 close and open a ready PR, 2 close and open a draft PR, 3 close with no PR, 4 back to the PRD.
