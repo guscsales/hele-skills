@@ -131,7 +131,7 @@ All the outputs are well defined, you're not walking blindly, you know what's ha
 
 Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. When you finish a open lane the close stops include **Work done**, in case you don't want to continue or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
 
-The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. The proof of validation using screenshots for each necessary use case. When that report is ready, you choose: continue to the manual walk, or fix something you saw.
+The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. Each stub line is the id, the test title, and the status. Each rule line carries the rule title. The proof of validation using screenshots for each necessary use case. When that report is ready, you choose: continue to the manual walk, or fix something you saw.
 
 In a manual verification you as human replay those same steps, in tables: how to open the page, the data, and each step, with the screenshot of what pass looked like. Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line. If it's correct, you move to the next verification, if need fix you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again.
 
@@ -159,27 +159,15 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
 
-Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
+Defaults are on [Configuration](.docs/configuration.md). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime.
 
-| Agent | Key | Claude Code | Cursor |
-| --- | --- | --- | --- |
-| Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite (Coding) | `staff-lisbon-run` | sonnet | composer |
-| Vega (Design) | `design-vega` | opus | opus |
-| Hightower (DB) | `dba-hightower` | sonnet | grok |
-| Cho (Backend) | `backend-cho` | sonnet | composer |
-| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
-| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Testing Stubs) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build Checker) | `staff-lisbon-run` | sonnet | composer |
+Tip: check the whole configuration in [Configuration](.docs/configuration.md).
 
 ## Project layout (created by /hele-init)
 
 ```
 .hele/
-  settings.json            # models, max agents, design system paths, everything
+  settings.json            # project settings; see Configuration
   index.json               # registry of ALL features (slug, aliases, versions)
   DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
   DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
@@ -194,7 +182,7 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on 
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to 10 settled PNGs, compressed with sharp; overflow is chat-only under .hele/tmp/captures/
+          screenshots/         # up to 10 (qa.maxScreenshots); 1920×1080, sharp palette, no downscale
 ```
 
 There is no `state.json`. The feature is the folder. The increment is the folder this run is building. Beads hold the open tasks.

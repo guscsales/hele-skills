@@ -9,9 +9,9 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-// Cursor model per persona — mirrors templates/settings.json "cursor" keys.
+// Cursor model per persona — the "cursor" keys in core/default-config.json.
 const CURSOR_MODELS = JSON.parse(
-  fs.readFileSync(path.join(ROOT, 'templates', 'settings.json'), 'utf8')
+  fs.readFileSync(path.join(ROOT, 'core', 'default-config.json'), 'utf8')
 ).agents.models;
 
 const cursorModelFor = (personaFile) => {
@@ -79,6 +79,11 @@ export function collectFiles() {
       fs.readFileSync(path.join(ROOT, 'templates', file), 'utf8')
     );
   }
+
+  files['.cursor/hele/core/default-config.json'] = fs.readFileSync(
+    path.join(ROOT, 'core', 'default-config.json'),
+    'utf8'
+  );
 
   const sticky = fs.readFileSync(path.join(ROOT, 'templates', 'sticky-lanes.md'), 'utf8');
   const openChannel = fs.readFileSync(path.join(ROOT, 'templates', 'open-channel.md'), 'utf8');

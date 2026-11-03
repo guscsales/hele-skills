@@ -278,7 +278,7 @@ This is the auto-verify, in tables a person can follow. Copy the cells from `QA_
 ```
 | Report | Scope |
 |---|---|
-| 👀 VERIFY | <feature> · <flow title> · TS-001 · BR-1 |
+| 👀 VERIFY | <feature> · TS-001 · Pay with points · BR-1 · Points cover the order |
 
 | Open | |
 |---|---|
@@ -313,10 +313,13 @@ Show the screenshot image as well as the link. If Open, Data, or Steps would be 
 ## Test results (QA stop)
 
 ```
+Stub and Rule cells carry the title. A bare `TS-008` or `BR-9` is wrong. The Screenshot cell is a link, `chat only`, or `mapped test`.
+
 | Stub | Rule | Result | Screenshot |
 |---|---|---|---|
-| TS-001 | BR-1 | ✅ | [TS-001.png](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/screenshots/TS-001.png) |
-| TS-009 | BR-4 | ✅ | chat only |
+| TS-001 · Pay with points | BR-1 · Points cover the order | ✅ | [TS-001.png](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/screenshots/TS-001.png) |
+| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ✅ | mapped test |
+| TS-009 · Empty cart stays | BR-4 · Empty cart copy | ✅ | chat only |
 ```
 
 Show the kept PNGs inline right after this table.

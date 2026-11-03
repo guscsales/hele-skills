@@ -24,7 +24,7 @@ updated: <YYYY-MM-DD>
 
 Same URL, same data, same steps as the QA run. One section per flow.
 
-## V1 — <goal> · BR-n · TS-nnn · verdict: pending
+## V1 — <stub title> · BR-n · <rule title> · TS-nnn · verdict: pending
 
 | Open | |
 |---|---|

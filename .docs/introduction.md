@@ -19,6 +19,12 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
+### Your app already exist?
+
+An app that already exists can get the same memory. `/hele-absorb` reverse-engineers the project and writes a snapshot into `.hele/`: the features as they behave today, the increments that already shipped, and a regression of the product now.
+
+You approve that snapshot before the files land. After it is on disk, you keep using `/hele`. The next feature, fix, or small increment starts from that memory. How the snapshot is cut: [Absorb](absorb.md).
+
 ## The vision
 
 Everyone is talking about AI and coding agents. After some time reflecting, I reached a surprising conclusion: in terms of software engineering structure, nothing changed. What changed is the scale and who operates that structure. It used to be a boss with **10 humans on the team**. Now it's a programmer with **10 agents on the team**.
@@ -55,21 +61,9 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
 
-Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
+Defaults are on [Configuration](configuration.md). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime.
 
-| Agent | Key | Claude Code | Cursor |
-| --- | --- | --- | --- |
-| Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite (Coding) | `staff-lisbon-run` | sonnet | composer |
-| Vega (Design) | `design-vega` | opus | opus |
-| Hightower (DB) | `dba-hightower` | sonnet | grok |
-| Cho (Backend) | `backend-cho` | sonnet | composer |
-| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
-| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Testing Stubs) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build Checker) | `staff-lisbon-run` | sonnet | composer |
+Tip: check the whole configuration in [Configuration](configuration.md).
 
 ## Core beliefs
 
@@ -79,7 +73,7 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on 
 - **The human decides the product.** Approvals are explicit numbered options for the PRD, a new design, a schema change, the QA report, and the manual walk. The execution plan is for the agents. Agents investigate first and still ask questions they cannot answer from the files — one pack, before the PRD: accept all recommendations, answer one by one, or reply in words. Late doubts mid-path are allowed. A product question still open means the PRD is not written yet.
 - **State lives on disk, not in the chat.** beads tracks tasks. Documents track decisions. There is no state file and no feature-status board. An interrupted session resumes from the feature folder, the increment folder, and the beads. `/hele` is sticky: follow-ups stay in that session until you invoke a different `/hele-*`.
 - **The main chat stays free.** You talk to Lisbon there. Doing (review, suite, artifacts, codebase reads) is always a background sub-agent. After a dispatch, the turn ends.
-- **Proof you can open.** A database change is a human-readable `DB_CHANGES.md`, and the same changes are in the execution plan. QA writes a human-readable `QA_REPORT.md`. Shots are taken after the page settles, at most 10 stay in the increment, and the report opens with the screen before and after the change. Verify walks those same steps, in tables: how to open the page, the data, and each step. A PRD change prints new rules and, when a rule was rewritten, the old sentence next to the new one. Every file in chat is a clickable link. The label is the file name. The target is the absolute path, on one line.
+- **Proof you can open.** A database change is a human-readable `DB_CHANGES.md`, and the same changes are in the execution plan. QA writes a human-readable `QA_REPORT.md`. Each stub line carries the test title and the rule title. Shots are 1920×1080, taken after the page settles, with the element the stub proves in the frame. Sharp palettes them in place and does not shrink the pixels. Up to 10 stay in the increment (`qa.maxScreenshots`), and the report opens with the screen before and after the change. Verify walks those same steps, in tables: how to open the page, the data, and each step. A PRD change prints new rules and, when a rule was rewritten, the old sentence next to the new one. Every file in chat is a clickable link. The label is the file name. The target is the absolute path, on one line.
 
 ## Who this is for
 
@@ -94,7 +88,10 @@ The name honors my wife Helena, I dedicate this project to her. Thank you for be
 ## What you'll find here
 
 - [Getting Started](getting-started.md): install, initialize (or auto-init), ship with `/hele`.
+- [Configuration](configuration.md): the defaults, the project settings, and `hele config`.
 - [Skills Reference](skills.md): the conductor and the phase skills it runs.
+- [Absorb](absorb.md): `/hele-absorb`, reverse-engineer an existing app into a snapshot, then keep going with `/hele`.
 - [CLI Reference](cli.md): the `hele` terminal companion: search, config, adapters.
+- [Changelog](../CHANGELOG.md): what changed in each version.
 
 Next: [Getting Started](getting-started.md)

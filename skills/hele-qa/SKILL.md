@@ -21,7 +21,7 @@ Invoked as `/hele-qa --generate-fixes-report`: a QA run already happened but `in
 
 <context>
 - Requires: `features/<slug>/TEST_STUBS.md` for the feature in play, and a runnable app.
-- Load: the stubs file, the PRD, `settings.json`. Do not read `LEARNINGS.md`, `findings.json`, or `state.json`.
+- Load: the stubs file, the PRD, `settings.json` (`qa.maxScreenshots`, `agents.models`). Do not read `LEARNINGS.md`, `findings.json`, or `state.json`.
 - **Increment set:** stubs whose `increment` attribute matches the increment folder in play (the NNN), plus any stub rewritten in that folder. That is the only set this skill writes or runs. The rest of the living file is CI.
 - Chat files and screenshots are markdown links: file name as the label, absolute path as the target, on one line. No raw Path column. Say **the human**. Never "CEO".
 </context>
@@ -39,6 +39,8 @@ Dispatch **background** Wylie subagents to write the specs — description `[AGE
 2. The stub is the contract — Given/When/Then maps to arrange/act/assert.
 3. Deterministic: proper waits, seeded data, stable selectors. Always headless.
 4. **Screenshot proof.** Capture every e2e stub, pass or fail. The frame is the settled screen, not the motion that got there.
+   - Playwright viewport is `{ width: 1920, height: 1080 }`. Do not leave the 1280×720 default. Do not set a device scale that changes the saved pixel size.
+   - Scroll the element the stub proves into the viewport. When the full page hides it, clip that block. Then `waitUntilStill`, then screenshot.
    - Wait until the thing the stub proves is in its final state (the side panel open, the dialog up, the row gone). `toBeVisible` during a slide is too early.
    - Then wait until the page is still. Call this before every `screenshot`:
 
@@ -80,23 +82,27 @@ Dispatch **background** Wylie subagents to write the specs — description `[AGE
 5. Update `status` in TEST_STUBS.md only for stubs in the run set.
 6. Classify every failure: `product-bug` → beads `QA: TS-nnn …`; `contract-question` → no beads yet; `polish`; `blocked`. Wylie never fixes product code.
 7. **Ask before the report exists.** Gather every question the run raised — a contract the stub and the product disagree on, a PRD line that no longer matches, a behavior no stub covers — and ask them in one AskUserQuestion batch. Each answer is a Decisions row and a route: PRD patch through Lisbon, a fix task, or backlog. Do not leave a question inside the report.
-8. **Keep 10 shots in the increment, shrink them, park the rest.** Priority for the files that stay in `screenshots/`: side-by-side pair, main journey, failures, `00-app-up.png`. Move the overflow to `.hele/tmp/captures/<slug>/<increment>/`. Then, in `screenshots/` only:
+8. **Keep `qa.maxScreenshots` shots, check the frame, then palette them in place.** Read `settings.qa.maxScreenshots`. When the key is missing or not a positive integer, use `qa.maxScreenshots` from `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`. Call that number `$MAX`. Priority for the files that stay in `screenshots/`: side-by-side pair, main journey, failures, `00-app-up.png`. Move the overflow to `.hele/tmp/captures/<slug>/<increment>/`.
+
+   **The element has to be in the frame.** Open every kept PNG and look at it before the report exists. The control the stub proves must be visible, settled, and the copy readable. A green Playwright run is not this check. Off-screen, clipped, or unreadable → recapture (scroll that element into view, `waitUntilStill`, shoot again). Do not write the report on a miss.
+
+   **Then shrink the file, not the pixels.** The capture is already 1920×1080. In `screenshots/` only:
 
    ```bash
-   npx -y sharp-cli -i 'screenshots/*.png' -o screenshots -c 9 --palette
-   test "$(ls screenshots/*.png 2>/dev/null | wc -l)" -le 10
+   npx -y sharp-cli -i 'screenshots/*.png' -o screenshots -f png -c 9 --effort 10 --palette
+   test "$(ls screenshots/*.png 2>/dev/null | wc -l)" -le "$MAX"
    shasum screenshots/*.png | awk '{print $1}' | sort | uniq -d
    ```
 
-   The checksum list must be empty. A duplicate means recapture, not a second copy of the same frame.
-9. Write `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. **Human-readable markdown, no XML tags.** Side by side first, then Setup, results, and a replay per stub. Each replay is three tables: Open (URL, how the app was started, how to land on the screen), Data (login, seed, inputs), Steps (do this / you should see). Then Decisions, failures, History. Embed only kept shots. A PNG in `screenshots/` that the report does not embed gets deleted. Also write `VERIFY.md` from those same tables so the human walk can copy them (see hele-verify-work). If `VERIFY.md` already marks a flow `verified`, and this run did not change that stub or its rule, keep that section and that verdict. Every other flow is rewritten from this report with verdict `pending`. The human is not walked through a flow that stayed `verified`.
+   No width, no height, no resize. Palette at 1920×1080 keeps the UI copy readable and cuts the file. Palette on a 1280-wide frame is forbidden — that combo is what made the shots unreadable. After this command the pixel size is still 1920×1080. The checksum list must be empty. A duplicate means recapture, not a second copy of the same frame.
+9. Write `increments/NNN-<slug>/QA_REPORT.md` from `${CLAUDE_PLUGIN_ROOT}/templates/qa-report.md` — EVERY run, green or red. **Human-readable markdown, no XML tags.** Side by side first, then Setup, results, and a replay per stub. Every heading is `### TS-nnn · <title> · <status>` — the title sits between the id and the status. Every rule line is `**Rule:** BR-n · <title>`, and that title is the PRD heading. A bare `TS-008 · ✅ passing` or `Rule: BR-9` is wrong. A unit-expectation stub adds a Mapped test line with the test file path and no image. e2e and api replays are three tables: Open (URL, how the app was started, how to land on the screen), Data (login, seed, inputs), Steps (do this / you should see). Then Decisions, failures, History. Embed only kept shots. A PNG in `screenshots/` that the report does not embed gets deleted. Also write `VERIFY.md` from those same tables so the human walk can copy them (see hele-verify-work). The verify heading carries the stub title and the rule title. If `VERIFY.md` already marks a flow `verified`, and this run did not change that stub or its rule, keep that section and that verdict. Every other flow is rewritten from this report with verdict `pending`. The human is not walked through a flow that stayed `verified`.
 </phase>
 
 <phase name="4-report-and-route">
 Emit Wylie's **QA RUN** signature — chat text, never fenced. Order:
 1. Report/Scope, Field/Value (ran vs living file)
-2. Test results table. The Screenshot cell is a markdown link (file name, absolute path on one line) or the words `chat only`.
-3. Show the kept screenshots inline (Read the PNGs)
+2. Test results table. Stub and Rule cells carry the title (`TS-008 · <title>`, `BR-9 · <title>`). The Screenshot cell is a markdown link (file name, absolute path on one line), the words `chat only`, or `mapped test` for a unit-expectation stub.
+3. Show the kept screenshots inline. This is the same look you already did before the file was written: the proven element is in the frame. A shot that fails that look is recaptured, not shown.
 4. Shots table from chat-reports.md (kept vs chat only). Each screenshot cell is a markdown link.
 5. Files table. QA_REPORT.md is a markdown link (file name, absolute path on one line).
 6. Open these table (project root + QA report)

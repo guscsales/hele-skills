@@ -153,7 +153,7 @@ When a stubs bead closes, dispatch that feature's `ABSORB: qa` beads, up to `age
 One bead per new increment. Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` phases 1 through 3 only, for that increment's stubs. The increment in play is that folder.
 
 - `QA_REPORT.md` comes from `templates/qa-report.md`. `VERIFY.md` comes from `templates/verify.md`.
-- Screenshots follow that skill: wait until the page is still, at most 10 PNGs stay in `screenshots/`, overflow is chat-only under `.hele/tmp/captures/`.
+- Screenshots follow that skill: 1920×1080, the proven element in the frame, sharp palette with no downscale, up to `qa.maxScreenshots` in `screenshots/` (the project setting, or `${CLAUDE_PLUGIN_ROOT}/core/default-config.json` when the key is missing), overflow chat-only under `.hele/tmp/captures/`. Each stub line carries the test title and the rule title.
 - There is no base without this increment. The shot is the product today. Say that in the report. Do not invent a before/after pair.
 - Do not run hele-qa phase 4. Do not open `/hele`. Do not start the manual walk.
 

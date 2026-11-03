@@ -27,6 +27,9 @@
     "paths": [],
     "map": ".hele/DESIGN_SYSTEM.md"
   },
+  "qa": {
+    "maxScreenshots": 10
+  },
   "questions": {
     "planning": "always"
   }

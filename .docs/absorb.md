@@ -55,11 +55,13 @@ Only after the approval. Every file is copied from `templates/` and filled. The 
 | `features/<slug>/PRODUCT_DESCRIPTION.md` | `product-description.md` | The feature as it behaves today. One living PRD. `status: approved`. |
 | `features/<slug>/TEST_STUBS.md` | `test-stubs.md` | Given / When / Then from that PRD. Each stub cites the increment that introduced the behavior. |
 | `features/<slug>/increments/NNN-<slice>/EXECUTION_PLAN.md` | `absorb-plan.md` | A closed record. `status: built`, `origin: absorb`, no tasks. |
-| `features/<slug>/increments/NNN-<slice>/QA_REPORT.md` | `qa-report.md` | The regression for that slice. Screenshots of the product today, taken after the page settles. At most 10 stay in the increment. |
+| `features/<slug>/increments/NNN-<slice>/QA_REPORT.md` | `qa-report.md` | The regression for that slice. Screenshots of the product today, 1920×1080, the proven element in frame. Up to 10 stay in the increment (`qa.maxScreenshots`). |
 | `features/<slug>/increments/NNN-<slice>/VERIFY.md` | `verify.md` | The same steps as the QA report, ready to replay. |
 | `index.json` | — | Slug, title, summary, aliases. |
 | `DATABASE.md` | — | Created when a schema exists and the file is missing. |
 | `DESIGN_SYSTEM.md` | — | Created when design is on and the file is missing. |
+
+Tip: check the whole configuration in [Configuration](configuration.md).
 
 `DESIGN_SPEC.md` and `DB_CHANGES.md` are not written. Nothing in the schema is being changed, and no new screen is being designed.
 

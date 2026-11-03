@@ -17,12 +17,22 @@
 - No unanswered questions in this file. Anything the run could not decide was
   asked before the file was written. The answer lives under Decisions, with
   where it went (PRD patch, fix task, backlog).
-- Screenshots: at most 10 PNGs in screenshots/, shrunk before they stay.
-  Priority: the side-by-side pair, the main journey, failures, 00-app-up.png.
-  The rest live in .hele/tmp/captures/ and are chat only. Each kept PNG shows
-  a different, settled frame — the panel open, not mid-slide. Two identical
-  files means the later stub was shot too early; recapture. A PNG in
-  screenshots/ that this file does not embed is deleted.
+- Every stub heading is `### TS-nnn · <title> · <status>`. The title sits
+  between the id and the status. It is the one-line behavior the stub proves.
+  `TS-008 · ✅ passing` with no title is wrong.
+- The rule line is `**Rule:** BR-n · <title>`. The title is the
+  `### BR-n — Title` heading in the PRD. `Rule: BR-9` with no title is wrong.
+- kind unit-expectation adds a Mapped test line with the test file path.
+  No screenshot. e2e and api omit that line.
+- Screenshots: up to settings.qa.maxScreenshots PNGs in screenshots/.
+  A missing key uses qa.maxScreenshots in core/default-config.json.
+  Each kept PNG is 1920×1080, paletted in place,
+  never downscaled. Priority: the side-by-side pair, the main journey,
+  failures, 00-app-up.png. The rest live in .hele/tmp/captures/ and are
+  chat only. The element the stub proves is in the frame and readable —
+  a green run is not that check. Two identical files means the later stub
+  was shot too early; recapture. A PNG in screenshots/ that this file does
+  not embed is deleted.
 - Side by side comes first when the change is visible: the same key screen
   without this increment and with it. No real "before" (brand-new screen, base
   that cannot run) → one sentence why. Never invent a pair.
@@ -67,15 +77,16 @@ One paragraph: run-set size (this increment, not the living file), what passed, 
 
 | Stub | Rule | Result | Screenshot |
 |---|---|---|---|
-| TS-001 | BR-1 | ✅ | [TS-001.png](screenshots/TS-001.png) |
-| TS-002 | BR-2 | ❌ product-bug | [TS-002.png](screenshots/TS-002.png) |
-| TS-009 | BR-4 | ✅ | chat only |
+| TS-001 · Pay with points | BR-1 · Points cover the order | ✅ | [TS-001.png](screenshots/TS-001.png) |
+| TS-002 · Discount refused | BR-2 · No discount below $10 | ❌ product-bug | [TS-002.png](screenshots/TS-002.png) |
+| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ✅ | mapped test |
+| TS-009 · Empty cart stays | BR-4 · Empty cart copy | ✅ | chat only |
 
 ## Replay
 
-### TS-nnn — <one-line title> · ✅ passing | ❌ product-bug | ⚖️ contract-question | ⚠️ polish | 🚫 blocked
+### TS-001 · Pay with points · ✅ passing
 
-**Rule:** BR-n — <title>
+**Rule:** BR-1 · Points cover the order
 
 **Data used** and **Steps** are tables, not a sentence. Copy this shape into every replay so the human walk can follow it without rewriting it:
 
@@ -100,16 +111,24 @@ One paragraph: run-set size (this increment, not the living file), what passed, 
 
 **Happened:** <what the app did>
 
-![TS-nnn](screenshots/TS-nnn.png)
+![TS-001](screenshots/TS-001.png)
 
-*(Repeat one block per stub in the run set. Chat-only stubs omit the image.)*
+Status words: ✅ passing · ❌ product-bug · ⚖️ contract-question · ⚠️ polish · 🚫 blocked
+
+### TS-008 · Factory projects listed on the desktop · ✅ passing
+
+**Rule:** BR-9 · Desktop lists factory projects
+
+**Mapped test:** `packages/orders/src/desktop/projects.test.ts`
+
+*(Repeat one block per stub. e2e and api use the three tables and the image. Chat-only stubs omit the image. unit-expectation is the heading, the rule line, and Mapped test — no tables, no image.)*
 
 ## Failures to route
 
 | Stub | Class | Impact | Routing |
 |---|---|---|---|
-| TS-nnn | product-bug | <who is hurt> | beads `<id>` → [AGENT BE] Cho |
-| TS-nnn | contract-question | stub says X, product does Y | human decides: fix product or change PRD |
+| TS-002 · Discount refused | product-bug | <who is hurt> | beads `<id>` → [AGENT BE] Cho |
+| TS-nnn · <title> | contract-question | stub says X, product does Y | human decides: fix product or change PRD |
 
 ## Decisions
 
@@ -127,7 +146,7 @@ One paragraph: run-set size (this increment, not the living file), what passed, 
 
 | Stub | What is missing | Who unblocks |
 |---|---|---|
-| TS-nnn | <env / data / dependency> | <human or role> |
+| TS-nnn · <title> | <env / data / dependency> | <human or role> |
 
 ## History
 
