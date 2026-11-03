@@ -40,21 +40,100 @@ A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`)
 
 ### `agents.models`
 
-Which model each role uses. Judgment work sits on the strong model. Execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is an object `{ claude-code, cursor }`, a plain string, or `inherit`. A plain string applies to both runtimes. `inherit`, or a missing runtime key, uses the session model. Summer uses `staff-lisbon-run`.
+Which model each role uses. Judgment work sits on the strong model. Execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Summer uses `staff-lisbon-run`.
 
-| Agent | Key | Claude Code | Cursor |
-| --- | --- | --- | --- |
-| Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
-| Vega (Design) | `design-vega` | opus | opus |
-| Hightower (DB) | `dba-hightower` | sonnet | grok |
-| Cho (Backend) | `backend-cho` | sonnet | composer |
-| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
-| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
+<table>
+  <thead>
+    <tr>
+      <th>Agent</th>
+      <th>Key</th>
+      <th>Claude Code</th>
+      <th>Cursor</th>
+      <th>Options or type</th>
+      <th>What it does</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Lisbon (Builder)</td>
+      <td><code>staff-lisbon</code></td>
+      <td>opus</td>
+      <td>grok</td>
+      <td rowspan="11">Any model you want, or <code>inherit</code>. A plain string applies to both runtimes. <code>inherit</code>, or a missing runtime key, uses the session model.</td>
+      <td>Lisbon, the Builder. Judgment work.</td>
+    </tr>
+    <tr>
+      <td>Lisbon, suite</td>
+      <td><code>staff-lisbon-run</code></td>
+      <td>sonnet</td>
+      <td>composer</td>
+      <td>Lisbon's suite. Execution volume.</td>
+    </tr>
+    <tr>
+      <td>Vega (Design)</td>
+      <td><code>design-vega</code></td>
+      <td>opus</td>
+      <td>opus</td>
+      <td>Vega, design specs.</td>
+    </tr>
+    <tr>
+      <td>Hightower (DB)</td>
+      <td><code>dba-hightower</code></td>
+      <td>sonnet</td>
+      <td>grok</td>
+      <td>Hightower, the DBA.</td>
+    </tr>
+    <tr>
+      <td>Cho (Backend)</td>
+      <td><code>backend-cho</code></td>
+      <td>sonnet</td>
+      <td>composer</td>
+      <td>Cho, backend.</td>
+    </tr>
+    <tr>
+      <td>Van Pelt (Frontend)</td>
+      <td><code>frontend-van-pelt</code></td>
+      <td>sonnet</td>
+      <td>composer</td>
+      <td>Van Pelt, frontend.</td>
+    </tr>
+    <tr>
+      <td>Jane (Security)</td>
+      <td><code>security-jane</code></td>
+      <td>opus</td>
+      <td>grok</td>
+      <td>Jane, security.</td>
+    </tr>
+    <tr>
+      <td>Rigsby (Infra)</td>
+      <td><code>infra-rigsby</code></td>
+      <td>sonnet</td>
+      <td>composer</td>
+      <td>Rigsby, infra.</td>
+    </tr>
+    <tr>
+      <td>Wylie (Writing stubs)</td>
+      <td><code>qa-wylie-stubs</code></td>
+      <td>opus</td>
+      <td>grok</td>
+      <td>Wylie writing stubs.</td>
+    </tr>
+    <tr>
+      <td>Wylie (Running tests)</td>
+      <td><code>qa-wylie-run</code></td>
+      <td>sonnet</td>
+      <td>composer</td>
+      <td>Wylie running tests.</td>
+    </tr>
+    <tr>
+      <td>Summer (Build checker)</td>
+      <td><code>staff-lisbon-run</code></td>
+      <td>sonnet</td>
+      <td>composer</td>
+      <td>Summer's compile-until-green. Same key as Lisbon's suite.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### `beads`
 
