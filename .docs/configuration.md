@@ -59,7 +59,7 @@ Which model each role uses. Judgment work sits on the strong model. Execution vo
       <td><code>staff-lisbon</code></td>
       <td>opus</td>
       <td>grok</td>
-      <td rowspan="11">Any model you want, or <code>inherit</code>. A plain string applies to both runtimes. <code>inherit</code>, or a missing runtime key, uses the session model.</td>
+      <td rowspan="11">Any model you want according what the agent accepts, or <code>inherit</code> to use the same from your current prompt.</td>
       <td>Lisbon, the Builder. Judgment work.</td>
     </tr>
     <tr>
