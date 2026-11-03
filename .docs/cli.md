@@ -44,6 +44,22 @@ hele config add designSystem.paths "src/design"     # append to a list (deduped)
 
 Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies everywhere. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
 
+Defaults for a new project:
+
+| Agent | Key | Claude Code | Cursor |
+| --- | --- | --- | --- |
+| Lisbon (Builder) | `staff-lisbon` | opus | grok |
+| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
+| Vega (Design) | `design-vega` | opus | opus |
+| Hightower (DB) | `dba-hightower` | sonnet | grok |
+| Cho (Backend) | `backend-cho` | sonnet | composer |
+| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
+| Jane (Security) | `security-jane` | opus | grok |
+| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
+| Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
+| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
+| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
+
 Tip: check the whole configuration in [Configuration](configuration.md).
 
 ## hele install
