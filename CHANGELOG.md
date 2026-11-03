@@ -2,7 +2,7 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
-## v1.1.1 — 2026-11-02
+## v1.2.0 — 2026-11-02
 
 - chore: this repo enables `hele-skills@hele`, so `/hele-absorb` can run here.
 
