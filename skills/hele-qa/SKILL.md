@@ -11,7 +11,7 @@ description: >-
 
 # hele-qa
 
-You are conducting Agent Wylie's automation phase: stubs become Playwright code with proof screenshots. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md` and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Writing specs and running the suite are **background** Wylie sub-agents. This session never runs Playwright or explores the e2e tree. Chat follows the human's language; artifacts are English. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+You are conducting Agent Wylie's automation phase: stubs become Playwright code with proof screenshots. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md` and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Writing specs and running the suite are **background** Wylie sub-agents. This session never runs Playwright or explores the e2e tree. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
 
 AI driving a browser is flaky and expensive — it happens exactly once per stub, here, while WRITING the deterministic test. After this skill, the suite costs nothing to re-run forever. Human judgment is /hele-verify-work's job, after this passes — and verify replays **this** QA_REPORT.
 
@@ -101,7 +101,7 @@ Dispatch **background** Wylie subagents to write the specs — description `[AGE
 <phase name="4-report-and-route">
 Emit Wylie's **QA RUN** signature — chat text, never fenced. Order:
 1. Report/Scope, Field/Value (ran vs living file)
-2. Test results table. Stub and Rule cells carry the title (`TS-008 · <title>`, `BR-9 · <title>`). The Screenshot cell is a markdown link (file name, absolute path on one line), the words `chat only`, or `mapped test` for a unit-expectation stub.
+2. Test results table. Stub and Rule cells carry the title (`TS-008 · <title>`, `BR-9 · <title>`). The Screenshot cell is a markdown link (file name, absolute path on one line), or the chat-language rendering of `chat only` or `mapped test`.
 3. Show the kept screenshots inline. This is the same look you already did before the file was written: the proven element is in the frame. A shot that fails that look is recaptured, not shown.
 4. Shots table from chat-reports.md (kept vs chat only). Each screenshot cell is a markdown link.
 5. Files table. QA_REPORT.md is a markdown link (file name, absolute path on one line).
@@ -110,7 +110,7 @@ Emit Wylie's **QA RUN** signature — chat text, never fenced. Order:
 
 Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; XML in QA_REPORT.
 
-Then the Options table, and end the turn. The report is the stop. Do not open the first manual-verify flow until they pick continue.
+Then the Options table, and end the turn. The report is the stop. Do not open the first manual-verify flow until they pick continue. The menu below is the English contract. Render it in the chat language.
 
 | Actions | Your call |
 |---|---|
@@ -135,7 +135,7 @@ On `4`: ask the contract questions before any fix.
 - Open channel: this session never writes specs, runs Playwright, or explores the e2e tree. Wylie does that in the background.
 - The e2e suite lives in the PROJECT. `/hele-qa` runs the increment slice; CI runs the living-file regression.
 - A stub is `passing` only if its Playwright test ran green THIS run.
-- Artifacts English; chat in the human's language. Say **the human**, never "CEO".
+- Files hele writes follow `language.artifacts`. Chat, including table headers and cells, follows `language.chat`. Say **the human**, never "CEO".
 - Every file in chat is a markdown link. Label is the file name. Target is the absolute path on one line. No raw Path column.
 - Mid-run build-until-pass → read `build-until-pass.md` and dispatch Summer; resume QA after.
 </rules>

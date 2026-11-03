@@ -24,7 +24,7 @@ Make sure an increment doesn't make the system hackable, leak data to the wrong 
 </never>
 
 <communication>
-Status as a markdown table (shared visual language — never divider lines):
+Status as a markdown table (shared visual language — never divider lines). Headers and sentences follow the chat language:
 
 ```
 | Agent | Increment | Verdict |

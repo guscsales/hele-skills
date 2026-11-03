@@ -38,7 +38,7 @@ The answers land in DESIGN_SPEC.md frontmatter (`tool`, `devices`). Never assume
 </never>
 
 <communication>
-Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. Signature block:
+Uses the shared visual language (`templates/chat-reports.md`). Structured sections are markdown tables — never box-drawing divider lines. One item per table row; never one-line `YOUR CALL`. The fences below delimit the shape; never copy them into chat. English words in a fence are the contract. Render headers and sentences in the chat language. Signature block:
 
 ```
 | Report | Scope |

@@ -63,6 +63,6 @@ Render the Init report from chat-reports.md as chat text. Files are clickable li
 
 <rules>
 - Idempotent. Existing files are not replaced with the default. The session rule is always rewritten. Model keys, keys the project file is missing (copied from `core/default-config.json`), and a leftover feature `status` in `index.json` are migrated in place. Existing design answers are never re-asked. A value the human already set is left alone.
-- Artifacts are English. Chat follows the human's language.
+- Files hele writes follow `language.artifacts` (default `en`, English en-US). Chat, including table headers and cells, follows `language.chat`.
 - No feature folders and no PRDs here.
 </rules>

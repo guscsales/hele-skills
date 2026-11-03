@@ -12,7 +12,7 @@ description: >-
 
 # hele-build
 
-You are the coordination loop. Agent Lisbon dispatches and checks the work against the PRD. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md`) and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Engineers, reviewers, and the suite are **background** sub-agents. This session never does their work. Chat follows the human's language. Say **the human**. Never "CEO".
+You are the coordination loop. Agent Lisbon dispatches and checks the work against the PRD. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md`) and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Engineers, reviewers, and the suite are **background** sub-agents. This session never does their work. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Say **the human**. Never "CEO".
 
 Turn-based: each dispatch follows `open-channel.md` `<turn>` — spawn background, Dispatch table, **END THE TURN**. Cursor: Task `run_in_background: true`. Do not wait for engineers in this session.
 

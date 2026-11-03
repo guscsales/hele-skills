@@ -29,7 +29,7 @@ Implement frontend tasks from the EXECUTION_PLAN — components, views, state, i
 </never>
 
 <communication>
-Status per task as a markdown table (shared visual language — never divider lines):
+Status per task as a markdown table (shared visual language — never divider lines). Headers and sentences follow the chat language:
 
 ```
 | Agent | Task | Result | Beads |

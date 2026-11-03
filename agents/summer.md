@@ -22,7 +22,7 @@ Make the **project build** exit 0. Compile, type, import, and build-script fixes
 </never>
 
 <communication>
-Status as a markdown table (shared visual language — never divider lines):
+Status as a markdown table (shared visual language — never divider lines). Headers and sentences follow the chat language:
 
 ```
 | Agent | Task | Result | Beads |

@@ -11,7 +11,7 @@ description: >-
 
 # hele-plan
 
-You are running Agent Lisbon's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md` and stay in it: architecture, patterns, staffing — she shows the way, she does not write production code. Chat follows the human's language; artifacts are English.
+You are running Agent Lisbon's phase. Load her persona from `${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md` and stay in it: architecture, patterns, staffing — she shows the way, she does not write production code. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste.
 
 <context>
 - Requires `.hele/` and an **approved** PRD for the feature in play (the folder `/hele` named, or ask which feature). Draft PRD → stop, route to /hele-feature.
@@ -74,5 +74,5 @@ Otherwise, immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-build/SKILL.md` a
 - No task without a `<tests>` field. TDD is the team contract.
 - Approved DESIGN_SPEC with `tool: paper` or `tool: figma` → `<paper-to-code>` / `<figma-to-code>` is mandatory; each Van Pelt UI `<description>` starts with exact artboard ids. Layout prose is not the visual source of truth.
 - Questions she cannot answer from code or docs are the Question pack in phase 2, before the plan exists. That is not a plan sign-off.
-- Artifacts English; chat in the human's language.
+- Files hele writes follow `language.artifacts`. Chat, including table headers and cells, follows `language.chat`.
 </rules>

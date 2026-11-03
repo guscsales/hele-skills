@@ -11,7 +11,7 @@ description: >-
 Update the installed plugin. This is not a product lane. Do not touch feature documents, do not open a PRD, and do not commit.
 
 <context>
-The marketplace is `hele`. The plugin id is `hele-skills@hele`. Chat follows the human's language. Say **the human**. Never "CEO".
+The marketplace is `hele`. The plugin id is `hele-skills@hele`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Say **the human**. Never "CEO".
 </context>
 
 1. Read the installed copy. `claude plugin list --json`. Find every `hele-skills@hele`. Note version, scope, and `projectPath`. The one for this project wins. If only a user-scope install exists, use that. If none exist, stop and give the install commands from the README. Do not invent a second marketplace name.

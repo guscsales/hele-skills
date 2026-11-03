@@ -2,6 +2,10 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.2.2 — 2026-11-02
+
+- fix: chat tables follow `language.chat` (`auto` is the human's language this session), including headers, row labels, and cell sentences. Files hele writes stay `language.artifacts` (default English, en-US). The English tables in the templates are the shape, not text to paste. Re-run `/hele-init` to refresh the session rule.
+
 ## v1.2.1 — 2026-11-02
 
 - feat: a QA report line is `TS-008 · <test title> · ✅ passing` and `BR-9 · <rule title>`. A unit stub also names the mapped test file.
