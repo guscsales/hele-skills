@@ -180,7 +180,7 @@ Defaults live in [`core/default-config.json`](core/default-config.json). Init co
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to qa.maxScreenshots; 1920×1080, sharp palette, no downscale
+          screenshots/         # up to 10 (qa.maxScreenshots); 1920×1080, sharp palette, no downscale
 ```
 
 There is no `state.json`. The feature is the folder. The increment is the folder this run is building. Beads hold the open tasks.

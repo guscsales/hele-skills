@@ -57,7 +57,7 @@ Coordination loop on beads. Background engineers. When the suite is green, auto-
 
 ## /hele-qa
 
-Agent Wylie. Playwright for this increment's stubs. Screenshots are 1920×1080, taken after the page is still, with the element the stub proves in the frame. Sharp palettes them in place and does not downscale. Up to `qa.maxScreenshots` stay in the increment. A missing key uses [`core/default-config.json`](../core/default-config.json). `QA_REPORT.md` leads with the screen before and after. Each stub line is `TS-nnn · <title> · status` and each rule line is `BR-n · <title>`. Then, per stub, tables for how to open the page, the data, and the steps. The report stops with two choices: continue to the manual walk, or fix something you saw. A red run also offers to approve the failing tests.
+Agent Wylie. Playwright for this increment's stubs. Screenshots are 1920×1080, taken after the page is still, with the element the stub proves in the frame. Sharp palettes them in place and does not downscale. Up to 10 stay in the increment (`qa.maxScreenshots`). `QA_REPORT.md` leads with the screen before and after. Each stub line is `TS-nnn · <title> · status` and each rule line is `BR-n · <title>`. Then, per stub, tables for how to open the page, the data, and the steps. The report stops with two choices: continue to the manual walk, or fix something you saw. A red run also offers to approve the failing tests.
 
 ## /hele-verify-work
 

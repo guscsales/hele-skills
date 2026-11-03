@@ -36,7 +36,7 @@ Read and write the project `.hele/settings.json` by dot path. JSON values are pa
 hele config list                                     # whole settings file
 hele config get agents.maxParallel
 hele config set agents.maxParallel 6
-hele config set qa.maxScreenshots 20                 # PNGs kept in one QA report
+hele config set qa.maxScreenshots 20                 # PNGs kept in one QA report; default 10
 hele config set agents.models.backend-cho opus      # per-agent, both runtimes
 hele config set agents.models.backend-cho.cursor composer
 hele config add designSystem.paths "src/design"     # append to a list (deduped)

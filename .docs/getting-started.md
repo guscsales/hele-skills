@@ -83,7 +83,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
           DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to qa.maxScreenshots; 1920×1080, sharp palette, no downscale
+          screenshots/         # up to 10 (qa.maxScreenshots); 1920×1080, sharp palette, no downscale
 ```
 
 Documents a new team member, human or agent, can read and understand the product from.
