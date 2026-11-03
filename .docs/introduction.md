@@ -19,7 +19,11 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
-An app that already exists can get the same memory. `/hele-absorb` reverse-engineers the project and writes a snapshot into `.hele/`: the features as they behave today, the increments that already shipped, and a regression of the product now. You approve that snapshot before the files land. After it is on disk, you keep using `/hele`. The next feature, fix, or small increment starts from that memory. How the snapshot is cut: [Absorb](absorb.md).
+### Your app already exist?
+
+An app that already exists can get the same memory. `/hele-absorb` reverse-engineers the project and writes a snapshot into `.hele/`: the features as they behave today, the increments that already shipped, and a regression of the product now.
+
+You approve that snapshot before the files land. After it is on disk, you keep using `/hele`. The next feature, fix, or small increment starts from that memory. How the snapshot is cut: [Absorb](absorb.md).
 
 ## The vision
 

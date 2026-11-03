@@ -47,8 +47,8 @@ Which model each role uses. Judgment work sits on the strong model. Execution vo
     <tr>
       <th>Agent</th>
       <th>Key</th>
-      <th>Claude Code</th>
-      <th>Cursor</th>
+      <th>Claude Code Default</th>
+      <th>Cursor Default</th>
       <th>Options or type</th>
       <th>What it does</th>
     </tr>
