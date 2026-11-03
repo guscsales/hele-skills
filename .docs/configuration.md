@@ -1,12 +1,8 @@
 # Configuration
 
-Every default hele ships with lives in [`core/default-config.json`](../core/default-config.json). That file is the source. A missing key in a project resolves to the value written there. Skills point at the file. They do not restate the number.
+These tables are the defaults a new project starts with. `/hele-init` writes them to `.hele/settings.json`, then applies the design answer. The project file is what you change, and what `hele config` reads and writes. A key you have set wins. A key missing from the project file still uses the default in the table.
 
-`/hele-init` copies it to `.hele/settings.json`, then applies the design answer. The project file is what you change, and what `hele config` reads and writes. A key you have set wins. A key that is not in the project file still uses `core/default-config.json`.
-
-Re-run `/hele-init` on a project that already has `.hele/` to copy any new key from the default file. A value you already set stays.
-
-If this page and the JSON disagree, the JSON is the one a missing key resolves to.
+Re-run `/hele-init` on a project that already has `.hele/` to copy any new key. A value you already set stays.
 
 ## Change a value
 
@@ -24,8 +20,6 @@ hele config add designSystem.paths "src/design"           # append to a list (de
 A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies to both. `inherit`, or a runtime key that is missing, means the session model.
 
 ## Keys
-
-The values below are the ones in [`core/default-config.json`](../core/default-config.json) today. Change the file, then this page.
 
 | Key | Default | Options or type | What it does |
 | --- | --- | --- | --- |

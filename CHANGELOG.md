@@ -6,7 +6,7 @@ Every released version, newest first. Each entry lists the commits that shipped 
 
 - feat: a QA report line is `TS-008 · <test title> · ✅ passing` and `BR-9 · <rule title>`. A unit stub also names the mapped test file.
 - feat: QA screenshots are captured at 1920×1080. Sharp palettes them in place (`-f png -c 9 --effort 10 --palette`) and does not downscale. Before the report is shown, each kept PNG is opened and the element the stub proves has to be in the frame.
-- feat: `qa.maxScreenshots` caps how many PNGs stay in one report. The default is 10, in `core/default-config.json`. A project overrides it with `hele config set qa.maxScreenshots 20`. Re-run `/hele-init` to copy a missing key into an existing project.
+- feat: `qa.maxScreenshots` caps how many PNGs stay in one report. The default is 10. A project overrides it with `hele config set qa.maxScreenshots 20`. Re-run `/hele-init` to copy a missing key into an existing project.
 
 ## v1.2.0 — 2026-11-02
 

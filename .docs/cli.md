@@ -30,7 +30,7 @@ hele find --json estoque         # machine-readable (what agents consume)
 
 ## hele config
 
-Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. A key the project file does not have uses [`core/default-config.json`](../core/default-config.json).
+Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. A key the project file does not have uses the defaults on [Configuration](configuration.md).
 
 ```bash
 hele config list                                     # whole settings file

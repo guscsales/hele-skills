@@ -19,7 +19,7 @@ You can type `/hele-init` once, or skip it. The first `/hele` in a repo that has
 
 Init creates `.hele/` (settings, the feature index, `features/`), installs the sticky session rule so `/hele` stays in force, and runs `hele install` for [beads](https://beads.gascity.com/) (`bd`). That command creates the project database and leaves `AGENTS.md` and `CLAUDE.md` untouched. The folder is always `.hele/`. Idempotent. It never overwrites an existing file.
 
-`.hele/settings.json` starts as a copy of [`core/default-config.json`](../core/default-config.json). A key you have not set still uses that file. What each key does, and how `hele config` changes the project copy: [Configuration](configuration.md).
+`.hele/settings.json` is the project copy of the defaults. A key you have not set still uses [Configuration](configuration.md). That page lists each key and how `hele config` changes the project file.
 
 ## Ship with one command
 
@@ -68,7 +68,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
 
 ```
 .hele/
-  settings.json            # project copy of core/default-config.json
+  settings.json            # project settings; see Configuration
   index.json               # registry of ALL features (slug, aliases, versions)
   DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
   DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
@@ -83,8 +83,10 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
           DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to 10 (qa.maxScreenshots); 1920×1080, sharp palette, no downscale
+          screenshots/         # up to the count configured in qa.maxScreenshots; 1920×1080, sharp palette, no downscale
 ```
+
+Tip: check the whole configuration in [Configuration](configuration.md).
 
 Documents a new team member, human or agent, can read and understand the product from.
 
