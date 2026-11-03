@@ -27,57 +27,57 @@ A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`)
 
 The values below are the ones in [`core/default-config.json`](../core/default-config.json) today. Change the file, then this page.
 
-### `version`
-
-`1`. Settings schema. Not the plugin version.
+| Key | Default | Options or type | What it does |
+| --- | --- | --- | --- |
+| `version` | `1` | number | Settings schema. Not the plugin version. |
 
 ### `language`
 
-| Key | Default | What it does |
-| --- | --- | --- |
-| `artifacts` | `en` | Language of the files hele writes (PRD, plan, QA report, verify). |
-| `chat` | `auto` | Language of the conversation. `auto` follows the human. |
-
-### `agents.maxParallel`
-
-`4`. How many background workers stay in flight at once. Two tasks that share a file still never run together, even when this number would allow it.
-
-### `agents.models`
-
-Which model each role uses. Judgment work sits on the strong model. Execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. The key matches the persona filename, except Wylie, who has two: writing stubs and running them. Summer uses `staff-lisbon-run`.
-
-| Agent | Key | Claude Code | Cursor |
+| Key | Default | Options or type | What it does |
 | --- | --- | --- | --- |
-| Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
-| Vega (Design) | `design-vega` | opus | opus |
-| Hightower (DB) | `dba-hightower` | sonnet | grok |
-| Cho (Backend) | `backend-cho` | sonnet | composer |
-| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
-| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
+| `language.artifacts` | `en` | string | Language of the files hele writes (PRD, plan, QA report, verify). |
+| `language.chat` | `auto` | string. `auto` follows the human | Language of the conversation. |
 
-### `beads.enabled`
+### `agents`
 
-`true`. Beads is the task tracker. Plan and build use it.
+| Key | Default | Options or type | What it does |
+| --- | --- | --- | --- |
+| `agents.maxParallel` | `4` | positive integer | How many background workers stay in flight. Two tasks that share a file still never run together. |
+| `agents.models.staff-lisbon` | claude-code `opus`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Lisbon, the Builder. Judgment work. A plain string applies to both runtimes. `inherit` or a missing runtime key uses the session model. |
+| `agents.models.staff-lisbon-run` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Lisbon's suite, and Summer's compile-until-green. Execution volume. |
+| `agents.models.design-vega` | claude-code `opus`, cursor `opus` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Vega, design specs. |
+| `agents.models.dba-hightower` | claude-code `sonnet`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Hightower, the DBA. |
+| `agents.models.backend-cho` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Cho, backend. |
+| `agents.models.frontend-van-pelt` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Van Pelt, frontend. |
+| `agents.models.security-jane` | claude-code `opus`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Jane, security. |
+| `agents.models.infra-rigsby` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Rigsby, infra. |
+| `agents.models.qa-wylie-stubs` | claude-code `opus`, cursor `grok` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Wylie writing stubs. |
+| `agents.models.qa-wylie-run` | claude-code `sonnet`, cursor `composer` | object `{ claude-code, cursor }`, a plain string, or `inherit` | Wylie running tests. |
+
+### `beads`
+
+| Key | Default | Options or type | What it does |
+| --- | --- | --- | --- |
+| `beads.enabled` | `true` | boolean | Beads is the task tracker. Plan and build use it. |
 
 ### `designSystem`
 
-| Key | Default | What it does |
-| --- | --- | --- |
-| `enabled` | `true` | Vega specs new screens when this is not `false`. A missing key means she is in. Init asks once, and writes the answer here. |
-| `paths` | `[]` | Design-system paths you gave at init. |
-| `map` | `.hele/DESIGN_SYSTEM.md` | Where Vega writes the compact map of that system. |
+| Key | Default | Options or type | What it does |
+| --- | --- | --- | --- |
+| `designSystem.enabled` | `true` | boolean | Vega specs new screens when this is not `false`. A missing key means she is in. Init asks once and writes the answer here. |
+| `designSystem.paths` | `[]` | array of strings | Design-system paths you gave at init. |
+| `designSystem.map` | `.hele/DESIGN_SYSTEM.md` | string | Where Vega writes the compact map of that system. |
 
-### `qa.maxScreenshots`
+### `qa`
 
-`10`. How many PNGs stay in one increment's `screenshots/`. The rest are chat-only under `.hele/tmp/captures/`. The project file wins when `qa.maxScreenshots` is set there.
+| Key | Default | Options or type | What it does |
+| --- | --- | --- | --- |
+| `qa.maxScreenshots` | `10` | positive integer | How many PNGs stay in one increment's `screenshots/`. The rest are chat-only under `.hele/tmp/captures/`. |
 
-### `questions.planning`
+### `questions`
 
-`always`. Investigate first, then one question pack if a useful question remains.
+| Key | Default | Options or type | What it does |
+| --- | --- | --- | --- |
+| `questions.planning` | `always` | string | When the question pack runs before a PRD. `always` means investigate first, then one pack if a useful question remains. |
 
 Next: [CLI Reference](cli.md)
