@@ -19,6 +19,8 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
+An app that already exists can get the same memory. `/hele-absorb` reverse-engineers the project and writes a snapshot into `.hele/`: the features as they behave today, the increments that already shipped, and a regression of the product now. You approve that snapshot before the files land. After it is on disk, you keep using `/hele`. The next feature, fix, or small increment starts from that memory. How the snapshot is cut: [Absorb](absorb.md).
+
 ## The vision
 
 Everyone is talking about AI and coding agents. After some time reflecting, I reached a surprising conclusion: in terms of software engineering structure, nothing changed. What changed is the scale and who operates that structure. It used to be a boss with **10 humans on the team**. Now it's a programmer with **10 agents on the team**.
@@ -82,7 +84,10 @@ The name honors my wife Helena, I dedicate this project to her. Thank you for be
 ## What you'll find here
 
 - [Getting Started](getting-started.md): install, initialize (or auto-init), ship with `/hele`.
+- [Configuration](configuration.md): the defaults, the project settings, and `hele config`.
 - [Skills Reference](skills.md): the conductor and the phase skills it runs.
+- [Absorb](absorb.md): `/hele-absorb`, reverse-engineer an existing app into a snapshot, then keep going with `/hele`.
 - [CLI Reference](cli.md): the `hele` terminal companion: search, config, adapters.
+- [Changelog](../CHANGELOG.md): what changed in each version.
 
 Next: [Getting Started](getting-started.md)
