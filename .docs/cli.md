@@ -30,35 +30,19 @@ hele find --json estoque         # machine-readable (what agents consume)
 
 ## hele config
 
-Read and write `settings.json` by dot path. JSON values are parsed when possible.
+Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. The keys and their defaults are [`core/default-config.json`](../core/default-config.json), explained in [Configuration](configuration.md). A key the project file does not have uses that file.
 
 ```bash
 hele config list                                     # whole settings file
 hele config get agents.maxParallel
 hele config set agents.maxParallel 6
-hele config set qa.maxScreenshots 20                 # PNGs kept in one QA report; default 10
+hele config set qa.maxScreenshots 20                 # PNGs kept in one QA report
 hele config set agents.models.backend-cho opus      # per-agent, both runtimes
 hele config set agents.models.backend-cho.cursor composer
 hele config add designSystem.paths "src/design"     # append to a list (deduped)
 ```
 
-Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies everywhere. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
-
-Defaults for a new project:
-
-| Agent | Key | Claude Code | Cursor |
-| --- | --- | --- | --- |
-| Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
-| Vega (Design) | `design-vega` | opus | opus |
-| Hightower (DB) | `dba-hightower` | sonnet | grok |
-| Cho (Backend) | `backend-cho` | sonnet | composer |
-| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
-| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
+Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies everywhere. Change one with `hele config set agents.models.backend-cho.claude-code opus`. The model for each role is in [`core/default-config.json`](../core/default-config.json). [Configuration](configuration.md) says what every key does.
 
 ## hele install
 

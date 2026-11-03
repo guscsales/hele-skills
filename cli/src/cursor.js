@@ -63,9 +63,9 @@ function syncSettingsModels(projectRoot) {
     return;
   }
 
-  const templateRaw = assets.files['.cursor/hele/templates/settings.json'];
+  const templateRaw = assets.files['.cursor/hele/core/default-config.json'];
   if (!templateRaw) {
-    console.error('ERROR: cursor assets missing templates/settings.json');
+    console.error('ERROR: cursor assets missing core/default-config.json');
     process.exit(2);
   }
   const defaults = JSON.parse(templateRaw).agents?.models ?? {};

@@ -19,6 +19,8 @@ You can type `/hele-init` once, or skip it. The first `/hele` in a repo that has
 
 Init creates `.hele/` (settings, the feature index, `features/`), installs the sticky session rule so `/hele` stays in force, and runs `hele install` for [beads](https://beads.gascity.com/) (`bd`). That command creates the project database and leaves `AGENTS.md` and `CLAUDE.md` untouched. The folder is always `.hele/`. Idempotent. It never overwrites an existing file.
 
+`.hele/settings.json` starts as a copy of [`core/default-config.json`](../core/default-config.json). A key you have not set still uses that file. What each key does, and how `hele config` changes the project copy: [Configuration](configuration.md).
+
 ## Ship with one command
 
 ```bash
@@ -66,7 +68,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
 
 ```
 .hele/
-  settings.json            # models, max agents, screenshot cap, design system paths
+  settings.json            # project copy of core/default-config.json
   index.json               # registry of ALL features (slug, aliases, versions)
   DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
   DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
@@ -81,7 +83,7 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
           DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to qa.maxScreenshots (default 10); 1920×1080, sharp palette, no downscale
+          screenshots/         # up to qa.maxScreenshots; 1920×1080, sharp palette, no downscale
 ```
 
 Documents a new team member, human or agent, can read and understand the product from.

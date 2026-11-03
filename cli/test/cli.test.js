@@ -9,7 +9,7 @@ import { mergeCursorModels } from '../src/cursor.js';
 
 const ENTRY = fileURLToPath(new URL('../src/index.js', import.meta.url));
 const DEFAULT_MODELS = JSON.parse(
-  fs.readFileSync(new URL('../../templates/settings.json', import.meta.url), 'utf8')
+  fs.readFileSync(new URL('../../core/default-config.json', import.meta.url), 'utf8')
 ).agents.models;
 
 function fixtureProject() {

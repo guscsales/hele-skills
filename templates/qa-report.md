@@ -24,8 +24,9 @@
   `### BR-n — Title` heading in the PRD. `Rule: BR-9` with no title is wrong.
 - kind unit-expectation adds a Mapped test line with the test file path.
   No screenshot. e2e and api omit that line.
-- Screenshots: up to settings.qa.maxScreenshots PNGs in screenshots/
-  (missing key means 10). Each kept PNG is 1920×1080, paletted in place,
+- Screenshots: up to settings.qa.maxScreenshots PNGs in screenshots/.
+  A missing key uses qa.maxScreenshots in core/default-config.json.
+  Each kept PNG is 1920×1080, paletted in place,
   never downscaled. Priority: the side-by-side pair, the main journey,
   failures, 00-app-up.png. The rest live in .hele/tmp/captures/ and are
   chat only. The element the stub proves is in the frame and readable —

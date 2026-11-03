@@ -159,27 +159,13 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
 
-Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
-
-| Agent | Key | Claude Code | Cursor |
-| --- | --- | --- | --- |
-| Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite (Coding) | `staff-lisbon-run` | sonnet | composer |
-| Vega (Design) | `design-vega` | opus | opus |
-| Hightower (DB) | `dba-hightower` | sonnet | grok |
-| Cho (Backend) | `backend-cho` | sonnet | composer |
-| Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
-| Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Testing Stubs) | `qa-wylie-run` | sonnet | composer |
-| Summer (Build Checker) | `staff-lisbon-run` | sonnet | composer |
+Defaults live in [`core/default-config.json`](core/default-config.json). Init copies that file to `.hele/settings.json`. A key the project has not set still uses the default file. Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime. What the keys mean, and how to change one: [Configuration](.docs/configuration.md).
 
 ## Project layout (created by /hele-init)
 
 ```
 .hele/
-  settings.json            # models, max agents, screenshot cap, design system paths
+  settings.json            # project copy of core/default-config.json
   index.json               # registry of ALL features (slug, aliases, versions)
   DESIGN_SYSTEM.md         # Vega's compact map of the design system (when one exists)
   DATABASE.md              # Hightower's living schema map (mermaid ER, kept current)
@@ -194,7 +180,7 @@ Defaults live in `.hele/settings.json` (`agents.models`). Judgment work sits on 
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
           QA_REPORT.md         # human-readable QA run + screenshots/
           VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to qa.maxScreenshots (default 10); 1920×1080, sharp palette, no downscale
+          screenshots/         # up to qa.maxScreenshots; 1920×1080, sharp palette, no downscale
 ```
 
 There is no `state.json`. The feature is the folder. The increment is the folder this run is building. Beads hold the open tasks.
