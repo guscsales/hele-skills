@@ -17,6 +17,7 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
 | The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment.                                                                                                          |
 | The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane.                                                                                          |
+| The Tweak Lane   | Copy, labels, typos, colors, spacing. No rule, no logic.              | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk.                                                              |
 | The Open Lane    | Research, review, investigation, design exploration, anything else.   | A conversation, with no PRD, until you pick **Let's formalize or say you're done.**                                                                                                                              |
 
 Already have an app? `/hele-absorb` reverse engineer the current snapshot it into `.hele/` after you approval. Read more in the [Absorb](.docs/absorb.md) docs.
@@ -63,9 +64,11 @@ Hele Skills Solves That. Welcome to you next level of creation.
  │ Feature   questions, then PRD + stubs + 001          │
  │ Fast      questions when a rule would change         │
  │ Bugfix    questions only when the rule changes       │
+ │ Tweak     copy/style only: no PRD, plan or QA        │
  │ Open      research, review, investigation, design    │
  ╰──────────────────────────────────────────────────────╯
     │  feature / fast / bugfix — /hele runs these
+    │  tweak: one engineer, related checks only → close
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │

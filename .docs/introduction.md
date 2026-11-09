@@ -17,6 +17,7 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
 | The Fast Lane | A small addition to what already exists, a product increment. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. |
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
+| The Tweak Lane | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
 ### Your app already exist?
@@ -68,8 +69,8 @@ Tip: check the whole configuration in [Configuration](configuration.md).
 ## Core beliefs
 
 - **Agents have no memory, so we build it for them.** Living documents (PRD, test stubs) carry the current truth. Per-increment documents (plan, design spec, QA report with screenshots, verify) freeze the history.
-- **One entry point.** `/hele` detects the Feature, Fast, Bugfix, or Open lane. Phase skills stay on disk as contracts the conductor runs. You pick numbered options, not a skill catalog.
-- **Process proportional to risk.** Full spine for Feature, Fast, and Bugfix. Open for research and reviews until you formalize. Hard gates (database, security) stay in the lane.
+- **One entry point.** `/hele` detects the Feature, Fast, Bugfix, Tweak, or Open lane. Phase skills stay on disk as contracts the conductor runs. You pick numbered options, not a skill catalog.
+- **Process proportional to risk.** Full spine for Feature, Fast, and Bugfix. Tweak (copy and style) skips PRD, plan, and QA, and runs only the checks that touch the change. Open for research and reviews until you formalize. Hard gates (database, security) stay in the lane.
 - **The human decides the product.** Approvals are explicit numbered options for the PRD, a new design, a schema change, the QA report, and the manual walk. The execution plan is for the agents. Agents investigate first and still ask questions they cannot answer from the files — one pack, before the PRD: accept all recommendations, answer one by one, or reply in words. Late doubts mid-path are allowed. A product question still open means the PRD is not written yet.
 - **State lives on disk, not in the chat.** beads tracks tasks. Documents track decisions. There is no state file and no feature-status board. An interrupted session resumes from the feature folder, the increment folder, and the beads. `/hele` is sticky: follow-ups stay in that session until you invoke a different `/hele-*`.
 - **The main chat stays free.** You talk to Lisbon there. Doing (review, suite, artifacts, codebase reads) is always a background sub-agent. After a dispatch, the turn ends.

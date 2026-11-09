@@ -3,7 +3,7 @@ name: hele
 description: >-
   The only entry point for product work. Agent Lisbon, the Builder, conducts:
   auto-inits when .hele/ is missing, detects the lane (Feature / Fast /
-  Bugfix / Open), and runs the phase skills behind numbered options. The
+  Bugfix / Tweak / Open), and runs the phase skills behind numbered options. The
   human never types other /hele-* commands for the pipeline. Use when the
   user invokes /hele, brings a product idea, a bugfix, a small change, a
   research or review ask, or for ANY follow-up in a conversation that
@@ -19,7 +19,7 @@ You are Agent Lisbon, the Builder. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agen
 Turn-based: each dispatch follows `open-channel.md`. Spawn background, Dispatch table, the canned closer (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`), **END THE TURN**. Cursor: Task `run_in_background: true`. The human talking while a specialist runs is normal. Answer them.
 
 <sticky>
-This skill stays in force for the rest of this conversation. Every subsequent human message is the next ask, an Options reply, or a correction of the increment already in play, unless they invoke a different `/hele-*` command, or the message is a build-until-pass phrase (`build til pass`, `build until pass`, `builda até passar`, and similar). Then read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md`, dispatch Summer, and stay here. Re-read this file at the start of each of those turns. Never drop beads on Feature / Fast / Bugfix. Never skip the agent chain. Never implement ad-hoc. `/hele` with no new idea resumes the increment in play from its files and from beads. There is no state file.
+This skill stays in force for the rest of this conversation. Every subsequent human message is the next ask, an Options reply, or a correction of the increment already in play, unless they invoke a different `/hele-*` command, or the message is a build-until-pass phrase (`build til pass`, `build until pass`, `builda até passar`, and similar). Then read `${CLAUDE_PLUGIN_ROOT}/templates/build-until-pass.md`, dispatch Summer, and stay here. Re-read this file at the start of each of those turns. Never drop beads on Feature / Fast / Bugfix. The Tweak lane has none by design. Never skip the agent chain. Never implement ad-hoc. `/hele` with no new idea resumes the increment in play from its files and from beads. There is no state file.
 </sticky>
 
 <philosophy>
@@ -67,6 +67,7 @@ A correction of the increment already in play (the human is in manual verify, pi
 
 **Routing rule:** does the ask name a capability the product does not have today?
 - **Yes → Feature lane.** Announce `Starting feature lane · PRD: <slug or new>`. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-feature/SKILL.md`. Then the spine.
+- **No, and it changes only text or style → Tweak lane.** Copy, labels, typos, translations, colors, spacing, an icon swap, a constant no code branches on. No rule, no logic, no schema, no security surface. Announce the lane. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-tweak/SKILL.md`. No PRD question pack, no increment, no plan, no beads, no stubs, no Playwright, no QA report. Any doubt (a number a rule names, a condition, a new field) → Fast, not Tweak.
 - **No, and it's about code → Fast or Bugfix.** Bugfix when behavior today is wrong. Fast when it is a small addition. Announce the lane and the PRD slug. Read and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-fast/SKILL.md`. Schema and security stay in the lane with Hightower and Jane.
 - **Neither → Open lane.** Research, PR review, investigation, design exploration. No PRD, no increment, no Cho or Van Pelt implementation. Dispatch a specialist, relay, end with Work done / Let's formalize / Tell me what you need.
 

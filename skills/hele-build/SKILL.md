@@ -54,7 +54,7 @@ Repeat until no tasks remain:
 </phase>
 
 <phase name="2-verify">
-1. `bd create` title `BUILD: full suite`. Dispatch **background** `[AGENT] Lisbon — BUILD: full suite`, `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime object — your runtime's key; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit). Prompt: you are `[AGENT] Lisbon` running the BUILD full suite. You do NOT write product fixes. You run the project's full automated test suite + linter once and report green or the failing owners. You do not run the suite in this session. Failures → owning-engineer beads (targeted tests; re-dispatch this suite bead only when they all return).
+1. `bd create` title `BUILD: full suite`. Dispatch **background** `[AGENT] Lisbon — BUILD: full suite`, `model` from `settings.agents.models["staff-lisbon-run"]` (per-runtime object — your runtime's key; default `sonnet` in Claude Code / `composer` in Cursor; `inherit` → omit). Prompt: you are `[AGENT] Lisbon` running the BUILD full suite. You do NOT write product fixes. You run the project's automated tests + linter once and report green or the failing owners. **Affected first:** collect every file the increment touched (engineer reports plus `git diff --name-only` against the base). Run only the tests that reach those files (runner related/changed mode: `vitest related`, `jest --findRelatedTests`, `pytest` on the matched files) plus the typecheck and lint. Run the whole suite instead when the diff touches shared config, a lockfile, a test setup/helper, a schema or migration, or when no related mode exists. Say which of the two you ran and why. You do not run the suite in this session. Failures → owning-engineer beads (targeted tests; re-dispatch this suite bead only when they all return).
 2. On green: mark the plan `status: built`, close the epic if all tasks are done. Do not write `state.json`.
 </phase>
 
@@ -68,7 +68,7 @@ If the increment is blocked on a human decision, do not start QA. Ask that quest
 
 <rules>
 - Engineers never mark a beads task done with failing or skipped tests — the loop enforces it by re-checking, not by trusting.
-- **Full suite discipline:** targeted tests per task, the project's unit/lint suite exactly once in phase 2 — and that run is a background sub-agent. An engineer running the whole suite mid-task is burning the machine — the loop tells them the targeted paths in the dispatch prompt. Playwright regression is not this phase; `/hele-qa` runs the increment slice and CI owns the rest.
+- **Full suite discipline:** targeted tests per task, the project's tests + lint exactly once in phase 2 (affected tests first, the whole suite only on the triggers listed there) — and that run is a background sub-agent. An engineer running the whole suite mid-task is burning the machine — the loop tells them the targeted paths in the dispatch prompt. Playwright regression is not this phase; `/hele-qa` runs the increment slice and CI owns the rest.
 - **Review is parallel, not a gate on the next independent task.** Waiting for Lisbon before dispatching the next `bd ready` engineer, or before Wylie's `--from-qa` confirm, is a bug — the happy path pays for it in minutes.
 - Open channel: this session never explores, reviews, or runs the suite. Lisbon's review is a `REVIEW:` beads task, not inline.
 - Scope creep discovered mid-build → new beads issue + human visibility, never silently absorbed.

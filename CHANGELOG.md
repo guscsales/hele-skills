@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.3.0 — 2026-11-09
+
+- feat: Tweak lane for copy and style changes with no rule (labels, typos, translations, colors, spacing). One engineer edits every place the old text lives, runs only the typecheck, lint, and tests that touch the changed files, and rewrites PRD and stub quotes of the old text in place. No question pack, increment, plan, beads, Playwright, QA report, or manual walk. A rule, condition, new field, schema, or security surface escalates to Fast.
+- feat: the build's final check runs affected tests first (runner related/changed mode) and the whole suite only when shared config, a lockfile, test setup, or schema changed.
+
 ## v1.2.2 — 2026-11-02
 
 - fix: chat tables follow `language.chat` (`auto` is the human's language this session), including headers, row labels, and cell sentences. Files hele writes stay `language.artifacts` (default English, en-US). The English tables in the templates are the shape, not text to paste. Re-run `/hele-init` to refresh the session rule.
