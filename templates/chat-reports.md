@@ -72,6 +72,7 @@ The fences delimit the shape. Render every header, label, and sentence in the ch
 | 🆕 Feature | <slug> or new | questions → PRD + stubs → design? → agents build + auto-verify → you verify |
 | ⚡ Fast | <slug> | questions if a rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
 | 🐛 Bugfix | <slug> | questions only if the rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
+| ✏️ Tweak | — | copy / style only, no rule → one engineer edits, runs only the checks that touch it, syncs PRD quotes — no PRD, plan, QA, or walk |
 | 🎼 Open | — | research / review / investigation / design explore — no PRD until Let's formalize |
 ```
 

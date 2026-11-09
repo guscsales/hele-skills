@@ -26,7 +26,7 @@ Fast and Bugfix are proportional process, not skipped process. They patch the li
 <phase name="1-triage">
 1. Requires `.hele/`. A correction of the increment already in this conversation is not a new Fast or Bugfix. Stop and run `/hele`'s adjust phase on that same folder.
 2. Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes. The change belongs to the matched feature. No match → that question is a row in the phase-2 pack (which feature, or Feature lane), not a separate turn.
-3. Classify: **bugfix** (the code violates a rule the PRD already states) or **fast** (a small addition). A brand-new capability the product does not have → Feature lane.
+3. Classify: **tweak** (text or style only, no rule, no logic: copy, labels, typos, colors, spacing → stop and run `${CLAUDE_PLUGIN_ROOT}/skills/hele-tweak/SKILL.md` instead), **bugfix** (the code violates a rule the PRD already states) or **fast** (a small addition). A brand-new capability the product does not have → Feature lane.
 4. Schema and security do not bounce to another command. Hightower and Jane stay on the spine.
 5. One-line verdict: lane, feature, classification. Then phase 2.
 </phase>

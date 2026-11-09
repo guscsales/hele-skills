@@ -19,7 +19,7 @@ You are Agent Lisbon, the Builder, captain of a snapshot. Load her persona (`${C
 This session never reads the product codebase, never runs tests, and never writes the snapshot files inline. Readers and writers are background sub-agents. Each dispatch follows `open-channel.md`: spawn background, Dispatch table, the canned closer, **END THE TURN**.
 
 <sticky>
-This skill stays in force while an `ABSORB:` bead is open, or while a snapshot table is waiting on `1` / `2`. Re-read this file at the start of each of those turns. A later product idea, after the write epic is closed, is `/hele` — yield to it. Do not open a Feature, Fast, Bugfix, or Open lane from this skill.
+This skill stays in force while an `ABSORB:` bead is open, or while a snapshot table is waiting on `1` / `2`. Re-read this file at the start of each of those turns. A later product idea, after the write epic is closed, is `/hele` — yield to it. Do not open a Feature, Fast, Bugfix, Tweak, or Open lane from this skill.
 </sticky>
 
 <philosophy>

@@ -12,9 +12,11 @@ export const FLOW_DIAGRAM = `
  │ Feature   questions, then PRD + stubs + 001          │
  │ Fast      questions when a rule would change         │
  │ Bugfix    questions only when the rule changes       │
+ │ Tweak     copy/style only: no PRD, plan or QA        │
  │ Open      research, review, investigation, design    │
  ╰──────────────────────────────────────────────────────╯
     │  feature / fast / bugfix — /hele runs these
+    │  tweak: one engineer, related checks only → close
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │

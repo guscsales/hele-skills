@@ -9,7 +9,7 @@ Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [featu
 The conductor. Agent Lisbon talks. Specialists work in the background.
 
 1. **Auto-init** if `.hele/` is missing.
-2. **Lane table** (one row): Feature · Fast · Bugfix · Open.
+2. **Lane table** (one row): Feature · Fast · Bugfix · Tweak · Open.
 3. Runs the matching phase skills. You never type them for the pipeline.
 4. Real stops end in numbered options. An open lane closes with **Work done** or **Let's formalize**. The plan, the build, and a green auto-verify do not stop.
 5. A fix found in manual verify goes back to the PRD on that same increment, and the flow runs again. Flows already marked pass are not walked again.
@@ -19,6 +19,7 @@ The conductor. Agent Lisbon talks. Specialists work in the background.
 | Feature | The product does not do this yet. | Investigates first, then one question pack if anything useful remains, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. You walk the result in tables. |
 | Fast | A small addition to what already exists. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. Same spine. |
 | Bugfix | Today's behavior is wrong. | Question pack only if the rule text would change. Same spine. |
+| Tweak | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits, runs only the checks that touch the change, and syncs PRD quotes of the old text. No plan, QA, or manual walk. Escalates to Fast if a rule shows up. |
 | Open | Research, review, investigation, design exploration. | A conversation, until you pick **Let's formalize** or say you're done. |
 
 **Sticky:** type `/hele` once. Later prompts stay here.
@@ -38,6 +39,10 @@ Agent Lisbon. Anti-duplicate gate, then she investigates. If useful questions re
 ## /hele-fast
 
 Update lane `/hele` runs for Fast and Bugfix: investigate first, then one question pack when a rule would change, then patch the PRD, stub delta, new increment, same spine. A bugfix that leaves the rule text alone does not stop to ask. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
+
+## /hele-tweak
+
+Tweak lane `/hele` runs for text and style changes with no rule: one background engineer edits every place the old text lives (code, locales, tests), runs only the typecheck, lint, and tests that touch the changed files, and rewrites any PRD or stub quote of the old text in place. No question pack, increment, plan, beads, Playwright, QA report, or manual walk. A rule, condition, new field, schema, or security surface escalates to `/hele-fast`.
 
 ## /hele-design
 

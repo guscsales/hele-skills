@@ -3365,9 +3365,11 @@ var FLOW_DIAGRAM = `
  \u2502 Feature   questions, then PRD + stubs + 001          \u2502
  \u2502 Fast      questions when a rule would change         \u2502
  \u2502 Bugfix    questions only when the rule changes       \u2502
+ \u2502 Tweak     copy/style only: no PRD, plan or QA        \u2502
  \u2502 Open      research, review, investigation, design    \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502  feature / fast / bugfix \u2014 /hele runs these
+    \u2502  tweak: one engineer, related checks only \u2192 close
     \u25BC
  \u256D\u2500 questions \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 STOP \u2500\u256E
  \u2502 Agent Lisbon                                         \u2502
@@ -3436,7 +3438,7 @@ var SKILLS = [
     artifact: "lane \u2192 phase skills behind Options",
     question: "THE CONDUCTOR",
     detail: `The only entry point for product work. Auto-inits when .hele/ is
-missing. Detects Feature / Fast / Bugfix / Open and runs the phase
+missing. Detects Feature / Fast / Bugfix / Tweak / Open and runs the phase
 skills. Product questions are a stop that writes nothing: investigate
 first, then one pack if anything useful remains (accept all /
 one by one / reply in words). After the PRD is approved (and design,
@@ -3552,6 +3554,19 @@ then plan, build, and auto-verify. A bugfix that leaves the rule text
 alone does not stop to ask. A correction of the increment already in
 play stays on that increment. Schema and security stay with Hightower
 and Jane.`
+  },
+  {
+    name: "tweak",
+    agent: "Agent Lisbon + one engineer",
+    artifact: "the edit, nothing else",
+    question: "TWEAK LANE",
+    detail: `Copy, labels, typos, translations, colors, spacing: no rule, no
+logic, no schema, no security. One engineer finds every place the old
+text lives, edits it, updates tests that asserted it, and runs only the
+checks that touch the changed files. A PRD or stub that quotes the old
+text is rewritten in place, with no question pack. No new increment, no
+plan, no beads, no Playwright, no QA report, no manual walk. A rule,
+a condition, or a new field escalates to the Fast lane.`
   },
   {
     name: "update",
