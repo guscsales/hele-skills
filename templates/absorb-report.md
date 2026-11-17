@@ -53,7 +53,7 @@ Omit **Already documented** when every slug is new. Omit **Doubt** when nothing 
 | Features | <n> written |
 | Increments | <n> closed |
 | Stubs | <n> |
-| QA | <n> reports · <n> screenshots kept |
+| QA | <n> reports · <n> behaviors evidenced · <n> gaps/blocked · <n> optional screenshots |
 
 | File | Change |
 |---|---|

@@ -41,7 +41,7 @@ When the reading is done, Lisbon closes that epic and shows one table. This is t
 
 | Actions | Your call |
 | --- | --- |
-| 1 | Approve. She writes the files, then runs the regression and the screenshots. |
+| 1 | Approve. She writes the files, then assesses coverage and selected journeys, with optional screenshots. |
 | 2 | Tell her what is wrong. She brings the full table again. Still no files. |
 
 A second table appears when a feature already has a PRD. She leaves that one alone unless you ask to refresh it. A doubts table appears only when two parts of the product disagree in a way that would change the cut. The recommendation there is what the code does today.
@@ -53,10 +53,10 @@ Only after the approval. Every file is copied from `templates/` and filled. The 
 | File | Template | What it is |
 | --- | --- | --- |
 | `features/<slug>/PRODUCT_DESCRIPTION.md` | `product-description.md` | The feature as it behaves today. One living PRD. `status: approved`. |
-| `features/<slug>/TEST_STUBS.md` | `test-stubs.md` | Given / When / Then from that PRD. Each stub cites the increment that introduced the behavior. |
+| `features/<slug>/TEST_STUBS.md` | `test-stubs.md` | PRD-derived Given / When / Then, plus a separate mapping to existing or proposed proof. Each stub cites its originating increment. |
 | `features/<slug>/increments/NNN-<slice>/EXECUTION_PLAN.md` | `absorb-plan.md` | A closed record. `status: built`, `origin: absorb`, no tasks. |
-| `features/<slug>/increments/NNN-<slice>/QA_REPORT.md` | `qa-report.md` | The regression for that slice. Screenshots of the product today, 1920×1080, the proven element in frame. Up to 10 stay in the increment (`qa.maxScreenshots`). |
-| `features/<slug>/increments/NNN-<slice>/VERIFY.md` | `verify.md` | The same steps as the QA report, ready to replay. |
+| `features/<slug>/increments/NNN-<slice>/QA_REPORT.md` | `qa-report.md` | Current evidence and gaps for that slice. Reuses valid test results; justified journeys run as needed. Optional screenshots show the product today, within qa.maxScreenshots. |
+| `features/<slug>/increments/NNN-<slice>/VERIFY.md` | `verify.md` | Short human flows, labeled executed or prepared; no forced walk for backend-only slices. |
 | `index.json` | — | Slug, title, summary, aliases. |
 | `DATABASE.md` | — | Created when a schema exists and the file is missing. |
 | `DESIGN_SYSTEM.md` | — | Created when design is on and the file is missing. |
@@ -66,3 +66,5 @@ Tip: check the whole configuration in [Configuration](configuration.md).
 `DESIGN_SPEC.md` and `DB_CHANGES.md` are not written. Nothing in the schema is being changed, and no new screen is being designed.
 
 The beads she opened are closed before she stops. Findings stay in those beads, not in a notes file.
+
+Absorb records existing behavior; a closed absorbed plan does not imply all validation passed. Missing smaller-test coverage is reported, not hidden or converted automatically to E2E. See [Testing and E2E](testing.md).

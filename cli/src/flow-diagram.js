@@ -29,7 +29,7 @@ export const FLOW_DIAGRAM = `
  ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Lisbon + Agent Wylie                           │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
- │ ▸ PRD delta: was → now, clickable file links         │
+ │ ▸ behavior first, then coverage recommendations     │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -42,7 +42,9 @@ export const FLOW_DIAGRAM = `
  ╭─ agents ─────────── plan · build · auto-verify ──────╮
  │ Lisbon · EXECUTION_PLAN.md + beads · no sign-off     │
  │ Cho, Van Pelt, Jane, Rigsby · code + passing tests   │◄──┐
- │ Wylie · Playwright + screenshots + QA_REPORT.md      │   │
+ │ Wylie · coverage review + justified E2E journeys    │   │
+ │ ▸ reuse build evidence; run affected regressions    │   │
+ │ ▸ gaps → owning engineer; optional screenshots      │   │
  ╰──────────────────────────────────────────────────────╯   │
     │ report ready                                          │
     │     ╭─ QA red / generate-fixes-report ───────────╮    │
@@ -50,14 +52,15 @@ export const FLOW_DIAGRAM = `
     │     ╰────────────────────────────────────────────╯
     ▼
  ╭─ QA report ─────────────────── YOUR NEXT PROMPT ─────╮
- │ Continue to manual verify, or fix what you saw       │
+ │ Evidence + CI impact; continue or fix gaps/bugs      │
  ╰──────────────────────────────────────────────────────╯
     │ continue
     ▼
  ╭─ manual verify ──────────────────────────────────────╮
  │ Agent Wylie + you                                    │
  │ ▸ tables: how to open, the data, each step           │
- │ ▸ same proof as QA_REPORT → VERIFY.md                │
+ │ ▸ QA_REPORT → short flows in VERIFY.md               │
+ │ ▸ no human flow applies → normal close              │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -66,8 +69,14 @@ export const FLOW_DIAGRAM = `
  │ 4 back to the PRD                                  │
  ╰────────────────────────────────────────────────────╯
 
+ ╭─ existing-suite audit (standalone) ─────────────────╮
+ │ /hele-fix-e2e → Wylie → E2E_AUDIT.md               │
+ │ Keep / replace / remove / optimize, with evidence  │
+ │ Audit writes a report; no tests or CI changed      │
+ ╰────────────────────────────────────────────────────╯
+
  ╭─ always ───────────────────────────────────────────╮
- │ First time in a repo → init runs by itself         │
+ │ Product work in a new repo → init runs itself     │
  │ Stops: questions, PRD, design, DB schema,          │
  │ QA report, verify, close. Plan is for agents.      │
  │ A verify fix goes back to the PRD phase            │

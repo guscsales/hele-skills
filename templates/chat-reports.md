@@ -28,13 +28,13 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (links) · continue the ask already in flight |
 | Questions | Question pack (investigate first) · Options 1/2/3 · no files · end the turn |
-| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Files (links) · Open these · Options |
+| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Coverage recommendations · Files (links) · Open these · Options |
 | Design | Report frame · Field/Value · Files (links) · Options |
 | Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
 | Build green | short report · no Options — start auto-verify |
 | Dispatch | Dispatch table · one canned line (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`) · end the turn |
-| QA report | Report frame · Test results · Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
-| Verify — each flow | Open table · Data table · Steps table · screenshot link · Options |
+| QA report | Report frame · Test results with evidence · CI impact · optional Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
+| Verify — each flow | Open table · Data table · Steps table · optional screenshot · Options |
 | Verify — close | Report frame · counts · Files (links) · the Options table below, and nothing after it |
 | Open lane | Report frame · relay · Files if any (links) · Options (Work done / Let's formalize / keep going) |
 
@@ -139,8 +139,20 @@ QA stop:
 ```
 | Stub | Kind | Rule | Given | When | Then |
 |---|---|---|---|---|---|
-| TS-001 | e2e | BR-1 | member with 1,200 pts, $9.00 order | taps Pay with points, confirms | order completes, no card step, balance shows 300 pts |
+| TS-001 | e2e-browser | BR-1 | member with 1,200 pts, $9.00 order | taps Pay with points, confirms | order completes, no card step, balance shows 300 pts |
 ```
+
+## Coverage recommendations
+
+After deriving scenarios, show how they will be proven. This does not add an approval stop.
+
+```
+| Stubs | Level | Owner | Existing / proposed proof | Why this level |
+|---|---|---|---|---|
+| TS-001 | integration | [AGENT BE] Cho | proposed purchase API test | proves persistence and refusal against a real database |
+```
+
+E2E recommendations name the connection, unique failure and reuse decision. Multiple levels for a stub and multiple stubs for a journey are allowed.
 
 ## Init report
 
@@ -293,7 +305,7 @@ A ready PR is ready for review. A draft PR is a draft. Free text that describes 
 
 ## Manual verify — one flow
 
-This is the auto-verify, in tables a person can follow. Take the facts from `QA_REPORT.md` and write the cells in the chat language. Keep every step as its own row. Do not paste the English sentences when chat is not English. Do not collapse the steps into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
+This is the changed human experience, in short grouped flows. State whether each walk was executed or prepared, not executed; unit/API proof does not imply a UI walk. Backend-only work may go to Verify close with an explanation that no human flow applies. Take the facts from `QA_REPORT.md` and write the cells in the chat language. Keep every step as its own row. Do not paste the English sentences when chat is not English. Do not collapse the steps into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
 
 ```
 | Report | Scope |
@@ -328,21 +340,20 @@ This is the auto-verify, in tables a person can follow. Take the facts from `QA_
 | 3 | ⏭️ Skip this flow |
 ```
 
-Show the screenshot image as well as the link. If Open, Data, or Steps would be empty, the QA report is incomplete: fill it before walking the human. Do not invent a shorter script.
+The Proof table is optional: when a useful screenshot exists, show its image and link. Do not create screenshots just to fill it. If Open, Data, or Steps would be empty, the QA report is incomplete: fill it before walking the human. Do not invent a shorter script.
 
 ## Test results (QA stop)
 
-```
-Stub and Rule cells carry the title. A bare `TS-008` or `BR-9` is wrong. The Screenshot cell is a link, or the chat-language rendering of `chat only` or `mapped test`.
+Stub and Rule cells carry the title. Evidence names the test level and links the test/result. Passing requires current execution evidence, including valid build results reused by QA. Missing proof is pending/blocked, never green.
 
-| Stub | Rule | Result | Screenshot |
-|---|---|---|---|
-| TS-001 · Pay with points | BR-1 · Points cover the order | ✅ | [TS-001.png](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/screenshots/TS-001.png) |
-| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ✅ | mapped test |
-| TS-009 · Empty cart stays | BR-4 · Empty cart copy | ✅ | chat only |
+```
+| Stub | Rule | Result | Level | Evidence |
+|---|---|---|---|---|
+| TS-001 · Pay with points | BR-1 · Points cover the order | ✅ | integration | [payment.test.ts](/Users/you/project/tests/payment.test.ts) · current build result |
+| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ⏳ coverage gap | component | missing assertion for the empty state |
 ```
 
-Show the kept PNGs inline right after this table.
+Add selected existing regressions (with feature-qualified IDs), reused versus fresh runs, E2E additions/changes, CI execution scope, and measured or unknown timing impact. Show useful kept screenshots only when present. Zero E2E and zero screenshots are valid when all required behavior has sufficient evidence.
 
 ## QA report — your call
 
@@ -355,9 +366,11 @@ Every ready report ends with this table. End the turn. Do not open the first man
 | 2 | ✏️ Fix something I saw in the QA report |
 ```
 
-A red run adds rows under those two: approve fixes for the failing tests, and decide the contract-questions first. A blocked stub is named above the table. The two rows stay.
+A red run adds rows under those two: approve fixes for failures or coverage gaps, and decide the contract-questions first. A blocked stub is named above the table. The two rows stay.
 
 ## Shots
+
+Optional. Omit this section when no screenshot helps explain a visible change or failure. The limit is a ceiling, not a target.
 
 ```
 | Stub | Kept | Screenshot |

@@ -112,18 +112,18 @@ Which model each role uses. Judgment work sits on the strong model. Execution vo
       <td>Rigsby, infra.</td>
     </tr>
     <tr>
-      <td>Wylie (Writing stubs)</td>
+      <td>Wylie (Validation strategy)</td>
       <td><code>qa-wylie-stubs</code></td>
       <td>opus</td>
       <td>grok</td>
-      <td>Wylie writing stubs.</td>
+      <td>Acceptance scenarios, coverage judgment, and existing-suite audits.</td>
     </tr>
     <tr>
       <td>Wylie (Running tests)</td>
       <td><code>qa-wylie-run</code></td>
       <td>sonnet</td>
       <td>composer</td>
-      <td>Wylie running tests.</td>
+      <td>Writing and running selected E2E journeys.</td>
     </tr>
     <tr>
       <td>Summer (Build checker)</td>
@@ -153,7 +153,7 @@ Which model each role uses. Judgment work sits on the strong model. Execution vo
 
 | Key | Default | Options or type | What it does |
 | --- | --- | --- | --- |
-| `qa.maxScreenshots` | `10` | positive integer | How many PNGs stay in one increment's `screenshots/`. The rest are chat-only under `.hele/tmp/captures/`. |
+| `qa.maxScreenshots` | `10` | positive integer | Maximum optional PNGs kept in one increment's `screenshots/`; not a quota. The rest are chat-only under `.hele/tmp/captures/`. |
 
 ### `questions`
 

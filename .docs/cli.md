@@ -56,8 +56,8 @@ Defaults for a new project:
 | Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
 | Jane (Security) | `security-jane` | opus | grok |
 | Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
-| Wylie (Writing Stubs) | `qa-wylie-stubs` | opus | grok |
-| Wylie (Running tests) | `qa-wylie-run` | sonnet | composer |
+| Wylie (Validation strategy) | `qa-wylie-stubs` | opus | grok |
+| Wylie (E2E execution) | `qa-wylie-run` | sonnet | composer |
 | Summer (Build checker) | `staff-lisbon-run` | sonnet | composer |
 
 Tip: check the whole configuration in [Configuration](configuration.md).
@@ -73,12 +73,13 @@ hele install --check    # just report whether bd is present (no init)
 
 ## hele ai
 
-The interactive explainer: what the workflow is, who the agents are, what each phase produces. The overview diagram (one command `/hele`, lane detection, one question pack, PRD and stubs in the same stop, QA screenshots, verify copies the report's tables) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
+The interactive explainer: what the workflow is, who the agents are, what each phase produces. The overview diagram (one command `/hele`, lane detection, one question pack, PRD and stubs in the same stop, coverage review and selected E2E, optional screenshots, short human flows, standalone E2E audit) lives in `cli/src/flow-diagram.js` and must stay identical to the README "The flow" block.
 
 ```bash
 hele ai            # the full pipeline, boxed
 hele ai plan       # deep dive into one skill
 hele ai qa
+hele ai fix-e2e
 hele ai build
 ```
 

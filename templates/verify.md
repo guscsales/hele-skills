@@ -2,7 +2,7 @@
 - Written by /hele-qa from the latest QA_REPORT.md. Verdicts recorded
   during /hele-verify-work. Frozen when the increment closes.
 - Each flow is the SAME Open, Data, and Steps tables the QA report used.
-  The human replays that proof. Do not invent a shorter script.
+  Preserve the executed/prepared label. Group related stubs into short changed-experience flows; backend-only work may have none.
 - verdict per flow: pending | verified | issue | skipped. An issue keeps the
   human's words verbatim.
 - A rewind to the PRD keeps every verdict that is still verified, unless
@@ -22,9 +22,11 @@ updated: <YYYY-MM-DD>
 
 # Guided Verification — <feature> · increment NNN
 
-Same URL, same data, same steps as the QA run. One section per flow.
+Use the human-flow sections of QA_REPORT, not every automated test. If no human flow applies, explain why and omit the flow template.
 
-## V1 — <stub title> · BR-n · <rule title> · TS-nnn · verdict: pending
+## V1 — <flow title> · BR-n · <rule title> · TS-nnn · verdict: pending
+
+**Walk evidence:** executed | prepared, not executed
 
 | Open | |
 |---|---|
@@ -42,7 +44,7 @@ Same URL, same data, same steps as the QA run. One section per flow.
 |---|---|---|
 | 1 | <from QA_REPORT> | <expected> |
 
-**Screenshot:** `./screenshots/TS-nnn.png`
+**Screenshot (optional):** `./screenshots/<journey>.png`
 
 **Verdict:** pending
 

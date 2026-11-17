@@ -1,44 +1,17 @@
 <!-- RULES:
-- Written by /hele-qa after EVERY run — the increment's QA record.
-- Covers THIS run set (active increment + rewritten stubs), not the living-file
-  regression. Name the counts (ran vs living file).
-- Human-readable markdown ONLY. No XML section tags. A person opens this file
-  and understands what was tested, with what data, what happened, and sees the
-  screenshots.
-- Every stub in the run set gets: steps, data used, expected vs happened, and
-  a screenshot path. Relative embed inside this file is ./screenshots/TS-nnn.png
-  for a kept shot. A shot past the budget is the words "chat only" — no embed,
-  no link into .hele/tmp/.
-- Every failure is CLASSIFIED:
-    product-bug        → beads task, fixed via /hele-build --from-qa
-    contract-question  → stub and product disagree; the human decides
-    polish             → real but breaks no stub; human decides now-or-backlog
-    blocked            → couldn't run; names what the human must unblock
-- No unanswered questions in this file. Anything the run could not decide was
-  asked before the file was written. The answer lives under Decisions, with
-  where it went (PRD patch, fix task, backlog).
-- Every stub heading is `### TS-nnn · <title> · <status>`. The title sits
-  between the id and the status. It is the one-line behavior the stub proves.
-  `TS-008 · ✅ passing` with no title is wrong.
-- The rule line is `**Rule:** BR-n · <title>`. The title is the
-  `### BR-n — Title` heading in the PRD. `Rule: BR-9` with no title is wrong.
-- kind unit-expectation adds a Mapped test line with the test file path.
-  No screenshot. e2e and api omit that line.
-- Screenshots: up to settings.qa.maxScreenshots PNGs in screenshots/.
-  A missing key uses qa.maxScreenshots in core/default-config.json.
-  Each kept PNG is 1920×1080, paletted in place,
-  never downscaled. Priority: the side-by-side pair, the main journey,
-  failures, 00-app-up.png. The rest live in .hele/tmp/captures/ and are
-  chat only. The element the stub proves is in the frame and readable —
-  a green run is not that check. Two identical files means the later stub
-  was shot too early; recapture. A PNG in screenshots/ that this file does
-  not embed is deleted.
-- Side by side comes first when the change is visible: the same key screen
-  without this increment and with it. No real "before" (brand-new screen, base
-  that cannot run) → one sentence why. Never invent a pair.
-- State-not-history: the file describes the LATEST run; previous runs shrink
-  to one line each under History.
-- Written in English, like every artifact.
+- Written after every QA assessment, including zero E2E. Follow validation-strategy.md.
+- Every required behavior gets current evidence or an explicit gap. Selected
+  existing regressions are included even when they belong to another feature.
+- Green only with current passing evidence and no required gap/failure/blocker.
+- Human-readable markdown. Stub and rule labels always include their titles.
+- Reuse valid build/confirmation results and name their source; never claim a
+  rerun occurred. State evidence code identity and relevant environment.
+- Screenshots and before/after pairs are optional. Omit empty image sections.
+  Useful kept shots follow the screenshot contract and qa.maxScreenshots ceiling.
+- Human flows are distinct from automated evidence. Group related behaviors;
+  label executed versus prepared, not executed. No forced flow for backend-only work.
+- Latest assessment replaces the body; previous assessments shrink to History.
+- Files follow language.artifacts. Do not commit credentials or secrets.
 -->
 ---
 feature: <slug>
@@ -52,102 +25,87 @@ updated: <YYYY-MM-DD>
 
 # QA Report — <feature> · increment NNN · run <N>
 
-## Side by side
-
-| Without this increment | With it |
-|---|---|
-| ![before](screenshots/before.png) | ![after](screenshots/after.png) |
-
-One line: what changed on this screen, in product words. (No real before: this section is that one sentence, no images.)
-
 ## Summary
 
-One paragraph: run-set size (this increment, not the living file), what passed, what the failures mean for the product as a whole. Mention that CI owns the rest of the suite.
+Explain the delivered behavior, what is proven, and any remaining gaps in product terms. Name assessed behaviors, reused build results, and E2E executed (zero is valid). Do not imply the whole living contract was rerun.
 
-## Setup
+## Coverage and evidence
 
-| Item | Value |
-|---|---|
-| App URL | <url> |
-| How started | <webServer / manual command> |
-| Login(s) | <role → credentials source> |
-| Seed / data | <records, fixtures, IDs used> |
+| Stub | Rule | Result | Level | Evidence |
+|---|---|---|---|---|
+| TS-001 · <title> | BR-1 · <title> | <passing / failing / pending / blocked> | <level> | <test path/title and result link> |
 
-## Results
+### TS-001 · <title> · <status>
 
-| Stub | Rule | Result | Screenshot |
+**Rule:** BR-1 · <title>
+
+**Proof:** <test path/title, explicit assertions, real boundaries and mocks>
+
+**Execution:** <command, result/output artifact, code revision or working-tree identity, environment, run time; reused build evidence or fresh run>
+
+**Expected / observed:** <behavior and result; do not fabricate UI observations from an API/unit test>
+
+**Limitations:** <unproven boundary, missing test, stale evidence, or none>
+
+Repeat per required stub. All mapped assertions must have valid results for passing.
+
+## Selected regressions
+
+| Journey / test | Feature / stubs | Why affected | Result / evidence |
 |---|---|---|---|
-| TS-001 · Pay with points | BR-1 · Points cover the order | ✅ | [TS-001.png](screenshots/TS-001.png) |
-| TS-002 · Discount refused | BR-2 · No discount below $10 | ❌ product-bug | [TS-002.png](screenshots/TS-002.png) |
-| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ✅ | mapped test |
-| TS-009 · Empty cart stays | BR-4 · Empty cart copy | ✅ | chat only |
+| <path + title> | <feature + IDs> | <execution map / dependencies / traces> | <current result link or failure/blocker> |
 
-## Replay
+Say explicitly when none apply and why. Unknown impact requires broader verification, not a guessed empty set.
 
-### TS-001 · Pay with points · ✅ passing
+## E2E and CI impact
 
-**Rule:** BR-1 · Points cover the order
+| Decision | Details |
+|---|---|
+| E2E changes | <reused / extended / added / removed counts and paths; zero is valid> |
+| Justification | <real connection, failure smaller tests miss, existing coverage considered> |
+| Execution map | <project map/config path; selection and fallback> |
+| CI stages | <current triggers and blocking stages; distinguish proposals from implemented changes> |
+| Timing | <measured wall-clock, setup, retries; source; or unknown> |
+| Deferred verification | <suite, actual trigger, owner, risk of later discovery; or none> |
 
-**Data used** and **Steps** are tables, not a sentence. Copy this shape into every replay so the human walk can follow it without rewriting it:
+## Human verification
+
+Only changed user-facing journeys worth a human check. Backend-only: explain why none apply. Do not create a permanent E2E just to supply this section.
+
+### V1 — <flow title> · TS-001 · BR-1 · <rule title>
+
+**Walk evidence:** executed | prepared, not executed
 
 | Open | |
 |---|---|
-| URL | <exact url> |
-| Start | <command that served the app> |
-| Land | <clicks from a cold open to this screen> |
+| URL | <verified route> |
+| Start | <inspected startup command> |
+| Land | <navigation> |
 
 | Data | Value |
 |---|---|
-| Login | <role and credentials the test used> |
-| Seed | <records, ids> |
-| Input | <every value typed or selected> |
+| Login | <role and local credentials source, no secret> |
+| Seed | <fixture or reproducible data setup> |
+| Input | <values> |
 
 | Step | Do this | You should see |
 |---|---|---|
-| 1 | <user action> | <observable result> |
-| 2 | <…> | <…> |
+| 1 | <action> | <expected outcome from the PRD> |
 
-**Expected:** <what the stub demands>
+Optional: embed a useful kept screenshot, or a real before/after pair, with a sentence explaining what it shows. No image is required. Missing setup is an explicit blocker.
 
-**Happened:** <what the app did>
+## Findings and routing
 
-![TS-001](screenshots/TS-001.png)
-
-Status words: ✅ passing · ❌ product-bug · ⚖️ contract-question · ⚠️ polish · 🚫 blocked
-
-### TS-008 · Factory projects listed on the desktop · ✅ passing
-
-**Rule:** BR-9 · Desktop lists factory projects
-
-**Mapped test:** `packages/orders/src/desktop/projects.test.ts`
-
-*(Repeat one block per stub. e2e and api use the three tables and the image. Chat-only stubs omit the image. unit-expectation is the heading, the rule line, and Mapped test — no tables, no image.)*
-
-## Failures to route
-
-| Stub | Class | Impact | Routing |
+| Stub / journey | Class | Expected / observed and impact | Owner / next action |
 |---|---|---|---|
-| TS-002 · Discount refused | product-bug | <who is hurt> | beads `<id>` → [AGENT BE] Cho |
-| TS-nnn · <title> | contract-question | stub says X, product does Y | human decides: fix product or change PRD |
+| <feature + TS/title> | <product-bug / coverage-gap / test-defect / contract-question / polish / blocked> | <evidence and consequence> | <beads ID, owning engineer/Wylie, or decision needed> |
 
 ## Decisions
 
-| Asked | Answer | Where it went |
+| Question | Answer / pending | Where it goes |
 |---|---|---|
-| <question raised by this run> | <the human's answer> | PRD BR-n patched / beads `<id>` / backlog |
-
-## Polish
-
-| Observation | Now or backlog |
-|---|---|
-| <observation that breaks no stub> | now → beads `<id>` / backlog |
-
-## Blocked
-
-| Stub | What is missing | Who unblocks |
-|---|---|---|
-| TS-nnn · <title> | <env / data / dependency> | <human or role> |
+| <question> | <human answer or explicit pending decision> | <PRD patch / fix task / backlog> |
 
 ## History
 
-- run 1 (<date>): 24/28 passing — 2 product-bugs, 1 contract-question, 1 blocked
+- run <N> (<date>): <evidence summary, failures/gaps, reused versus fresh runs>

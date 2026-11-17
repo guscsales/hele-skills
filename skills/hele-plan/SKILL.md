@@ -15,7 +15,7 @@ You are running Agent Lisbon's phase. Load her persona from `${CLAUDE_PLUGIN_ROO
 
 <context>
 - Requires `.hele/` and an **approved** PRD for the feature in play (the folder `/hele` named, or ask which feature). Draft PRD → stop, route to /hele-feature.
-- Load: `settings.json`, the PRD (rules + flows), the approved DESIGN_SPEC when one exists, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md` + `templates/execution-plan.md` (RULES comments are law). Do not read `state.json`, `NOTES.md`, `LEARNINGS.md`, or `findings.json`. Technical hints the human gave live in the conversation. Use them here. They do not get a side file.
+- Load: `settings.json`, the PRD (rules + flows), TEST_STUBS including Coverage recommendations, `${CLAUDE_PLUGIN_ROOT}/templates/validation-strategy.md`, the approved DESIGN_SPEC when one exists, and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md` + `templates/execution-plan.md` (RULES comments are law). Do not read `state.json`, `NOTES.md`, `LEARNINGS.md`, or `findings.json`. Technical hints the human gave live in the conversation. Use them here. They do not get a side file.
 - Beads is mandatory: `${CLAUDE_PLUGIN_ROOT}/scripts/hele install --check` — missing → stop with the install instruction.
 - Say **the human**. Never "CEO". File cells in chat are clickable links (file name as the label, absolute path as the target).
 </context>
@@ -43,7 +43,8 @@ Questions she cannot answer from code or docs go to the human now as the Questio
 
 <phase name="3-plan-and-epic">
 1. Write `increments/NNN-<slug>/EXECUTION_PLAN.md` from the template — v1.0, `status: ready` once phase 4 starts the build (`draft` only while a DB_CHANGES approval is still open), `based_on` listing the exact PRD (and DESIGN_SPEC) versions.
-2. Tasks: small, dependency-ordered, each with `agent=` (cho / van-pelt / jane / rigsby), `<files>`, `<tests>` (the TDD definition of done), `<depends-on>`. Security-relevant increments (auth, permissions, payments, PII, migrations) MUST include a Jane task.
+2. Tasks: small, dependency-ordered, each with `agent=` (cho / van-pelt / jane / rigsby), `<files>`, `<tests>` (TS IDs, level, concrete assertions/boundaries, existing/proposed paths, and targeted command; the TDD definition of done), `<depends-on>`. Security-relevant increments (auth, permissions, payments, PII, migrations) MUST include a Jane task.
+   Map Wylie’s proposed smaller-test coverage to engineer tasks. Assign E2E to Wylie at QA; do not turn every stub into a browser test. Include a Rigsby task only when execution-map/CI changes are needed, with verifiable affected-test selection, broad-change fallback, triggers and owners. Existing gates stay effective until replacements are validated. Record changes from Wylie’s recommendation and why.
 3. **Paper/Figma gate.** Approved DESIGN_SPEC with `tool: paper` or `tool: figma` → the plan MUST include a dedicated `<paper-to-code>` (or `<figma-to-code>`) section that names:
    - the skill/command (`/hele-paper-to-code` for Paper; Figma MCP / Figma tools for Figma);
    - the design file id + page;

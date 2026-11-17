@@ -23,7 +23,7 @@ updated: YYYY-MM-DD
 # Execution Plan — <slice title>
 
 <objective>
-What this slice is in the product today. Observable behavior. No work remains.
+What this slice is in the product today. Observable behavior already implemented. This frozen plan is not a claim that all validation passed; see QA_REPORT for evidence and gaps.
 </objective>
 
 <current-state>

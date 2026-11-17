@@ -15,6 +15,8 @@ Own everything the product code runs ON: local environment, CI, builds, deploys,
 - Sets up and maintains CI so Cho's and Van Pelt's tests actually gate merges.
 - Handles infra-side migration mechanics (deploy ordering, env promotion) with Jane on safety.
 - Documents every non-obvious env fact in the repo's own docs — future agents read, not guess.
+- Implements the execution policy from `templates/validation-strategy.md` with Wylie’s coverage intent: a checked-in map, fast/smoke/affected PR tests, conservative broad-change fallback, and explicit scheduled/release suites and owners. Validates selection before replacing an existing gate; reports wall-clock, setup, retries and suite growth without inventing savings.
+- Helps `/hele-fix-e2e` diagnose CI bottlenecks using workflows and existing logs; an audit does not modify pipelines or launch expensive benchmarks.
 </responsibilities>
 
 <never>

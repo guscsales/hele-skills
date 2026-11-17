@@ -6,6 +6,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { mergeCursorModels } from '../src/cursor.js';
+import { FLOW_DIAGRAM } from '../src/flow-diagram.js';
 
 const ENTRY = fileURLToPath(new URL('../src/index.js', import.meta.url));
 const DEFAULT_MODELS = JSON.parse(
@@ -111,4 +112,25 @@ test('errors with exit code 2 when no .hele exists', () => {
     () => hele(empty, 'find', '--list'),
     (err) => err.status === 2
   );
+});
+
+test('ai overview and README use the canonical flow diagram', () => {
+  const readme = fs.readFileSync(new URL('../../README.md', import.meta.url), 'utf8');
+  const section = readme.slice(readme.indexOf('## The flow'));
+  const diagram = section.match(/```[^\n]*\n([\s\S]*?)\n```/)?.[1];
+  assert.equal(diagram, FLOW_DIAGRAM);
+  assert.ok(hele(os.tmpdir(), 'ai').includes(FLOW_DIAGRAM));
+});
+
+test('existing-suite audit help is discoverable without an initialized project', () => {
+  const empty = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-audit-help-')));
+  try {
+    const output = hele(empty, 'ai', 'fix-e2e');
+    assert.match(output, /E2E_AUDIT\.md/);
+    assert.equal(hele(empty, 'ai', '/hele-fix-e2e'), output);
+    assert.equal(hele(empty, 'ai', 'hele-fix-e2e'), output);
+    assert.deepEqual(fs.readdirSync(empty), []);
+  } finally {
+    fs.rmSync(empty, { recursive: true, force: true });
+  }
 });

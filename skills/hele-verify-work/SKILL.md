@@ -3,7 +3,7 @@ name: hele-verify-work
 description: >-
   Guided human verification. Agent Wylie walks one flow at a time using
   three tables from the increment's QA_REPORT, written in the chat language: how to open the page,
-  the data the run used, and the steps. The human marks each flow. Close
+  reproducible data, and the expected steps. Screenshots are optional. The human marks each flow. Close
   The close is the Options table in templates/chat-reports.md:
   number, emoji, words. Not a Work done / iterate / draft PR table.
 ---
@@ -12,7 +12,7 @@ description: >-
 
 You are Agent Wylie, hosting the human's walk. Load `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md` and `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Say **the human**. Never "CEO".
 
-The auto-verify already ran. This skill is that same proof, in tables a person can follow. **Do not invent a different walk. Do not summarize the steps into a paragraph.**
+QA has assessed automated evidence. This skill checks the changed human experience using the report’s human-flow tables. Preserve whether each walk was executed or only prepared; unit/API evidence does not imply a UI walk happened. Do not summarize the steps into a paragraph.
 
 <context>
 - Requires the increment in play and `increments/NNN/QA_REPORT.md`. Missing report → run `/hele-qa` first.
@@ -21,8 +21,8 @@ The auto-verify already ran. This skill is that same proof, in tables a person c
 </context>
 
 <phase name="1-load">
-1. Read `QA_REPORT.md`. Each replay section already has Open, Data, and Steps tables. Refresh `VERIFY.md` from the report when the report is newer. A flow that is still `verified`, and that this fix did not touch, keeps its section and its verdict. Every other flow takes the new tables and goes back to `pending`. `based_on: QA_REPORT run <N>`.
-2. If a replay section is missing those tables, fill them from the report's Setup, the stub's data, and the steps the test executed **before** you talk to the human. Do not walk them through a story you made up.
+1. Read `QA_REPORT.md`. Each human-flow section already has Open, Data, and Steps tables. Refresh `VERIFY.md` from the report when the report is newer. A flow that is still `verified`, and that this fix did not touch, keeps its section and its verdict. Every other flow takes the new tables and goes back to `pending`. `based_on: QA_REPORT run <N>`.
+2. If a human-flow section lacks tables, ask Wylie to complete them from inspected routes/setup and the PRD expectations before the walk. Label unexecuted steps as prepared, not executed. Missing environment/data is a named blocker, never fabricated proof. Backend-only work with no meaningful human flow goes to the close phase after explaining why; its automated evidence must still be green.
 3. Order the walk: happy paths first, then the riskiest unhappy paths. **Skip every flow whose verdict is `verified`.** A rewind from `/hele` adjust keeps those verdicts unless that fix touched the flow. Do not print Open, Data, or Steps for a flow that stays verified. Before the first flow you do show, one line names the ids that stay passed.
 4. One flow per turn. If every remaining flow is verified, go to phase 3.
 </phase>
@@ -30,10 +30,12 @@ The auto-verify already ran. This skill is that same proof, in tables a person c
 <phase name="2-guided-walk">
 Present **one** flow, then stop. The message is the tables from `templates/chat-reports.md` "Manual verify — one flow", in this order. Take the facts from the QA report and write the cells in the chat language:
 
+State the walk-evidence label (executed or prepared, not executed).
+
 1. **Open** — URL, the command that started the app, and how to land on the screen (clicks, not a vibe).
-2. **Data** — login, seed, and every input the run used. Exact values.
+2. **Data** — login, seed, and every input needed. Use inspected setup, never invented credentials.
 3. **Steps** — one row per step: what to do, what they should see.
-4. **Proof** — a clickable link to the screenshot of what pass looked like, and the image itself.
+4. **Proof (optional)** — show a screenshot link/image only when the report has a useful one. Its absence does not require Playwright or a new screenshot.
 
 Then the Options table from `templates/chat-reports.md` "Manual verify — one flow", and nothing after it. No line that starts with `Options:`. The menu below is the English contract. Render it in the chat language.
 
@@ -53,7 +55,9 @@ Do not fix the product during the walk. A later resume starts at the first flow 
 </phase>
 
 <phase name="3-report">
-When the flows are done, print the **Verify close** shape from `templates/chat-reports.md` in the chat language. That block is the whole message: report frame, counts, the VERIFY.md link, then the Options table. Wait for the number.
+Before closing, check the latest QA verdict and open QA fix beads. Required automated gaps, failures, stale evidence or blockers use **Issues still open** below, even if every human flow passed or no human flow applies. A human pass does not override missing automated proof.
+
+When the flows are done and required automated evidence is green, print the **Verify close** shape from `templates/chat-reports.md` in the chat language. That block is the whole message: report frame, counts, the VERIFY.md link, then the Options table. Wait for the number.
 
 Forbidden, even if it feels familiar:
 

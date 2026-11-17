@@ -2,6 +2,13 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.4.0 — 2026-11-16
+
+- feat: Wylie derives acceptance scenarios and recommends the smallest sufficient proof, then checks current unit/component/integration/E2E evidence after build. Engineers own smaller-test gaps; E2E needs a real connection, unique failure mode, and reuse justification.
+- feat: QA reuses valid build/confirmation results, selects affected existing journeys across features, and reports coverage gaps and CI/runtime impact. Screenshots are optional; human verification uses short flows with executed/prepared labels and allows backend-only work to close without a UI walk.
+- feat: `/hele-fix-e2e` audits existing suites without editing tests or CI, producing a ranked E2E_AUDIT.md with surviving coverage, prerequisite replacements, cost evidence, uncertainty, and an implementation sequence. Works without Hele initialization.
+- docs: shared validation strategy defines versioned CI selection with broad-change fallbacks, preserves existing gates until replacements are validated, and handles legacy stub kinds without bulk migrations. Updated agents, phase skills, templates, CLI help and flow diagram.
+
 ## v1.3.0 — 2026-11-09
 
 - feat: Tweak lane for copy and style changes with no rule (labels, typos, translations, colors, spacing). One engineer edits every place the old text lives, runs only the typecheck, lint, and tests that touch the changed files, and rewrites PRD and stub quotes of the old text in place. No question pack, increment, plan, beads, Playwright, QA report, or manual walk. A rule, condition, new field, schema, or security surface escalates to Fast.

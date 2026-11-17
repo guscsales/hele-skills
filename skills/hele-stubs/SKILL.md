@@ -1,7 +1,7 @@
 ---
 name: hele-stubs
 description: >-
-  Agent Wylie (QA) writes plain-English test stubs (Given/When/Then) from the
+  Agent Wylie (QA) derives acceptance scenarios and maps their validation from the
   PRODUCT_DESCRIPTION into the feature's living TEST_STUBS.md. Runs in the
   same stop as /hele-feature (or the Fast/Bugfix reconcile stop) — never
   alone as a human-typed step when /hele is conducting. Blind to the
@@ -10,7 +10,7 @@ description: >-
 
 # hele-stubs
 
-You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`.
+You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_PLUGIN_ROOT}/agents/qa-wylie.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Load `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md` and `templates/validation-strategy.md` under the same plugin root.
 
 <context>
 - Requires `.hele/` and a PRD for the feature in play (draft or approved — when called from hele-feature's same stop, the PRD was just written).
@@ -20,22 +20,24 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 </context>
 
 <phase name="1-derive">
-**Stub authoring is judgment work — it always runs as a background Wylie sub-agent**, never inline. Dispatch ONE **background** subagent, description `[AGENT QA] Wylie — derive stubs`, `model` from `settings.agents.models["qa-wylie-stubs"]` (per-runtime; default `opus`; `inherit` → omit), prompt = persona + PRD + existing TEST_STUBS + the template + rules 1–4 below; he writes the stubs file and returns the draft for the parent to present. Announce. Stay free. Questions and approval NEVER move to the subagent.
+**Stub authoring is judgment work — it always runs as a background Wylie sub-agent**, never inline. Dispatch ONE **background** subagent, description `[AGENT QA] Wylie — derive stubs`, `model` from `settings.agents.models["qa-wylie-stubs"]` (per-runtime; default `opus`; `inherit` → omit), prompt = persona + PRD + existing TEST_STUBS + the templates + rules below; he writes the stubs file and returns the draft for the parent to present. Announce. Stay free. Questions and approval NEVER move to the subagent.
 
 1. Walk every `### BR-n` and every named flow under `## Flows` of the PRD version being covered. Each testable behavior → one stub: **Given** / **When** / **Then**.
 2. Cover the unhappy paths the rules imply — empty states, limits, permission denials, the `no` branches of the flow diagrams.
-3. IDs continue the file's sequence (TS-nnn, stable forever). Tag each stub with `increment` and `rule`. `kind`: e2e / api / unit-expectation. `status: pending`.
-4. Existing stubs whose behavior a PRD patch changed → rewrite their body (state-not-history), keep the id; behavior removed → `status: blocked` with a note, never delete silently.
+3. IDs continue the file's sequence (TS-nnn, stable forever). Tag each stub with `increment` and `rule`. `kind: unassigned` initially; `status: pending` for new/changed behavior. Keep the Given/When/Then independent of test implementation.
+4. Existing stubs whose behavior a PRD patch changed → rewrite their body (state-not-history), keep the id; behavior intentionally removed → retain the ID with `retired="true"` and a PRD retirement note; exclude it from required execution, never silently delete it. Legacy blocked stubs with removal notes need an explicit retirement decision, not an assumption that every blocked stub is obsolete.
+5. After deriving the behavior, inspect relevant existing tests, assertions, mocked boundaries, and the execution map. Add a separate Coverage table using `templates/validation-strategy.md`: recommended level, owner, existing/proposed test path/title, assertions/boundaries, rationale and execution scope. Do not read the execution plan to derive or weaken the behavior.
+6. A proposed E2E must identify the real connection, the failure smaller tests miss, and why an existing journey is insufficient. This is provisional validation planning, not a mandate to create Playwright. Legacy kinds are hints; reconcile only affected mappings. Return the mapping to Lisbon for engineer task planning.
 </phase>
 
 <phase name="2-write">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
 2. **Do not draft VERIFY.md** — `/hele-qa` writes the human replay script from the QA run.
-3. Return to the parent skill: stub table rows, a clickable link to TEST_STUBS.md (file name as the label, absolute path on one line), version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with that Files link and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the QA report.
+3. Return to the parent skill: stub table rows and Coverage recommendations, a clickable link to TEST_STUBS.md (file name as the label, absolute path on one line), version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with that Files link and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the QA report.
 </phase>
 
 <rules>
-- Behavior only — a stub naming a component, endpoint, or table is wrong; rewrite it in product terms.
+- Given/When/Then bodies are behavior only — naming a component, endpoint, or table there is wrong; rewrite it in product terms.
 - Every BR-n maps to ≥1 stub or the report explains why not.
 - Files hele writes follow `language.artifacts`. Chat, including table headers and cells, follows `language.chat`. Say **the human**, never "CEO".
 </rules>

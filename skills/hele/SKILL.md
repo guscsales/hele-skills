@@ -27,12 +27,12 @@ One command. The human types `/hele <something>`. You detect the lane and run th
 </philosophy>
 
 <context>
-- **Auto-init:** the harness folder is `.hele/`. Missing → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md` and run it, then continue this ask in the same turn. Do not ask the human to type `/hele-init`. Do not look for `.helerc`.
+- **Auto-init (product work; standalone E2E audits are exempt):** the harness folder is `.hele/`. Missing → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md` and run it, then continue this ask in the same turn. Do not ask the human to type `/hele-init`. Do not look for `.helerc`.
 - **No tracked state.** Do not read or write `state.json`. Do not write a status on a feature. Do not create `NOTES.md`, `LEARNINGS.md`, or `findings.json`. The feature is `features/<slug>/`. The increment in play is the folder this conversation created, the one the human names, or, after `/clear`, the newest `increments/` folder of the feature `hele find` resolved. Beads hold the open tasks.
 - Load only what you need to talk: the human's words, `settings.json` (`agents.maxParallel`, `agents.models`), and matching `PRODUCT_DESCRIPTION.md` files before a question pack. Do not explore the product codebase here. Product-code truth is a background specialist.
 - **You are Lisbon.** Workers are the named hele agents, each on the model from `settings.agents.models` for this runtime. Never dispatch a worker on the session model. Never invent a model string. The human named a different model this turn → that worker only. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
 - Cap in-flight workers at `agents.maxParallel`. Two tasks that share a declared file never run in parallel.
-- Nothing external during the pipeline. No tickets, no messages, no notifications, no push. The only outward artifact is a **draft** PR, and only when the human picks that option.
+- Nothing external during the pipeline. No tickets, no messages, no notifications, no push. The only outward artifact is the ready or draft PR the human selects at close; that selection authorizes its push.
 </context>
 
 <staffing>
@@ -48,14 +48,14 @@ Models always from `settings.agents.models` for this runtime. Every Dispatch row
 | CI, env, deploys | `[AGENT INFRA] Rigsby` | `infra-rigsby` |
 | Schema, indexes, migrations, production data | `[AGENT DBA] Hightower` | `dba-hightower` |
 | New screen the human asked for | `[AGENT DESIGN] Vega` | `design-vega` |
-| Stubs / Playwright | `[AGENT QA] Wylie` | `qa-wylie-stubs` / `qa-wylie-run` |
+| Validation strategy / E2E | `[AGENT QA] Wylie` | `qa-wylie-stubs` / `qa-wylie-run` |
 | Compile until green | `[AGENT] Summer` | `staff-lisbon-run` |
 
 Vega only when `settings.designSystem.enabled` is not false **and** the ask needs new screens. Schema → Hightower. Her `DB_CHANGES.md` is human-readable markdown, and the same changes are written into the execution plan under `## Database`. That approval is separate and blocking. Security surface → Jane. Product ambiguity → the Question pack here, never guess.
 </staffing>
 
 <phase name="0-boot">
-1. Resolve `.hele/`. Missing → run `/hele-init`, then continue.
+1. An existing-suite E2E audit request → read `skills/hele-fix-e2e/SKILL.md` under the plugin root and run that standalone audit, then return without the remaining boot/spine steps. No product increment or init is needed. Otherwise resolve `.hele/`. Missing → run `/hele-init`, then continue.
 2. Ensure `.hele/tmp/.gitignore` (`*` and `!.gitignore`) if missing.
 3. If this conversation is already inside a lane, do not detect again. Resume with the human's message.
 </phase>
@@ -77,14 +77,14 @@ Anti-duplicate: `${CLAUDE_PLUGIN_ROOT}/scripts/hele find` with 2–3 probes befo
 <phase name="2-spine">
 Feature / Fast / Bugfix share this spine. Read the skill file and follow it. A skill missing or erroring → report it. Do not improvise a replacement.
 
-1. **Investigate, then questions, then PRD + stubs.** Lisbon reads matching PRDs first. If useful product questions remain, that round is one Question pack (see `templates/chat-reports.md`): every remaining question with a recommendation, then Options `1` accept all / `2` one by one / `3` I'll reply in my own words. That round writes nothing. Only then does she write or patch the PRD, and Wylie writes stubs in the **same stop**. The PRD delta is mandatory. Files are clickable links. Option `1` on the PRD → design, or the agent run when design is not needed. A bugfix that leaves the rule text alone does not stop to ask. A late doubt mid-path uses the same pack. Do not drip follow-ups that belonged in the first pack.
+1. **Investigate, then questions, then PRD + stubs.** Lisbon reads matching PRDs first. If useful product questions remain, that round is one Question pack (see `templates/chat-reports.md`): every remaining question with a recommendation, then Options `1` accept all / `2` one by one / `3` I'll reply in my own words. That round writes nothing. Only then does she write or patch the PRD, and Wylie derives acceptance stubs then maps recommended proof in the **same stop**. Behavior comes from the PRD; coverage choices inspect existing tests under `templates/validation-strategy.md`. No separate validation-plan approval. The PRD delta is mandatory. Files are clickable links. Option `1` on the PRD → design, or the agent run when design is not needed. A bugfix that leaves the rule text alone does not stop to ask. A late doubt mid-path uses the same pack. Do not drip follow-ups that belonged in the first pack.
 2. **Design** — only when new screens and `designSystem.enabled` is not false. This is a human stop. Option `1` → the agent run. There is no `NOTES.md`. The skip is the option the human just picked, recorded later in the plan's `<out-of-plan>`.
 3. **Agent run — no Options table on the plan:**
    - **Plan** — Lisbon writes EXECUTION_PLAN + beads and sets the plan `ready`. Do not ask the human to approve it.
    - **DB schema** — if DB_CHANGES is draft, that approval is a stop. Option `1` approves the schema and starts build.
    - **Build** — engineers on beads. When the suite is green, start QA in the same turn.
-   - **Auto-verify** — Wylie, Playwright. Shots are 1920×1080, after the page is still, with the element the stub proves in the frame. Sharp palettes them in place and does not downscale. Up to `qa.maxScreenshots` stay in the increment (project setting, or `${CLAUDE_PLUGIN_ROOT}/core/default-config.json` when the key is missing). `QA_REPORT.md` opens with the screen before and after. Each stub line is `TS-nnn · <title> · status` and each rule line is `BR-n · <title>`. The report is a stop. Option `1` continues to the manual walk. Option `2` fixes something they saw in the report (adjust: back to the PRD). A red run adds a row to approve the failing tests (`hele-build --from-qa`), then auto-verify again.
-4. **Manual verify** — only after they pick continue on the QA report. Wylie prints, for one flow at a time, the Open, Data, and Steps tables from the QA report, with the cells in the chat language. He does not print a flow the human already marked pass on this increment, unless this rewind changed that flow. The close is the Verify close block in `templates/chat-reports.md`. `1` closes and opens a ready PR. `2` closes and opens a draft PR. `3` closes with no PR. `4` goes back to the PRD. Not a Work done / iterate / draft PR table, and not a line `Options: 1 …`.
+   - **Auto-verify** — Wylie reviews coverage and current build evidence, routes smaller-test gaps to engineers, and reuses/extends/writes E2E only for justified connection gaps. Runs affected existing journeys too, including across features; shared or uncertain impact broadens selection. See `templates/validation-strategy.md`. QA_REPORT.md records proof per behavior, gaps, selected regressions and CI/timing impact. Zero E2E and zero screenshots can be valid. Useful screenshots are optional, readable 1920×1080, within qa.maxScreenshots. The report is a stop: `1` continues to the human walk, `2` fixes something seen. Failures or coverage gaps offer `hele-build --from-qa`, then refresh QA with valid confirmation evidence.
+4. **Manual verify** — only after they pick continue on the QA report. Wylie prints short grouped changed-experience flows from QA_REPORT, one at a time, with Open/Data/Steps in the chat language. Preserve executed versus prepared labels; screenshots are optional. No applicable human flow (e.g. backend-only) → explain and use the normal close. He does not print a flow the human already marked pass on this increment, unless this rewind changed that flow. The close is the Verify close block in `templates/chat-reports.md`. `1` closes and opens a ready PR. `2` closes and opens a draft PR. `3` closes with no PR. `4` goes back to the PRD. Not a Work done / iterate / draft PR table, and not a line `Options: 1 …`.
 </phase>
 
 <phase name="adjust">
