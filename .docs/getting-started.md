@@ -31,7 +31,7 @@ Agent Lisbon, the Builder, detects the lane and runs the rest. You never type `/
 
 | Lane | When | What happens |
 | --- | --- | --- |
-| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
 | The Fast Lane | A small addition to what already exists, a product increment. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. |
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Tweak Lane | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk. |
@@ -43,9 +43,9 @@ All the outputs are well defined, you're not walking blindly, you know what's ha
 
 Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. When you finish an open lane the close stops include **Work done**, in case you don't want to continue, or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
 
-After you approve the PRD (and the design, when there are new screens), the agents write the execution plan, build, and run auto-verify on their own. The QA report is your next prompt. You choose: continue to the manual walk, or fix something you saw. You replay those same steps, in tables, using clear data with clear instructions. If it's correct, you move to the next verification. If it needs a fix, you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again. A database change or a red auto-verify still stops and asks.
+After you approve the PRD (and the design, when there are new screens), the agents write the execution plan, build, and run auto-verify on their own. The QA report is your next prompt. You choose: continue to the manual walk, or fix something you saw. You check short changed-experience flows in tables, labeled executed or prepared. Backend-only work may have no human flow and goes to the normal close after QA. If it's correct, you move to the next verification. If it needs a fix, you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again. A database change or a red auto-verify still stops and asks.
 
-The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. Each stub line is the id, the test title, and the status. Each rule line carries the rule title. The proof of validation using screenshots for each necessary use case.
+Wylie writes a human-readable `QA_REPORT.md` with current evidence for each behavior: test level, assertions, result links, gaps, affected regressions, and CI/runtime impact. He reuses valid build evidence and adds E2E only for connections smaller tests do not prove. Screenshots are optional; zero E2E can be the right outcome.
 
 Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line.
 
@@ -76,15 +76,15 @@ The main chat is yours. Doing work runs in the background. After a dispatch, the
   features/
     <slug>/
       PRODUCT_DESCRIPTION.md   # living doc, current state, patch versions only
-      TEST_STUBS.md            # living doc, written with the PRD; QA runs the increment slice
+      TEST_STUBS.md            # living doc, written with the PRD; coverage recommendations + evidence
       increments/
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, for the agents
           DESIGN_SPEC.md       # per-increment, when UI is involved
           DB_CHANGES.md        # per-increment, when the DB is touched, blocking approval
-          QA_REPORT.md         # human-readable QA run + screenshots/
-          VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to the count configured in qa.maxScreenshots; 1920×1080, sharp palette, no downscale
+          QA_REPORT.md         # coverage evidence, selected E2E, CI impact
+          VERIFY.md            # short changed-experience flows
+          screenshots/         # optional; up to the count configured in qa.maxScreenshots; 1920×1080, sharp palette, no downscale
 ```
 
 Tip: check the whole configuration in [Configuration](configuration.md).

@@ -14,7 +14,8 @@ skills. Product questions are a stop that writes nothing: investigate
 first, then one pack if anything useful remains (accept all /
 one by one / reply in words). After the PRD is approved (and design,
 when there are new screens), the agents
-write the plan, build, and auto-verify with no sign-off. The QA
+write the plan, build, and check coverage plus selected E2E with no
+additional sign-off. Screenshots are optional. The QA
 report is your next prompt: continue to the manual walk, or fix what
 you saw. The walk is tables for how to open the page, the data, and
 each step. A fix goes back to the PRD on that same increment, and the
@@ -72,11 +73,14 @@ and pauses the chain.`,
   {
     name: 'stubs',
     agent: 'Agent Wylie',
-    artifact: 'TEST_STUBS.md',
+    artifact: 'TEST_STUBS.md + coverage recommendations',
     question: 'HOW TO VALIDATE',
-    detail: `Agent Wylie derives Given/When/Then stubs from the PRD only,
-never from the plan. Runs inside the Feature or Fast stop. Does not
-draft VERIFY.md. QA builds the human replay from the QA report.`,
+    detail: `Wylie derives acceptance scenarios from the PRD, never the plan.
+Then he inspects existing tests and recommends the smallest sufficient
+proof: unit, component, integration, API E2E or browser E2E. An E2E
+needs a real connection, a failure smaller tests miss, and a reuse
+check. Runs in the PRD stop with no separate approval. QA later
+checks evidence and prepares short human flows.`,
   },
   {
     name: 'build',
@@ -92,16 +96,19 @@ a fix round from the QA report, then back to auto-verify.`,
   {
     name: 'qa',
     agent: 'Agent Wylie',
-    artifact: 'Playwright + screenshots + QA_REPORT.md',
-    question: 'SCREENSHOT PROOF',
+    artifact: 'coverage evidence + selected E2E + QA_REPORT.md',
+    question: 'BEHAVIOR PROOF',
     extras: ['▸ --generate-fixes-report → approve → --from-qa'],
-    detail: `Turns this increment's stubs into Playwright tests. Screenshots
-are 1920×1080 and wait until the page is still, with the proven
-element in the frame. Sharp palettes them in place. Up to
-10 stay (qa.maxScreenshots). Each replay names the test and
-the rule, then three tables: how to open the page, the data, the steps.
-The report stops. Continue to the manual walk, or fix what you saw.
-A red run also offers to approve the failing tests.`,
+    detail: `Checks assertions and current evidence for each behavior. Reuses
+valid build results; smaller-test gaps return to engineers. Reuses,
+extends or writes justified E2E and runs affected existing journeys,
+including across features. Shared or uncertain impact broadens the
+selection. Reports gaps, evidence and CI/runtime impact. Zero E2E and
+zero screenshots can be valid. Useful screenshots stay readable at
+1920x1080 within qa.maxScreenshots. --generate-fixes-report rebuilds
+the report from evidence without reruns; unknown proof stays pending.
+The report stops before the human walk. --from-qa confirms at the
+right level, then refreshes the report using valid results.`,
   },
   {
     name: 'verify-work',
@@ -109,7 +116,9 @@ A red run also offers to approve the failing tests.`,
     artifact: 'VERIFY.md (the QA tables, for you)',
     question: 'YOU REPLAY QA',
     detail: `One flow at a time. The chat is the QA report's Open, Data,
-and Steps tables, plus the screenshot of what pass looked like. A fix
+and Steps tables for grouped changed-experience flows. Screenshots
+are optional; walks are labeled executed or prepared. No meaningful
+human flow (for example backend-only work) goes to the normal close. A fix
 described on a flow goes back to the PRD, then the flow runs again.
 Flows already marked pass are not shown again. Close: 1 ready
 PR, 2 draft PR, 3 close with no PR, 4 back to the PRD.`,
@@ -138,6 +147,22 @@ checks that touch the changed files. A PRD or stub that quotes the old
 text is rewritten in place, with no question pack. No new increment, no
 plan, no beads, no Playwright, no QA report, no manual walk. A rule,
 a condition, or a new field escalates to the Fast lane.`,
+  },
+  {
+    name: 'fix-e2e',
+    command: '/hele-fix-e2e',
+    agent: 'Agent Wylie, with Rigsby for CI diagnosis',
+    artifact: 'E2E_AUDIT.md',
+    question: 'EXISTING SUITE AUDIT',
+    detail: `Audits an existing E2E suite without changing tests or CI. Works
+without Hele docs or initialization. Inspects assertions, boundaries,
+existing smaller tests and CI costs. Recommends keep, consolidate,
+replace, remove, optimize or investigate with linked evidence.
+Every cut names surviving coverage or a prerequisite replacement.
+Reports measured timing separately from estimates and unknowns;
+never promises savings by adding parallel test durations. The output
+is a ranked, reviewable report and an implementation sequence.
+Applying the recommendations is a separate scoped request.`,
   },
   {
     name: 'update',

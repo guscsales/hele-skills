@@ -14,7 +14,7 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 
 | Lane             | When                                                                  | What happens                                                                                                                                                                                                     |
 | ---------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
 | The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment.                                                                                                          |
 | The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane.                                                                                          |
 | The Tweak Lane   | Copy, labels, typos, colors, spacing. No rule, no logic.              | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk.                                                              |
@@ -81,7 +81,7 @@ Hele Skills Solves That. Welcome to you next level of creation.
  ╭─ PRD + stubs ──────────────────────────── SAME STOP ─╮
  │ Agent Lisbon + Agent Wylie                           │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
- │ ▸ PRD delta: was → now, clickable file links         │
+ │ ▸ behavior first, then coverage recommendations     │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -94,7 +94,9 @@ Hele Skills Solves That. Welcome to you next level of creation.
  ╭─ agents ─────────── plan · build · auto-verify ──────╮
  │ Lisbon · EXECUTION_PLAN.md + beads · no sign-off     │
  │ Cho, Van Pelt, Jane, Rigsby · code + passing tests   │◄──┐
- │ Wylie · Playwright + screenshots + QA_REPORT.md      │   │
+ │ Wylie · coverage review + justified E2E journeys    │   │
+ │ ▸ reuse build evidence; run affected regressions    │   │
+ │ ▸ gaps → owning engineer; optional screenshots      │   │
  ╰──────────────────────────────────────────────────────╯   │
     │ report ready                                          │
     │     ╭─ QA red / generate-fixes-report ───────────╮    │
@@ -102,14 +104,15 @@ Hele Skills Solves That. Welcome to you next level of creation.
     │     ╰────────────────────────────────────────────╯
     ▼
  ╭─ QA report ─────────────────── YOUR NEXT PROMPT ─────╮
- │ Continue to manual verify, or fix what you saw       │
+ │ Evidence + CI impact; continue or fix gaps/bugs      │
  ╰──────────────────────────────────────────────────────╯
     │ continue
     ▼
  ╭─ manual verify ──────────────────────────────────────╮
  │ Agent Wylie + you                                    │
  │ ▸ tables: how to open, the data, each step           │
- │ ▸ same proof as QA_REPORT → VERIFY.md                │
+ │ ▸ QA_REPORT → short flows in VERIFY.md               │
+ │ ▸ no human flow applies → normal close              │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
@@ -118,8 +121,14 @@ Hele Skills Solves That. Welcome to you next level of creation.
  │ 4 back to the PRD                                  │
  ╰────────────────────────────────────────────────────╯
 
+ ╭─ existing-suite audit (standalone) ─────────────────╮
+ │ /hele-fix-e2e → Wylie → E2E_AUDIT.md               │
+ │ Keep / replace / remove / optimize, with evidence  │
+ │ Audit writes a report; no tests or CI changed      │
+ ╰────────────────────────────────────────────────────╯
+
  ╭─ always ───────────────────────────────────────────╮
- │ First time in a repo → init runs by itself         │
+ │ Product work in a new repo → init runs itself     │
  │ Stops: questions, PRD, design, DB schema,          │
  │ QA report, verify, close. Plan is for agents.      │
  │ A verify fix goes back to the PRD phase            │
@@ -134,15 +143,21 @@ All the outputs are well defined, you're not walking blindly, you know what's ha
 
 Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need; and other dynamic options are generated according the context. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. When you finish a open lane the close stops include **Work done**, in case you don't want to continue or **Let's formalize in a real PRD**, in case you want to transform that research in something real.
 
-The QA agent writes a human-readable `QA_REPORT.md`: the screen before this increment and after it, then the replay. Each stub line is the id, the test title, and the status. Each rule line carries the rule title. The proof of validation using screenshots for each necessary use case. When that report is ready, you choose: continue to the manual walk, or fix something you saw.
+Wylie writes a human-readable `QA_REPORT.md` with current evidence for each behavior: test level, assertions, result links, gaps, affected regressions, and CI/runtime impact. He reuses valid build evidence and adds E2E only for connections smaller tests do not prove. Screenshots are optional; zero E2E can be the right outcome. When that report is ready, you choose: continue to the manual walk, or fix something you saw.
 
-In a manual verification you as human replay those same steps, in tables: how to open the page, the data, and each step, with the screenshot of what pass looked like. Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line. If it's correct, you move to the next verification, if need fix you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again.
+In manual verification you check short grouped flows for the changed experience, with Open, Data, and Steps tables. The report distinguishes executed walks from prepared ones. Screenshots are optional; backend-only changes may go straight to the normal close after QA. Every file in a chat table is a clickable link. The label is the file name. The target is the absolute path, on one line. If it's correct, you move to the next verification, if need fix you tell and verify again, until the loop is completed. A flow you already marked pass is not shown again.
 
 ### "hmm, I forgot this actually"
 
 Already past build and you found something you did not plan for? You can open a new PR, but sometimes you just want to fix at time.
 
 Still under `/hele`, Agent Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. Not a new Feature lane, a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
+
+## Testing and existing E2E suites
+
+Wylie recommends the smallest sufficient proof before build, then checks actual evidence afterward. Engineers own unit/component/integration tests; Wylie owns justified API/browser E2E. A stub is an acceptance scenario, not a mandate for a browser test. Existing affected journeys still run even when no new E2E is added. CI uses an explicit execution map with conservative fallbacks; upgrading Hele does not silently change existing gates.
+
+Use `/hele-fix-e2e` to audit a slow or overgrown suite. It works without Hele documents and writes a ranked `E2E_AUDIT.md`: what to keep, consolidate, replace, remove, optimize, or investigate, with linked coverage evidence and prerequisites. It does not delete tests or edit CI. See [Testing and E2E](.docs/testing.md) for the flow, migration behavior and audit output.
 
 ## The agent team
 
@@ -157,7 +172,7 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 | Hightower | The DBA. A schema change stops and asks for your approval before any migration. |
 | Jane | The Security Engineer. Threat model on risky increments using specific skills of security. |
 | Rigsby | The Infra Engineer. Takes care of CI, deploys, YAML files and similar. |
-| Wylie | The QA Engineer. Writes the stubs, runs Playwright, takes the screenshots, hosts the guided verification, writes the QA Report for the human. |
+| Wylie | The QA Engineer. Defines acceptance coverage, checks current test evidence, owns justified E2E journeys and suite audits, and guides human verification. |
 | Summer | The "Build until pass" agent. Fixes the project compile until it is green, fixing typescript issues and things related. |
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
@@ -177,15 +192,15 @@ Tip: check the whole configuration in [Configuration](.docs/configuration.md).
   features/
     <slug>/
       PRODUCT_DESCRIPTION.md   # living doc — current state, patch versions only
-      TEST_STUBS.md            # living doc — written with the PRD; QA runs the increment slice
+      TEST_STUBS.md            # living doc — written with the PRD; coverage recommendations + evidence
       increments/
         001-<name>/
           EXECUTION_PLAN.md    # per-increment, for the agents
           DESIGN_SPEC.md       # per-increment, when UI is involved
           DB_CHANGES.md        # per-increment, when the DB is touched — blocking approval
-          QA_REPORT.md         # human-readable QA run + screenshots/
-          VERIFY.md            # guided replay of the QA report
-          screenshots/         # up to 10 (qa.maxScreenshots); 1920×1080, sharp palette, no downscale
+          QA_REPORT.md         # coverage evidence, selected E2E, CI impact
+          VERIFY.md            # short changed-experience flows
+          screenshots/         # optional; up to 10 (qa.maxScreenshots); 1920×1080, sharp palette, no downscale
 ```
 
 There is no `state.json`. The feature is the folder. The increment is the folder this run is building. Beads hold the open tasks.

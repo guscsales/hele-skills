@@ -82,13 +82,13 @@ Runs only after phase 2 closed with zero unanswered product questions.
 3. Sync `index.json` doc versions. No status field.
 
 **Stubs in the same stop:**
-1. Dispatch background `[AGENT QA] Wylie — derive stubs`, model `qa-wylie-stubs`. The contract is `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md`. PRD only. He never reads the execution plan. Announce and end the turn if you need his report before the approval stop.
+1. Dispatch background `[AGENT QA] Wylie — derive stubs`, model `qa-wylie-stubs`. The contract is `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md`. Behavior from the PRD only; then inspect existing tests for separate Coverage recommendations. He never reads the execution plan to derive behavior. Announce and end the turn if you need his report before the approval stop.
 2. Do not draft `VERIFY.md` here.
 3. Update `index.json` `docs.stubs` when the stubs land.
 </phase>
 
 <phase name="4-brief-and-approval">
-Emit the FEATURE BRIEF from Lisbon's persona, then, in order: PRD delta, stubs in full, Files, Open these, Options. Every file is a clickable link (file name as the label, absolute path as the target, one line). Never a raw Path column. Never a code fence. Never box-drawing.
+Emit the FEATURE BRIEF from Lisbon's persona, then, in order: PRD delta, stubs in full, Coverage recommendations, Files, Open these, Options. Every file is a clickable link (file name as the label, absolute path as the target, one line). Never a raw Path column. Never a code fence. Never box-drawing.
 
 Option 1:
 

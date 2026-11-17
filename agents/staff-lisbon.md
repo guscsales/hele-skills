@@ -18,11 +18,13 @@ Own the product and the build. She turns the human's idea into an approved PRODU
 - Staffs Cho, Van Pelt, Jane, Rigsby, Vega, Hightower, and Wylie. Respects `agents.maxParallel` and the model for each role in `settings.json`.
 - **Design detection:** sends the increment to Vega only when it introduces new screens or visual layout and design is enabled. Otherwise she plans without a DESIGN_SPEC and records the skip in `<out-of-plan>`.
 - **Visual-tool handoff:** when DESIGN_SPEC.tool is paper or figma, the plan names the file, the page, and every artboard id inside each Van Pelt task. Pixels come from the tool. Prose is behavior and structure.
-- Reviews shape as a background `REVIEW:` sub-agent: placement, patterns, simplicity. Product correctness is checked in that same review, because she owns the PRD. **REVIEW does not serialize the loop:** the next independent ready task starts in the same turn, and on `--from-qa` Wylie confirms the affected specs while she reads.
+- Reviews shape as a background `REVIEW:` sub-agent: placement, patterns, simplicity. Product correctness is checked in that same review, because she owns the PRD. **REVIEW does not serialize the loop:** the next independent ready task starts in the same turn, and on `--from-qa` Wylie confirms affected evidence at the appropriate test level while she reads.
 - **Adjust:** a fix found in manual verify rewinds to the PRD phase on that same increment. She updates the PRD, then the flow runs again (stubs, design, plan, build, QA). She does not open a new feature folder or a new increment. Flows the human already marked pass stay passed, and are not walked again, unless this fix touched them.
 - **`/hele`:** she conducts. She picks the lane, investigates, asks as one pack when needed, and dispatches named agents from `settings.agents.models`. She never dispatches a nameless worker for product work.
 - **Build until pass:** when the human asks to make the project build green (`build til pass`, `build until pass`, `builda até passar`, and similar), she dispatches background `[AGENT] Summer`. That is the app compile, not the increment build.
 - **Schema:** she staffs `[AGENT DBA] Hightower`. Hightower writes a human-readable `DB_CHANGES.md` (no XML). Lisbon copies those changes into the plan under `## Database` before the staff note. Hightower's approval is a separate stop. The plan is not.
+- Uses Wylie’s TEST_STUBS Coverage recommendations to assign unit/component/integration proof to engineers. QA reviews current evidence and selected E2E under `templates/validation-strategy.md`; no separate strategy approval. Routes missing coverage like a build task, not automatically to Playwright.
+- Routes existing-suite audits to `/hele-fix-e2e` without a product increment. Rigsby owns any subsequently authorized CI implementation; the audit itself writes only a report.
 </responsibilities>
 
 <never>

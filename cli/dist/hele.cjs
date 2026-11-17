@@ -3382,7 +3382,7 @@ var FLOW_DIAGRAM = `
  \u256D\u2500 PRD + stubs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 SAME STOP \u2500\u256E
  \u2502 Agent Lisbon + Agent Wylie                           \u2502
  \u2502 \u25B8 PRODUCT_DESCRIPTION.md + TEST_STUBS.md             \u2502
- \u2502 \u25B8 PRD delta: was \u2192 now, clickable file links         \u2502
+ \u2502 \u25B8 behavior first, then coverage recommendations     \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502
     \u25BC
@@ -3395,7 +3395,9 @@ var FLOW_DIAGRAM = `
  \u256D\u2500 agents \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 plan \xB7 build \xB7 auto-verify \u2500\u2500\u2500\u2500\u2500\u2500\u256E
  \u2502 Lisbon \xB7 EXECUTION_PLAN.md + beads \xB7 no sign-off     \u2502
  \u2502 Cho, Van Pelt, Jane, Rigsby \xB7 code + passing tests   \u2502\u25C4\u2500\u2500\u2510
- \u2502 Wylie \xB7 Playwright + screenshots + QA_REPORT.md      \u2502   \u2502
+ \u2502 Wylie \xB7 coverage review + justified E2E journeys    \u2502   \u2502
+ \u2502 \u25B8 reuse build evidence; run affected regressions    \u2502   \u2502
+ \u2502 \u25B8 gaps \u2192 owning engineer; optional screenshots      \u2502   \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F   \u2502
     \u2502 report ready                                          \u2502
     \u2502     \u256D\u2500 QA red / generate-fixes-report \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E    \u2502
@@ -3403,14 +3405,15 @@ var FLOW_DIAGRAM = `
     \u2502     \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u25BC
  \u256D\u2500 QA report \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 YOUR NEXT PROMPT \u2500\u2500\u2500\u2500\u2500\u256E
- \u2502 Continue to manual verify, or fix what you saw       \u2502
+ \u2502 Evidence + CI impact; continue or fix gaps/bugs      \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502 continue
     \u25BC
  \u256D\u2500 manual verify \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
  \u2502 Agent Wylie + you                                    \u2502
  \u2502 \u25B8 tables: how to open, the data, each step           \u2502
- \u2502 \u25B8 same proof as QA_REPORT \u2192 VERIFY.md                \u2502
+ \u2502 \u25B8 QA_REPORT \u2192 short flows in VERIFY.md               \u2502
+ \u2502 \u25B8 no human flow applies \u2192 normal close              \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
     \u2502
     \u25BC
@@ -3419,8 +3422,14 @@ var FLOW_DIAGRAM = `
  \u2502 4 back to the PRD                                  \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
 
+ \u256D\u2500 existing-suite audit (standalone) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
+ \u2502 /hele-fix-e2e \u2192 Wylie \u2192 E2E_AUDIT.md               \u2502
+ \u2502 Keep / replace / remove / optimize, with evidence  \u2502
+ \u2502 Audit writes a report; no tests or CI changed      \u2502
+ \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
+
  \u256D\u2500 always \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
- \u2502 First time in a repo \u2192 init runs by itself         \u2502
+ \u2502 Product work in a new repo \u2192 init runs itself     \u2502
  \u2502 Stops: questions, PRD, design, DB schema,          \u2502
  \u2502 QA report, verify, close. Plan is for agents.      \u2502
  \u2502 A verify fix goes back to the PRD phase            \u2502
@@ -3443,7 +3452,8 @@ skills. Product questions are a stop that writes nothing: investigate
 first, then one pack if anything useful remains (accept all /
 one by one / reply in words). After the PRD is approved (and design,
 when there are new screens), the agents
-write the plan, build, and auto-verify with no sign-off. The QA
+write the plan, build, and check coverage plus selected E2E with no
+additional sign-off. Screenshots are optional. The QA
 report is your next prompt: continue to the manual walk, or fix what
 you saw. The walk is tables for how to open the page, the data, and
 each step. A fix goes back to the PRD on that same increment, and the
@@ -3501,11 +3511,14 @@ and pauses the chain.`
   {
     name: "stubs",
     agent: "Agent Wylie",
-    artifact: "TEST_STUBS.md",
+    artifact: "TEST_STUBS.md + coverage recommendations",
     question: "HOW TO VALIDATE",
-    detail: `Agent Wylie derives Given/When/Then stubs from the PRD only,
-never from the plan. Runs inside the Feature or Fast stop. Does not
-draft VERIFY.md. QA builds the human replay from the QA report.`
+    detail: `Wylie derives acceptance scenarios from the PRD, never the plan.
+Then he inspects existing tests and recommends the smallest sufficient
+proof: unit, component, integration, API E2E or browser E2E. An E2E
+needs a real connection, a failure smaller tests miss, and a reuse
+check. Runs in the PRD stop with no separate approval. QA later
+checks evidence and prepares short human flows.`
   },
   {
     name: "build",
@@ -3521,16 +3534,19 @@ a fix round from the QA report, then back to auto-verify.`
   {
     name: "qa",
     agent: "Agent Wylie",
-    artifact: "Playwright + screenshots + QA_REPORT.md",
-    question: "SCREENSHOT PROOF",
+    artifact: "coverage evidence + selected E2E + QA_REPORT.md",
+    question: "BEHAVIOR PROOF",
     extras: ["\u25B8 --generate-fixes-report \u2192 approve \u2192 --from-qa"],
-    detail: `Turns this increment's stubs into Playwright tests. Screenshots
-are 1920\xD71080 and wait until the page is still, with the proven
-element in the frame. Sharp palettes them in place. Up to
-10 stay (qa.maxScreenshots). Each replay names the test and
-the rule, then three tables: how to open the page, the data, the steps.
-The report stops. Continue to the manual walk, or fix what you saw.
-A red run also offers to approve the failing tests.`
+    detail: `Checks assertions and current evidence for each behavior. Reuses
+valid build results; smaller-test gaps return to engineers. Reuses,
+extends or writes justified E2E and runs affected existing journeys,
+including across features. Shared or uncertain impact broadens the
+selection. Reports gaps, evidence and CI/runtime impact. Zero E2E and
+zero screenshots can be valid. Useful screenshots stay readable at
+1920x1080 within qa.maxScreenshots. --generate-fixes-report rebuilds
+the report from evidence without reruns; unknown proof stays pending.
+The report stops before the human walk. --from-qa confirms at the
+right level, then refreshes the report using valid results.`
   },
   {
     name: "verify-work",
@@ -3538,7 +3554,9 @@ A red run also offers to approve the failing tests.`
     artifact: "VERIFY.md (the QA tables, for you)",
     question: "YOU REPLAY QA",
     detail: `One flow at a time. The chat is the QA report's Open, Data,
-and Steps tables, plus the screenshot of what pass looked like. A fix
+and Steps tables for grouped changed-experience flows. Screenshots
+are optional; walks are labeled executed or prepared. No meaningful
+human flow (for example backend-only work) goes to the normal close. A fix
 described on a flow goes back to the PRD, then the flow runs again.
 Flows already marked pass are not shown again. Close: 1 ready
 PR, 2 draft PR, 3 close with no PR, 4 back to the PRD.`
@@ -3567,6 +3585,22 @@ checks that touch the changed files. A PRD or stub that quotes the old
 text is rewritten in place, with no question pack. No new increment, no
 plan, no beads, no Playwright, no QA report, no manual walk. A rule,
 a condition, or a new field escalates to the Fast lane.`
+  },
+  {
+    name: "fix-e2e",
+    command: "/hele-fix-e2e",
+    agent: "Agent Wylie, with Rigsby for CI diagnosis",
+    artifact: "E2E_AUDIT.md",
+    question: "EXISTING SUITE AUDIT",
+    detail: `Audits an existing E2E suite without changing tests or CI. Works
+without Hele docs or initialization. Inspects assertions, boundaries,
+existing smaller tests and CI costs. Recommends keep, consolidate,
+replace, remove, optimize or investigate with linked evidence.
+Every cut names surviving coverage or a prerequisite replacement.
+Reports measured timing separately from estimates and unknowns;
+never promises savings by adding parallel test durations. The output
+is a ranked, reviewable report and an implementation sequence.
+Applying the recommendations is a separate scoped request.`
   },
   {
     name: "update",

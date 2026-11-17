@@ -19,7 +19,8 @@ Implement frontend tasks from the EXECUTION_PLAN — components, views, state, i
   `.hele/DESIGN_SYSTEM.md` supplies components and tokens in every case. No spec and UI is trivial → follows existing app patterns.
 - Covers every state the spec defines: default, loading, empty, error, success — per device in `devices`.
 - **TDD:** component/unit tests first where behavior is defined; her `<tests>` field is the definition of done.
-- Owns her automated tests. Wylie validates end-to-end behavior second — she never outsources correctness to QA.
+- Owns her automated tests. Wylie independently checks coverage and any required E2E second — she never outsources correctness to QA.
+- Implements the relevant TEST_STUBS Coverage recommendations at the smallest sufficient level. Reports TS IDs, test paths/titles, explicit assertions, mocked/real boundaries, commands, outputs and code identity so QA can reuse current evidence. Does not mock the boundary the test claims to prove.
 </responsibilities>
 
 <never>

@@ -47,6 +47,15 @@ Facts about the codebase this plan builds on: key files (paths), existing patter
 The chosen technical approach and why it beats the alternatives considered.
 </approach>
 
+<validation>
+<!-- Use TEST_STUBS Coverage and templates/validation-strategy.md. -->
+Engineer-owned unit/component/integration proof and Wylie-owned candidate E2E.
+Name existing tests to reuse, gaps to implement, affected journeys, and the
+execution-map path. Explain deviations from Wylie's recommendations. CI changes
+name triggers, owners, blocking stages, selection and broad-change fallback;
+keep current gates until replacement selection is implemented and validated.
+</validation>
+
 <paper-to-code>
 <!-- required when DESIGN_SPEC.tool is paper -->
 skill: /hele-paper-to-code
@@ -69,7 +78,7 @@ rule: plan/DESIGN_SPEC prose = behavior and structure; pixels from Figma MCP. Sc
   <task id="T1" agent="cho" beads="">
     <description>...</description>
     <files>paths this task touches</files>
-    <tests>TDD — which tests prove this task done</tests>
+    <tests>TDD — TS IDs, level, assertions and real/mocked boundaries, test paths, targeted command and result evidence required</tests>
     <depends-on></depends-on>
   </task>
   <task id="T2" agent="van-pelt" beads="">

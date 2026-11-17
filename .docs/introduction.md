@@ -14,7 +14,7 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 
 | Lane | When | What happens |
 | --- | --- | --- |
-| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and auto-verifies on its own providing you screenshots of the result. |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
 | The Fast Lane | A small addition to what already exists, a product increment. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. |
 | The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
 | The Tweak Lane | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk. |
@@ -22,7 +22,7 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 
 ### Your app already exist?
 
-An app that already exists can get the same memory. `/hele-absorb` reverse-engineers the project and writes a snapshot into `.hele/`: the features as they behave today, the increments that already shipped, and a regression of the product now.
+An app that already exists can get the same memory. `/hele-absorb` reverse-engineers the project and writes a snapshot into `.hele/`: the features as they behave today, the increments that already shipped, and an assessment of current test evidence and gaps.
 
 You approve that snapshot before the files land. After it is on disk, you keep using `/hele`. The next feature, fix, or small increment starts from that memory. How the snapshot is cut: [Absorb](absorb.md).
 
@@ -57,7 +57,7 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 | Hightower | The DBA. A schema change stops and asks for your approval before any migration. |
 | Jane | The Security Engineer. Threat model on risky increments using specific skills of security. |
 | Rigsby | The Infra Engineer. Takes care of CI, deploys, YAML files and similar. |
-| Wylie | The QA Engineer. Writes the stubs, runs Playwright, takes the screenshots, hosts the guided verification, writes the QA Report for the human. |
+| Wylie | The QA Engineer. Defines acceptance coverage, checks current test evidence, owns justified E2E journeys and suite audits, and guides human verification. |
 | Summer | The "Build until pass" agent. Fixes the project compile until it is green, fixing typescript issues and things related. |
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
@@ -68,13 +68,13 @@ Tip: check the whole configuration in [Configuration](configuration.md).
 
 ## Core beliefs
 
-- **Agents have no memory, so we build it for them.** Living documents (PRD, test stubs) carry the current truth. Per-increment documents (plan, design spec, QA report with screenshots, verify) freeze the history.
+- **Agents have no memory, so we build it for them.** Living documents (PRD, test stubs) carry the current truth. Per-increment documents (plan, design spec, QA evidence report with optional screenshots, verify) freeze the history.
 - **One entry point.** `/hele` detects the Feature, Fast, Bugfix, Tweak, or Open lane. Phase skills stay on disk as contracts the conductor runs. You pick numbered options, not a skill catalog.
 - **Process proportional to risk.** Full spine for Feature, Fast, and Bugfix. Tweak (copy and style) skips PRD, plan, and QA, and runs only the checks that touch the change. Open for research and reviews until you formalize. Hard gates (database, security) stay in the lane.
 - **The human decides the product.** Approvals are explicit numbered options for the PRD, a new design, a schema change, the QA report, and the manual walk. The execution plan is for the agents. Agents investigate first and still ask questions they cannot answer from the files — one pack, before the PRD: accept all recommendations, answer one by one, or reply in words. Late doubts mid-path are allowed. A product question still open means the PRD is not written yet.
 - **State lives on disk, not in the chat.** beads tracks tasks. Documents track decisions. There is no state file and no feature-status board. An interrupted session resumes from the feature folder, the increment folder, and the beads. `/hele` is sticky: follow-ups stay in that session until you invoke a different `/hele-*`.
 - **The main chat stays free.** You talk to Lisbon there. Doing (review, suite, artifacts, codebase reads) is always a background sub-agent. After a dispatch, the turn ends.
-- **Proof you can open.** A database change is a human-readable `DB_CHANGES.md`, and the same changes are in the execution plan. QA writes a human-readable `QA_REPORT.md`. Each stub line carries the test title and the rule title. Shots are 1920×1080, taken after the page settles, with the element the stub proves in the frame. Sharp palettes them in place and does not shrink the pixels. Up to 10 stay in the increment (`qa.maxScreenshots`), and the report opens with the screen before and after the change. Verify walks those same steps, in tables: how to open the page, the data, and each step. A PRD change prints new rules and, when a rule was rewritten, the old sentence next to the new one. Every file in chat is a clickable link. The label is the file name. The target is the absolute path, on one line.
+- **Proof you can open.** QA links current test evidence per behavior and reports remaining gaps. Wylie reuses build results, owns E2E only where real connections need proof, and runs affected journeys across features. Screenshots are optional. Manual verification checks short changed-experience flows and labels prepared versus executed walks. See [Testing and E2E](testing.md).
 
 ## Who this is for
 

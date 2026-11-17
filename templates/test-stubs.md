@@ -7,32 +7,42 @@ updated: YYYY-MM-DD
 ---
 
 <!--
-RULES FOR THIS DOCUMENT
-- LIVING regression contract: stubs accumulate across increments and are
-  never deleted while the behavior exists. /hele-qa runs the ACTIVE
-  INCREMENT's stubs (new + rewritten). The rest of the living file is CI.
-- Stubs are written in plain English from the PRODUCT_DESCRIPTION —
-  they validate BEHAVIOR, never implementation details.
-- Every stub cites the business rule (BR-n) it protects and the increment
-  that introduced it. IDs (TS-nnn) are stable forever.
-- status is updated by Wylie after each /hele-qa run (from Playwright results).
+RULES
+- Living acceptance contract: preserve stable TS IDs while behavior exists.
+  Behavior intentionally removed → retired="true" plus the PRD retirement note, not an executable
+  requirement. Stubs are not a list of E2E that CI must run on every PR.
+- Given/When/Then comes from the PRD, never from the execution plan or tests.
+- Every stub names its business rule and originating increment. Technical
+  decisions belong in Coverage, separate from the product language.
+- Follow templates/validation-strategy.md for levels, legacy kinds, execution
+  selection, current evidence, and status semantics. Normalize affected rows
+  only; preserve historical reports and existing IDs.
+- New/changed behavior starts pending. Passing requires current execution
+  evidence for every mapped assertion, not merely an existing test file.
 -->
 
 # Test Stubs — <Feature Title>
 
-<stub id="TS-001" increment="001" rule="BR-1" kind="e2e" status="pending">
+<stub id="TS-001" increment="001" rule="BR-1" kind="unassigned" status="pending">
+**Title:** <observable behavior>
 **Given** <starting state>
 **When** <action>
 **Then** <observable outcome>
 </stub>
 
-<stub id="TS-002" increment="001" rule="BR-2" kind="api" status="pending">
-**Given** ...
-**When** ...
-**Then** ...
-</stub>
+## Coverage
 
-<!--
-kind: e2e (Playwright browser test) | api (Playwright request-level) | unit-expectation (engineers' TDD anchor)
-status: pending | passing | failing | blocked
--->
+| Stubs | Level | Owner | Test path / title | Assertions and real / mocked boundaries | Rationale | Execution scope |
+|---|---|---|---|---|---|---|
+| TS-001 | <unit / component / integration / e2e-api / e2e-browser> | <engineer / Wylie> | <existing path + title, or explicitly proposed> | <what detects the failure; what stays unproven> | <smallest sufficient proof; E2E: connection, unique failure, reuse decision> | <PR smoke / affected / broader stage; link execution map> |
+
+One stub may have multiple rows. One journey may cover multiple stubs with explicit assertions. These are recommendations until QA checks the actual evidence. No universal one-stub/one-test rule.
+
+## Evidence
+
+| Stub | Result | Test / command | Code identity | Result artifact / output | Limitations |
+|---|---|---|---|---|---|
+| TS-001 | pending | <not yet run> | <revision or working tree identity> | <link when available> | <missing assertions, dependencies, or environment> |
+
+<!-- status: pending | passing | failing | blocked. Historical evidence is
+not a claim of a current run. QA_REPORT holds each increment's assessment. -->

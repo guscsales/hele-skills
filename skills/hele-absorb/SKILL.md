@@ -27,7 +27,7 @@ The snapshot is the product as it behaves today. One living PRD per feature (sta
 
 Nothing is written under `.hele/features/`, and `DATABASE.md` / `DESIGN_SYSTEM.md` are not created, until the human picks `1` on the snapshot. Option `2` and free text mean the cut is wrong. Re-read only what they named. Print a new full table. Still no files.
 
-Approved increments are closed records of what already exists. Each folder gets an `EXECUTION_PLAN.md` from `templates/absorb-plan.md`: `status: built`, `origin: absorb`, empty `<tasks>`. No beads epic for that plan. No `DESIGN_SPEC.md`. No `DB_CHANGES.md`. After the PRD and stubs exist, Wylie runs that increment's stubs and writes `QA_REPORT.md` from `templates/qa-report.md`, with screenshots. This skill does not call `/hele`, and `/hele` does not call this skill.
+Approved increments are closed records of what already exists. Each folder gets an `EXECUTION_PLAN.md` from `templates/absorb-plan.md`: `status: built`, `origin: absorb`, empty `<tasks>`. No beads epic for that plan. No `DESIGN_SPEC.md`. No `DB_CHANGES.md`. After the PRD and stubs exist, Wylie maps existing coverage, runs justified journeys as needed, and writes `QA_REPORT.md` with current evidence or explicit gaps. Screenshots are optional. This skill does not call `/hele`, and `/hele` does not call this skill.
 </philosophy>
 
 <context>
@@ -144,16 +144,17 @@ The writer may open only the evidence paths cited on that feature bead.
 
 **Closed plan.** One `increments/NNN-<slice>/EXECUTION_PLAN.md` per slice, copied from `${CLAUDE_PLUGIN_ROOT}/templates/absorb-plan.md` and filled. Do not invent another shape. Do not register a beads epic for these plans.
 
-**Stubs.** Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md` and writes `templates/test-stubs.md`. He reads the PRD only, plus the slice map in the changelog. He does not read the plan or the code. `increment` is the three-digit number (`001`). `status: pending` until phase 6 runs them. `based_on` is the PRD version just written. Behavior only — a stub that names a component, endpoint, or table is rewritten in product terms.
+**Stubs.** Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md` and writes `templates/test-stubs.md`. He derives behavior from the PRD and slice map only, blind to the plan. Then he inspects existing tests to map proof separately, following `templates/validation-strategy.md`. `increment` is the three-digit number (`001`). `status: pending` until phase 6 has current execution evidence. `based_on` is the PRD version just written. Behavior only — a stub that names a component, endpoint, or table is rewritten in product terms.
 
 When a stubs bead closes, dispatch that feature's `ABSORB: qa` beads, up to `agents.maxParallel`. **END THE TURN.**
 </phase>
 
 <phase name="6-qa">
-One bead per new increment. Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` phases 1 through 3 only, for that increment's stubs. The increment in play is that folder.
+One bead per new increment. Reuse valid evidence across slices instead of running shared journeys repeatedly. Derive selection from the slice behavior and existing test map (there may be no product diff in an absorb). Coverage judgment uses qa-wylie-stubs; executions use qa-wylie-run. Wylie follows `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` phases 1 through 3 only, for that increment's stubs. The increment in play is that folder.
 
 - `QA_REPORT.md` comes from `templates/qa-report.md`. `VERIFY.md` comes from `templates/verify.md`.
-- Screenshots follow that skill: 1920×1080, the proven element in the frame, sharp palette with no downscale, up to `qa.maxScreenshots` in `screenshots/` (the project setting, or `${CLAUDE_PLUGIN_ROOT}/core/default-config.json` when the key is missing), overflow chat-only under `.hele/tmp/captures/`. Each stub line carries the test title and the rule title.
+- Screenshots, when useful, follow that skill: 1920×1080, the proven element in the frame, sharp palette with no downscale, up to `qa.maxScreenshots` in `screenshots/` (the project setting, or `${CLAUDE_PLUGIN_ROOT}/core/default-config.json` when the key is missing), overflow chat-only under `.hele/tmp/captures/`. Each stub line carries the test title and the rule title.
+- Missing smaller-test coverage stays a reported gap with an owner; do not open build/fix tasks against frozen absorbed plans or mark unproven behavior passing. Absorb records existing behavior, not a claim that its QA is green. Report incomplete validation in the final snapshot.
 - There is no base without this increment. The shot is the product today. Say that in the report. Do not invent a before/after pair.
 - Do not run hele-qa phase 4. Do not open `/hele`. Do not start the manual walk.
 
