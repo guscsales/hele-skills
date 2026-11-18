@@ -1,0 +1,63 @@
+# Sticky lane
+
+`/hele` stays in force for the rest of this conversation. The human does not re-type the slash command. Follow-ups stay in that skill: the lane, the agent chain, the documents. Beads stay on Feature, Fast, and Bugfix (the Tweak lane has none). Never implement ad-hoc.
+
+## Language
+
+Read `.hele/settings.json` `language`. A missing key uses the plugin `core/default-config.json`.
+
+`language.chat` `auto` is the language of the human's messages in this session. A set tag (`pt-BR`, `en`) is the chat language for the whole session. Tables are chat: column headers, row labels, section labels, option sentences, and cell prose. The human writes in Portuguese: `| Field | Value |` is wrong, `| Campo | Valor |` is that table; `| Actions | Your call |` is wrong, `| Ações | Sua escolha |` is that menu. The same rule applies to any other chat language. Ids, file names, slugs, commands, code, model names, and agent tags stay as written.
+
+`language.artifacts` is the language of files hele writes (PRD, plan, stubs, QA report, verify, design spec). Default `en` is English (en-US). A sentence brought into chat from one of those files is restated in the chat language. The file stays as it is. The English tables in `templates/chat-reports.md` are the shape, not text to paste.
+
+There is no state file. The feature is the folder under `.hele/features/<slug>/`. The increment is the folder this conversation is building. After `/clear`, resume `/hele` and resolve the feature with `hele find` plus the human's words, and the increment as the one they name or the newest `increments/` folder of that feature. Do not write a phase anywhere.
+
+Also obey `open-channel.md`. The main session stays free. Doing work is a background sub-agent. If the human talks while a worker is running, answer them first.
+
+At the start of every user message, before writing product code:
+
+1. **A `/hele-*` command was invoked this turn** — that skill wins. The sticky lane yields. Prefer `/hele` for product work. The other pipeline skills are phase contracts `/hele` reads, not a menu.
+2. **Build-until-pass phrase** (match intent, EN or PT): `build til pass`, `build until pass`, `build until it passes`, `make the build pass`, `compile until green`, `typecheck until pass`, `builda até passar`, `faz o build passar`, `build até passar`, `arruma o build`. This is the project compile, not `/hele-build` and not a product change. Read `templates/build-until-pass.md` and dispatch background `[AGENT] Summer`. Stay in `/hele` afterward.
+3. **This conversation already ran `/hele`** and steps 1–2 did not fire — re-read `skills/hele/SKILL.md` and execute it with this message. A bare prompt is another ask, an Options reply, or a correction of the increment already in play. A correction found in manual verify goes back to the PRD on that increment, then the flow runs again. It does not open a new feature. Flows already marked pass are not walked again.
+4. **Fresh conversation, no slash command** — if the human is clearly continuing a feature that already has documents, resume `/hele` on that feature. Do not look for `state.json`.
+
+Phase contracts `/hele` runs: `hele-init`, `hele-feature`, `hele-fast`, `hele-tweak`, `hele-design`, `hele-plan`, `hele-stubs`, `hele-build`, `hele-qa`, `hele-verify-work`. `/hele-update` is the plugin update. It is not a phase. `/hele-fix-e2e` is a standalone existing-suite audit and yields a report without a product increment. Requests to audit slow/overgrown E2E route there.
+# Open channel
+
+The main session is the human's line. It stays free. Talking, deciding, asking, and dispatching happen here. Doing does not.
+
+Lisbon, Wylie, Vega, Cho, Hightower, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write a long artifact), it is a **background** sub-agent. Questions to the human stay in this session, as one Question pack after she has read matching PRDs. Reading those `PRODUCT_DESCRIPTION.md` files before the pack is talking, not exploring. Product-code truth is a background specialist — do not ask the human what the code already does. The PRD stop is Lisbon talking here; the heavy study behind a plan, a review, or a suite is background Lisbon.
+
+Main session may:
+- Talk to the human, ask questions, emit a Dispatch table or a signature
+- `hele find`, `bd create` / `bd ready` / `bd close`
+- Dispatch sub-agents in the **background**
+
+Main session must not:
+- Explore or read the product codebase
+- Review a diff after a sub-agent returns
+- Run test suites, linters, Playwright, or any long command
+- Start the work itself while a sub-agent is running
+- Await, poll, or stay on "Waiting for subagent" after a spawn
+- Write `state.json`, a feature status, `NOTES.md`, `LEARNINGS.md`, or `findings.json`
+
+<turn>
+A dispatch turn has exactly four steps, then you **STOP**:
+
+1. `bd create` when the work needs a bead.
+2. Spawn the sub-agent in the **background**. Never block this turn.
+   - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug.
+   - **Claude Code:** Agent tool, async. Do not block this turn.
+3. Emit the Dispatch table. One prose line after it, then nothing else.
+   - English chat: `Thread is opened, you can talk`
+   - Portuguese chat: `A thread continua aberta, pode falar.`
+   - Any other chat language: one sentence with that meaning.
+   Copy it. Never paraphrase. Never "fio". Never "O fio fica aberto". Never "I'm here" / "Estou aqui". Never add who is working.
+4. **END THE TURN.** Do not wait for the worker.
+
+Forbidden after a spawn: waiting, polling, starting the next phase in this same turn, exploring "while you wait".
+
+A later turn resumes when a sub-agent report arrives, or the human speaks. If they spoke while work is in flight, **answer them first**. Then, if a report is in, read only that report and dispatch the next work the same way.
+</turn>
+
+Beads are the task trace for Feature, Fast, Bugfix, and an adjustment of the current increment. The Tweak lane has none: one engineer, no plan. Owner matches the persona (`[AGENT] Lisbon — REVIEW: T3`, `[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`).
