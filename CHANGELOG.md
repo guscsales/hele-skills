@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.4.1 — 2026-11-18
+
+- docs: absorb hele-skills into its own project memory: six approved feature descriptions, 19 historical increments, acceptance scenarios, a searchable English/Portuguese index, and per-increment QA and prepared verification records.
+- docs: record current CLI test evidence separately from pending workflow proof and blocked visual validation; this snapshot changes no product behavior.
+
 ## v1.4.0 — 2026-11-16
 
 - feat: Wylie derives acceptance scenarios and recommends the smallest sufficient proof, then checks current unit/component/integration/E2E evidence after build. Engineers own smaller-test gaps; E2E needs a real connection, unique failure mode, and reuse justification.

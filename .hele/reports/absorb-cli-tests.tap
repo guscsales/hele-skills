@@ -1,0 +1,182 @@
+
+> hele-cli@0.1.0 pretest
+> node ../scripts/build-cursor.mjs --assets-only src/cursor-assets.json
+
+cursor assets: 50 files → src/cursor-assets.json
+
+> hele-cli@0.1.0 test
+> node --test "test/*.test.js"
+
+TAP version 13
+# ERROR: no .hele directory found (set $HELE_DIR or run /hele-init)
+# Subtest: find --list shows registered features
+ok 1 - find --list shows registered features
+  ---
+  duration_ms: 29.829
+  type: 'test'
+  ...
+# Subtest: find matches an accented pt-BR alias
+ok 2 - find matches an accented pt-BR alias
+  ---
+  duration_ms: 26.062208
+  type: 'test'
+  ...
+# Subtest: find reports no matches for unrelated terms
+ok 3 - find reports no matches for unrelated terms
+  ---
+  duration_ms: 26.677083
+  type: 'test'
+  ...
+# Subtest: find --json returns machine-readable output
+ok 4 - find --json returns machine-readable output
+  ---
+  duration_ms: 26.994542
+  type: 'test'
+  ...
+# Subtest: config set / get / add round-trip
+ok 5 - config set / get / add round-trip
+  ---
+  duration_ms: 207.0355
+  type: 'test'
+  ...
+# Subtest: mergeCursorModels expands strings and fills missing cursor keys
+ok 6 - mergeCursorModels expands strings and fills missing cursor keys
+  ---
+  duration_ms: 0.206833
+  type: 'test'
+  ...
+# Subtest: errors with exit code 2 when no .hele exists
+ok 7 - errors with exit code 2 when no .hele exists
+  ---
+  duration_ms: 27.718125
+  type: 'test'
+  ...
+# Subtest: ai overview and README use the canonical flow diagram
+ok 8 - ai overview and README use the canonical flow diagram
+  ---
+  duration_ms: 26.332417
+  type: 'test'
+  ...
+# Subtest: existing-suite audit help is discoverable without an initialized project
+ok 9 - existing-suite audit help is discoverable without an initialized project
+  ---
+  duration_ms: 79.356625
+  type: 'test'
+  ...
+# Subtest: finds .hele in the current directory
+ok 10 - finds .hele in the current directory
+  ---
+  duration_ms: 1.138458
+  type: 'test'
+  ...
+# Subtest: walks up to find .hele from a nested directory
+ok 11 - walks up to find .hele from a nested directory
+  ---
+  duration_ms: 1.144916
+  type: 'test'
+  ...
+# Subtest: ignores .helerc — only .hele counts
+ok 12 - ignores .helerc — only .hele counts
+  ---
+  duration_ms: 0.84425
+  type: 'test'
+  ...
+# Subtest: .hele is found even when a .helerc sits beside it
+ok 13 - .hele is found even when a .helerc sits beside it
+  ---
+  duration_ms: 0.455375
+  type: 'test'
+  ...
+# Subtest: returns null when nothing is found
+ok 14 - returns null when nothing is found
+  ---
+  duration_ms: 0.244791
+  type: 'test'
+  ...
+# Subtest: $HELE_DIR wins when set and valid
+ok 15 - $HELE_DIR wins when set and valid
+  ---
+  duration_ms: 0.157167
+  type: 'test'
+  ...
+# Subtest: norm folds diacritics before stripping (pt-BR)
+ok 16 - norm folds diacritics before stripping (pt-BR)
+  ---
+  duration_ms: 1.154
+  type: 'test'
+  ...
+# Subtest: norm lowercases and collapses separators
+ok 17 - norm lowercases and collapses separators
+  ---
+  duration_ms: 0.20275
+  type: 'test'
+  ...
+# Subtest: fuzzy: identical strings score 1, disjoint near 0
+ok 18 - fuzzy: identical strings score 1, disjoint near 0
+  ---
+  duration_ms: 0.175083
+  type: 'test'
+  ...
+# Subtest: fuzzy is diacritics-insensitive
+ok 19 - fuzzy is diacritics-insensitive
+  ---
+  duration_ms: 0.075375
+  type: 'test'
+  ...
+# Subtest: scoreFeature: exact slug scores 100
+ok 20 - scoreFeature: exact slug scores 100
+  ---
+  duration_ms: 0.422875
+  type: 'test'
+  ...
+# Subtest: scoreFeature: exact alias scores 95
+ok 21 - scoreFeature: exact alias scores 95
+  ---
+  duration_ms: 0.142
+  type: 'test'
+  ...
+# Subtest: scoreFeature: accented query hits unaccented alias and vice versa
+ok 22 - scoreFeature: accented query hits unaccented alias and vice versa
+  ---
+  duration_ms: 0.202542
+  type: 'test'
+  ...
+# Subtest: scoreFeature: substring on title scores 80
+ok 23 - scoreFeature: substring on title scores 80
+  ---
+  duration_ms: 0.064125
+  type: 'test'
+  ...
+# Subtest: scoreFeature: typo still matches via fuzzy above threshold
+ok 24 - scoreFeature: typo still matches via fuzzy above threshold
+  ---
+  duration_ms: 0.194625
+  type: 'test'
+  ...
+# Subtest: scoreFeature: unrelated query stays below threshold
+ok 25 - scoreFeature: unrelated query stays below threshold
+  ---
+  duration_ms: 0.232625
+  type: 'test'
+  ...
+# Subtest: language defaults split chat from artifacts
+ok 26 - language defaults split chat from artifacts
+  ---
+  duration_ms: 0.407208
+  type: 'test'
+  ...
+# Subtest: chat templates render tables in the session language
+ok 27 - chat templates render tables in the session language
+  ---
+  duration_ms: 0.234083
+  type: 'test'
+  ...
+1..27
+# tests 27
+# suites 0
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 485.9885

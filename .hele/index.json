@@ -1,0 +1,100 @@
+{
+  "features": [
+    {
+      "slug": "project-memory",
+      "title": "Project Memory and Setup",
+      "summary": "Initialize, configure and discover persistent Hele project memory.",
+      "aliases": [
+        "project setup",
+        "project configuration",
+        "memória do projeto",
+        "configuração do projeto"
+      ],
+      "docs": {
+        "prd": "1.0",
+        "stubs": "1.0",
+        "plan": "1.0"
+      }
+    },
+    {
+      "slug": "guided-delivery",
+      "title": "Guided Product Delivery",
+      "summary": "Guide approved features through specification, build, revision and presentation tweaks.",
+      "aliases": [
+        "feature delivery",
+        "delivery workflow",
+        "entrega guiada",
+        "desenvolvimento de funcionalidades"
+      ],
+      "docs": {
+        "prd": "1.0",
+        "stubs": "1.0",
+        "plan": "1.0"
+      }
+    },
+    {
+      "slug": "visual-design",
+      "title": "Design Specifications and Artboard Implementation",
+      "summary": "Specify screens and implement approved Paper artboards with design-system context.",
+      "aliases": [
+        "screen design",
+        "Paper implementation",
+        "design visual",
+        "desenho de telas"
+      ],
+      "docs": {
+        "prd": "1.0",
+        "stubs": "1.0",
+        "plan": "1.0"
+      }
+    },
+    {
+      "slug": "behavior-validation",
+      "title": "Behavior Validation and Human Acceptance",
+      "summary": "Define acceptance scenarios, select sufficient evidence and guide human verification.",
+      "aliases": [
+        "acceptance validation",
+        "quality assurance",
+        "validação de comportamento",
+        "verificação humana"
+      ],
+      "docs": {
+        "prd": "1.0",
+        "stubs": "1.0",
+        "plan": "1.0"
+      }
+    },
+    {
+      "slug": "product-absorption",
+      "title": "Existing-Product Absorption",
+      "summary": "Snapshot an existing product into approved features, historical slices and honest validation records.",
+      "aliases": [
+        "existing product snapshot",
+        "absorb product",
+        "absorção de produto",
+        "documentar produto existente"
+      ],
+      "docs": {
+        "prd": "1.0",
+        "stubs": "1.0",
+        "plan": "1.0"
+      }
+    },
+    {
+      "slug": "e2e-audit",
+      "title": "Existing E2E Suite Audit",
+      "summary": "Audit existing end-to-end suites and rank improvements while preserving useful guarantees.",
+      "aliases": [
+        "end-to-end audit",
+        "suite review",
+        "auditoria e2e",
+        "revisão de testes ponta a ponta"
+      ],
+      "docs": {
+        "prd": "1.0",
+        "stubs": "1.0",
+        "plan": "1.0"
+      }
+    }
+  ]
+}
