@@ -17,6 +17,8 @@ No extra validation-plan approval is added. Design and database approvals keep t
 
 ## Compare build usage
 
+Run `/hele-run-report` in the increment’s conversation, or name the increment and optional baseline. When more than one run fits, provide the parent JSONL paths. The collector reads only those sessions and their available subagent logs. Use the same test gates and report what review and QA found alongside the usage numbers.
+
 Compare complete, similarly scoped builds with the same project and test gates. Hold model and effort fixed to isolate workflow changes, or record differences by phase to evaluate the new defaults. In Claude Code's local session and subagent JSONL logs, group usage entries by dispatch phase and deduplicate repeated assistant message IDs. Count starts and replacement attempts by bead ID, and report fresh input, cache writes, cache reads, and output separately. Compare review findings, QA failures and gaps, and the final CI result alongside usage. Keep raw logs local and report aggregates. Token counts and plan-quota percentages are separate measurements.
 
 ## When an E2E earns its place
