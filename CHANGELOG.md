@@ -4,7 +4,7 @@ Every released version, newest first. Each entry lists the commits that shipped 
 
 ## v1.6.0 — 2026-11-23
 
-- feat: add `/hele-retro`, a manual build retrospective with local Claude Code usage by phase and model, evidence from Beads and QA, and optional baseline comparison.
+- feat: add `/hele-run-report`, a manual build execution report with local Claude Code usage by phase and model, evidence from Beads and QA, and optional baseline comparison.
 
 ## v1.5.0 — 2026-11-23
 

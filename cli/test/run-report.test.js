@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
-const collector = fileURLToPath(new URL('../../skills/hele-retro/scripts/collect.mjs', import.meta.url));
+const collector = fileURLToPath(new URL('../../skills/hele-run-report/scripts/collect.mjs', import.meta.url));
 
 function assistant(id, usage, model = 'claude-sonnet-5-5') {
   return JSON.stringify({
@@ -15,8 +15,8 @@ function assistant(id, usage, model = 'claude-sonnet-5-5') {
   });
 }
 
-test('retro aggregates selected sessions and subagents without returning transcript contents', (t) => {
-  const directory = mkdtempSync(join(tmpdir(), 'hele-retro-test-'));
+test('run report aggregates selected sessions and subagents without returning transcript contents', (t) => {
+  const directory = mkdtempSync(join(tmpdir(), 'hele-run-report-test-'));
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const session = join(directory, 'session.jsonl');
   const baseline = join(directory, 'baseline.jsonl');

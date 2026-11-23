@@ -155,7 +155,7 @@ Still under `/hele`, Agent Lisbon goes back to the PRD on that same increment, u
 
 ## Testing and existing E2E suites
 
-Run `/hele-retro` manually for local build metrics, review and QA findings, and experiments for the next build. See [Compare build usage](.docs/testing.md#compare-build-usage).
+Run `/hele-run-report` manually for local build metrics, review and QA findings, and experiments for the next build. See [Compare build usage](.docs/testing.md#compare-build-usage).
 
 Wylie recommends the smallest sufficient proof before build, then checks actual evidence afterward. Engineers own unit/component/integration tests; Wylie owns justified API/browser E2E. A stub is an acceptance scenario, not a mandate for a browser test. Existing affected journeys still run even when no new E2E is added. CI uses an explicit execution map with conservative fallbacks; upgrading Hele does not silently change existing gates.
 

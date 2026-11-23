@@ -3605,15 +3605,15 @@ is a ranked, reviewable report and an implementation sequence.
 Applying the recommendations is a separate scoped request.`
   },
   {
-    name: "retro",
-    command: "/hele-retro",
+    name: "run-report",
+    command: "/hele-run-report",
     agent: "Agent Lisbon",
-    artifact: "retrospective in chat",
-    question: "HOW DID THE BUILD GO",
+    artifact: "run report in chat",
+    question: "HOW HELE RAN THE BUILD",
     detail: `Run manually after a build to collect local Claude Code usage by
 phase and model, compare a comparable baseline, and turn Beads, review
 and QA evidence into a short list of experiments. The workflow and
-project records stay unchanged. Save RETRO.md only on request.`
+project records stay unchanged. Save RUN_REPORT.md only on request.`
   },
   {
     name: "update",

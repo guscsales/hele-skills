@@ -2,7 +2,7 @@
 
 **You type `/hele`.** Agent Lisbon, the Builder, detects the lane and runs the phase skills below. Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. The execution plan is not a stop. After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw. A database change still stops. Every file in a chat table is a clickable link: the label is the file name, the target is the absolute path on one line. Say **the human**.
 
-Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [fix-e2e](#hele-fix-e2e) · [retro](#hele-retro) · [verify-work](#hele-verify-work)
+Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [fix-e2e](#hele-fix-e2e) · [run-report](#hele-run-report) · [verify-work](#hele-verify-work)
 
 ## /hele
 
@@ -64,9 +64,9 @@ Background engineers work from one bead per testable delivery. Related deliverie
 
 Agent Wylie checks assertions and current build evidence, routes missing smaller-test coverage to engineers, and reuses/extends/writes justified E2E. He executes affected existing journeys too, including across features; shared or uncertain impact broadens selection. QA_REPORT links proof per behavior, gaps, selected regressions and CI/runtime impact. Zero E2E and zero screenshots can be valid. Useful screenshots are settled 1920×1080 frames within qa.maxScreenshots, not a quota. The report stops before the human walk; failures and coverage gaps offer a fix round. `--generate-fixes-report` reconstructs from evidence without reruns; missing proof remains pending.
 
-## /hele-retro
+## /hele-run-report
 
-Run manually to review a build’s local Claude Code usage by phase and model, connect rework and QA findings to their evidence, and choose up to three changes to test next. Pass an increment or session log, and optionally a baseline. The result stays in chat unless you ask for `RETRO.md`. See [Compare build usage](testing.md#compare-build-usage).
+Run manually to review a build’s local Claude Code usage by phase and model, connect rework and QA findings to their evidence, and choose up to three changes to test next. Pass an increment or session log, and optionally a baseline. The result stays in chat unless you ask for `RUN_REPORT.md`. See [Compare build usage](testing.md#compare-build-usage).
 
 ## /hele-fix-e2e
 
