@@ -2,6 +2,11 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.5.0 — 2026-11-23
+
+- feat: plan one bead per testable delivery, batch routine reviews, and resume the original agent for fix-ups when available. Routine reviews use the Sonnet-backed build role by default.
+- feat: reuse current test evidence across build, review, and QA, defer confirmations likely to be invalidated by review, and keep handoffs short.
+
 ## v1.4.1 — 2026-11-18
 
 - docs: absorb hele-skills into its own project memory: six approved feature descriptions, 19 historical increments, acceptance scenarios, a searchable English/Portuguese index, and per-increment QA and prepared verification records.

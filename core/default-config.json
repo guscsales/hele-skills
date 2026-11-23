@@ -13,7 +13,7 @@
       "dba-hightower": { "claude-code": "sonnet", "cursor": "grok" },
       "backend-cho": { "claude-code": "sonnet", "cursor": "composer" },
       "frontend-van-pelt": { "claude-code": "sonnet", "cursor": "composer" },
-      "security-jane": { "claude-code": "opus", "cursor": "grok" },
+      "security-jane": { "claude-code": "sonnet", "cursor": "grok" },
       "infra-rigsby": { "claude-code": "sonnet", "cursor": "composer" },
       "qa-wylie-stubs": { "claude-code": "opus", "cursor": "grok" },
       "qa-wylie-run": { "claude-code": "sonnet", "cursor": "composer" }

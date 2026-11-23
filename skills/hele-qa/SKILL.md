@@ -23,8 +23,8 @@ Reconstruct a missing/stale QA report from test outputs, coverage mappings, code
 </context>
 
 <phase name="1-review-coverage">
-1. Dispatch background `[AGENT QA] Wylie — review coverage`, model `qa-wylie-stubs`, with PRD-derived stubs, the Coverage table, engineer evidence, relevant test code and diff, and the shared validation strategy. Inspect assertions and mocked boundaries, not just test names or pass counts.
-2. Map every required behavior to current evidence. Reuse valid build results; do not repeat their suites. Reconcile provisional/legacy kinds in the affected Coverage rows. Missing unit/component/integration proof becomes a `QA: TS-nnn coverage gap` bead for the owning engineer, with the missing assertion/boundary. Wylie does not fill engineer-owned suites himself.
+1. Dispatch background `[AGENT QA] Wylie — review coverage`, model `qa-wylie-stubs`, with affected stub IDs, evidence links and references to the Coverage rows, relevant tests and diff. Inspect assertions and mocked boundaries, not just test names or pass counts.
+2. Map every required behavior to current evidence under the shared strategy. Reconcile provisional/legacy kinds in the affected Coverage rows. Route missing unit/component/integration proof to its engineer and name the missing assertion or boundary.
 3. For E2E, record the real connection, failure smaller tests miss, and existing journey coverage. Prefer reuse, then extension, then a new journey. Each mapped stub needs an explicit assertion. E2E may enter through API or browser. No justified E2E gap is a valid outcome.
 4. Select affected existing E2E from the execution map/dependencies/traces as well as changed mappings. Broaden for shared changes or uncertain impact. Include cross-feature coverage; never select by increment tags alone. Return the coverage decisions and exact selected tests to the conductor without a new human approval stop.
 </phase>
@@ -37,13 +37,13 @@ Reconstruct a missing/stale QA report from test outputs, coverage mappings, code
 </phase>
 
 <phase name="3-run-and-record">
-1. Create `CHECK: QA increment NNN` in beads; keep assessment tracking separate from the actionable `QA:` fix beads. Dispatch background `[AGENT QA] Wylie — selected journeys`, model `qa-wylie-run`, only when executions are needed. Run the selected E2E and any required Wylie-owned confirmation not already supported by current evidence. No E2E selected → skip this dispatch. Report exact commands, code identity, outputs, initial failures/retries, timing, data sources, and covered assertions.
+1. Create `CHECK: QA increment NNN` in beads; keep assessment tracking separate from the actionable `QA:` fix beads. Dispatch background `[AGENT QA] Wylie — selected journeys`, model `qa-wylie-run`, only when executions are needed. Run the selected E2E and any required Wylie-owned confirmation not already supported by current evidence. Skip when current evidence covers all selected checks. Report command, outcome, code identity, evidence link, covered assertions, timing and data sources. Include the relevant excerpt for initial failures and record retries.
 2. Inspect failures before a targeted retry. A flaky result is not automatically a test bug. Distinguish product, test, and environment causes; no blanket retries to get green. Wylie may fix his E2E code; product and engineer-suite changes route to their owners.
 3. Update stub statuses only for behaviors assessed with current evidence under `validation-strategy.md`. Existing unaffected statuses remain historical, not a claim that they ran now. Missing coverage is pending, blocked execution is blocked, failed assertions are failing. A failed selected regression prevents green even if all new stubs passed.
-4. Classify unresolved findings: `product-bug`, `coverage-gap`, `test-defect`, `contract-question`, `polish`, or `blocked`. Record exact evidence, impact, owner, and required validation in QA beads. Contract questions go to Lisbon/the human, never silently weaken an assertion to match the code. Keep the report available even if a question or blocker remains; pending decisions prevent green.
+4. Classify unresolved findings: `product-bug`, `coverage-gap`, `test-defect`, `contract-question`, `polish`, or `blocked`. Link the evidence, impact and required check to the owning delivery bead in the report. Put independent work on a new `QA:` bead under this increment’s epic. Contract questions go to Lisbon/the human, never silently weaken an assertion to match the code. Keep the report available even if a question or blocker remains; pending decisions prevent green.
 5. Write `increments/NNN-<slug>/QA_REPORT.md` from `templates/qa-report.md` every assessment, green or red. Include each required stub's title/rule title, level, test path/title, assertions/boundaries, command/result/code identity, and gaps. Include selected regressions, reuse decisions, E2E added/extended/removed counts, CI stage/selection changes, and measured timing or explicitly unknown impact. Rigsby implements any planned execution-map/CI updates; do not claim a proposed workflow already runs.
 6. For user-visible changes, prepare short grouped human flows with Open/Data/Steps tables. Label each as executed or prepared, not executed. Backend-only changes can explain that no human flow applies. Write VERIFY.md from these sections, independent of whether Playwright ran. Preserve verified flows unless their behavior or setup changed. Never invent a replay or mark a human flow verified from automated evidence.
-7. Inspect and palette useful screenshots if any, retain at most qa.maxScreenshots, and embed only kept images. Remove only superseded images owned by this increment's report; do not delete project baseline assets. Report optional screenshots without turning their absence into a coverage gap. Close the CHECK bead when the report is recorded; unresolved QA fix beads stay open.
+7. Inspect and palette useful screenshots if any, retain at most qa.maxScreenshots, and embed only kept images. Remove only superseded images owned by this increment's report; do not delete project baseline assets. Report optional screenshots without turning their absence into a coverage gap. Close the CHECK bead when the report is recorded; approved but unresolved fixes stay open.
 </phase>
 
 <phase name="4-report-and-route">
@@ -81,7 +81,6 @@ On `4`: ask the contract questions before any fix.
 
 <rules>
 - No green verdict with missing required coverage, stale evidence, unresolved selected failures, or blocked validation. No E2E needed does not mean no evidence needed.
-- `--from-qa` confirms affected evidence at the proper level; reuse a current successful confirmation when refreshing the report.
 - The project's execution map governs CI. A living TEST_STUBS file is not a command to run every E2E on every PR.
 - Every file in chat is a clickable markdown link. Reports are never fenced.
 - Mid-run build-until-pass → read `templates/build-until-pass.md`, dispatch Summer, then resume QA and invalidate evidence affected by those changes.

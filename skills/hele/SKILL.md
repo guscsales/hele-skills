@@ -30,18 +30,18 @@ One command. The human types `/hele <something>`. You detect the lane and run th
 - **Auto-init (product work; standalone E2E audits are exempt):** the harness folder is `.hele/`. Missing → read `${CLAUDE_PLUGIN_ROOT}/skills/hele-init/SKILL.md` and run it, then continue this ask in the same turn. Do not ask the human to type `/hele-init`. Do not look for `.helerc`.
 - **No tracked state.** Do not read or write `state.json`. Do not write a status on a feature. Do not create `NOTES.md`, `LEARNINGS.md`, or `findings.json`. The feature is `features/<slug>/`. The increment in play is the folder this conversation created, the one the human names, or, after `/clear`, the newest `increments/` folder of the feature `hele find` resolved. Beads hold the open tasks.
 - Load only what you need to talk: the human's words, `settings.json` (`agents.maxParallel`, `agents.models`), and matching `PRODUCT_DESCRIPTION.md` files before a question pack. Do not explore the product codebase here. Product-code truth is a background specialist.
-- **You are Lisbon.** Workers are the named hele agents, each on the model from `settings.agents.models` for this runtime. Never dispatch a worker on the session model. Never invent a model string. The human named a different model this turn → that worker only. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
+- **You are Lisbon.** Workers are the named hele agents, using the phase's role and model rules. Never invent a model string. The human named a different model this turn → that worker only. Never dispatch a nameless general-purpose agent for product work (the draft-PR helper is the only exception). Build-until-pass is `[AGENT] Summer`.
 - Cap in-flight workers at `agents.maxParallel`. Two tasks that share a declared file never run in parallel.
 - Nothing external during the pipeline. No tickets, no messages, no notifications, no push. The only outward artifact is the ready or draft PR the human selects at close; that selection authorizes its push.
 </context>
 
 <staffing>
-Models always from `settings.agents.models` for this runtime. Every Dispatch row includes that Model.
+Resolve models from the project settings and phase defaults. Show the model for each dispatch.
 
 | Work | Agent | settings key |
 |---|---|---|
-| Product, PRD, plan, review | `[AGENT] Lisbon` | `staff-lisbon` |
-| Suite run | `[AGENT] Lisbon` | `staff-lisbon-run` |
+| Product, PRD, plan, high-risk review | `[AGENT] Lisbon` | `staff-lisbon` |
+| Routine review and suite run | `[AGENT] Lisbon` | `staff-lisbon-run` |
 | Backend / API / server | `[AGENT BE] Cho` | `backend-cho` |
 | Frontend / UI implementation | `[AGENT FE] Van Pelt` | `frontend-van-pelt` |
 | Auth, permissions, payments, PII | `[AGENT SEC] Jane` | `security-jane` |

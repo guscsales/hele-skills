@@ -8,12 +8,16 @@ The canonical diagram remains in [README — The flow](../README.md#the-flow), m
 
 1. Lisbon defines the behavior in the PRD.
 2. Wylie derives acceptance scenarios independently of the execution plan. Then he inspects existing tests and adds Coverage recommendations to TEST_STUBS: level, owner, test/assertion, boundary, rationale, execution scope.
-3. Lisbon turns those recommendations into engineering tasks. Engineers build and test, reporting precise evidence that QA can reuse.
-4. Wylie checks assertions and current results. Smaller-test gaps return to engineers; justified E2E gaps become API or browser journeys. A journey may prove several stubs through explicit assertions. Existing affected journeys run even when no new E2E is created.
+3. Lisbon plans testable deliveries. Engineers build and test, then an independent review checks the diff and records a verdict per delivery. Review and QA reuse current test evidence.
+4. Wylie checks assertions and current results. Smaller-test gaps return to engineers; justified E2E gaps become API or browser journeys. A journey may prove several stubs through explicit assertions. Selected existing journeys run when current evidence is missing, even when no new E2E is created.
 5. QA_REPORT presents proof per behavior, remaining gaps, selected regressions, and CI/runtime impact. It can be green with zero E2E and zero screenshots; it cannot be green with missing required evidence.
 6. The human checks short flows for the changed experience. The report distinguishes a walk actually executed from one prepared for the human. Backend-only work may have no human flow and proceeds to the normal close after the QA report stop.
 
-No extra validation-plan approval is added. Design and database approvals keep their existing places. A QA fix round confirms at the appropriate test level and reuses valid results when refreshing the report.
+No extra validation-plan approval is added. Design and database approvals keep their existing places. A QA fix round adds only missing confirmation at the appropriate level. It waits for reviews likely to change that proof and reuses valid results when refreshing the report.
+
+## Compare build usage
+
+Compare complete, similarly scoped builds with the same project and test gates. Hold model and effort fixed to isolate workflow changes, or record differences by phase to evaluate the new defaults. In Claude Code's local session and subagent JSONL logs, group usage entries by dispatch phase and deduplicate repeated assistant message IDs. Count starts and replacement attempts by bead ID, and report fresh input, cache writes, cache reads, and output separately. Compare review findings, QA failures and gaps, and the final CI result alongside usage. Keep raw logs local and report aggregates. Token counts and plan-quota percentages are separate measurements.
 
 ## When an E2E earns its place
 

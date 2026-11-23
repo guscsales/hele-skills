@@ -18,7 +18,7 @@ RULES FOR THIS DOCUMENT
   DB_CHANGES approval is still open.
 - Written for an agent with ZERO memory: name real files, real patterns,
   real constraints. "Improve the service" is not a plan.
-- Every task maps to a beads issue once /hele-plan registers the epic.
+- Every testable delivery maps to one bead in the increment epic.
 - based_on MUST point at the PRD version this plan was written against.
   If the PRD moved, reconcile the plan before building.
 - When this increment changes schema, indexes, backfills, or production
