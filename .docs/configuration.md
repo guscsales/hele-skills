@@ -17,7 +17,7 @@ hele config set agents.models.backend-cho.cursor composer
 hele config add designSystem.paths "src/design"           # append to a list (deduped)
 ```
 
-A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies to both. `inherit`, or a runtime key that is missing, means the session model.
+A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies to both. Use `inherit` for the session model. The build uses the plugin default for a missing role or runtime key.
 
 ## Keys
 
@@ -40,7 +40,7 @@ A model value is per runtime (`{"claude-code": "sonnet", "cursor": "composer"}`)
 
 ### `agents.models`
 
-Which model each role uses. Judgment work sits on the strong model. Execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Summer uses `staff-lisbon-run`.
+Use Sonnet by default for engineering and routine review. Lisbon uses `staff-lisbon-run` for routine review and checks, and `staff-lisbon` for planning and dedicated high-risk reviews. Existing project choices take precedence.
 
 <table>
   <thead>
@@ -60,14 +60,14 @@ Which model each role uses. Judgment work sits on the strong model. Execution vo
       <td>opus</td>
       <td>grok</td>
       <td rowspan="11">Any model you want according what the agent accepts, or <code>inherit</code> to use the same from your current prompt.</td>
-      <td>Lisbon, the Builder. Judgment work.</td>
+      <td>Planning and dedicated high-risk review.</td>
     </tr>
     <tr>
-      <td>Lisbon, suite</td>
+      <td>Lisbon, routine review and suite</td>
       <td><code>staff-lisbon-run</code></td>
       <td>sonnet</td>
       <td>composer</td>
-      <td>Lisbon's suite. Execution volume.</td>
+      <td>Routine code review and final build checks.</td>
     </tr>
     <tr>
       <td>Vega (Design)</td>
@@ -100,7 +100,7 @@ Which model each role uses. Judgment work sits on the strong model. Execution vo
     <tr>
       <td>Jane (Security)</td>
       <td><code>security-jane</code></td>
-      <td>opus</td>
+      <td>sonnet</td>
       <td>grok</td>
       <td>Jane, security.</td>
     </tr>

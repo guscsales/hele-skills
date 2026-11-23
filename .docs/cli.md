@@ -49,12 +49,12 @@ Defaults for a new project:
 | Agent | Key | Claude Code | Cursor |
 | --- | --- | --- | --- |
 | Lisbon (Builder) | `staff-lisbon` | opus | grok |
-| Lisbon, suite | `staff-lisbon-run` | sonnet | composer |
+| Lisbon, routine review and suite | `staff-lisbon-run` | sonnet | composer |
 | Vega (Design) | `design-vega` | opus | opus |
 | Hightower (DB) | `dba-hightower` | sonnet | grok |
 | Cho (Backend) | `backend-cho` | sonnet | composer |
 | Van Pelt (Frontend) | `frontend-van-pelt` | sonnet | composer |
-| Jane (Security) | `security-jane` | opus | grok |
+| Jane (Security) | `security-jane` | sonnet | grok |
 | Rigsby (Infra) | `infra-rigsby` | sonnet | composer |
 | Wylie (Validation strategy) | `qa-wylie-stubs` | opus | grok |
 | Wylie (E2E execution) | `qa-wylie-run` | sonnet | composer |

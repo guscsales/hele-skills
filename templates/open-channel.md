@@ -6,7 +6,7 @@ Lisbon, Wylie, Vega, Cho, Hightower, anyone: if the work takes tools (read a pil
 
 Main session may:
 - Talk to the human, ask questions, emit a Dispatch table or a signature
-- `hele find`, `bd create` / `bd ready` / `bd close`
+- `hele find` and short Beads reads or updates
 - Dispatch sub-agents in the **background**
 
 Main session must not:
@@ -20,11 +20,11 @@ Main session must not:
 <turn>
 A dispatch turn has exactly four steps, then you **STOP**:
 
-1. `bd create` when the work needs a bead.
+1. Reuse or claim an existing bead when available. Create one for independent work.
 2. Spawn the sub-agent in the **background**. Never block this turn.
    - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug.
    - **Claude Code:** Agent tool, async. Do not block this turn.
-3. Emit the Dispatch table. One prose line after it, then nothing else.
+3. Record the handoff on its bead when applicable, then emit the Dispatch table. One prose line after it, then nothing else.
    - English chat: `Thread is opened, you can talk`
    - Portuguese chat: `A thread continua aberta, pode falar.`
    - Any other chat language: one sentence with that meaning.
@@ -36,4 +36,4 @@ Forbidden after a spawn: waiting, polling, starting the next phase in this same 
 A later turn resumes when a sub-agent report arrives, or the human speaks. If they spoke while work is in flight, **answer them first**. Then, if a report is in, read only that report and dispatch the next work the same way.
 </turn>
 
-Beads are the task trace for Feature, Fast, Bugfix, and an adjustment of the current increment. The Tweak lane has none: one engineer, no plan. Owner matches the persona (`[AGENT] Lisbon — REVIEW: T3`, `[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`).
+Beads are the task trace for Feature, Fast, Bugfix, and an adjustment of the current increment. The Tweak lane has none: one engineer, no plan. Owner matches the persona (`[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`).

@@ -177,7 +177,7 @@ You talk to Lisbon in the main session. She is the Builder: product manager and 
 
 Agents ask questions during planning phases, the human answers what agents cannot, unblocks the real world, provide the most creative part, and picks the numbered options. You drive the creation, the agents transform in reality.
 
-Defaults are on [Configuration](.docs/configuration.md). Judgment work sits on the strong model; execution volume (engineers, QA runs, the BUILD suite, Summer's compile-until-green) sits on the cheap one. Each value is per runtime.
+See [Configuration](.docs/configuration.md) for model defaults. Claude Code uses Sonnet for engineering and routine reviews by default. Dedicated high-risk reviews use Lisbon's planning model.
 
 Tip: check the whole configuration in [Configuration](.docs/configuration.md).
 

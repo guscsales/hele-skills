@@ -58,7 +58,7 @@ Agent Wylie derives living acceptance scenarios from the PRD only, then inspects
 
 ## /hele-build
 
-Coordination loop on beads. Background engineers. When the suite is green, auto-verify starts. `--from-qa` fixes only the open QA beads, then auto-verify runs again.
+Background engineers work from one bead per testable delivery. Related deliveries can share an independent review, with results recorded per bead. Fix-ups stay on the original bead and resume its worker when possible. Green final checks start auto-verify. `--from-qa` fixes approved findings on their delivery or QA beads and confirms affected proofs after any review likely to change them.
 
 ## /hele-qa
 

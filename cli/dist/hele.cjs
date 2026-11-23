@@ -3526,10 +3526,12 @@ checks evidence and prepares short human flows.`
     artifact: "code + passing tests",
     question: "THE CONSTRUCTION",
     extras: ["\u25B8 --from-qa \u2192 fixes the QA report"],
-    detail: `Coordination loop: bd ready, background engineers, TDD, Lisbon
-review in parallel. Migrations only against approved DB_CHANGES. When
-the suite is green, auto-verify starts in the same turn. --from-qa is
-a fix round from the QA report, then back to auto-verify.`
+    detail: `One bead per testable delivery. Background engineers use TDD and
+Lisbon can review related changes together, with a verdict per bead.
+Resume the original worker for fix-ups when possible. Migrations require
+approved DB_CHANGES. --from-qa reuses current evidence and waits for
+reviews likely to change the proof before confirming. Green final
+checks start auto-verify.`
   },
   {
     name: "qa",
