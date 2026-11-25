@@ -117,11 +117,11 @@ describe('output across surfaces', () => {
     assert.match(hele(cwd, 'ai', 'qa'), /hele config effective output|effective output/);
   });
 
-  test('release: plugin.json and marketplace.json are 1.8.0 and equal the newest CHANGELOG heading', () => {
+  test('release: plugin.json and marketplace.json are 1.9.0 and equal the newest CHANGELOG heading', () => {
     const newest = read('CHANGELOG.md').match(/^## v(\d+\.\d+\.\d+)/m)[1];
-    assert.equal(newest, '1.8.0');
-    assert.equal(JSON.parse(read('.claude-plugin/plugin.json')).version, '1.8.0');
-    assert.equal(JSON.parse(read('.claude-plugin/marketplace.json')).plugins[0].version, '1.8.0');
+    assert.equal(newest, '1.9.0');
+    assert.equal(JSON.parse(read('.claude-plugin/plugin.json')).version, '1.9.0');
+    assert.equal(JSON.parse(read('.claude-plugin/marketplace.json')).plugins[0].version, '1.9.0');
   });
 
   test('cross-surface carry-overs: dispatch is always announced; a request never hides always-visible content', () => {

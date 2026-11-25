@@ -2,6 +2,13 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.9.0 — 2026-11-25
+
+- feat: QA closes test-only gaps without a stop. A `coverage-gap` or `test-defect` that needs only test-file changes (no product code, no contract question) is closed by Wylie in the same QA run, engineer-owned suites included: he adds or corrects the assertion, runs only that test file and reuses the other evidence, with no worktree, install or full-suite run. The report lists each closed gap with its test and result and offers no approval for it. If the new assertion fails on current code it becomes a product bug routed to its engineer and the fix option stays. Wylie still never edits product code.
+- feat: the QA Options row "approve fixes" now appears only for failures that need product code. The contract-questions row and the blocked stop are unchanged.
+- feat: scenario coverage is checked before QA. When the build finishes, Lisbon compares the TS IDs and assertions the engineers returned with the increment's required stubs (a list comparison, no test run) and sends a missing stub back to its owning engineer alone. QA starts only when each required stub has an assertion or a recorded reason.
+- chore: behavior-validation PRD v1.1 (BR-11, BR-13 rewritten; BR-21, BR-22 new). The flow diagram and README drop "gaps → owning engineer" and "fix gaps/bugs".
+
 ## v1.8.0 — 2026-11-25
 
 - feat: configurable chat output. `output.preset` (`compact`, `standard`, `detailed`) sets how much of each report shows in chat, with per-field overrides for `tables`, `maxTableRows` and the sections `testStubs`, `coverage`, `prdDelta`, `qaResults`, `dispatch` and `screenshots`. Documents, evidence and approval criteria never change, only the chat detail. The default is `compact`: a project without `output` now presents as `compact`. To bring back a presentation close to the earlier one, run `hele config set output.preset detailed`.

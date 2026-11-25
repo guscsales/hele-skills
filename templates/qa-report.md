@@ -96,6 +96,14 @@ Optional: embed a useful kept screenshot, or a real before/after pair, with a se
 
 ## Findings and routing
 
+Gaps closed in this run (test-only; no product code, no contract question):
+
+| Stub / journey | Test file | Assertions added or corrected | Result |
+|---|---|---|---|
+| <feature + TS/title> | <path> | <what is now asserted> | <only that file run: pass / failed on current code, now a product-bug below> |
+
+Open findings:
+
 | Stub / journey | Class | Expected / observed and impact | Owner / next action |
 |---|---|---|---|
 | <feature + TS/title> | <product-bug / coverage-gap / test-defect / contract-question / polish / blocked> | <evidence and consequence> | <beads ID, owning engineer/Wylie, or decision needed> |

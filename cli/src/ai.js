@@ -109,8 +109,10 @@ reviews likely to change the proof before confirming. A failing final
 check the increment does not reach is recorded as pre-existing and does
 not block green. A reached failure nobody can explain stops at the
 Unexplained failure stop before anyone else is called. No comparison
-with a previous revision runs unless you chose it. Green final checks
-start auto-verify.`,
+with a previous revision runs unless you chose it. Before the final
+checks, Lisbon compares returned TS IDs and assertions with the required
+stubs and re-dispatches a missing one. Green final checks start
+auto-verify.`,
   },
   {
     name: 'qa',
@@ -119,7 +121,8 @@ start auto-verify.`,
     question: 'BEHAVIOR PROOF',
     extras: ['▸ --generate-fixes-report → approve → --from-qa'],
     detail: `Checks assertions and current evidence for each behavior. Reuses
-valid build results; smaller-test gaps return to engineers. Reuses,
+valid build results. A gap needing only test-file changes is closed in
+the same run with no approval stop; product-code fixes go to engineers. Reuses,
 extends or writes justified E2E and runs affected existing journeys,
 including across features. Shared or uncertain impact broadens the
 selection. Reports gaps, evidence and CI/runtime impact. Zero E2E and

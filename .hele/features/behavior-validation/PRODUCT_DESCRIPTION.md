@@ -1,9 +1,9 @@
 ---
 feature: behavior-validation
 doc: PRODUCT_DESCRIPTION
-version: "1.0"
+version: "1.1"
 status: approved
-updated: 2026-11-18
+updated: 2026-11-25
 ---
 
 # Behavior Validation and Human Acceptance
@@ -146,7 +146,7 @@ Every QA assessment produces a readable report, including runs with zero E2E, fa
 
 ### BR-11 — Classify findings and preserve ownership
 
-Findings state evidence, impact, owner and the validation still needed. They distinguish product bugs, coverage gaps, test defects, contract questions, polish and blocked work. Product defects and missing smaller-test coverage belong to the relevant engineers; Wylie fixes his own E2E code. Contract questions return to the human without weakening expectations to fit current behavior. Environmental blockers name the unavailable proof. Assessment beads close after the report is recorded; actionable fix beads remain open until resolved.
+Findings state evidence, impact, owner and the validation still needed. They distinguish product bugs, coverage gaps, test defects, contract questions, polish and blocked work. Product defects belong to the relevant engineers. A coverage gap or test defect that needs only test-file changes (no product code, no contract question) is test-only and Wylie closes it himself (BR-21); one that needs product code belongs to the relevant engineer. Wylie fixes his own E2E code. Contract questions return to the human without weakening expectations to fit current behavior. Environmental blockers name the unavailable proof. Assessment beads close after the report is recorded; actionable fix beads remain open until resolved.
 
 ### BR-12 — Reconstruct reports without fabricated reruns
 
@@ -154,7 +154,7 @@ Report reconstruction reads available outputs, mappings, code revision, task rec
 
 ### BR-13 — Route authorized fixes and retain the QA decision
 
-The QA report offers continuation to human verification or correction, and adds choices for failed checks, coverage gaps and contract decisions when necessary. Recommendations identify owners and affected confirmation scope; they do not authorize implementation by themselves. Approved corrections enter the existing build-and-confirm flow. The actual build loop belongs to guided delivery. Absorption uses this feature's evidence rules but excludes normal fix routing and the manual walk, as defined by product-absorption.
+The QA report offers continuation to human verification or correction, and adds choices for product defects and contract decisions when necessary. Test-only gaps closed under BR-21 never add a choice; they are listed as closed. Recommendations identify owners and affected confirmation scope; they do not authorize implementation by themselves. Approved corrections enter the existing build-and-confirm flow. The actual build loop belongs to guided delivery. Absorption uses this feature's evidence rules but excludes normal fix routing and the manual walk, as defined by product-absorption.
 
 ### BR-14 — Choose the smallest sufficient proof
 
@@ -191,6 +191,14 @@ CI selection is distinct from deciding what behavior deserves coverage. Existing
 
 Screenshots are optional evidence for a useful visible change or failure, not a quota or a replacement for assertions. Kept captures show the relevant settled element, use inspected 1920×1080 paletted PNGs without resizing, and respect the configured retention ceiling. Overflow is chat-only scratch. Do not fabricate a before image or boot an app solely to populate a report. Zero screenshots is valid when no screenshot adds useful evidence. Routine QA does not prune unrelated suites; the separate E2E-audit capability assesses those changes.
 
+### BR-21 — Close test-only gaps without a stop
+
+A coverage gap or test defect that needs only test-file changes, no product code and no contract question, is closed inside the same QA run: Wylie adds or corrects the assertion in the owning test file, including engineer-owned suites, and runs only that test file. Other evidence is reused under BR-17. No worktree, dependency install or full-suite run is ordered for this. The report lists each closed gap with its test and result, and the QA stop offers no approval choice for it. When the new assertion fails against current code, the finding becomes a product defect routed to its engineer, and the fix choice remains. Wylie never edits product code to close a gap.
+
+### BR-22 — Check scenario coverage before QA
+
+When the build finishes, Lisbon compares the scenario IDs and assertions the engineers returned with the required scenarios of the increment. This is a list comparison, not a test run. A missing scenario is sent back to its owning engineer, for that scenario only, before QA starts. QA starts only when every required scenario has a returned assertion or a recorded reason.
+
 ## Scope
 
 ### In scope
@@ -206,7 +214,7 @@ Screenshots are optional evidence for a useful visible change or failure, not a 
 | Left out | Why |
 |---|---|
 | Product implementation and feature-build orchestration | Guided delivery owns those actions |
-| Automatically approving fixes or product-rule changes | The report preserves the human's decision and existing approval boundaries |
+| Automatically approving product fixes or product-rule changes | The report preserves the human's decision and existing approval boundaries |
 | Pruning an unrelated E2E suite during routine QA | Existing-suite auditing is a separate capability |
 | Treating static workflow text as execution evidence | Skills describe the contract; current runs must demonstrate compliance |
 | Resolving the skipped-flow ambiguity during absorption | The approved snapshot records the existing limitation without product changes |
@@ -222,4 +230,5 @@ Screenshots are optional evidence for a useful visible change or failure, not a 
 
 ## Changelog
 
+- v1.1 (2026-11-25) — test-only gaps close inside QA without an approval stop (BR-21, BR-11 and BR-13 rewritten); scenario coverage is checked at the end of the build (BR-22).
 - v1.0 (2026-11-18) — absorbed from the app. Slices: 001-define-acceptance-scenarios (BR-1, BR-2, BR-3, BR-4); 002-guide-human-acceptance (BR-5, BR-6, BR-7, BR-8, BR-9); 003-report-and-resolve-failures (BR-10, BR-11, BR-12, BR-13); 004-select-sufficient-current-proof (BR-14, BR-15, BR-16, BR-17, BR-18, BR-19, BR-20).

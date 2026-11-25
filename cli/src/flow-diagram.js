@@ -47,7 +47,7 @@ export const FLOW_DIAGRAM = `
  │ Cho, Van Pelt, Jane, Rigsby · code + passing tests   │◄──┐
  │ Wylie · coverage review + justified E2E journeys    │   │
  │ ▸ reuse build evidence; run affected regressions    │   │
- │ ▸ gaps → owning engineer; optional screenshots      │   │
+ │ ▸ test-only gaps closed in QA; optional screenshots │   │
  ╰──────────────────────────────────────────────────────╯   │
     │ report ready                                          │
     │     ╭─ QA red / generate-fixes-report ───────────╮    │
@@ -55,7 +55,7 @@ export const FLOW_DIAGRAM = `
     │     ╰────────────────────────────────────────────╯
     ▼
  ╭─ QA report ─────────────────── YOUR NEXT PROMPT ─────╮
- │ Evidence + CI impact; continue or fix gaps/bugs      │
+ │ Evidence + CI impact; continue or fix bugs           │
  ╰──────────────────────────────────────────────────────╯
     │ continue
     ▼

@@ -8,7 +8,7 @@
       "name": "hele-skills",
       "source": "./",
       "description": "Feature-delivery harness \u2014 one command (/hele) picks the lane and runs PRDs, stubs, plans, build, evidence-based QA with selected E2E, suite audits, and guided verification, via a named agent team with beads.",
-      "version": "1.8.0"
+      "version": "1.9.0"
     }
   ]
 }
