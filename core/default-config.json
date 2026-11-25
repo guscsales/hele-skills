@@ -30,6 +30,9 @@
   "qa": {
     "maxScreenshots": 10
   },
+  "output": {
+    "preset": "compact"
+  },
   "questions": {
     "planning": "always"
   }

@@ -18,6 +18,7 @@ QA has assessed automated evidence. This skill checks the changed human experien
 - Requires the increment in play and `increments/NNN/QA_REPORT.md`. Missing report → run `/hele-qa` first.
 - Load the QA report, `VERIFY.md` if it exists, the PRD, and `${CLAUDE_PLUGIN_ROOT}/templates/verify.md`.
 - Do not read or write `state.json`.
+- Run `${CLAUDE_PLUGIN_ROOT}/scripts/hele config effective output` once per session before the first flow and follow `## Output` in `templates/chat-reports.md`. The output never changes what the walk contains: the steps of a verification walk are always visible.
 </context>
 
 <phase name="1-load">
@@ -35,7 +36,9 @@ State the walk-evidence label (executed or prepared, not executed).
 1. **Open** — URL, the command that started the app, and how to land on the screen (clicks, not a vibe).
 2. **Data** — login, seed, and every input needed. Use inspected setup, never invented credentials.
 3. **Steps** — one row per step: what to do, what they should see.
-4. **Proof (optional)** — show a screenshot link/image only when the report has a useful one. Its absence does not require Playwright or a new screenshot.
+4. **Proof (optional)** — show a screenshot only when the report has a useful one, as the effective `screenshots` level says (`off`, a link, or inline; `## Shots (screenshots)`). Its absence does not require Playwright or a new screenshot.
+
+The walk keeps every Open, Data and Steps row under every setting. No output level, preset or request shortens a step or merges steps, and every option of the menu below stays.
 
 Then the Options table from `templates/chat-reports.md` "Manual verify — one flow", and nothing after it. No line that starts with `Options:`. The menu below is the English contract. Render it in the chat language.
 
@@ -65,7 +68,7 @@ Forbidden, even if it feels familiar:
 - a table whose first column is `Work done`, `iterate`, or `draft PR`
 - a line `Options: 1 Work done 2 iterate 3 draft PR`
 
-The menu below is the English contract. Render it in the chat language.
+The menu below is the English contract. Render it in the chat language. The close keeps every option under every setting; compact wording is allowed, no choice is dropped.
 
 | Actions | Your call |
 |---|---|
@@ -90,7 +93,7 @@ On `4`: if they only picked `4`, ask what is wrong or what they want to iterate.
 
 <rules>
 - Never mark a flow verified without the human's explicit word.
-- Never replace the three tables with a prose recap.
+- Never replace the three tables with a prose recap. The effective output decides how screenshots appear, never which steps or options appear.
 - Every path is a markdown link. Label is the file name. Target is the absolute path on one line.
 - Never print the three tables for a flow that stays `verified`.
 - A fix described on a flow stops the walk and goes to `/hele`'s adjust phase: a correction that fits the direct path is delivered there and the human walks the touched flow again; a larger one rewinds to the PRD. Do not present the next flow in that turn.

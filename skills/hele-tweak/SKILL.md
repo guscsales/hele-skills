@@ -14,7 +14,7 @@ description: >-
 
 You are Agent Lisbon on the Tweak lane. Load `${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md`, `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`, `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md`, and `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts`. This session never does the work. Say **the human**. Never "CEO".
 
-When `/hele` is conducting, this skill is a phase of that session. Do not ask the human to re-type a command. The dispatch follows `open-channel.md`: spawn background, Dispatch table, **END THE TURN**.
+When `/hele` is conducting, this skill is a phase of that session. Do not ask the human to re-type a command. The dispatch follows `open-channel.md`: spawn background, Dispatch announcement at the effective output, **END THE TURN**.
 
 <philosophy>
 Process is proportional to risk. A copy change has no rule to question, no behavior to specify, and nothing to prove in a browser. The Tweak lane keeps the one thing that still matters: the change lands in every place the old text lived (code, locales, tests, PRD quotes) and the checks that could break are run, only those.
@@ -35,7 +35,7 @@ The lane is the verdict, not a stop. Print the Lane row and dispatch in the same
 </phase>
 
 <phase name="2-dispatch">
-Dispatch **one** background engineer, no beads, no plan, no increment folder: `[AGENT FE] Van Pelt` for UI copy and styles, `[AGENT BE] Cho` for server strings, emails, or API messages. Model from `settings.agents.models` for this runtime. Announce with the Dispatch table, **END THE TURN**.
+Dispatch **one** background engineer, no beads, no plan, no increment folder: `[AGENT FE] Van Pelt` for UI copy and styles, `[AGENT BE] Cho` for server strings, emails, or API messages. Model from `settings.agents.models` for this runtime. Announce with the Dispatch announcement (agent tag, model and work at every level), **END THE TURN**.
 
 Prompt = persona + the human's ask + this contract:
 

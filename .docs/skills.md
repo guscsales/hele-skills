@@ -96,6 +96,6 @@ One short changed-experience flow at a time. Open/Data/Steps come from the QA re
 
 ## Output rules
 
-See `templates/chat-reports.md`. Lane table, Options table, Files as links, PRD delta (was → now), Open these, QA shots. Chat, including those tables, follows `language.chat`. Files follow `language.artifacts` (default English, en-US). Never fence a report. Never box-drawing in chat. Never a raw path in its own column.
+See `templates/chat-reports.md`. Lane table, Options table, Files as links, PRD delta, Open these, QA shots. How much of each report shows follows the `output` setting (default `compact`; see [Configuration](configuration.md#output)); failures, gaps, questions and decisions always show. Chat, including those tables, follows `language.chat`. Files follow `language.artifacts` (default English, en-US). Never fence a report. Never box-drawing in chat. Never a raw path in its own column.
 
 Next: [CLI Reference](cli.md)

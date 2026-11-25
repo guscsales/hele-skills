@@ -88,7 +88,7 @@ Runs only after phase 2 closed with zero unanswered product questions.
 </phase>
 
 <phase name="4-brief-and-approval">
-Emit the FEATURE BRIEF from Lisbon's persona, then, in order: PRD delta, stubs in full, Coverage recommendations, Files, Open these, Options. Every file is a clickable link (file name as the label, absolute path as the target, one line). Never a raw Path column. Never a code fence. Never box-drawing.
+Emit the FEATURE BRIEF from Lisbon's persona, then, in order: PRD delta, Scenarios and Coverage at the effective output (`chat-reports.md`, `## Output`; read it with `hele config effective output`), Files, Open these, Options. At every level the stop shows every new, rewritten and retired rule with its behavior change, every product question, every required decision and approval option, and the links to the complete PRD and TEST_STUBS; only the detail around them follows the level. A request such as "show all TS" re-presents what exists for that response only: an expansion request keeps the approval pending with the same options. Every file is a clickable link (file name as the label, absolute path as the target, one line). Never a raw Path column. Never a code fence. Never box-drawing.
 
 Option 1:
 

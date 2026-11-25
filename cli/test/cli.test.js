@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { mergeCursorModels } from '../src/cursor.js';
 import { FLOW_DIAGRAM } from '../src/flow-diagram.js';
@@ -82,6 +82,55 @@ test('config set / get / add round-trip', () => {
   hele(root, 'config', 'add', 'designSystem.paths', 'src/design');
   hele(root, 'config', 'add', 'designSystem.paths', 'src/design'); // dedupe
   assert.deepEqual(JSON.parse(hele(root, 'config', 'get', 'designSystem.paths')), ['src/design']);
+});
+
+function heleRaw(cwd, ...args) {
+  const r = spawnSync(process.execPath, [ENTRY, ...args], {
+    cwd,
+    encoding: 'utf8',
+    env: { ...process.env, NO_COLOR: '1', HELE_DIR: '' },
+  });
+  return { status: r.status, stdout: r.stdout, stderr: r.stderr };
+}
+
+test('TS-006 config get and list return saved values only; effective changes nothing', () => {
+  const root = fixtureProject();
+  assert.equal(heleRaw(root, 'config', 'get', 'output.preset').status, 1);
+  assert.notEqual(heleRaw(root, 'config', 'get', 'output.preset').stdout.trim(), '"compact"');
+  assert.equal(heleRaw(root, 'config', 'get', 'output').status, 1);
+  const before = heleRaw(root, 'config', 'list').stdout;
+  assert.equal(heleRaw(root, 'config', 'effective', 'output').status, 0);
+  assert.equal(heleRaw(root, 'config', 'list').stdout, before);
+  assert.deepEqual(JSON.parse(before), { version: 1, agents: { maxParallel: 4, models: {} } });
+  assert.equal(heleRaw(root, 'config', 'get', 'agents.nothing').status, 1);
+
+  const bare = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'hele-cli-nosettings-')));
+  fs.mkdirSync(path.join(bare, '.hele'));
+  assert.equal(heleRaw(bare, 'config', 'list').status, 2);
+  assert.equal(heleRaw(bare, 'config', 'get', 'x').status, 2);
+});
+
+test('TS-008 keys outside output keep the unvalidated write behavior and exit codes', () => {
+  const root = fixtureProject();
+  assert.equal(heleRaw(root, 'config', 'set', 'questions.unknownName', '7').status, 0);
+  assert.equal(JSON.parse(hele(root, 'config', 'get', 'questions.unknownName')), 7);
+  assert.equal(heleRaw(root, 'config', 'set', 'qa.maxScreenshots', '--', '-5').status, 0);
+  assert.equal(JSON.parse(hele(root, 'config', 'get', 'qa.maxScreenshots')), -5);
+
+  const file = path.join(root, '.hele', 'settings.json');
+  hele(root, 'config', 'set', 'scalar', '3');
+  hele(root, 'config', 'set', 'nothing', 'null');
+  hele(root, 'config', 'set', 'arr', '[1]');
+  for (const target of ['scalar.x', 'nothing.x', 'arr.x']) {
+    const before = fs.readFileSync(file);
+    assert.equal(heleRaw(root, 'config', 'set', target, '1').status, 1, target);
+    assert.ok(before.equals(fs.readFileSync(file)), target);
+  }
+  assert.equal(heleRaw(root, 'config', 'add', 'scalar', '1').status, 1);
+
+  assert.equal(heleRaw(root, 'config', 'set').status, 2);
+  assert.equal(heleRaw(root, 'config', 'set', 'a.b').status, 2);
+  assert.equal(heleRaw(root, 'config', 'frob', 'x').status, 2);
 });
 
 test('mergeCursorModels expands strings and fills missing cursor keys', () => {

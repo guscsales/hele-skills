@@ -1,6 +1,6 @@
 # Sticky lane
 
-`/hele` stays in force for the rest of this conversation. The human does not re-type the slash command. Follow-ups stay in that skill: the lane, the agent chain, the documents. Beads stay on Feature, Fast, and Bugfix (the Tweak lane has none). Never implement ad-hoc.
+`/hele` stays in force for the rest of this conversation. The human does not re-type the slash command. Follow-ups stay in that skill: the lane, the agent chain, the documents. Beads stay on the full path of Feature, Fast and Bugfix (the Tweak lane and the direct path have none). Never implement ad-hoc.
 
 ## Language
 
@@ -18,7 +18,7 @@ At the start of every user message, before writing product code:
 
 1. **A `/hele-*` command was invoked this turn** — that skill wins. The sticky lane yields. Prefer `/hele` for product work. The other pipeline skills are phase contracts `/hele` reads, not a menu.
 2. **Build-until-pass phrase** (match intent, EN or PT): `build til pass`, `build until pass`, `build until it passes`, `make the build pass`, `compile until green`, `typecheck until pass`, `builda até passar`, `faz o build passar`, `build até passar`, `arruma o build`. This is the project compile, not `/hele-build` and not a product change. Read `templates/build-until-pass.md` and dispatch background `[AGENT] Summer`. Stay in `/hele` afterward.
-3. **This conversation already ran `/hele`** and steps 1–2 did not fire — re-read `skills/hele/SKILL.md` and execute it with this message. A bare prompt is another ask, an Options reply, or a correction of the increment already in play. A correction found in manual verify goes back to the PRD on that increment, then the flow runs again. It does not open a new feature. Flows already marked pass are not walked again.
+3. **This conversation already ran `/hele`** and steps 1–2 did not fire — re-read `skills/hele/SKILL.md` and execute it with this message. A bare prompt is another ask, an Options reply, or a correction of the increment already in play. A correction found in manual verify goes to `/hele`'s adjust phase on that increment: delivered directly when it fits the direct path, back to the PRD when it is larger. It does not open a new feature. Flows already marked pass are not walked again.
 4. **Fresh conversation, no slash command** — if the human is clearly continuing a feature that already has documents, resume `/hele` on that feature. Do not look for `state.json`.
 
 Phase contracts `/hele` runs: `hele-init`, `hele-feature`, `hele-fast`, `hele-tweak`, `hele-design`, `hele-plan`, `hele-stubs`, `hele-build`, `hele-qa`, `hele-verify-work`. `/hele-update` is the plugin update. It is not a phase. `/hele-fix-e2e` is a standalone existing-suite audit and yields a report without a product increment. Requests to audit slow/overgrown E2E route there.
@@ -29,8 +29,8 @@ The main session is the human's line. It stays free. Talking, deciding, asking, 
 Lisbon, Wylie, Vega, Cho, Hightower, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write a long artifact), it is a **background** sub-agent. Questions to the human stay in this session, as one Question pack after she has read matching PRDs. Reading those `PRODUCT_DESCRIPTION.md` files before the pack is talking, not exploring. Product-code truth is a background specialist — do not ask the human what the code already does. The PRD stop is Lisbon talking here; the heavy study behind a plan, a review, or a suite is background Lisbon.
 
 Main session may:
-- Talk to the human, ask questions, emit a Dispatch table or a signature
-- `hele find`, `bd create` / `bd ready` / `bd close`
+- Talk to the human, ask questions, emit the Dispatch announcement or a signature
+- `hele find`, reading the effective output (`hele config effective output`), and short Beads reads or updates
 - Dispatch sub-agents in the **background**
 
 Main session must not:
@@ -44,11 +44,11 @@ Main session must not:
 <turn>
 A dispatch turn has exactly four steps, then you **STOP**:
 
-1. `bd create` when the work needs a bead.
+1. Reuse or claim an existing bead when available. Create one for independent work.
 2. Spawn the sub-agent in the **background**. Never block this turn.
    - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug.
    - **Claude Code:** Agent tool, async. Do not block this turn.
-3. Emit the Dispatch table. One prose line after it, then nothing else.
+3. Record the handoff on its bead when applicable, then emit the Dispatch announcement at the effective `output.sections.dispatch` level (the Dispatch announcement block of `templates/chat-reports.md`; read the level with `hele config effective output`, see `## Output`). Every dispatch is announced at every level with its agent tag, its model and its work. One prose line after it, then nothing else.
    - English chat: `Thread is opened, you can talk`
    - Portuguese chat: `A thread continua aberta, pode falar.`
    - Any other chat language: one sentence with that meaning.
@@ -60,4 +60,4 @@ Forbidden after a spawn: waiting, polling, starting the next phase in this same 
 A later turn resumes when a sub-agent report arrives, or the human speaks. If they spoke while work is in flight, **answer them first**. Then, if a report is in, read only that report and dispatch the next work the same way.
 </turn>
 
-Beads are the task trace for Feature, Fast, Bugfix, and an adjustment of the current increment. The Tweak lane has none: one engineer, no plan. Owner matches the persona (`[AGENT] Lisbon — REVIEW: T3`, `[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`).
+Beads are the task trace for the full path of Feature, Fast, Bugfix, and an adjustment of the current increment on the full path. The Tweak lane and the direct path have none: one engineer, no plan. Owner matches the persona (`[AGENT DBA] Hightower — DB_CHANGES`, `[AGENT QA] Wylie — QA: increment NNN`, `[AGENT BE] Cho — T3`, `[AGENT] Summer — BUILD: until pass`).

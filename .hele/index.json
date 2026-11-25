@@ -12,11 +12,20 @@
         "plugin update",
         "installed version",
         "atualizar plugin",
-        "versão instalada"
+        "versão instalada",
+        "output verbosity",
+        "chat output",
+        "output presets",
+        "compact output",
+        "output settings",
+        "saída verbosa",
+        "reduzir saída do chat",
+        "configurar saída",
+        "verbosidade da saída"
       ],
       "docs": {
-        "prd": "1.0",
-        "stubs": "1.0",
+        "prd": "1.1",
+        "stubs": "1.1",
         "plan": "1.0"
       }
     },
@@ -39,8 +48,8 @@
         "mudança simples demora"
       ],
       "docs": {
-        "prd": "1.1",
-        "stubs": "1.1",
+        "prd": "1.2",
+        "stubs": "1.2",
         "plan": "1.0"
       }
     },
@@ -93,8 +102,8 @@
         "documentar produto existente"
       ],
       "docs": {
-        "prd": "1.0",
-        "stubs": "1.0",
+        "prd": "1.1",
+        "stubs": "1.1",
         "plan": "1.0"
       }
     },

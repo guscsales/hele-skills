@@ -187,6 +187,8 @@ Agents ask questions during planning phases, the human answers what agents canno
 
 See [Configuration](.docs/configuration.md) for model defaults. Claude Code uses Sonnet for engineering and routine reviews by default. Dedicated high-risk reviews use Lisbon's planning model.
 
+How much of each report appears in chat follows the `output` setting (`compact` by default; `hele config set output.preset detailed` for full tables). Failures, gaps, questions and decisions always show. See [Configuration](.docs/configuration.md#output).
+
 Tip: check the whole configuration in [Configuration](.docs/configuration.md).
 
 ## Project layout (created by /hele-init)
@@ -240,7 +242,7 @@ Node CLI built with [commander](https://github.com/tj/commander.js) — Claude C
 hele ai [skill]          understand the AI workflow — skills, agents, artifacts
 hele find <query...>     search the feature index (agents MUST use this, never ad-hoc grep)
 hele find --list         list all registered features
-hele config get|set|add  read/write .hele/settings.json by dot path
+hele config get|set|add|unset|list|effective  read/write .hele/settings.json by dot path
 hele install [--check]   install bd if needed, then init the project database
 hele --help              banner + full listing
 ```

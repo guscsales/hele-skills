@@ -48,8 +48,9 @@ Do not ask about the folder name. Do not ask about task tracking. Beads is the s
      index.json         ← {"features": []}
      features/          ← empty, plus .gitkeep
    ```
+   A new project's `settings.json` carries `output.preset` `compact` from the defaults and no section value, `tables` or `maxTableRows`.
 2. Beads is mandatory. Run `${CLAUDE_PLUGIN_ROOT}/scripts/hele install` at the project root. That command installs `bd` when it is missing and initializes the project database. Do not run `bd` yourself. On failure, the report says `⚠️ beads missing — plan and build are blocked until installed`.
-3. When `settings.json` or `index.json` already exist, migrate them in place. Do not replace either file with the default. Model keys: if `agents.models` has `dba-red-john` and not `dba-hightower`, rename that key to `dba-hightower` and keep its value. Remove `pm-hightower` (Lisbon is `staff-lisbon`). Do not change any other model value. Missing keys are copied from `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`. A value already in the project file stays. Index: delete a `status` field on each feature when one is present. Leave slug, summary, aliases, and doc versions.
+3. When `settings.json` or `index.json` already exist, migrate them in place. Do not replace either file with the default. Model keys: if `agents.models` has `dba-red-john` and not `dba-hightower`, rename that key to `dba-hightower` and keep its value. Remove `pm-hightower` (Lisbon is `staff-lisbon`). Do not change any other model value. Missing keys are copied from `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`. A value already in the project file stays. Missing keys are copied key by key, nested objects included. For `output` that means `output.preset` is added only when `output.preset` is missing, also when `output` exists with other saved keys. A saved `output` value is never replaced. Init never writes `output.sections.*`, `output.tables` or `output.maxTableRows`, because a saved field would override every later preset choice. A project without `output` therefore presents as `compact` (a documented change of default; `hele config set output.preset detailed` brings back the earlier full-table presentation). Index: delete a `status` field on each feature when one is present. Leave slug, summary, aliases, and doc versions.
 4. Session rule. Concatenate `${CLAUDE_PLUGIN_ROOT}/templates/sticky-lanes.md` then `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md` into `.claude/rules/hele-session.md`. **Always rewrite** that file. Do not create `.cursor/`.
 </phase>
 
@@ -64,5 +65,6 @@ Render the Init report from chat-reports.md as chat text. Files are clickable li
 <rules>
 - Idempotent. Existing files are not replaced with the default. The session rule is always rewritten. Model keys, keys the project file is missing (copied from `core/default-config.json`), and a leftover feature `status` in `index.json` are migrated in place. Existing design answers are never re-asked. A value the human already set is left alone.
 - Files hele writes follow `language.artifacts` (default `en`, English en-US). Chat, including table headers and cells, follows `language.chat`.
+- Init saves only `output.preset` (`compact`), and only when missing. It never replaces a saved `output` value and never writes `output.sections`, `output.tables` or `output.maxTableRows`.
 - No feature folders and no PRDs here.
 </rules>

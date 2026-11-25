@@ -1,9 +1,9 @@
 ---
 feature: guided-delivery
 doc: PRODUCT_DESCRIPTION
-version: "1.1"
+version: "1.2"
 status: approved
-updated: 2026-11-24
+updated: 2026-11-25
 ---
 
 # Guided Product Delivery
@@ -217,7 +217,7 @@ Definition uses two or three search probes in English and the human's language. 
 
 ### BR-18 — Resolve useful questions before writing the contract
 
-Read matching product descriptions and investigate unknown code facts before asking the human. When no useful question remains, do not invent a gate. Otherwise present the remaining questions and foreseeable edge cases together with recommendations: accept all, answer individually or reply freely. Recommendations remain proposals until answered. No new feature folder, registry entry, product description or scenarios are written while those product questions remain unanswered. Newly discovered facts can justify a smaller later question pack. The approval report exposes new and rewritten rules, old/new wording, unchanged existing rules where relevant, complete scenarios and proof recommendations. Product descriptions contain no unresolved-question section or disguised implementation plan.
+Read matching product descriptions and investigate unknown code facts before asking the human. When no useful question remains, do not invent a gate. Otherwise present the remaining questions and foreseeable edge cases together with recommendations: accept all, answer individually or reply freely. Recommendations remain proposals until answered. No new feature folder, registry entry, product description or scenarios are written while those product questions remain unanswered. Newly discovered facts can justify a smaller later question pack. The approval report exposes every new, rewritten and retired rule with the behavior change an informed approval needs, unchanged existing rules where relevant, the scenario and proof-recommendation changes, and links to the complete product description and scenarios. How much appears inline (previous and new wording, the scenario table, the coverage table) follows the effective chat output owned by `project-memory`; an omitted detail stays in the linked documents and can be expanded on request, and product questions, required decisions and the approval options are always shown. Product descriptions contain no unresolved-question section or disguised implementation plan.
 
 ### BR-19 — Qualify presentation-only edits narrowly
 
@@ -290,3 +290,4 @@ The direct path creates no increment, no execution plan and no Beads issues. Wha
 
 - v1.0 (2026-11-18) — absorbed from the app. Slices: 001-deliver-approved-features (BR-1–BR-10); 002-continue-and-revise-work (BR-11–BR-14); 003-repair-project-build (BR-15, BR-16); 004-decide-informed-specifications (BR-17, BR-18); 005-apply-presentation-tweaks (BR-19–BR-21).
 - v1.1 (2026-11-24) — direct path for small code changes. Slice: 006-deliver-small-changes-directly (new BR-22–BR-25; rewritten BR-2, BR-4, BR-8, BR-9, BR-11, BR-12, BR-13).
+- v1.2 (2026-11-25) — approval report presentation follows the configurable chat output of project-memory (increment 007-configure-chat-output). Rewritten BR-18.
