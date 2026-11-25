@@ -86,8 +86,8 @@
         "falha pré-existente"
       ],
       "docs": {
-        "prd": "1.0",
-        "stubs": "1.0",
+        "prd": "1.1",
+        "stubs": "1.1",
         "plan": "1.0"
       }
     },

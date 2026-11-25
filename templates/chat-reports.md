@@ -410,7 +410,7 @@ The Proof table is optional: when a useful screenshot exists, show its image and
 
 ## Test results (qaResults)
 
-The QA stop. The level comes from `## Output`. Every level links [QA_REPORT.md](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md). Failures, coverage gaps, blockers and pending decisions are issues: one line each with id and cause at every level, never limited by the row limit (see Output).
+The QA stop. The level comes from `## Output`. Every level links [QA_REPORT.md](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md). Failures, open coverage gaps, blockers and pending decisions are issues: one line each with id and cause at every level, never limited by the row limit (see Output). Test-only gaps Wylie closed in the run are listed too, one line each (`N gaps closed`: stub, test, result), never hidden, and they add no Option.
 
 - `summary`: the overall result and counts, then one line per failure, gap, blocker and pending decision (id and cause).
 - `issues`: passes as counts; the issues above in detail.
@@ -422,7 +422,8 @@ Stub and Rule cells carry the title. Evidence names the test level and links the
 | Stub | Rule | Result | Level | Evidence |
 |---|---|---|---|---|
 | TS-001 · Pay with points | BR-1 · Points cover the order | ✅ | integration | [payment.test.ts](/Users/you/project/tests/payment.test.ts) · current build result |
-| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ⏳ coverage gap | component | missing assertion for the empty state |
+| TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ⏳ coverage gap | component | needs product code: the empty state is not rendered |
+| TS-012 · Discount capped | BR-4 · Cap at 50% | ✅ gap closed | integration | [discount.test.ts](/Users/you/project/tests/discount.test.ts) · 2 assertions added, file run: pass |
 ```
 
 Add selected existing regressions (with feature-qualified IDs), reused versus fresh runs, E2E additions/changes, CI execution scope, and measured or unknown timing impact. Zero E2E and zero screenshots are valid when all required behavior has sufficient evidence.
@@ -438,7 +439,7 @@ Every ready report ends with this table. End the turn. Do not open the first man
 | 2 | ✏️ Fix something I saw in the QA report |
 ```
 
-A red run adds rows under those two: approve fixes for failures or coverage gaps, and decide the contract-questions first. A blocked stub is named above the table. The two rows stay.
+A red run adds rows under those two: approve fixes for failures that need product code, and decide the contract-questions first. A test-only gap closed in the run adds no row. A blocked stub is named above the table. The two rows stay.
 
 ## Shots (screenshots)
 

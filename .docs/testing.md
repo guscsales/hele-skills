@@ -9,7 +9,7 @@ The canonical diagram remains in [README — The flow](../README.md#the-flow), m
 1. Lisbon defines the behavior in the PRD.
 2. Wylie derives acceptance scenarios independently of the execution plan. Then he inspects existing tests and adds Coverage recommendations to TEST_STUBS: level, owner, test/assertion, boundary, rationale, execution scope.
 3. Lisbon plans testable deliveries. Engineers build and test, then an independent review checks the diff and records a verdict per delivery. Review and QA reuse current test evidence.
-4. Wylie checks assertions and current results. Smaller-test gaps return to engineers; justified E2E gaps become API or browser journeys. A journey may prove several stubs through explicit assertions. Selected existing journeys run when current evidence is missing, even when no new E2E is created.
+4. Wylie checks assertions and current results. A gap that needs only test-file changes is closed by Wylie in the same run, with no approval stop; one that needs product code returns to an engineer. Justified E2E gaps become API or browser journeys. A journey may prove several stubs through explicit assertions. Selected existing journeys run when current evidence is missing, even when no new E2E is created.
 5. QA_REPORT presents proof per behavior, remaining gaps, selected regressions, and CI/runtime impact. It can be green with zero E2E and zero screenshots; it cannot be green with missing required evidence.
 6. The human checks short flows for the changed experience. The report distinguishes a walk actually executed from one prepared for the human. Backend-only work may have no human flow and proceeds to the normal close after the QA report stop.
 
