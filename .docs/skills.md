@@ -2,7 +2,7 @@
 
 **You type `/hele`.** Agent Lisbon, the Builder, detects the lane and runs the phase skills below. Real stops end in numbered options: `1` approves and starts the next phase; `2` is tell me what you need. The question stop is different: `1` accepts every recommendation, `2` answers one by one, `3` is an open reply. The execution plan is not a stop. After you approve the PRD (and the design, when there are new screens), the agents write the plan, build, and run auto-verify on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw. A database change still stops. Every file in a chat table is a clickable link: the label is the file name, the target is the absolute path on one line. Say **the human**.
 
-Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [feature](#hele-feature) · [fast](#hele-fast) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [fix-e2e](#hele-fix-e2e) · [run-report](#hele-run-report) · [verify-work](#hele-verify-work)
+Jump to: [hele](#hele) · [init](#hele-init) · [update](#hele-update) · [feature](#hele-feature) · [fast](#hele-fast) · [direct path](#direct-path) · [design](#hele-design) · [plan](#hele-plan) · [stubs](#hele-stubs) · [build](#hele-build) · [qa](#hele-qa) · [fix-e2e](#hele-fix-e2e) · [run-report](#hele-run-report) · [verify-work](#hele-verify-work)
 
 ## /hele
 
@@ -12,13 +12,13 @@ The conductor. Agent Lisbon talks. Specialists work in the background.
 2. **Lane table** (one row): Feature · Fast · Bugfix · Tweak · Open.
 3. Runs the matching phase skills. You never type them for the pipeline.
 4. Real stops end in numbered options. An open lane closes with **Work done** or **Let's formalize**. The plan and build do not stop; the QA report does, including when green.
-5. A fix found in manual verify goes back to the PRD on that same increment, and the flow runs again. Flows already marked pass are not walked again.
+5. A fix found in manual verify that fits the direct path is delivered directly: the engineer sets the touched flow back to pending in `VERIFY.md` and you walk it again. A correction that does not fit (it names an excluded surface, or the engineer escalates) goes back to the PRD on that same increment, and the flow runs again. Flows already marked pass are not walked again.
 
 | Lane | When | What happens |
 | --- | --- | --- |
 | Feature | The product does not do this yet. | Investigates first, then one question pack if anything useful remains, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. You walk the result in tables. |
-| Fast | A small addition to what already exists. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. Same spine. |
-| Bugfix | Today's behavior is wrong. | Question pack only if the rule text would change. Same spine. |
+| Fast | A small addition to what already exists. | Investigates first, then one question pack if a rule would change. Direct path by default: one engineer, targeted proof, close with evidence, no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when an excluded surface is named or found. |
+| Bugfix | Today's behavior is wrong. | Question pack only if the rule text would change. Direct path by default, like Fast; the full path when an excluded surface is named or found. |
 | Tweak | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits, runs only the checks that touch the change, and syncs PRD quotes of the old text. No plan, QA, or manual walk. Escalates to Fast if a rule shows up. |
 | Open | Research, review, investigation, design exploration. | A conversation, until you pick **Let's formalize** or say you're done. |
 
@@ -38,7 +38,21 @@ Agent Lisbon. Anti-duplicate gate, then she investigates. If useful questions re
 
 ## /hele-fast
 
-Update lane `/hele` runs for Fast and Bugfix: investigate first, then one question pack when a rule would change, then patch the PRD, stub delta, new increment, same spine. A bugfix that leaves the rule text alone does not stop to ask. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
+Update lane `/hele` runs for Fast and Bugfix: investigate first, then one question pack when a rule would change. The [direct path](#direct-path) is the default. The full path (patch the PRD, stub delta, new increment, then plan, build and auto-verify) runs when the ask names an excluded surface or the engineer escalates; TDD and the named agents never shrink, beads and the increment belong to the full path. A bugfix that violates a rule that stays unchanged never stops to ask, on either path. A failing check the change does not reach is recorded as pre-existing; one the change reaches that nobody can explain stops at the Unexplained failure stop. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
+
+## Direct path
+
+`templates/direct-path.md` is the contract for a small code change on Fast, Bugfix, or a correction of the active increment. It is not a lane: the lane keeps its name and the announcement shows the path (`Bugfix · direct`, `Fast · direct`, or `· full`). A new capability stays on the Feature lane and the full path, whatever its size. There is no file-count limit and no other size test.
+
+**Excluded surfaces** send the work to the full path: schema or production data; security (authentication, permissions, payments, personal data); shared configuration; CI; environment; a new screen; and a contract between modules (an API request or response shape, an event or a shared public type). Lisbon escalates up front only when your words name one; otherwise the engineer's investigation decides the fit.
+
+**What runs.** Lisbon dispatches one background engineer (Cho for server and CLI, Van Pelt for UI). There is no increment, no `EXECUTION_PLAN`, no `bd create`, and no review dispatch. The engineer writes the smallest failing test first, makes it pass, and runs only the checks that reach the changed files, never the whole suite and never Playwright. A rule your words already decide is patched in the PRD without a stop; real doubt is one question pack; a bug that violates an unchanged rule never stops to ask. When a rule changed, Wylie derives the scenario delta in the same turn, and the close waits for it.
+
+**Three exits.** `DONE` goes to the Direct close. `ESCALATE` (an excluded surface turned up) announces the escalation with its reason and runs the full path, with the engineer's findings as input to planning. `UNEXPLAINED` shows the Unexplained failure stop.
+
+**Unexplained failure.** A check the change does not reach that fails is recorded as pre-existing, with its name and an error excerpt, and never triaged. A check the change reaches that the engineer cannot explain stops the delivery before anyone else is called, with two choices: continue and record it as pre-existing, or compare that one check against the previous revision. Each carries an estimate, or `unknown`. Hele never orders a previous-revision comparison, a worktree, a dependency install or a second environment unless you chose compare for that delivery. The full-path build follows the same rule.
+
+**Direct close.** One block: what changed, the proof (failing, then passing), the related checks run, what was not run and why, pre-existing failures, and the rule delta (`unchanged` when no rule changed), with the files as links. A new bug or addition closes with ready PR, draft PR, no PR, or more to change. A correction of the active increment offers no PR choices: it returns to the touched flow in manual verify.
 
 ## /hele-tweak
 
@@ -58,7 +72,7 @@ Agent Wylie derives living acceptance scenarios from the PRD only, then inspects
 
 ## /hele-build
 
-Background engineers work from one bead per testable delivery. Related deliveries can share an independent review, with results recorded per bead. Fix-ups stay on the original bead and resume its worker when possible. Green final checks start auto-verify. `--from-qa` fixes approved findings on their delivery or QA beads and confirms affected proofs after any review likely to change them.
+On the full path, background engineers work from one bead per testable delivery (the direct path has none). Related deliveries can share an independent review, with results recorded per bead. Fix-ups stay on the original bead and resume its worker when possible. A failing final check the increment does not reach is recorded as pre-existing and does not block green; a reached failure nobody can explain stops at the Unexplained failure stop before anyone else is called, and no previous-revision comparison runs unless you chose it. Green final checks start auto-verify. `--from-qa` fixes approved findings on their delivery or QA beads and confirms affected proofs after any review likely to change them.
 
 ## /hele-qa
 
@@ -78,7 +92,7 @@ Tip: check the whole configuration in [Configuration](configuration.md).
 
 ## /hele-verify-work
 
-One short changed-experience flow at a time. Open/Data/Steps come from the QA report in the chat language; preserve the executed/prepared label. Screenshots are optional. Backend-only work with no human flow proceeds to the normal close after the QA stop. A flow already marked pass is not shown again. A fix described on a flow goes back to the PRD, then the flow runs again. The close is the Options table from `templates/chat-reports.md`: 1 close and open a ready PR, 2 close and open a draft PR, 3 close with no PR, 4 back to the PRD.
+One short changed-experience flow at a time. Open/Data/Steps come from the QA report in the chat language; preserve the executed/prepared label. The exception is a flow corrected on the direct path: it is pending with an expected result rewritten in `VERIFY.md`, and it is shown from `VERIFY.md` because the QA report was deliberately not rebuilt. Screenshots are optional. Backend-only work with no human flow proceeds to the normal close after the QA stop. A flow already marked pass is not shown again. A fix described on a flow that fits the direct path is delivered directly and that flow is walked again; a larger one goes back to the PRD, then the flow runs again. The close is the Options table from `templates/chat-reports.md`: 1 close and open a ready PR, 2 close and open a draft PR, 3 close with no PR, 4 fix something (delivered directly when it fits the direct path, back to the PRD when it does not).
 
 ## Output rules
 

@@ -39,12 +39,14 @@ Record dispatch IDs and the pending step in bead notes as work starts. On restar
 </phase>
 
 <phase name="2-verify">
-1. Use one `BUILD: affected checks` bead and background Lisbon (`staff-lisbon-run`) for the final checks. Collect increment changes against the base, then run affected engineer-owned tests, typecheck and lint. Run the whole engineer-owned suite for shared config, lockfile, test setup/helper or schema changes, or when affected selection is unavailable. Record the scope and reusable evidence. Route failures to the owning delivery bead and rerun the final checks after fixes.
-2. On green, close the check bead, mark the plan built, and close the epic when its work is done.
+1. Use one `BUILD: affected checks` bead and background Lisbon (`staff-lisbon-run`) for the final checks. Collect increment changes against the base, then run affected engineer-owned tests, typecheck and lint. Run the whole engineer-owned suite for shared config, lockfile, test setup/helper or schema changes, or when affected selection is unavailable. Record the scope and reusable evidence.
+2. A failing check the increment's changes do not reach is recorded on the `BUILD: affected checks` bead as pre-existing, with its name and an error excerpt. It does not block green and it is never routed to a delivery bead or triaged. A failing check the changes do reach goes to the owning delivery bead, and the final checks rerun after the fix. A reached failing check its owner cannot explain stops for the "Unexplained failure" stop in `templates/chat-reports.md` before anyone else is called; nobody is dispatched until the human answers.
+3. Never build a worktree at a previous revision, install dependencies for one, or start a second environment to attribute a failure unless the human chose "compare" for this delivery. Then dispatch only Wylie (`qa-wylie-run`), for that one check.
+4. On green on the full path, close the check bead, mark the plan built, and close the epic when its work is done. Built is engineering evidence only; it does not mean QA or human acceptance.
 </phase>
 
 <phase name="3-pm-report">
-When the suite is green (phase 2 already set the plan `built`):
+When the suite is green on the full path (phase 2 already set the plan `built`):
 1. Emit a short report — Report/Scope and Field/Value only (outcome, done, decisions needed: none). Files, if any, are clickable links. No Actions table. Never draw `─`/`═` divider lines. Never wrap the report in a markdown code fence.
 2. Immediately read `${CLAUDE_PLUGIN_ROOT}/skills/hele-qa/SKILL.md` and execute it in this same turn. Auto-verify is not a sign-off.
 

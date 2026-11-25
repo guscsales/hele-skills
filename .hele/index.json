@@ -8,7 +8,11 @@
         "project setup",
         "project configuration",
         "memória do projeto",
-        "configuração do projeto"
+        "configuração do projeto",
+        "plugin update",
+        "installed version",
+        "atualizar plugin",
+        "versão instalada"
       ],
       "docs": {
         "prd": "1.0",
@@ -24,11 +28,19 @@
         "feature delivery",
         "delivery workflow",
         "entrega guiada",
-        "desenvolvimento de funcionalidades"
+        "desenvolvimento de funcionalidades",
+        "direct path",
+        "small fix",
+        "bugfix lane",
+        "fast lane",
+        "small change takes too long",
+        "caminho direto",
+        "correção pequena",
+        "mudança simples demora"
       ],
       "docs": {
-        "prd": "1.0",
-        "stubs": "1.0",
+        "prd": "1.1",
+        "stubs": "1.1",
         "plan": "1.0"
       }
     },
@@ -56,7 +68,13 @@
         "acceptance validation",
         "quality assurance",
         "validação de comportamento",
-        "verificação humana"
+        "verificação humana",
+        "qa",
+        "test selection",
+        "affected tests",
+        "pre-existing failure",
+        "seleção de testes",
+        "falha pré-existente"
       ],
       "docs": {
         "prd": "1.0",
