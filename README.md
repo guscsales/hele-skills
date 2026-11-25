@@ -6,7 +6,7 @@ A feature-delivery harness for agents like Claude Code, Cursor and others. One c
 
 **Core belief:** agents have no memory, so we build it for them. Every feature leaves behind documents that explain WHAT it is and WHY it exists, HOW it was built, and HOW to validate it. Future sessions read those documents instead of guessing.
 
-Work is organized in tasks using [beads](https://beads.gascity.com/) (`bd`), [Steve Yegge](https://github.com/steveyegge)'s dependency-aware issue tracker built for agents. Hele runs on it under the hood: every planned task becomes a beads issue, the build loop dispatches whatever `bd ready` unblocks, and an interrupted session resumes exactly where it stopped, the state lives in beads, not in the chat, allowing work with multiple sub-agents in an organized way.
+Work is organized in tasks using [beads](https://beads.gascity.com/) (`bd`), [Steve Yegge](https://github.com/steveyegge)'s dependency-aware issue tracker built for agents. Hele runs on it under the hood: on the full path every planned task becomes a beads issue (the direct path for small changes opens none), the build loop dispatches whatever `bd ready` unblocks, and an interrupted session resumes exactly where it stopped, the state lives in beads, not in the chat, allowing work with multiple sub-agents in an organized way.
 
 ## How you use it
 
@@ -15,8 +15,8 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 | Lane             | When                                                                  | What happens                                                                                                                                                                                                     |
 | ---------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
-| The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment.                                                                                                          |
-| The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane.                                                                                          |
+| The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, then one question pack if a rule would change. Takes the direct path by default: one engineer proves and fixes with targeted checks, and you get a close with evidence, with no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when the ask names an excluded surface or the engineer escalates.                                                                                                          |
+| The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change. Takes the direct path by default, like the Fast lane: one engineer reproduces, fixes and closes with evidence. It follows the full spine of the Fast lane only when the ask names an excluded surface or the engineer escalates.                                                                                          |
 | The Tweak Lane   | Copy, labels, typos, colors, spacing. No rule, no logic.              | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk.                                                              |
 | The Open Lane    | Research, review, investigation, design exploration, anything else.   | A conversation, with no PRD, until you pick **Let's formalize or say you're done.**                                                                                                                              |
 
@@ -62,13 +62,16 @@ Hele Skills Solves That. Welcome to you next level of creation.
     ▼
  ╭─ It detects the lane ────────────────────────────────╮
  │ Feature   questions, then PRD + stubs + 001          │
- │ Fast      questions when a rule would change         │
- │ Bugfix    questions only when the rule changes       │
+ │ Fast      direct; asks when a rule would change      │
+ │ Bugfix    direct; asks only when the rule changes    │
  │ Tweak     copy/style only: no PRD, plan or QA        │
  │ Open      research, review, investigation, design    │
  ╰──────────────────────────────────────────────────────╯
-    │  feature / fast / bugfix — /hele runs these
+    │  feature — /hele runs the full spine below
     │  tweak: one engineer, related checks only → close
+    │  fast / bugfix / fix: direct → one engineer, targeted proof → close
+    │    no plan, no beads, close with evidence
+    │  an excluded surface, named or found → escalates to the full spine below
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │
@@ -118,7 +121,7 @@ Hele Skills Solves That. Welcome to you next level of creation.
     ▼
  ╭─ close ────────────────────────────────────────────╮
  │ 1 ready PR · 2 draft PR · 3 close, no PR           │
- │ 4 back to the PRD                                  │
+ │ 4 fix something: direct if small, else the PRD     │
  ╰────────────────────────────────────────────────────╯
 
  ╭─ existing-suite audit (standalone) ─────────────────╮
@@ -131,9 +134,12 @@ Hele Skills Solves That. Welcome to you next level of creation.
  │ Product work in a new repo → init runs itself     │
  │ Stops: questions, PRD, design, DB schema,          │
  │ QA report, verify, close. Plan is for agents.      │
- │ A verify fix goes back to the PRD phase            │
+ │ A verify fix: a small fix goes direct,             │
+ │ a larger one goes back to the PRD phase            │
  │ Flow runs again. Passed walks stay passed          │
  │ Open lane stays a conversation until formalize     │
+ │ Never compares against an older revision           │
+ │ unless you choose it.                              │
  ╰────────────────────────────────────────────────────╯
 ```
 
@@ -151,7 +157,7 @@ In manual verification you check short grouped flows for the changed experience,
 
 Already past build and you found something you did not plan for? You can open a new PR, but sometimes you just want to fix at time.
 
-Still under `/hele`, Agent Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. Not a new Feature lane, a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
+Still under `/hele`, a correction that fits the direct path is delivered directly: one engineer fixes it, sets that flow back to pending in `VERIFY.md`, and you walk it again without a rebuilt plan or QA report. A larger correction, or one that touches an excluded surface, makes Agent Lisbon go back to the PRD on that same increment, update it, and run the flow again. Not a new Feature lane, a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
 
 ## Testing and existing E2E suites
 

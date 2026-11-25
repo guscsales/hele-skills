@@ -36,7 +36,8 @@ In those cases: proceed; Staff Note `Design` cell = `not needed`; record the ski
 Lisbon reads before she plans — plans cite real files, never vibes:
 1. The actual codebase: entry points, layers, existing patterns the increment touches.
 2. Project conventions: `CLAUDE.md`, `.agents/`, `.ai/` docs where present.
-3. If the increment folder does not exist yet, create `increments/NNN-<slug>/` (next number, goal slug). Do not write a phase anywhere.
+3. When the work escalated from the direct path, the engineer's findings (files read, which excluded surface each change touches, proposed split) are input to `<current-state>`. The direct-path attempt left no plan or beads to reuse; the full path plans and tracks the work from scratch.
+4. If the increment folder does not exist yet, create `increments/NNN-<slug>/` (next number, goal slug). Do not write a phase anywhere.
 
 Questions she cannot answer from code or docs go to the human now as the Question pack from `templates/chat-reports.md` (investigate first, one table, accept all / one by one / open reply). Technical trade-offs carry her recommendation. Do not drip.
 </phase>
@@ -52,7 +53,7 @@ Questions she cannot answer from code or docs go to the human now as the Questio
    - the rule: plan and DESIGN_SPEC prose = behavior and structure; pixels come from `get_jsx` (Paper) or the Figma equivalent. Screenshots are verification only. MCP/tool down → stop — do not invent UI from the plan.
    Each `<task agent="van-pelt">` UI `<description>` MUST **start** with that gate and the exact artboard ids for that task (never "see DESIGN_SPEC"). Do not treat DESIGN_SPEC `<layout>` as the visual source of truth — that paragraph is for `tool: code-reference` only.
 4. **DB gate — Agent Hightower.** Any task touching schema, indexes, backfills, or production seeds (new queries against existing structures do NOT count) → dispatch `[AGENT DBA] Hightower` (`${CLAUDE_PLUGIN_ROOT}/agents/dba-hightower.md` + `templates/db-changes.md`), model `dba-hightower`. She writes `increments/NNN/DB_CHANGES.md` as human-readable markdown (no XML): current vs proposed ER diagrams, a DB-n table, data migration, rollback, risks. In the same turn, copy that same DB-n list into this plan under `## Database` (current, proposed, changes, data migration, rollback, risks). The migration task's `<description>` names those DB-n rows. "See DB_CHANGES.md" is not the change. No database change → do not add `## Database`. She presents her signature block for a **separate, blocking approval**: build does not start while DB_CHANGES is draft. The plan itself is not the thing being approved. If `.hele/DATABASE.md` doesn't exist yet, she creates it first from the actual current schema. A later patch of the schema updates `DB_CHANGES.md` and the plan's `## Database` together.
-5. Register or reuse one epic for the increment and one bead per delivery task (title `T<n>: <description>`, dependencies mirrored), then write its ID in the plan’s `beads=""` attribute. When adjusting an increment, reopen the same epic and affected delivery beads as needed. Use the `bd` CLI; discover exact syntax via `bd --help` when needed.
+5. On the full path, register or reuse one epic for the increment and one bead per delivery task (title `T<n>: <description>`, dependencies mirrored), then write its ID in the plan’s `beads=""` attribute. When adjusting an increment, reopen the same epic and affected delivery beads as needed. Use the `bd` CLI; discover exact syntax via `bd --help` when needed.
 6. Update `index.json` docs (`plan: "1.0"`, and `db` when DB_CHANGES exists).
 </phase>
 

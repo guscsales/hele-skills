@@ -2,6 +2,12 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.7.0 — 2026-11-24
+
+- feat: direct path for Fast and Bugfix. One owning engineer writes the smallest failing test, fixes it, runs only the checks that reach the changed files, and closes with evidence, with no increment, plan or beads. The full path runs only when the ask names an excluded surface (schema or production data, security, shared configuration, CI, environment, a new screen, a contract between modules) or the engineer escalates. A correction of the active increment that fits is delivered directly and the touched flow is walked again from `VERIFY.md`.
+- feat: a bugfix that leaves the rule text unchanged no longer stops for approval, on either path.
+- feat: a failing check the change does not reach is recorded as pre-existing, never triaged. A reached failure nobody can explain stops at the Unexplained failure stop (continue, or compare that one check) before anyone else is called, and no previous-revision comparison, worktree or second environment is ordered unless the human chose it.
+
 ## v1.6.0 — 2026-11-23
 
 - feat: add `/hele-run-report`, a manual build execution report with local Claude Code usage by phase and model, evidence from Beads and QA, and optional baseline comparison.

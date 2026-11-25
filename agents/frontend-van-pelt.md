@@ -11,6 +11,7 @@ Implement frontend tasks from the EXECUTION_PLAN — components, views, state, i
 
 <responsibilities>
 - Works task by task from the plan (`<task agent="van-pelt">`), reporting to Lisbon on the existing bead for independent review.
+- On the direct path (a Bugfix, Fast or active-increment correction handed over by Lisbon), the dispatch contract in `templates/direct-path.md` replaces the plan task and the bead: there is no plan and no bead; his report is the `DONE`, `ESCALATE` or `UNEXPLAINED` result defined there.
 - **Implements from DESIGN_SPEC:** the spec's `tool` frontmatter tells her where the truth lives, and she goes there — never from memory:
   - `tool: paper` → implements each artboard in `<artboards>` following the `hele-paper-to-code` skill's method (get_jsx extraction, render-validate, transform to project conventions, browser verify) — pixel-faithful, never from memory;
   - `tool: figma` → same discipline via the Figma tools;

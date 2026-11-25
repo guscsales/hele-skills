@@ -32,6 +32,8 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 | Design | Report frame · Field/Value · Files (links) · Options |
 | Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
 | Build green | short report · no Options — start auto-verify |
+| Unexplained failure | Report frame · Field/Value (check, error, what it reaches) · the two-choice Options table, and nothing after it · call nobody · end the turn |
+| Direct close | Report frame · Field/Value (changed, proof, related checks, not run, pre-existing, rule delta) · Files (links) · Options (PR choices, or walk the touched flow) |
 | Dispatch | Dispatch table · one canned line (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`) · end the turn |
 | QA report | Report frame · Test results with evidence · CI impact · optional Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
 | Verify — each flow | Open table · Data table · Steps table · optional screenshot · Options |
@@ -49,7 +51,7 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
   `[PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)`
 
 - **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only. The English contract is `new BR-4 · rewritten BR-1`; render `new` and `rewritten` in the chat language. A first version says the chat-language rendering of `first version`. Under the table, when a delta was printed above, one line in the chat language: was / now for each rule is in the delta above. The English contract is `> 📌 **Was / now for each rule is in the delta above.**`
-- **Every interactive stop ends with the Options table, and that table is the only menu.** The two columns are the Actions column and the Your call column. Render those headers in the chat language. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2 (the Question pack is that exception). Free text stays in the current phase. At the Question pack, free text is option 3. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Back to the PRD`). That shape is not a menu.
+- **Every interactive stop ends with the Options table, and that table is the only menu.** The two columns are the Actions column and the Your call column. Render those headers in the chat language. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2 (the Question pack and the Unexplained failure stop are those exceptions). Free text stays in the current phase. At the Question pack, free text is option 3. At the Unexplained failure stop, free text stays on that stop and is not a third choice. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Fix something`). That shape is not a menu.
 - **Open channel.** After a Dispatch table, end the turn. The one line is the Dispatch closer from Language. Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
 - **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. Apply phase defaults where specified. Omit the model field and write `inherit` if the resolved choice is `inherit` or missing. Never pass the session model to a worker. Never invent a slug.
 - File artifacts are plain markdown. No emoji inside `.hele/` files.
@@ -70,11 +72,25 @@ The fences delimit the shape. Render every header, label, and sentence in the ch
 | Lane | PRD | What happens |
 |---|---|---|
 | 🆕 Feature | <slug> or new | questions → PRD + stubs → design? → agents build + auto-verify → you verify |
-| ⚡ Fast | <slug> | questions if a rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
-| 🐛 Bugfix | <slug> | questions only if the rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
+| ⚡ Fast · direct | <slug> | questions only if the rule is open → one engineer proves and fixes → close with evidence |
+| 🐛 Bugfix · direct | <slug> | questions only if the rule is open → one engineer proves and fixes → close with evidence |
+| ⚡ Fast · full | <slug> | questions if a rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
+| 🐛 Bugfix · full | <slug> | questions only if the rule changes → patch PRD + stubs → design? → agents build + auto-verify → you verify |
 | ✏️ Tweak | — | copy / style only, no rule → one engineer edits, runs only the checks that touch it, syncs PRD quotes — no PRD, plan, QA, or walk |
 | 🎼 Open | — | research / review / investigation / design explore — no PRD until Let's formalize |
 ```
+
+The path marker (`· direct` or `· full`) is part of the Lane cell for Fast and Bugfix. Print the one row that applies. Feature, Tweak and Open have no path marker. Render `direct`, `full` and the What-happens sentence in the chat language.
+
+When the engineer or the conductor moves work from the direct path to the full path, print this one-row Escalation line right after the Lane row it replaces, then continue on the full path:
+
+```
+| Escalation | Why |
+|---|---|
+| ⚡ Fast · direct → full | <reason> |
+```
+
+The English contract is `<lane> · direct → full — <reason>`. The first cell carries the lane emoji, the lane name and the arrow. The reason names the excluded surface that was found, in the chat language. Render `Escalation` and `Why` in the chat language.
 
 ## Files table
 
@@ -283,17 +299,17 @@ Print this shape in the chat language. The Options table is the menu. Do not add
 | 1 | 🚀 Work done — close and open a ready PR |
 | 2 | 📝 Work done — close and open a draft PR |
 | 3 | ✅ Work done — close, no PR |
-| 4 | ✏️ Back to the PRD — tell me what's wrong, or what to iterate |
+| 4 | ✏️ Fix something — tell me what's wrong, or what to iterate |
 ```
 
-A ready PR is ready for review. A draft PR is a draft. Free text that describes a fix is option 4, not option 2. If they only pick `4`, ask what is wrong before writing anything.
+A ready PR is ready for review. A draft PR is a draft. Free text that describes a fix is option 4, not option 2. If they only pick `4`, ask what is wrong before writing anything. The option does not name where the fix goes: `/hele`'s adjust phase decides once it knows what is wrong: direct when it fits, back to the PRD when it does not.
 
-**Issues still open** — same report frame, then this menu. Do not rewind unless they pick `1`.
+**Issues still open** — same report frame, then this menu. Do not start a fix unless they pick `1`.
 
 ```
 | Actions | Your call |
 |---|---|
-| 1 | ✏️ Back to the PRD — update it and run the flow again |
+| 1 | ✏️ Fix something — start the fix for what I marked |
 | 2 | ✏️ Tell me what you need |
 ```
 
@@ -301,7 +317,7 @@ A ready PR is ready for review. A draft PR is a draft. Free text that describes 
 
 **On `2` / free text of a document stop:** stay here. Do not silently advance. At the Question pack, free text is option 3.
 
-**Verify close option 4, or a fix described on the flow in front of them:** rewind to the PRD on this increment and run the flow again. Do not walk a flow they already marked pass, unless this fix changed it. Options 1 and 2 close first, then open the PR. Option 3 closes and stops.
+**Verify close option 4, Issues still open option 1, or a fix described on the flow in front of them:** the adjust phase of `/hele` decides where the fix goes (BR-13). A correction that fits the direct path is delivered there: the touched flow returns to pending and the human walks it again. Only a larger correction goes back to the PRD on this increment, and the flow runs again. Do not walk a flow they already marked pass, unless this fix changed it. Options 1 and 2 of the Verify close close first, then open the PR. Option 3 closes and stops.
 
 ## Manual verify — one flow
 
@@ -357,7 +373,7 @@ Add selected existing regressions (with feature-qualified IDs), reused versus fr
 
 ## QA report — your call
 
-Every ready report ends with this table. End the turn. Do not open the first manual-verify flow until they pick `1`. On `2`, if they already said what to fix, rewind to the PRD. If they only picked `2`, ask what they saw.
+Every ready report ends with this table. End the turn. Do not open the first manual-verify flow until they pick `1`. On `2`, if they already said what to fix, hand it to the adjust phase of `/hele`: direct when it fits, back to the PRD when it does not. If they only picked `2`, ask what they saw.
 
 ```
 | Actions | Your call |
@@ -378,6 +394,78 @@ Optional. Omit this section when no screenshot helps explain a visible change or
 | before / after | in the increment | [before.png](/Users/you/project/.hele/features/<slug>/increments/001-<slug>/screenshots/before.png) |
 | TS-009 | chat only | [TS-009.png](/Users/you/project/.hele/tmp/captures/<slug>/001-<slug>/TS-009.png) |
 ```
+
+## Unexplained failure (direct path or build)
+
+A check the change reaches fails and the owner cannot explain it. The delivery stops here before anyone else is called. Print this shape, in the chat language, and end the turn.
+
+```
+| Report | Scope |
+|---|---|
+| 🛑 UNEXPLAINED FAILURE | <feature or slug> · <lane> · direct |
+
+| Field | Value |
+|---|---|
+| Check | `<check name>` |
+| Error | `<one-line error excerpt>` |
+| Reaches | [<changed file>](/Users/you/project/<changed file>) |
+
+| Actions | Your call |
+|---|---|
+| 1 | ▶ Continue — record it as pre-existing — <estimate or unknown> |
+| 2 | 🔍 Compare against the previous revision for this one check — <estimate or unknown> |
+```
+
+- Exactly two rows. Each row ends with an estimated time for that choice, or `unknown` when there is no basis for an estimate. Never invent a number.
+- This is the documented exception to "option `2` is tell me what you need", like the Question pack. Row 2 is the comparison.
+- Nobody else is called before the human answers: no engineer, no Wylie, no second check. Free text stays on this stop and is not a third choice; answer it, then show the same two rows again.
+- `1`: record the failure as pre-existing, with its name and the error excerpt, and go on to the close. When the human chose `2`, and only then, dispatch Wylie to compare that one check against the previous revision; the scope is closed to that check.
+- On the build path the Scope cell says `build` where the direct path says `direct`. The stop is the same.
+
+## Direct close
+
+The close of a delivery on the direct path. One engineer proved and fixed the change, so there is no QA report and no plan. Print this shape in the chat language. Every row is one item. The Rule delta row is `unchanged` when no rule changed; when a rule changed, replace that cell with the PRD delta block above (New / Rewritten / Already the rule). Files lists the changed files; PRODUCT_DESCRIPTION.md and TEST_STUBS.md only when this delivery patched them.
+
+```
+| Report | Scope |
+|---|---|
+| ✅ DIRECT CLOSE | <lane> · direct · <slug> |
+
+| Field | Value |
+|---|---|
+| Changed | <what changed, one line> |
+| Proof | `<test path>` — failing → passing |
+| Related checks | <checks that ran and their result> |
+| Not run | <what was deliberately not run, and why> |
+| Pre-existing failures | `<check>` — `<error excerpt>` / none |
+| Rule delta | unchanged |
+
+| File | Change |
+|---|---|
+| [<changed file>](/Users/you/project/<changed file>) | changed |
+| [PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md) | patched v1.0.1 |
+| [TEST_STUBS.md](/Users/you/project/.hele/features/checkout-discount/TEST_STUBS.md) | patched v1.0.1 |
+
+| Actions | Your call |
+|---|---|
+| 1 | 🚀 Close and open a ready PR |
+| 2 | 📝 Close and open a draft PR |
+| 3 | ✅ Close, no PR |
+| 4 | ✏️ More to change — tell me what |
+```
+
+For a new bug or addition, this is the Options table. A ready PR is ready for review. A draft PR is a draft. Free text that describes another change is option 4; if they only pick `4`, ask what to change before writing anything.
+
+**Correction of the active increment.** The change corrected a flow of the increment already in play, so the close does not offer PR choices (the increment closes at its own verify). The Scope cell says `adjust · direct · <slug>`, the Files table adds the VERIFY.md row with the touched flow set back to pending, and the Options table is these two rows:
+
+```
+| Actions | Your call |
+|---|---|
+| 1 | 👀 Walk the touched flow now |
+| 2 | ✏️ Tell me what you need |
+```
+
+`1` opens the one touched flow in the Manual verify shape and nothing else; flows already marked pass are not walked again.
 
 ## Open-lane relay
 

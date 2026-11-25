@@ -10,13 +10,16 @@ export const FLOW_DIAGRAM = `
     ▼
  ╭─ It detects the lane ────────────────────────────────╮
  │ Feature   questions, then PRD + stubs + 001          │
- │ Fast      questions when a rule would change         │
- │ Bugfix    questions only when the rule changes       │
+ │ Fast      direct; asks when a rule would change      │
+ │ Bugfix    direct; asks only when the rule changes    │
  │ Tweak     copy/style only: no PRD, plan or QA        │
  │ Open      research, review, investigation, design    │
  ╰──────────────────────────────────────────────────────╯
-    │  feature / fast / bugfix — /hele runs these
+    │  feature — /hele runs the full spine below
     │  tweak: one engineer, related checks only → close
+    │  fast / bugfix / fix: direct → one engineer, targeted proof → close
+    │    no plan, no beads, close with evidence
+    │  an excluded surface, named or found → escalates to the full spine below
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │
@@ -66,7 +69,7 @@ export const FLOW_DIAGRAM = `
     ▼
  ╭─ close ────────────────────────────────────────────╮
  │ 1 ready PR · 2 draft PR · 3 close, no PR           │
- │ 4 back to the PRD                                  │
+ │ 4 fix something: direct if small, else the PRD     │
  ╰────────────────────────────────────────────────────╯
 
  ╭─ existing-suite audit (standalone) ─────────────────╮
@@ -79,8 +82,11 @@ export const FLOW_DIAGRAM = `
  │ Product work in a new repo → init runs itself     │
  │ Stops: questions, PRD, design, DB schema,          │
  │ QA report, verify, close. Plan is for agents.      │
- │ A verify fix goes back to the PRD phase            │
+ │ A verify fix: a small fix goes direct,             │
+ │ a larger one goes back to the PRD phase            │
  │ Flow runs again. Passed walks stay passed          │
  │ Open lane stays a conversation until formalize     │
+ │ Never compares against an older revision           │
+ │ unless you choose it.                              │
  ╰────────────────────────────────────────────────────╯
 `.replace(/^\n/, '').replace(/\n$/, '');

@@ -32,8 +32,8 @@ Agent Lisbon, the Builder, detects the lane and runs the rest. You never type `/
 | Lane | When | What happens |
 | --- | --- | --- |
 | The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
-| The Fast Lane | A small addition to what already exists, a product increment. | Investigates first, then one question pack if a rule would change, then a PRD patch and a new increment. |
-| The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change, then reconciles the docs and follows the same spine of the fast lane. |
+| The Fast Lane | A small addition to what already exists, a product increment. | Investigates first, then one question pack if a rule would change. Takes the direct path by default: one engineer proves and fixes with targeted checks, and you get a close with evidence, with no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when the ask names an excluded surface or the engineer escalates. |
+| The Bugfix Lane | Today's behavior is wrong. | Question pack only if the rule text would change. Takes the direct path by default, like the Fast lane: one engineer reproduces, fixes and closes with evidence. It follows the full spine of the Fast lane only when the ask names an excluded surface or the engineer escalates. |
 | The Tweak Lane | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk. |
 | The Open Lane | Research, review, investigation, design exploration, anything else. | A conversation, with no PRD, until you pick **Let's formalize or say you're done.** |
 
@@ -53,7 +53,7 @@ Every file in a chat table is a clickable link. The label is the file name. The 
 
 Already past build and you found something you did not plan for? You can open a new PR, but sometimes you just want to fix at the time.
 
-Still under `/hele`, Agent Lisbon goes back to the PRD on that same increment, updates it, and the flow runs again. Not a new Feature lane, but a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
+Still under `/hele`, a correction that fits the direct path is delivered directly: one engineer fixes it, sets that flow back to pending in `VERIFY.md`, and you walk it again without a rebuilt plan or QA report. A larger correction, or one that touches an excluded surface, makes Agent Lisbon go back to the PRD on that same increment, update it, and run the flow again. Not a new Feature lane, but a complement, even when you discover this in the middle of the manual verification. What you already marked pass stays passed, unless that fix changed it.
 
 You talk to Lisbon. Review, the suite, and reading code go to background subagents. The roster is in [The agent team](introduction.md#the-agent-team).
 

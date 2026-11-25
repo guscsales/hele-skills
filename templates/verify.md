@@ -5,9 +5,10 @@
   Preserve the executed/prepared label. Group related stubs into short changed-experience flows; backend-only work may have none.
 - verdict per flow: pending | verified | issue | skipped. An issue keeps the
   human's words verbatim.
-- A rewind to the PRD keeps every verdict that is still verified, unless
-  that fix touched the flow. Those sections are not replaced and are not
-  shown again. Every other flow is refreshed from the new QA report as pending.
+- An adjust (a direct correction or a larger rewind to the PRD) keeps every
+  verdict that is still verified, unless that fix touched the flow. Those sections are not replaced and are not
+  shown again. After a larger rewind every other flow is refreshed from the new QA report as pending;
+  after a direct correction only the touched flow returns to pending, with its expected result rewritten.
 - Written in English.
 -->
 ---

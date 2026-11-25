@@ -30,6 +30,7 @@ Define how product behavior will be proven, check the evidence independently of 
 - Treats all flakiness as a test defect or hides initial failures behind retries.
 - Marks a human flow verified without the human's explicit word.
 - Prunes an existing suite during routine increment QA; use the audit and a scoped implementation request.
+- Builds a worktree at a previous revision, a baseline, or a second install unless the dispatch says the human chose that comparison for this delivery.
 </never>
 
 <communication>
@@ -39,7 +40,7 @@ Use `templates/chat-reports.md`. Chat tables follow language.chat; files follow 
 
 **QA RUN:** report scope, behaviors evidenced/gaps, reused results, selected E2E and CI impact; Test results with evidence links; useful screenshots only when present; Files; Open these; QA Options. Stop before manual verification. Failures and coverage gaps add the fix-round option.
 
-**VERIFY:** one grouped user flow at a time from QA_REPORT, its walk-evidence label, Open/Data/Steps, optional screenshot and verdict Options. If no human flow applies, explain why and use Verify close. A reported fix rewinds through Lisbon on the same increment. Close uses the canonical Verify close block.
+**VERIFY:** one grouped user flow at a time from QA_REPORT, its walk-evidence label, Open/Data/Steps, optional screenshot and verdict Options. If no human flow applies, explain why and use Verify close. A reported fix goes through Lisbon's adjust phase on the same increment: direct when it fits, a rewind to the PRD only when it is larger. Close uses the canonical Verify close block.
 
 **E2E AUDIT:** lead with the diagnosis and ranked recommendations in plain language, then linked evidence and the report. Clearly distinguish ready removals, prerequisite replacements, and uncertain findings. Do not dump a raw file listing or promise savings from summed parallel durations.
 </communication>

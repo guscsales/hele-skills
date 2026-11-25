@@ -3363,13 +3363,16 @@ var FLOW_DIAGRAM = `
     \u25BC
  \u256D\u2500 It detects the lane \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
  \u2502 Feature   questions, then PRD + stubs + 001          \u2502
- \u2502 Fast      questions when a rule would change         \u2502
- \u2502 Bugfix    questions only when the rule changes       \u2502
+ \u2502 Fast      direct; asks when a rule would change      \u2502
+ \u2502 Bugfix    direct; asks only when the rule changes    \u2502
  \u2502 Tweak     copy/style only: no PRD, plan or QA        \u2502
  \u2502 Open      research, review, investigation, design    \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
-    \u2502  feature / fast / bugfix \u2014 /hele runs these
+    \u2502  feature \u2014 /hele runs the full spine below
     \u2502  tweak: one engineer, related checks only \u2192 close
+    \u2502  fast / bugfix / fix: direct \u2192 one engineer, targeted proof \u2192 close
+    \u2502    no plan, no beads, close with evidence
+    \u2502  an excluded surface, named or found \u2192 escalates to the full spine below
     \u25BC
  \u256D\u2500 questions \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 STOP \u2500\u256E
  \u2502 Agent Lisbon                                         \u2502
@@ -3419,7 +3422,7 @@ var FLOW_DIAGRAM = `
     \u25BC
  \u256D\u2500 close \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
  \u2502 1 ready PR \xB7 2 draft PR \xB7 3 close, no PR           \u2502
- \u2502 4 back to the PRD                                  \u2502
+ \u2502 4 fix something: direct if small, else the PRD     \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
 
  \u256D\u2500 existing-suite audit (standalone) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256E
@@ -3432,9 +3435,12 @@ var FLOW_DIAGRAM = `
  \u2502 Product work in a new repo \u2192 init runs itself     \u2502
  \u2502 Stops: questions, PRD, design, DB schema,          \u2502
  \u2502 QA report, verify, close. Plan is for agents.      \u2502
- \u2502 A verify fix goes back to the PRD phase            \u2502
+ \u2502 A verify fix: a small fix goes direct,             \u2502
+ \u2502 a larger one goes back to the PRD phase            \u2502
  \u2502 Flow runs again. Passed walks stay passed          \u2502
  \u2502 Open lane stays a conversation until formalize     \u2502
+ \u2502 Never compares against an older revision           \u2502
+ \u2502 unless you choose it.                              \u2502
  \u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256F
 `.replace(/^\n/, "").replace(/\n$/, "");
 
@@ -3448,7 +3454,10 @@ var SKILLS = [
     question: "THE CONDUCTOR",
     detail: `The only entry point for product work. Auto-inits when .hele/ is
 missing. Detects Feature / Fast / Bugfix / Tweak / Open and runs the phase
-skills. Product questions are a stop that writes nothing: investigate
+skills. Fast and Bugfix take the direct path by default (one engineer,
+targeted proof, a close with evidence, no increment, plan or beads) and
+the full path when the ask names an excluded surface or the engineer
+escalates. Product questions are a stop that writes nothing: investigate
 first, then one pack if anything useful remains (accept all /
 one by one / reply in words). After the PRD is approved (and design,
 when there are new screens), the agents
@@ -3456,10 +3465,12 @@ write the plan, build, and check coverage plus selected E2E with no
 additional sign-off. Screenshots are optional. The QA
 report is your next prompt: continue to the manual walk, or fix what
 you saw. The walk is tables for how to open the page, the data, and
-each step. A fix goes back to the PRD on that same increment, and the
-flow runs again. Flows already marked pass are not walked again. A
-database change still stops. Files in chat are clickable links. Type
-it once \u2014 follow-ups stay sticky.`
+each step. A fix that fits the direct path is delivered directly and
+the touched flow is walked again; a larger one goes back to the PRD on
+that same increment, and the flow runs again. Flows already marked pass
+are not walked again. A database change still stops. Beads and the agent
+chain stay on the full path. Files in chat are clickable links. Type it
+once \u2014 follow-ups stay sticky.`
   },
   {
     name: "init",
@@ -3530,8 +3541,12 @@ checks evidence and prepares short human flows.`
 Lisbon can review related changes together, with a verdict per bead.
 Resume the original worker for fix-ups when possible. Migrations require
 approved DB_CHANGES. --from-qa reuses current evidence and waits for
-reviews likely to change the proof before confirming. Green final
-checks start auto-verify.`
+reviews likely to change the proof before confirming. A failing final
+check the increment does not reach is recorded as pre-existing and does
+not block green. A reached failure nobody can explain stops at the
+Unexplained failure stop before anyone else is called. No comparison
+with a previous revision runs unless you chose it. Green final checks
+start auto-verify.`
   },
   {
     name: "qa",
@@ -3559,21 +3574,33 @@ right level, then refreshes the report using valid results.`
 and Steps tables for grouped changed-experience flows. Screenshots
 are optional; walks are labeled executed or prepared. No meaningful
 human flow (for example backend-only work) goes to the normal close. A fix
-described on a flow goes back to the PRD, then the flow runs again.
-Flows already marked pass are not shown again. Close: 1 ready
-PR, 2 draft PR, 3 close with no PR, 4 back to the PRD.`
+described on a flow that fits the direct path is delivered directly,
+then that flow runs again; a larger one goes back to the PRD. A flow
+corrected on the direct path is shown from VERIFY.md. Flows already
+marked pass are not shown again. Close: 1 ready PR, 2 draft PR,
+3 close with no PR, 4 fix something (direct if it fits, else the PRD).`
   },
   {
     name: "fast",
     agent: "Agent Lisbon",
-    artifact: "patched PRD + new increment + spine",
+    artifact: "direct: fix + proof \xB7 full: PRD + increment",
     question: "FAST / BUGFIX LANE",
     detail: `Update lane under /hele. Investigate first. One question pack
-when a rule would change, then patch the PRD, stub delta, new increment,
-then plan, build, and auto-verify. A bugfix that leaves the rule text
-alone does not stop to ask. A correction of the increment already in
-play stays on that increment. Schema and security stay with Hightower
-and Jane.`
+when a rule would change. The direct path is the default: one background
+engineer writes the smallest failing test, fixes it, runs only the checks
+that reach the changed files, and the close shows the evidence. No
+increment, no plan, no beads. The full path (patch the PRD, stub delta,
+new increment, then plan, build, and auto-verify) runs when the ask names
+an excluded surface (schema or production data, security, shared
+configuration, CI, environment, a new screen, a contract between
+modules) or the engineer escalates; his findings feed the plan. TDD and
+the named agents never shrink. A bugfix on an unchanged rule never stops
+to ask, on either path. A failing check the change does not reach is
+recorded as pre-existing, never triaged. A reached failure nobody can
+explain is the Unexplained failure stop: continue as pre-existing, or
+compare that one check against the previous revision, which only runs if
+you chose it. A correction of the increment already in play stays on that
+increment. Schema and security stay with Hightower and Jane.`
   },
   {
     name: "tweak",
