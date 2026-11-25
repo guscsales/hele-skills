@@ -20,6 +20,7 @@ Reconstruct a missing/stale QA report from test outputs, coverage mappings, code
 - Exclude only explicitly retired behavior backed by a PRD retirement decision; blocked or missing tests still require resolution.
 - Scope includes the increment's new/rewritten stubs plus existing behaviors and journeys affected by the diff, even across features. Record why each suite was selected and what broader verification is deferred to an actual CI stage.
 - Do not write state.json, NOTES.md, LEARNINGS.md, or findings.json. A QA report is always produced, including when no E2E is needed.
+- How much of the report the chat shows comes from the effective output: run `${CLAUDE_PLUGIN_ROOT}/scripts/hele config effective output` once per session before the first report and follow `## Output` in `templates/chat-reports.md`. That choice is chat presentation only: `QA_REPORT.md`, `VERIFY.md`, the evidence and the tests run are the same under every setting. Never carry a preset, a level or a row limit of your own.
 </context>
 
 <phase name="1-review-coverage">
@@ -43,20 +44,20 @@ Reconstruct a missing/stale QA report from test outputs, coverage mappings, code
 4. Classify unresolved findings: `product-bug`, `coverage-gap`, `test-defect`, `contract-question`, `polish`, or `blocked`. Link the evidence, impact and required check to the owning delivery bead in the report. Put independent work on a new `QA:` bead under this increment’s epic. Contract questions go to Lisbon/the human, never silently weaken an assertion to match the code. Keep the report available even if a question or blocker remains; pending decisions prevent green.
 5. Write `increments/NNN-<slug>/QA_REPORT.md` from `templates/qa-report.md` every assessment, green or red. Include each required stub's title/rule title, level, test path/title, assertions/boundaries, command/result/code identity, and gaps. Include selected regressions, reuse decisions, E2E added/extended/removed counts, CI stage/selection changes, and measured timing or explicitly unknown impact. Rigsby implements any planned execution-map/CI updates; do not claim a proposed workflow already runs.
 6. For user-visible changes, prepare short grouped human flows with Open/Data/Steps tables. Label each as executed or prepared, not executed. Backend-only changes can explain that no human flow applies. Write VERIFY.md from these sections, independent of whether Playwright ran. Preserve verified flows unless their behavior or setup changed. Never invent a replay or mark a human flow verified from automated evidence.
-7. Inspect and palette useful screenshots if any, retain at most qa.maxScreenshots, and embed only kept images. Remove only superseded images owned by this increment's report; do not delete project baseline assets. Report optional screenshots without turning their absence into a coverage gap. Close the CHECK bead when the report is recorded; approved but unresolved fixes stay open.
+7. Inspect and palette useful screenshots if any, retain at most qa.maxScreenshots, and embed only kept images. Remove only superseded images owned by this increment's report; do not delete project baseline assets. Report optional screenshots without turning their absence into a coverage gap. The chat level for screenshots (`screenshots`, see `## Shots (screenshots)`) is presentation only: `qa.maxScreenshots` stays the retention ceiling, and the chat level never changes what is captured or kept. Close the CHECK bead when the report is recorded; approved but unresolved fixes stay open.
 </phase>
 
 <phase name="4-report-and-route">
 Emit Wylie's **QA RUN** signature — chat text, never fenced. Order:
 1. Report/Scope, Field/Value (behaviors evidenced, gaps, selected E2E, reused build runs, CI impact)
-2. Test results table. Stub and Rule cells carry the title (`TS-008 · <title>`, `BR-9 · <title>`). The Evidence cell names the level and links the test/result; screenshots are optional.
-3. If screenshots were useful, show the kept images inline. This is the same look you already did before the file was written: the proven element is in the frame. A shot that fails that look is recaptured, not shown.
-4. Shots table from chat-reports.md only when there are shots (kept vs chat only). Each screenshot cell is a markdown link.
-5. Files table. QA_REPORT.md is a markdown link (file name, absolute path on one line).
+2. Test results at the effective `qaResults` level (`## Test results (qaResults)` in `templates/chat-reports.md`). Stub and Rule cells carry the title (`TS-008 · <title>`, `BR-9 · <title>`). The Evidence cell names the level and links the test/result; screenshots are optional. Failures, coverage gaps, blockers and pending decisions are always shown, one line each with id and cause, outside the row limit at every level and under every setting, and a request in the message to hide them gives less detail, never fewer items.
+3. If screenshots were useful and the effective `screenshots` level shows them inline, show the kept images inline. This is the same look you already did before the file was written: the proven element is in the frame. A shot that fails that look is recaptured, not shown.
+4. Shots at the effective `screenshots` level (`## Shots (screenshots)`: `off`, `links` or `inline`) only when there are shots (kept vs chat only). Each screenshot cell is a markdown link.
+5. Files table. QA_REPORT.md is a markdown link (file name, absolute path on one line). QA_REPORT.md is written complete at every setting; an omitted detail is not missing evidence and stays linked from the report that omitted it.
 6. Open these table (project root + QA report)
 7. Options table. Every ready report stops here. Do not start the manual walk in this turn.
 
-Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; XML in QA_REPORT.
+Forbidden: wrapping the report in a markdown code fence; drawing box-drawing divider lines; XML in QA_REPORT; hiding an issue because of the output level.
 
 Then the Options table, and end the turn. The report is the stop. Do not open the first manual-verify flow until they pick continue. The menu below is the English contract. Render it in the chat language.
 

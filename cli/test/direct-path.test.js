@@ -340,7 +340,6 @@ describe('direct path in the drawing and help', () => {
     const newest = read('../../CHANGELOG.md').match(/^## v(\d+\.\d+\.\d+)/m)[1];
     assert.equal(JSON.parse(read('../../.claude-plugin/plugin.json')).version, newest);
     assert.match(read('../../.claude-plugin/marketplace.json'), new RegExp(`"version": "${newest.replace(/\./g, '\\.')}"`));
-    assert.equal(newest, '1.7.0');
   });
 });
 

@@ -34,7 +34,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 <phase name="2-write">
 1. Append/patch `TEST_STUBS.md`, bump its patch version, set `based_on` to the exact PRD version, update `index.json` docs (`stubs`).
 2. **Do not draft VERIFY.md** — `/hele-qa` writes the human replay script from the QA run.
-3. Return to the parent skill: stub table rows and Coverage recommendations, a clickable link to TEST_STUBS.md (file name as the label, absolute path on one line), version. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with that Files link and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the QA report.
+3. Return to the parent skill: the complete stub rows, the counts (feature total, new, revised and retired), the Coverage rows, a clickable link to TEST_STUBS.md (file name as the label, absolute path on one line), version. The parent decides what chat shows from the effective output (`chat-reports.md`, `## Output`); the return is never shortened for chat. If this skill was invoked alone (legacy), emit Wylie's **STUBS** signature with that Files link and Options — option `1` → build and auto-verify (Lisbon writes the plan for the agents; do not stop for a plan sign-off). The human's next prompt is the QA report.
 </phase>
 
 <rules>

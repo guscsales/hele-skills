@@ -3229,6 +3229,159 @@ function findCommand(queryWords, opts) {
 // src/config.js
 var import_node_fs3 = __toESM(require("node:fs"), 1);
 var import_node_path3 = __toESM(require("node:path"), 1);
+
+// src/output.js
+var PLUGIN_DEFAULT_PRESET = "compact";
+var OUTPUT_PRESETS = {
+  compact: {
+    tables: "auto",
+    maxTableRows: 8,
+    sections: {
+      testStubs: "summary",
+      coverage: "summary",
+      prdDelta: "summary",
+      qaResults: "issues",
+      dispatch: "brief",
+      screenshots: "links"
+    }
+  },
+  standard: {
+    tables: "auto",
+    maxTableRows: 15,
+    sections: {
+      testStubs: "summary",
+      coverage: "summary",
+      prdDelta: "full",
+      qaResults: "issues",
+      dispatch: "brief",
+      screenshots: "links"
+    }
+  },
+  detailed: {
+    tables: "always",
+    maxTableRows: 30,
+    sections: {
+      testStubs: "full",
+      coverage: "full",
+      prdDelta: "full",
+      qaResults: "full",
+      dispatch: "full",
+      screenshots: "inline"
+    }
+  }
+};
+var SECTION_VALUES = {
+  testStubs: ["off", "summary", "full"],
+  coverage: ["off", "summary", "full"],
+  prdDelta: ["summary", "full"],
+  qaResults: ["summary", "issues", "full"],
+  dispatch: ["brief", "full"],
+  screenshots: ["off", "links", "inline"]
+};
+var SECTION_KEYS = Object.keys(SECTION_VALUES);
+var isPlainObject = (v) => typeof v === "object" && v !== null && !Array.isArray(v);
+var OUTPUT_KEYS = {
+  preset: (v) => typeof v === "string" && Object.hasOwn(OUTPUT_PRESETS, v),
+  tables: (v) => v === "auto" || v === "always",
+  maxTableRows: (v) => typeof v === "number" && Number.isInteger(v) && v > 0
+};
+var sectionValid = (name, v) => typeof v === "string" && SECTION_VALUES[name].includes(v);
+function describeAllowed(key) {
+  if (key === "preset") return "compact | standard | detailed";
+  if (key === "tables") return "auto | always";
+  if (key === "maxTableRows") return "a positive integer";
+  return SECTION_VALUES[key].join(" | ");
+}
+function checkSections(value, label) {
+  if (!isPlainObject(value)) return `${label} must be an object`;
+  for (const [k, v] of Object.entries(value)) {
+    if (!Object.hasOwn(SECTION_VALUES, k)) {
+      return `${label}.${k} is not an output setting (allowed: ${SECTION_KEYS.join(", ")})`;
+    }
+    if (!sectionValid(k, v)) return `${label}.${k} must be ${describeAllowed(k)}`;
+  }
+  return null;
+}
+function validateOutputWrite(keys, value) {
+  const rest = keys.slice(1);
+  if (rest.length === 0) {
+    if (!isPlainObject(value)) return "output must be an object";
+    for (const [k, v] of Object.entries(value)) {
+      if (k === "sections") {
+        const err = checkSections(v, "output.sections");
+        if (err) return err;
+      } else if (Object.hasOwn(OUTPUT_KEYS, k)) {
+        if (!OUTPUT_KEYS[k](v)) return `output.${k} must be ${describeAllowed(k)}`;
+      } else {
+        return `output.${k} is not an output setting (allowed: preset, tables, maxTableRows, sections)`;
+      }
+    }
+    return null;
+  }
+  if (rest.length === 1) {
+    const [k] = rest;
+    if (k === "sections") return checkSections(value, "output.sections");
+    if (Object.hasOwn(OUTPUT_KEYS, k)) {
+      return OUTPUT_KEYS[k](value) ? null : `output.${k} must be ${describeAllowed(k)}`;
+    }
+    return `output.${k} is not an output setting (allowed: preset, tables, maxTableRows, sections)`;
+  }
+  if (rest.length === 2 && rest[0] === "sections") {
+    const name = rest[1];
+    if (!Object.hasOwn(SECTION_VALUES, name)) {
+      return `output.sections.${name} is not an output setting (allowed: ${SECTION_KEYS.join(", ")})`;
+    }
+    return sectionValid(name, value) ? null : `output.sections.${name} must be ${describeAllowed(name)}`;
+  }
+  return `${keys.join(".")} is not an output setting`;
+}
+function resolveEffectiveOutput(settings) {
+  const warnings = [];
+  const saved = isPlainObject(settings) ? settings.output : void 0;
+  let presetName = PLUGIN_DEFAULT_PRESET;
+  let top = {};
+  let sections;
+  if (saved !== void 0 && !isPlainObject(saved)) {
+    warnings.push({ key: "output", saved, used: PLUGIN_DEFAULT_PRESET, reason: "not-object" });
+  } else if (isPlainObject(saved)) {
+    if ("preset" in saved) {
+      if (OUTPUT_KEYS.preset(saved.preset)) presetName = saved.preset;
+      else warnings.push({ key: "output.preset", saved: saved.preset, used: PLUGIN_DEFAULT_PRESET, reason: "invalid" });
+    }
+    top = saved;
+    sections = saved.sections;
+  }
+  const preset = OUTPUT_PRESETS[presetName];
+  const result = { preset: presetName, tables: preset.tables, maxTableRows: preset.maxTableRows, sections: { ...preset.sections }, warnings };
+  for (const [k, v] of Object.entries(top)) {
+    if (k === "preset" || k === "sections") continue;
+    if (!Object.hasOwn(OUTPUT_KEYS, k)) {
+      warnings.push({ key: `output.${k}`, saved: v, used: null, reason: "unknown" });
+    } else if (OUTPUT_KEYS[k](v)) {
+      result[k] = v;
+    } else {
+      warnings.push({ key: `output.${k}`, saved: v, used: preset[k], reason: "invalid" });
+    }
+  }
+  if (sections !== void 0) {
+    if (!isPlainObject(sections)) {
+      warnings.push({ key: "output.sections", saved: sections, used: presetName, reason: "not-object" });
+    } else {
+      for (const [k, v] of Object.entries(sections)) {
+        if (!Object.hasOwn(SECTION_VALUES, k)) {
+          warnings.push({ key: `output.sections.${k}`, saved: v, used: null, reason: "unknown" });
+        } else if (sectionValid(k, v)) {
+          result.sections[k] = v;
+        } else {
+          warnings.push({ key: `output.sections.${k}`, saved: v, used: preset.sections[k], reason: "invalid" });
+        }
+      }
+    }
+  }
+  return result;
+}
+
+// src/config.js
 function parseValue(raw) {
   try {
     return JSON.parse(raw);
@@ -3244,7 +3397,18 @@ function loadSettings(heleDir) {
   }
   return { settingsPath, settings: JSON.parse(import_node_fs3.default.readFileSync(settingsPath, "utf8")) };
 }
+function effectiveCommand(dotPath) {
+  if (dotPath !== "output") {
+    console.error('ERROR: effective requires the path "output" (hele config effective output)');
+    process.exit(2);
+  }
+  const heleDir = resolveHeleDir();
+  const settingsPath = heleDir && import_node_path3.default.join(heleDir, "settings.json");
+  const settings = settingsPath && import_node_fs3.default.existsSync(settingsPath) ? JSON.parse(import_node_fs3.default.readFileSync(settingsPath, "utf8")) : {};
+  console.log(JSON.stringify(resolveEffectiveOutput(settings), null, 2));
+}
 function configCommand(action, dotPath, rawValue) {
+  if (action === "effective") return effectiveCommand(dotPath);
   const heleDir = requireHeleDir();
   const { settingsPath, settings } = loadSettings(heleDir);
   if (action === "list") {
@@ -3259,7 +3423,7 @@ function configCommand(action, dotPath, rawValue) {
   if (action === "get") {
     let node2 = settings;
     for (const k of keys) {
-      if (typeof node2 !== "object" || node2 === null || !(k in node2)) {
+      if (typeof node2 !== "object" || node2 === null || !Object.hasOwn(node2, k)) {
         console.error("ERROR: path not found");
         process.exit(1);
       }
@@ -3268,11 +3432,45 @@ function configCommand(action, dotPath, rawValue) {
     console.log(JSON.stringify(node2, null, 2));
     return;
   }
+  if (action === "unset") {
+    let parent = settings;
+    for (const k of keys.slice(0, -1)) {
+      if (typeof parent !== "object" || parent === null || Array.isArray(parent) || !Object.hasOwn(parent, k)) {
+        console.error("ERROR: path not found");
+        process.exit(1);
+      }
+      parent = parent[k];
+    }
+    const last = keys.at(-1);
+    if (typeof parent !== "object" || parent === null || Array.isArray(parent) || !Object.hasOwn(parent, last)) {
+      console.error("ERROR: path not found");
+      process.exit(1);
+    }
+    delete parent[last];
+    import_node_fs3.default.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
+    console.log(`OK: unset ${dotPath}`);
+    return;
+  }
+  if (action !== "set" && action !== "add") {
+    console.error(`ERROR: unknown action "${action}" (get | set | add | unset | list | effective)`);
+    process.exit(2);
+  }
   if (rawValue === void 0) {
     console.error(`ERROR: ${action} requires a value`);
     process.exit(2);
   }
   const value = parseValue(rawValue);
+  if (keys[0] === "output") {
+    if (action === "add") {
+      console.error("ERROR: no output setting is a list");
+      process.exit(1);
+    }
+    const problem = validateOutputWrite(keys, value);
+    if (problem) {
+      console.error(`ERROR: ${problem}`);
+      process.exit(1);
+    }
+  }
   let node = settings;
   for (const k of keys.slice(0, -1)) {
     if (!(k in node)) node[k] = {};
@@ -3292,9 +3490,6 @@ function configCommand(action, dotPath, rawValue) {
       process.exit(1);
     }
     if (!node[leaf].some((v) => JSON.stringify(v) === JSON.stringify(value))) node[leaf].push(value);
-  } else {
-    console.error(`ERROR: unknown action "${action}" (get | set | add | list)`);
-    process.exit(2);
   }
   import_node_fs3.default.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
   console.log(`OK: ${dotPath} = ${JSON.stringify(node[leaf])}`);
@@ -3482,7 +3677,11 @@ features/), installs the sticky session rule so /hele stays in force,
 asks how design works, and runs hele install for beads. That command
 creates the project database and leaves AGENTS.md and CLAUDE.md
 untouched. The folder is always .hele/. No state file. When /hele
-finds no .hele/, it runs this and continues the ask.`
+finds no .hele/, it runs this and continues the ask. A new project
+saves output.preset compact (how much of each report shows in chat);
+an existing project gets it only when missing, and no section value,
+tables or maxTableRows is ever written. Read the resolved setting with
+hele config effective output.`
   },
   {
     name: "feature",
@@ -3493,9 +3692,13 @@ finds no .hele/, it runs this and continues the ask.`
 remain, one pack: accept all recommendations, answer one by one, or
 reply in words. That round writes nothing. Only then does she write
 or patch the PRD and dispatch Wylie for stubs in the same stop.
-Emits a PRD delta and clickable file links. Option 1 goes to design,
-or to build and auto-verify when design is not needed. Started by
-/hele.`
+Emits a PRD delta and clickable file links; how much of the delta,
+scenarios and coverage shows in chat follows the output setting
+(hele config effective output). Documents stay complete. Every new,
+rewritten and retired rule, product question, decision and approval
+option always shows, and "show all TS" expands on request. Option 1
+goes to design, or to build and auto-verify when design is not needed.
+Started by /hele.`
   },
   {
     name: "design",
@@ -3563,7 +3766,10 @@ zero screenshots can be valid. Useful screenshots stay readable at
 1920x1080 within qa.maxScreenshots. --generate-fixes-report rebuilds
 the report from evidence without reruns; unknown proof stays pending.
 The report stops before the human walk. --from-qa confirms at the
-right level, then refreshes the report using valid results.`
+right level, then refreshes the report using valid results. Chat
+detail follows the output setting (hele config effective output):
+QA_REPORT.md stays complete, every failure, gap and blocker always
+shows with its id and cause, and "show the full QA report" expands.`
   },
   {
     name: "verify-work",
@@ -3577,7 +3783,8 @@ human flow (for example backend-only work) goes to the normal close. A fix
 described on a flow that fits the direct path is delivered directly,
 then that flow runs again; a larger one goes back to the PRD. A flow
 corrected on the direct path is shown from VERIFY.md. Flows already
-marked pass are not shown again. Close: 1 ready PR, 2 draft PR,
+marked pass are not shown again. Every step of a flow always shows,
+whatever the output setting. Close: 1 ready PR, 2 draft PR,
 3 close with no PR, 4 fix something (direct if it fits, else the PRD).`
   },
   {
@@ -3629,7 +3836,8 @@ Every cut names surviving coverage or a prerequisite replacement.
 Reports measured timing separately from estimates and unknowns;
 never promises savings by adding parallel test durations. The output
 is a ranked, reviewable report and an implementation sequence.
-Applying the recommendations is a separate scoped request.`
+Applying the recommendations is a separate scoped request. The chat
+summary follows the output setting; E2E_AUDIT.md stays complete.`
   },
   {
     name: "run-report",
@@ -3705,7 +3913,7 @@ program2.name("hele").description("hele \u2014 feature-delivery harness CLI").ve
   "\nNew here? Run `hele ai` to understand the AI workflow \u2014 the skills, the agents, and what each phase produces."
 );
 program2.command("find").description("search the feature index (anti-duplicate gate; agents MUST use this, never ad-hoc grep)").argument("[query...]", "search terms").option("--list", "list all registered features").option("--json", "machine-readable output").action((query, opts) => findCommand(query, opts));
-program2.command("config").description("read/write .hele/settings.json by dot path").argument("<action>", "get | set | add | list").argument("[path]", "dot path, e.g. agents.maxParallel").argument("[value]", "value (JSON parsed when possible)").action((action, dotPath, value) => configCommand(action, dotPath, value));
+program2.command("config").description("read/write .hele/settings.json by dot path; `effective output` prints the resolved chat output").argument("<action>", "get | set | add | unset | list | effective").argument("[path]", "dot path, e.g. agents.maxParallel").argument("[value]", "value (JSON parsed when possible)").action((action, dotPath, value) => configCommand(action, dotPath, value));
 program2.command("install").description("install the beads CLI (bd) if needed, then init the project database").option("--check", "only report whether bd is installed").action((opts) => installCommand(opts));
 program2.command("ai").description("understand the AI workflow \u2014 skills, agents, and what each phase produces").argument("[skill]", "skill name for details (e.g. plan, feature, qa)").action((skill) => aiCommand(skill));
 program2.parse();

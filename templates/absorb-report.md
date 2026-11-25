@@ -6,6 +6,11 @@
   path on one line.
 - Snapshot: print before any feature file exists. Written: print after
   the PRDs, stubs, closed plans, and QA reports exist.
+- The effective output (`## Output` in chat-reports.md) decides how much
+  of Written appears. Counts cover every written artifact. Gaps and blocked
+  items are never cut by the row limit: one line each with id and cause.
+  Only the Files table follows the row limit and ends with the omission
+  line. Snapshot approval rows are never cut: paginate or group them.
 -->
 
 ## Snapshot
@@ -55,11 +60,17 @@ Omit **Already documented** when every slug is new. Omit **Doubt** when nothing 
 | Stubs | <n> |
 | QA | <n> reports · <n> behaviors evidenced · <n> gaps/blocked · <n> optional screenshots |
 
+| Gap or blocked | Cause |
+|---|---|
+| orders · 001-place-order · TS-004 | no assertion for the refund refusal |
+
 | File | Change |
 |---|---|
 | [PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/orders/PRODUCT_DESCRIPTION.md) | created v1.0 |
 | [TEST_STUBS.md](/Users/you/project/.hele/features/orders/TEST_STUBS.md) | created v1.0 |
 | [QA_REPORT.md](/Users/you/project/.hele/features/orders/increments/001-place-order/QA_REPORT.md) | run 1 |
+
+<shown> of <total> shown · <omitted> more in [index.json](/Users/you/project/.hele/index.json) or the feature folders, or ask "show all files"
 
 | Open |
 |---|
@@ -70,3 +81,5 @@ Omit **Already documented** when every slug is new. Omit **Doubt** when nothing 
 | 1 | ✅ Done |
 | 2 | ✏️ Tell me what you need |
 ```
+
+Written: the counts (features, closed increments, scenarios, evidence, gaps/blocked) cover every written artifact, whatever the Files table shows. Every gap and blocked item is one line each with its id and cause in the Gap or blocked table, outside the row limit: all of them appear under every setting, and only the detail per item follows the output level. The Files table follows the effective row limit (see `## Output` in chat-reports.md) and ends with the omission line, in the chat language, naming how many files were omitted and where to see them; omit that line when every file fits. Omit the Gap or blocked table when there are none. The written files themselves are complete at every setting.

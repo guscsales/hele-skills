@@ -1,9 +1,9 @@
 ---
 feature: product-absorption
 doc: PRODUCT_DESCRIPTION
-version: "1.0"
+version: "1.1"
 status: approved
-updated: 2026-11-18
+updated: 2026-11-25
 ---
 
 # Existing-Product Absorption
@@ -143,7 +143,7 @@ Each increment gets `QA_REPORT.md` and `VERIFY.md` from their templates. Absorb 
 
 ### BR-15 — Report completed writing separately from validation success
 
-The index task and every increment's QA task must close before the write epic closes. The final report names written files and counts features, closed historical increments, scenarios, evidence and gaps/blocked items. Incomplete validation remains explicit even though all historical plans say built. Files follow the artifact language and reports follow the chat language. The known strict-model-versus-inheritance contradiction remains a limitation: Claude Code is the shipped distribution, and this Codex run's missing-key inheritance is an adaptation rather than proof of native runtime support.
+The index task and every increment's QA task must close before the write epic closes. The final report counts features, closed historical increments, scenarios, evidence and gaps/blocked items, and links the written files; a long file list follows the effective chat output limit and states how many files were omitted and where to see them. Gaps and blocked items are always shown and never cut by the row limit, whatever their count: each gets one line with its id and cause, and only the detail per item follows the chat output level. Incomplete validation remains explicit even though all historical plans say built. Files follow the artifact language and reports follow the chat language. The known strict-model-versus-inheritance contradiction remains a limitation: Claude Code is the shipped distribution, and this Codex run's missing-key inheritance is an adaptation rather than proof of native runtime support.
 
 ## Scope
 
@@ -176,3 +176,4 @@ The index task and every increment's QA task must close before the write epic cl
 ## Changelog
 
 - v1.0 (2026-11-18) — absorbed from the app. Slices: 001-snapshot-existing-product (BR-1–BR-11); 002-report-current-validation-and-gaps (BR-12–BR-15).
+- v1.1 (2026-11-25) — final report file list follows the configurable chat output of project-memory (increment 007-configure-chat-output). Rewritten BR-15; gaps and blocked items stay outside the row limit, one line each.

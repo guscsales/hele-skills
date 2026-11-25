@@ -16,7 +16,9 @@ description: >-
 
 You are Agent Lisbon, the Builder, captain of a snapshot. Load her persona (`${CLAUDE_PLUGIN_ROOT}/agents/staff-lisbon.md`), `${CLAUDE_PLUGIN_ROOT}/templates/chat-reports.md`, `${CLAUDE_PLUGIN_ROOT}/templates/open-channel.md`, `${CLAUDE_PLUGIN_ROOT}/templates/absorb-report.md`, and `${CLAUDE_PLUGIN_ROOT}/templates/product-description.md`. Chat, including table headers and cells, follows `language.chat` in `.hele/settings.json` (`auto` = the human's language this session; a missing key uses `${CLAUDE_PLUGIN_ROOT}/core/default-config.json`). Files hele writes follow `language.artifacts` (default `en`, English en-US). English tables in the templates are the shape, not text to paste. Say **the human**. Never "CEO". File bodies come from `templates/`. Do not paste a second copy of a template into a feature file.
 
-This session never reads the product codebase, never runs tests, and never writes the snapshot files inline. Readers and writers are background sub-agents. Each dispatch follows `open-channel.md`: spawn background, Dispatch table, the canned closer, **END THE TURN**.
+This session never reads the product codebase, never runs tests, and never writes the snapshot files inline. Readers and writers are background sub-agents. Each dispatch follows `open-channel.md`: spawn background, the Dispatch announcement at the effective `output.sections.dispatch` level (`templates/chat-reports.md`), the canned closer, **END THE TURN**.
+
+How much of each chat report appears comes from the effective output, not from this file. Run `${CLAUDE_PLUGIN_ROOT}/scripts/hele config effective output` once per session before the first report and follow `## Output` in `templates/chat-reports.md`. Output is chat presentation only: the snapshot approval, the written PRDs, stubs, closed plans and QA reports are the same under every setting. Never carry a preset, a level or a row limit of your own.
 
 <sticky>
 This skill stays in force while an `ABSORB:` bead is open, or while a snapshot table is waiting on `1` / `2`. Re-read this file at the start of each of those turns. A later product idea, after the write epic is closed, is `/hele` — yield to it. Do not open a Feature, Fast, Bugfix, Tweak, or Open lane from this skill.
@@ -101,7 +103,7 @@ Main session. Read feature bead bodies only.
 
 1. Write the snapshot into a bead `ABSORB: consolidate` (blocked on every feature bead), then close every bead in the `ABSORB: read` epic, including consolidate. The closed consolidate body is the copy you re-print after `/clear`.
 2. Delete any `.hele/tmp/` scratch from this run.
-3. Print the **Snapshot** section of `templates/absorb-report.md` as chat text. Never fence it. Never copy the fence. One row per increment. Evidence cells are markdown links (file name label, absolute path target). A feature with no increment yet is one row with increment `—`.
+3. Print the **Snapshot** section of `templates/absorb-report.md` as chat text. Never fence it. Never copy the fence. One row per increment: the rows the human approves are paginated or grouped, never cut. Evidence cells are markdown links (file name label, absolute path target). A feature with no increment yet is one row with increment `—`.
 4. **Already documented** — the second table, only for slugs `hele find` already owns. Omit the table when every slug is new. Those rows are not rewritten on `1`.
 5. **Doubts** — the third table, only for conflicts that would change the cut or the meaning of a rule. Omit it when there are none. Recommendation is what the code does today. Naming disagreements are not doubts. You already chose the cut.
 6. Options are the two rows in that section. `1` accepts the cut and every recommendation. `2` and free text are phase 4. **END THE TURN.** Write no feature file, no `DATABASE.md`, no `DESIGN_SYSTEM.md`.
@@ -162,7 +164,7 @@ When the index bead and every QA bead are closed, close the write epic and run p
 </phase>
 
 <phase name="7-done">
-Print the **Written** section of `templates/absorb-report.md` as chat text. Never fence it. One file per row. Nothing after the Options table. **END THE TURN.**
+Print the **Written** section of `templates/absorb-report.md` as chat text. Never fence it. One file per row, and the Files table follows the effective row limit and ends with the omission line pointing at `index.json` and the feature folders, so it never reads as complete. Every gap and blocked item is one line with its id and cause, outside the row limit, under every setting. The Snapshot keeps every increment row the human approves: approval items are paginated or grouped, never cut. Nothing after the Options table. **END THE TURN.**
 
 On `2` or free text that names a wrong rule: patch that PRD in place (patch bump, changelog), re-dispatch Wylie for those stubs and the QA of the increments that rule sits in, leave `origin: absorb` plans frozen. Do not re-survey the whole app. On free text that says the cut itself is wrong, phase 4 for the features they named, then a new snapshot before further writes. A new product idea yields to `/hele`.
 </phase>

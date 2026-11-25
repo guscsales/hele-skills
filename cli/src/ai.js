@@ -38,7 +38,11 @@ features/), installs the sticky session rule so /hele stays in force,
 asks how design works, and runs hele install for beads. That command
 creates the project database and leaves AGENTS.md and CLAUDE.md
 untouched. The folder is always .hele/. No state file. When /hele
-finds no .hele/, it runs this and continues the ask.`,
+finds no .hele/, it runs this and continues the ask. A new project
+saves output.preset compact (how much of each report shows in chat);
+an existing project gets it only when missing, and no section value,
+tables or maxTableRows is ever written. Read the resolved setting with
+hele config effective output.`,
   },
   {
     name: 'feature',
@@ -49,9 +53,13 @@ finds no .hele/, it runs this and continues the ask.`,
 remain, one pack: accept all recommendations, answer one by one, or
 reply in words. That round writes nothing. Only then does she write
 or patch the PRD and dispatch Wylie for stubs in the same stop.
-Emits a PRD delta and clickable file links. Option 1 goes to design,
-or to build and auto-verify when design is not needed. Started by
-/hele.`,
+Emits a PRD delta and clickable file links; how much of the delta,
+scenarios and coverage shows in chat follows the output setting
+(hele config effective output). Documents stay complete. Every new,
+rewritten and retired rule, product question, decision and approval
+option always shows, and "show all TS" expands on request. Option 1
+goes to design, or to build and auto-verify when design is not needed.
+Started by /hele.`,
   },
   {
     name: 'design',
@@ -119,7 +127,10 @@ zero screenshots can be valid. Useful screenshots stay readable at
 1920x1080 within qa.maxScreenshots. --generate-fixes-report rebuilds
 the report from evidence without reruns; unknown proof stays pending.
 The report stops before the human walk. --from-qa confirms at the
-right level, then refreshes the report using valid results.`,
+right level, then refreshes the report using valid results. Chat
+detail follows the output setting (hele config effective output):
+QA_REPORT.md stays complete, every failure, gap and blocker always
+shows with its id and cause, and "show the full QA report" expands.`,
   },
   {
     name: 'verify-work',
@@ -133,7 +144,8 @@ human flow (for example backend-only work) goes to the normal close. A fix
 described on a flow that fits the direct path is delivered directly,
 then that flow runs again; a larger one goes back to the PRD. A flow
 corrected on the direct path is shown from VERIFY.md. Flows already
-marked pass are not shown again. Close: 1 ready PR, 2 draft PR,
+marked pass are not shown again. Every step of a flow always shows,
+whatever the output setting. Close: 1 ready PR, 2 draft PR,
 3 close with no PR, 4 fix something (direct if it fits, else the PRD).`,
   },
   {
@@ -185,7 +197,8 @@ Every cut names surviving coverage or a prerequisite replacement.
 Reports measured timing separately from estimates and unknowns;
 never promises savings by adding parallel test durations. The output
 is a ranked, reviewable report and an implementation sequence.
-Applying the recommendations is a separate scoped request.`,
+Applying the recommendations is a separate scoped request. The chat
+summary follows the output setting; E2E_AUDIT.md stays complete.`,
   },
   {
     name: 'run-report',

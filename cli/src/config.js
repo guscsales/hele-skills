@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { requireHeleDir } from './dir.js';
+import { requireHeleDir, resolveHeleDir } from './dir.js';
+import { resolveEffectiveOutput, validateOutputWrite } from './output.js';
 
 function parseValue(raw) {
   try {
@@ -19,7 +20,21 @@ function loadSettings(heleDir) {
   return { settingsPath, settings: JSON.parse(fs.readFileSync(settingsPath, 'utf8')) };
 }
 
+// `effective output` reads only: no memory or no settings file resolves against the plugin default.
+function effectiveCommand(dotPath) {
+  if (dotPath !== 'output') {
+    console.error('ERROR: effective requires the path "output" (hele config effective output)');
+    process.exit(2);
+  }
+  const heleDir = resolveHeleDir();
+  const settingsPath = heleDir && path.join(heleDir, 'settings.json');
+  const settings = settingsPath && fs.existsSync(settingsPath) ? JSON.parse(fs.readFileSync(settingsPath, 'utf8')) : {};
+  console.log(JSON.stringify(resolveEffectiveOutput(settings), null, 2));
+}
+
 export function configCommand(action, dotPath, rawValue) {
+  if (action === 'effective') return effectiveCommand(dotPath);
+
   const heleDir = requireHeleDir();
   const { settingsPath, settings } = loadSettings(heleDir);
 
@@ -37,7 +52,7 @@ export function configCommand(action, dotPath, rawValue) {
   if (action === 'get') {
     let node = settings;
     for (const k of keys) {
-      if (typeof node !== 'object' || node === null || !(k in node)) {
+      if (typeof node !== 'object' || node === null || !Object.hasOwn(node, k)) {
         console.error('ERROR: path not found');
         process.exit(1);
       }
@@ -47,11 +62,48 @@ export function configCommand(action, dotPath, rawValue) {
     return;
   }
 
+  if (action === 'unset') {
+    let parent = settings;
+    for (const k of keys.slice(0, -1)) {
+      if (typeof parent !== 'object' || parent === null || Array.isArray(parent) || !Object.hasOwn(parent, k)) {
+        console.error('ERROR: path not found');
+        process.exit(1);
+      }
+      parent = parent[k];
+    }
+    const last = keys.at(-1);
+    if (typeof parent !== 'object' || parent === null || Array.isArray(parent) || !Object.hasOwn(parent, last)) {
+      console.error('ERROR: path not found');
+      process.exit(1);
+    }
+    delete parent[last];
+    fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n');
+    console.log(`OK: unset ${dotPath}`);
+    return;
+  }
+
+  if (action !== 'set' && action !== 'add') {
+    console.error(`ERROR: unknown action "${action}" (get | set | add | unset | list | effective)`);
+    process.exit(2);
+  }
+
   if (rawValue === undefined) {
     console.error(`ERROR: ${action} requires a value`);
     process.exit(2);
   }
   const value = parseValue(rawValue);
+
+  if (keys[0] === 'output') {
+    if (action === 'add') {
+      console.error('ERROR: no output setting is a list');
+      process.exit(1);
+    }
+    const problem = validateOutputWrite(keys, value);
+    if (problem) {
+      console.error(`ERROR: ${problem}`);
+      process.exit(1);
+    }
+  }
 
   let node = settings;
   for (const k of keys.slice(0, -1)) {
@@ -73,9 +125,6 @@ export function configCommand(action, dotPath, rawValue) {
       process.exit(1);
     }
     if (!node[leaf].some((v) => JSON.stringify(v) === JSON.stringify(value))) node[leaf].push(value);
-  } else {
-    console.error(`ERROR: unknown action "${action}" (get | set | add | list)`);
-    process.exit(2);
   }
 
   fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n');

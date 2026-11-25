@@ -5,8 +5,8 @@ The main session is the human's line. It stays free. Talking, deciding, asking, 
 Lisbon, Wylie, Vega, Cho, Hightower, anyone: if the work takes tools (read a pile of files, review a diff, run tests, write a long artifact), it is a **background** sub-agent. Questions to the human stay in this session, as one Question pack after she has read matching PRDs. Reading those `PRODUCT_DESCRIPTION.md` files before the pack is talking, not exploring. Product-code truth is a background specialist — do not ask the human what the code already does. The PRD stop is Lisbon talking here; the heavy study behind a plan, a review, or a suite is background Lisbon.
 
 Main session may:
-- Talk to the human, ask questions, emit a Dispatch table or a signature
-- `hele find` and short Beads reads or updates
+- Talk to the human, ask questions, emit the Dispatch announcement or a signature
+- `hele find`, reading the effective output (`hele config effective output`), and short Beads reads or updates
 - Dispatch sub-agents in the **background**
 
 Main session must not:
@@ -24,7 +24,7 @@ A dispatch turn has exactly four steps, then you **STOP**:
 2. Spawn the sub-agent in the **background**. Never block this turn.
    - **Cursor:** Task tool with `run_in_background: true`. A spawn that leaves the main chat on "Waiting for subagent" is a bug.
    - **Claude Code:** Agent tool, async. Do not block this turn.
-3. Record the handoff on its bead when applicable, then emit the Dispatch table. One prose line after it, then nothing else.
+3. Record the handoff on its bead when applicable, then emit the Dispatch announcement at the effective `output.sections.dispatch` level (the Dispatch announcement block of `templates/chat-reports.md`; read the level with `hele config effective output`, see `## Output`). Every dispatch is announced at every level with its agent tag, its model and its work. One prose line after it, then nothing else.
    - English chat: `Thread is opened, you can talk`
    - Portuguese chat: `A thread continua aberta, pode falar.`
    - Any other chat language: one sentence with that meaning.

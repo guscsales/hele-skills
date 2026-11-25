@@ -2,6 +2,15 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.8.0 — 2026-11-25
+
+- feat: configurable chat output. `output.preset` (`compact`, `standard`, `detailed`) sets how much of each report shows in chat, with per-field overrides for `tables`, `maxTableRows` and the sections `testStubs`, `coverage`, `prdDelta`, `qaResults`, `dispatch` and `screenshots`. Documents, evidence and approval criteria never change, only the chat detail. The default is `compact`: a project without `output` now presents as `compact`. To bring back a presentation close to the earlier one, run `hele config set output.preset detailed`.
+- feat: `hele config effective output` prints the resolved output (preset, tables, row limit, six section levels, warnings) with defaults applied, and `hele config unset <path>` hands a saved field back to the preset. `hele config list` and `get` still show saved values only.
+- feat: writes under `output` are validated. A value outside the allowed list or an unknown `output` key exits 1 and leaves `settings.json` untouched. A hand-edited invalid value never breaks a report: it falls back and is named in a warning.
+- feat: failures, blockers, missing required coverage, product questions, required decisions, options and approvals always show in chat at every level. Informational lists obey the row limit and end with an omission line (shown of total, a link to the complete document, "show all ..."), and "show all TS" or "show the full QA report" expands on request for that response only. Questions and approvals are paginated or grouped, never cut.
+- fix: `hele config unset` and `get` no longer treat inherited keys such as `toString` as saved (exit 1, file untouched).
+- chore: re-run `/hele-init` to refresh the session rule and add `output.preset` (`compact`) when it is missing. Init saves nothing else under `output`.
+
 ## v1.7.0 — 2026-11-24
 
 - feat: direct path for Fast and Bugfix. One owning engineer writes the smallest failing test, fixes it, runs only the checks that reach the changed files, and closes with evidence, with no increment, plan or beads. The full path runs only when the ask names an excluded surface (schema or production data, security, shared configuration, CI, environment, a new screen, a contract between modules) or the engineer escalates. A correction of the active increment that fits is delivered directly and the touched flow is walked again from `VERIFY.md`.

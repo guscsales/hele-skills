@@ -36,9 +36,9 @@ Define how product behavior will be proven, check the evidence independently of 
 <communication>
 Use `templates/chat-reports.md`. Chat tables follow language.chat; files follow language.artifacts. Files are clickable links. Reports are not fenced.
 
-**STUBS:** report scope/version, rule coverage, full scenarios and Coverage recommendations, then Files. Runs inside the PRD stop with no separate approval.
+**STUBS:** return scope/version, rule coverage, the complete scenario rows, the counts (feature total, new, revised, retired) and the Coverage rows to the parent, then Files. The parent decides what chat shows from the effective output (`## Output` in `templates/chat-reports.md`). Runs inside the PRD stop with no separate approval.
 
-**QA RUN:** report scope, behaviors evidenced/gaps, reused results, selected E2E and CI impact; Test results with evidence links; useful screenshots only when present; Files; Open these; QA Options. Stop before manual verification. Failures and coverage gaps add the fix-round option.
+**QA RUN:** report scope, behaviors evidenced/gaps, reused results, selected E2E and CI impact; Test results and Shots at the effective output (`qaResults`, `screenshots`), with failures, gaps, blockers and pending decisions always shown, one line each with id and cause; evidence links; useful screenshots only when present; Files; Open these; QA Options. Stop before manual verification. Failures and coverage gaps add the fix-round option.
 
 **VERIFY:** one grouped user flow at a time from QA_REPORT, its walk-evidence label, Open/Data/Steps, optional screenshot and verdict Options. If no human flow applies, explain why and use Verify close. A reported fix goes through Lisbon's adjust phase on the same increment: direct when it fits, a rewind to the PRD only when it is larger. Close uses the canonical Verify close block.
 

@@ -11,9 +11,9 @@ Read `.hele/settings.json` → `language`. A missing key uses `${CLAUDE_PLUGIN_R
 
 The fenced tables in this file are the shape: column count, order, emoji, one item per row. The English words inside them are the contract names. They are not text to paste.
 
-When chat is not English, write every word the human reads in the chat language: column headers, row labels, section labels (`New`, `Rewritten`, `Already the rule`), option sentences, and every cell that is a sentence. Leave file names, slugs, ids (`BR-4`, `TS-001`), versions, commands, code, model names, and agent tags (`[AGENT] Lisbon`) as written.
+When chat is not English, write every word the human reads in the chat language: column headers, row labels, section labels (`New`, `Rewritten`, `Already the rule`, `Retired`), option sentences, and every cell that is a sentence. Leave file names, slugs, ids (`BR-4`, `TS-001`), versions, commands, code, model names, and agent tags (`[AGENT] Lisbon`) as written.
 
-A fact that lives in an artifact is restated in the chat language. The file on disk stays in `language.artifacts`. Do not paste the artifact sentence into the table. Do not change the fact. Do not collapse a table into a paragraph.
+A fact that lives in an artifact is restated in the chat language. The file on disk stays in `language.artifacts`. Do not paste the artifact sentence into the table. Do not change the fact. Translating never changes the shape the effective output chose (see Output): a table stays a table, a list stays a list, a one-line summary stays one line.
 
 The human writes in Portuguese. `| Field | Value |` is the wrong table. `| Campo | Valor |` is that table. `| Actions | Your call |` is the wrong menu. `| Ações | Sua escolha |` is that menu. `New (7)` is the wrong bucket. `Novas (7)` is that bucket. `not needed` is the wrong cell. `não entra` is that cell. The same rule applies to any other chat language.
 
@@ -21,28 +21,46 @@ The Dispatch closer is one copied sentence. English: `Thread is opened, you can 
 
 Read this file before the first report of a `/hele` session. `/hele` is the only command the human types for product work. Real stops end in numbered options. The execution plan and the build do not stop. After the PRD is approved (and design, when that stop happened), those run on their own. The QA report is the next stop: continue to the manual walk, or fix what you saw.
 
+## Output
+
+How much of each report appears in chat comes from the effective output, never from this file. The blocks below name sections and levels; the values live in `hele config effective output`.
+
+- Read the effective output once per session, before the first report, with `${CLAUDE_PLUGIN_ROOT}/scripts/hele config effective output` (it works without `.hele/`), and again after the human saves an output change. Every block below takes its level from that JSON. Never carry a default, a preset value or a row-limit number of your own. This file names none.
+- Precedence, strongest first: an explicit request in the current message, a saved override, the saved preset, the plugin default. A request in the message applies to this response only and is never saved unless the human asks to save it. Saving goes through `hele config set` (or `hele config unset` to follow the preset again). A request changes the level of detail only: it cannot hide always-visible content.
+- When `warnings` is not empty, print one short line naming each key and the value used instead, once per session. It is not repeated in later reports.
+- Output is chat presentation only. Documents, evidence, tests run, approval criteria, workflow stages and work state are the same under every setting. Chat text follows `language.chat` and files follow `language.artifacts` under every setting, including summaries, count lines and omission lines.
+- **Always visible.** Under every preset, every section value (`off` included) and whatever the current message asks, the chat still shows at least a summary of: failures, blockers, missing required coverage, product questions, required decisions, workflow options and approvals, and the steps of a verification walk. This content is outside the section levels. Failures, blockers and missing required coverage are outside `maxTableRows`: one line per item with its id and cause, however many there are. Only the detail per item follows the section level. A request to hide them gives less detail, never fewer items.
+- **Row limit.** `maxTableRows` limits informational lists, `full` levels included. A limited list ends with the omission line. English contract: `<shown> of <total> shown · <omitted> more in [<document>](<absolute path>) or ask "show all <thing>"`. Render it in the chat language. Never imply a limited list is complete. Questions that need an answer and items the human must approve are never cut: group or paginate them explicitly (English contract `questions <from>–<to> of <total>`), and the stop does not proceed as answered or approved while any is unseen.
+- **Expansion.** "show all TS", "expand TS-014" and "show the full QA report" re-present information that already exists, for that response only: no phase restart, no test rerun, no approval change, no work-state change, no settings change. A show-all request lifts the row limit for that response, and the omission line is left out when everything is shown. The next report returns to the effective output.
+- **Tables.** `auto` allows prose or a short list for a small amount of information instead of a one-row table. `always` presents structured information as tables. Neither allows box-drawing.
+- An omitted detail is not missing evidence. The complete document stays linked from the report that omitted it.
+
 ## Per-stop checklist
+
+The checklist names blocks. Each block's level comes from `## Output`; the order below does not change with the level.
 
 | Stop | Must print, in this order |
 |---|---|
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (links) · continue the ask already in flight |
 | Questions | Question pack (investigate first) · Options 1/2/3 · no files · end the turn |
-| PRD + stubs | Report frame · Field/Value · PRD delta · Stubs in full · Coverage recommendations · Files (links) · Open these · Options |
+| PRD + stubs | Report frame · Field/Value · PRD delta (prdDelta) · Scenarios (testStubs) · Coverage (coverage) · always-visible items · Files (links) · Open these · Options |
 | Design | Report frame · Field/Value · Files (links) · Options |
 | Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
 | Build green | short report · no Options — start auto-verify |
 | Unexplained failure | Report frame · Field/Value (check, error, what it reaches) · the two-choice Options table, and nothing after it · call nobody · end the turn |
 | Direct close | Report frame · Field/Value (changed, proof, related checks, not run, pre-existing, rule delta) · Files (links) · Options (PR choices, or walk the touched flow) |
-| Dispatch | Dispatch table · one canned line (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`) · end the turn |
-| QA report | Report frame · Test results with evidence · CI impact · optional Shots · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
-| Verify — each flow | Open table · Data table · Steps table · optional screenshot · Options |
+| Dispatch | Dispatch announcement (dispatch) · one canned line (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`) · end the turn |
+| QA report | Report frame · Test results (qaResults) with evidence · CI impact · Shots (screenshots) · always-visible items · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
+| Verify — each flow | Open table · Data table · Steps table (every step row, always) · optional screenshot · Options |
 | Verify — close | Report frame · counts · Files (links) · the Options table below, and nothing after it |
+| Absorb — written | Report frame · counts · gaps and blocked, one line each · Files within the row limit with the omission line · Options |
+| E2E audit | E2E audit (chat): Report frame · diagnosis · leading recommendations within the row limit · omission line · report link |
 | Open lane | Report frame · relay · Files if any (links) · Options (Work done / Let's formalize / keep going) |
 
 <rules>
 - **NEVER wrap a report in a code fence.** Reports are chat text: prose plus markdown tables. The fences in this file only delimit the shape. Code fences in chat are for actual code, commands, and file contents.
-- **Tables, never lines.** Never emit box-drawing characters to frame a report.
+- **Never box-drawing.** Never emit box-drawing characters to frame a report. Tables or prose for small amounts follow `output.tables` (see Output).
 - One emoji per section header cell.
 - **One item per table row.**
 - Agent tags are formal identifiers: `[AGENT] Lisbon`, `[AGENT DBA] Hightower`. In prose: "Agent Lisbon", "Agent Hightower".
@@ -50,10 +68,10 @@ Read this file before the first report of a `/hele` session. `/hele` is the only
 
   `[PRODUCT_DESCRIPTION.md](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)`
 
-- **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only. The English contract is `new BR-4 · rewritten BR-1`; render `new` and `rewritten` in the chat language. A first version says the chat-language rendering of `first version`. Under the table, when a delta was printed above, one line in the chat language: was / now for each rule is in the delta above. The English contract is `> 📌 **Was / now for each rule is in the delta above.**`
+- **PRD and QA stops print an Open these table immediately before Options.** Each row is a link. A patched PRD gets a **Moved** cell with ids only. The English contract is `new BR-4 · rewritten BR-1 · retired BR-3`; render `new`, `rewritten` and `retired` in the chat language. A first version says the chat-language rendering of `first version`. Under the table, one line in the chat language, only when the PRD delta was printed at `full`: was / now for each rule is in the delta above. The English contract is `> 📌 **Was / now for each rule is in the delta above.**`
 - **Every interactive stop ends with the Options table, and that table is the only menu.** The two columns are the Actions column and the Your call column. Render those headers in the chat language. The first cell is the number. The second cell starts with one emoji, then the words. One option per row. Option `1` advances and starts that work in the same turn. Option `2` is tell me what you need, except where a block below names a different row 2 (the Question pack and the Unexplained failure stop are those exceptions). Free text stays in the current phase. At the Question pack, free text is option 3. At the Unexplained failure stop, free text stays on that stop and is not a third choice. Nothing is printed after the table. Do not print a line `Options: 1 … 2 … 3 …`. Do not print a second table whose first column is the option name (`Work done`, `iterate`, `draft PR`, `Fix something`). That shape is not a menu.
-- **Open channel.** After a Dispatch table, end the turn. The one line is the Dispatch closer from Language. Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
-- **Models from settings.** Every Dispatch row has a Model cell. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. Apply phase defaults where specified. Omit the model field and write `inherit` if the resolved choice is `inherit` or missing. Never pass the session model to a worker. Never invent a slug.
+- **Open channel.** After the dispatch announcement, end the turn. The one line is the Dispatch closer from Language. Never "fio". "Waiting for subagent" is a bug. If the human talks while a worker runs, answer them.
+- **Models from settings.** Every dispatch announcement carries the model, as a Model cell in `full` and inside the line in `brief`. Resolve `settings.agents.models[<key>]` for this runtime (`cursor` or `claude-code`). A plain string applies to every runtime. Apply phase defaults where specified. Omit the model field and write `inherit` if the resolved choice is `inherit` or missing. Never pass the session model to a worker. Never invent a slug.
 - File artifacts are plain markdown. No emoji inside `.hele/` files.
 - Chat, including table headers and cells, is `language.chat`. Files hele writes are `language.artifacts`. See Language.
 - The harness folder is always `.hele/` at the project root. Do not invent another name. Do not write `.helerc`.
@@ -104,12 +122,15 @@ The file name is the link. There is no Path column.
 | [index.json](/Users/you/project/.hele/index.json) | feature registered |
 ```
 
-## PRD delta (whenever a PRD is created or patched)
+## PRD delta (prdDelta)
 
-Print a count line, then one group per PRD. The heading is a link. Unchanged rules stay out. Empty buckets are omitted.
+Whenever a PRD is created or patched. Print a count line, then one group per PRD. The heading is a link. Unchanged rules stay out. Empty buckets are omitted. The level comes from `## Output`.
+
+- `summary`: the count line, then one row per new, rewritten or retired rule: id, title, and the behavior change in one sentence, enough for an informed approval. No previous wording.
+- `full`: the summary plus the previous and new wording of each changed rule.
 
 ```
-1 new rule and 1 rewritten, in checkout-discount.
+1 new rule, 1 rewritten and 1 retired, in checkout-discount.
 
 ### [checkout-discount](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md)
 
@@ -124,11 +145,22 @@ Rewritten (1)
 | Rule | Was | Now |
 |---|---|---|
 | BR-1 — Points cover first | Points apply after the card when both are used. | Points apply before the card, never after. |
+
+Retired (1)
+
+| Rule | What changes |
+|---|---|
+| BR-3 — Manual coupon entry | Coupons are applied automatically, so there is no entry field |
 ```
 
+At `summary`, the Rewritten table has the columns Rule · What changes (the behavior change in one sentence) in place of Was and Now. Retired always uses Rule · What changes.
+
 - **New** — a rule or flow that was not in the previous version. A first version is only this bucket.
-- **Rewritten** — an id that already existed. Was is the sentence that was on disk. Now is the sentence that replaced it.
+- **Rewritten** — an id that already existed. At `full`, Was is the sentence that was on disk and Now is the sentence that replaced it.
+- **Retired** — an id that no longer applies. What changes says what stops happening.
 - **Already the rule** — bugfix only, when the PRD text stays because the code broke a rule it already states. Columns: Rule · What it already says.
+
+The rows follow the row limit (see Output). A rule that needs the human's approval is never cut: paginate or group it.
 
 ## Open these
 
@@ -136,7 +168,7 @@ Rewritten (1)
 | Open | Moved |
 |---|---|
 | [Project](/Users/you/project) | — |
-| [PRD · checkout-discount](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md) | new BR-4 · rewritten BR-1 |
+| [PRD · checkout-discount](/Users/you/project/.hele/features/checkout-discount/PRODUCT_DESCRIPTION.md) | new BR-4 · rewritten BR-1 · retired BR-3 |
 
 > 📌 **Was / now for each rule is in the delta above.**
 ```
@@ -150,7 +182,13 @@ QA stop:
 | [QA report](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md) |
 ```
 
-## Stubs in full
+## Scenarios (testStubs)
+
+The acceptance scenarios of this delivery. The level comes from `## Output`.
+
+- `off`: no block. TEST_STUBS.md stays in Files and Open these.
+- `summary`: one line with the feature's total number of scenarios, this delivery's new, revised and retired counts, and the link to TEST_STUBS.md.
+- `full`: the scenario table for the scenarios this delivery changed, within the row limit, then the omission line pointing at TEST_STUBS.md.
 
 ```
 | Stub | Kind | Rule | Given | When | Then |
@@ -158,9 +196,13 @@ QA stop:
 | TS-001 | e2e-browser | BR-1 | member with 1,200 pts, $9.00 order | taps Pay with points, confirms | order completes, no card step, balance shows 300 pts |
 ```
 
-## Coverage recommendations
+## Coverage recommendations (coverage)
 
-After deriving scenarios, show how they will be proven. This does not add an approval stop.
+After deriving scenarios, show how they will be proven. This does not add an approval stop. The level comes from `## Output`.
+
+- `off`: no block. The recommendations stay in TEST_STUBS.md, linked. Missing required coverage still appears, one line per item (see Output).
+- `summary`: counts by level and by owner, plus one line per missing required coverage item with its id and cause.
+- `full`: the table within the row limit, then the omission line, plus every missing required item regardless of the limit.
 
 ```
 | Stubs | Level | Owner | Existing / proposed proof | Why this level |
@@ -201,9 +243,17 @@ When the human typed `/hele-init` alone:
 | 2 | ✏️ Tell me what you need |
 ```
 
-## Dispatch announcement
+## Dispatch announcement (dispatch)
 
-Emit this, then the Dispatch closer from Language. Copy that one sentence. Do not paraphrase. Never "fio". **End the turn.**
+Emit this, then the Dispatch closer from Language. Copy that one sentence. Do not paraphrase. Never "fio". **End the turn.** The level comes from `## Output`. The Model rule in `<rules>` applies to both.
+
+- `brief`: one line per dispatch with the emoji, the agent tag, the model and the work. English contract:
+
+```
+🏗️ [AGENT] Lisbon · opus · plan increment 002-coupon-stacking
+```
+
+- `full`: the table, one row per dispatch.
 
 ```
 | Dispatch | Agent | Model | Work |
@@ -222,7 +272,7 @@ Investigate first. This round writes nothing. No PRD, no stubs, no Files table. 
 3. A fact that needs product-code or live-UI truth: dispatch a specialist, end the turn, wait for the report. Do not ask the human what the code already does.
 4. If those sources already decide every rule, skip this stop and write. Do not invent a question to satisfy the gate.
 
-**Then one pack.** Every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate (update `<slug>` vs new) is a row in this pack when matches exist, not a separate turn.
+**Then one pack.** Every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate (update `<slug>` vs new) is a row in this pack when matches exist, not a separate turn. Questions need an answer, so the pack is never cut by the row limit: a pack larger than the limit is paginated or grouped, never cut (see Output).
 
 Print, in this order: Agent/Needs, the question table, then the three Options. Headers and cells are in the chat language. A recommendation is the default she would ship, not a rule already in a file.
 
@@ -255,7 +305,7 @@ Print, in this order: Agent/Needs, the question table, then the three Options. H
 
 ## Options table
 
-Option 1 names what runs next, in words. Typing `1` approves and starts that work in the same turn. Free text counts as option 2, except at the Question pack, where free text is option 3.
+Compact wording is allowed; every choice stays, with its meaning. Option 1 names what runs next, in words. Typing `1` approves and starts that work in the same turn. Free text counts as option 2, except at the Question pack, where free text is option 3.
 
 The EXECUTION_PLAN is not a sign-off. After the PRD (and design, when that stop happened), the agents plan, build, and run QA. The QA report is the next Options, unless a draft DB_CHANGES stops first.
 
@@ -321,7 +371,7 @@ A ready PR is ready for review. A draft PR is a draft. Free text that describes 
 
 ## Manual verify — one flow
 
-This is the changed human experience, in short grouped flows. State whether each walk was executed or prepared, not executed; unit/API proof does not imply a UI walk. Backend-only work may go to Verify close with an explanation that no human flow applies. Take the facts from `QA_REPORT.md` and write the cells in the chat language. Keep every step as its own row. Do not paste the English sentences when chat is not English. Do not collapse the steps into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
+This is the changed human experience, in short grouped flows. State whether each walk was executed or prepared, not executed; unit/API proof does not imply a UI walk. Backend-only work may go to Verify close with an explanation that no human flow applies. Take the facts from `QA_REPORT.md` and write the cells in the chat language. Keep every step as its own row: every step row is shown under every setting. Do not paste the English sentences when chat is not English. Do not collapse the steps into a paragraph. One flow, then the Options, then wait. Skip a flow the human already marked pass on this increment, unless the latest rewind changed that flow. Name those ids in one line, then show the first flow that is still open.
 
 ```
 | Report | Scope |
@@ -358,7 +408,13 @@ This is the changed human experience, in short grouped flows. State whether each
 
 The Proof table is optional: when a useful screenshot exists, show its image and link. Do not create screenshots just to fill it. If Open, Data, or Steps would be empty, the QA report is incomplete: fill it before walking the human. Do not invent a shorter script.
 
-## Test results (QA stop)
+## Test results (qaResults)
+
+The QA stop. The level comes from `## Output`. Every level links [QA_REPORT.md](/Users/you/project/.hele/features/checkout-discount/increments/001-checkout-discount/QA_REPORT.md). Failures, coverage gaps, blockers and pending decisions are issues: one line each with id and cause at every level, never limited by the row limit (see Output).
+
+- `summary`: the overall result and counts, then one line per failure, gap, blocker and pending decision (id and cause).
+- `issues`: passes as counts; the issues above in detail.
+- `full`: every result. Passing rows follow the row limit and end with the omission line; issues are never limited.
 
 Stub and Rule cells carry the title. Evidence names the test level and links the test/result. Passing requires current execution evidence, including valid build results reused by QA. Missing proof is pending/blocked, never green.
 
@@ -369,7 +425,7 @@ Stub and Rule cells carry the title. Evidence names the test level and links the
 | TS-008 · Factory projects listed | BR-9 · Desktop lists factory projects | ⏳ coverage gap | component | missing assertion for the empty state |
 ```
 
-Add selected existing regressions (with feature-qualified IDs), reused versus fresh runs, E2E additions/changes, CI execution scope, and measured or unknown timing impact. Show useful kept screenshots only when present. Zero E2E and zero screenshots are valid when all required behavior has sufficient evidence.
+Add selected existing regressions (with feature-qualified IDs), reused versus fresh runs, E2E additions/changes, CI execution scope, and measured or unknown timing impact. Zero E2E and zero screenshots are valid when all required behavior has sufficient evidence.
 
 ## QA report — your call
 
@@ -384,9 +440,13 @@ Every ready report ends with this table. End the turn. Do not open the first man
 
 A red run adds rows under those two: approve fixes for failures or coverage gaps, and decide the contract-questions first. A blocked stub is named above the table. The two rows stay.
 
-## Shots
+## Shots (screenshots)
 
-Optional. Omit this section when no screenshot helps explain a visible change or failure. The limit is a ceiling, not a target.
+Optional. Omit this section when no screenshot helps explain a visible change or failure. The limit is a ceiling, not a target. The value comes from `## Output`; it is presentation only and independent of `qa.maxScreenshots`, which still decides which captures are taken and kept.
+
+- `off`: no capture in chat.
+- `links`: a link per capture.
+- `inline`: the capture embedded in the message, with its link.
 
 ```
 | Stub | Kept | Screenshot |
@@ -424,7 +484,7 @@ A check the change reaches fails and the owner cannot explain it. The delivery s
 
 ## Direct close
 
-The close of a delivery on the direct path. One engineer proved and fixed the change, so there is no QA report and no plan. Print this shape in the chat language. Every row is one item. The Rule delta row is `unchanged` when no rule changed; when a rule changed, replace that cell with the PRD delta block above (New / Rewritten / Already the rule). Files lists the changed files; PRODUCT_DESCRIPTION.md and TEST_STUBS.md only when this delivery patched them.
+The close of a delivery on the direct path. One engineer proved and fixed the change, so there is no QA report and no plan. Print this shape in the chat language. Every row is one item. The Rule delta row is `unchanged` when no rule changed; when a rule changed, replace that cell with the PRD delta block (prdDelta) above (New / Rewritten / Already the rule / Retired). Files lists the changed files; PRODUCT_DESCRIPTION.md and TEST_STUBS.md only when this delivery patched them.
 
 ```
 | Report | Scope |
@@ -484,6 +544,24 @@ For a new bug or addition, this is the Options table. A ready PR is ready for re
 | 1 | ✅ Work done |
 | 2 | 📝 Let's formalize — PRD + stubs + increment |
 | 3 | ✏️ Tell me what you need / keep going |
+```
+
+## E2E audit (chat)
+
+The conversation shows the diagnosis and the leading recommendations. The full inventory and the rationale stay in E2E_AUDIT.md. Print, in this order: Report frame, the diagnosis in a few lines, the leading recommendations table within the row limit (one recommendation per row), the omission line pointing at [E2E_AUDIT.md](/Users/you/project/.hele/features/checkout-discount/E2E_AUDIT.md), and one sentence that only the audit report was written: no test deleted, no CI changed.
+
+```
+| Report | Scope |
+|---|---|
+| 🧭 E2E AUDIT | <project or feature> · <n> tests · <suite time> |
+
+<diagnosis, a few lines>
+
+| # | Recommendation | Tests | Why |
+|---|---|---|---|
+| 1 | Consolidate | checkout-a, checkout-b | same journey, same failure |
+
+<shown> of <total> shown · <omitted> more in [E2E_AUDIT.md](/Users/you/project/.hele/features/checkout-discount/E2E_AUDIT.md) or ask "show all recommendations"
 ```
 
 </canonical-blocks>

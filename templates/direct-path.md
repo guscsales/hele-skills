@@ -25,7 +25,7 @@ The direct path delivers a small code change with one engineer, targeted proof a
 1. One **background** engineer who owns the area: `[AGENT BE] Cho` for server, CLI and contracts, `[AGENT FE] Van Pelt` for UI. `model` from `settings.agents.models` for this runtime (`inherit` omits it). Prompt = his persona + the human's ask + the `<worker>` block below + the repo root. For a correction of the active increment, add the increment folder.
 2. No increment, no EXECUTION_PLAN, no `bd create`, no review dispatch. A direct delivery leaves no bead.
 3. When a rule changed, dispatch Wylie (`qa-wylie-stubs`, contract `${CLAUDE_PLUGIN_ROOT}/skills/hele-stubs/SKILL.md`) for the scenario delta in the same turn as the engineer. The fix does not wait for him; the close waits for both. When there is no rule change, nobody is called for scenarios.
-4. Announce with the Dispatch table and **END THE TURN**. Do not wait.
+4. Announce with the Dispatch announcement (`chat-reports.md`, `## Output`, at the effective `output.sections.dispatch` level) and **END THE TURN**. Do not wait.
 
 **Worker exits.**
 - `DONE` with no real-journey flag → print the "Direct close" block; no Wylie run happens.

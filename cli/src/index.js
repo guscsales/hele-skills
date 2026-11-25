@@ -27,8 +27,8 @@ program
 
 program
   .command('config')
-  .description('read/write .hele/settings.json by dot path')
-  .argument('<action>', 'get | set | add | list')
+  .description('read/write .hele/settings.json by dot path; `effective output` prints the resolved chat output')
+  .argument('<action>', 'get | set | add | unset | list | effective')
   .argument('[path]', 'dot path, e.g. agents.maxParallel')
   .argument('[value]', 'value (JSON parsed when possible)')
   .action((action, dotPath, value) => configCommand(action, dotPath, value));

@@ -30,17 +30,24 @@ hele find --json estoque         # machine-readable (what agents consume)
 
 ## hele config
 
-Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. A key the project file does not have uses the defaults on [Configuration](configuration.md).
+Read and write the project `.hele/settings.json` by dot path. JSON values are parsed when possible. Actions: `get | set | add | unset | list | effective`. `list` and `get` show saved values only and never merge defaults; a key the project file does not have is "path not found" (exit 1). `hele config effective output` is the one read that resolves defaults. See [Configuration](configuration.md#output).
 
 ```bash
 hele config list                                     # whole settings file
 hele config get agents.maxParallel
 hele config set agents.maxParallel 6
+hele config set output.preset detailed               # chat detail: compact | standard | detailed
+hele config set output.sections.coverage full        # override one section of the preset
+hele config set output.maxTableRows 12               # rows shown in one list
+hele config unset output.sections.coverage           # follow the preset again
+hele config effective output                         # the resolved chat output, defaults included
 hele config set qa.maxScreenshots 20                 # PNGs kept in one QA report; default 10
 hele config set agents.models.backend-cho opus      # per-agent, both runtimes
 hele config set agents.models.backend-cho.cursor composer
 hele config add designSystem.paths "src/design"     # append to a list (deduped)
 ```
+
+Writes under `output` are validated: a value outside the allowed list, an unknown `output` key, or `add` under `output` exits 1 and leaves the file untouched. `unset` exits 1 when the path is not saved. `effective` works without `.hele/` and exits 2 for any path other than `output`. A negative `maxTableRows` typed without `--` is rejected by the argument parser (exit 1, file untouched) before validation.
 
 Model values are per-runtime objects (`{"claude-code": "sonnet", "cursor": "composer"}`). A plain string applies everywhere. Change one with `hele config set agents.models.backend-cho.claude-code opus`.
 
