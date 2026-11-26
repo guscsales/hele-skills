@@ -77,6 +77,12 @@ describe('direct path routing', () => {
     assert.match(fastPhase2, /Question pack/);
   });
 
+  test('TS-047: a late doubt with a safe recommendation is decided by Lisbon; only without one is it a smaller pack', () => {
+    const spine = phase(conductor, '2-spine');
+    assert.match(spine, /late doubt[^\n]*safe recommendation[^\n]*decided by Lisbon/i);
+    assert.match(spine, /no safe recommendation[^.\n]*smaller pack/i);
+  });
+
   test('an unchanged-rule bug never stops for approval on either path (TS-020)', () => {
     const spine = phase(conductor, '2-spine');
     assert.match(spine, /(bug|bugfix)[^.\n]*(unchanged|leaves the rule)[^.\n]*never stops[^.\n]*either path/i);

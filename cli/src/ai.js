@@ -14,8 +14,13 @@ skills. Fast and Bugfix take the direct path by default (one engineer,
 targeted proof, a close with evidence, no increment, plan or beads) and
 the full path when the ask names an excluded surface or the engineer
 escalates. Product questions are a stop that writes nothing: investigate
-first, then one pack if anything useful remains (accept all /
-one by one / reply in words). After the PRD is approved (and design,
+first, the code behind the rules a change touches included (a read-only
+background read, before the pack), then one pack of only the questions
+that are yours to decide (accept all / one by one / reply in words).
+Engineering defaults, bookkeeping and facts an existing rule states are
+decided by Lisbon and listed as decided without a question at the approval
+stop (the close on the direct path), where you can change them. A late
+doubt with a safe recommendation is applied and marked the same way. After the PRD is approved (and design,
 when there are new screens), the agents
 write the plan, build, and check coverage plus selected E2E with no
 additional sign-off. Screenshots are optional. The QA
@@ -49,9 +54,12 @@ hele config effective output.`,
     agent: 'Agent Lisbon',
     artifact: 'PRODUCT_DESCRIPTION.md + TEST_STUBS.md',
     question: 'WHAT & WHY',
-    detail: `Agent Lisbon investigates first. If useful product questions
-remain, one pack: accept all recommendations, answer one by one, or
-reply in words. That round writes nothing. Only then does she write
+    detail: `Agent Lisbon investigates first, the code behind existing rules
+included. She asks only what is yours to decide: if human-owned product
+questions remain, one pack: accept all recommendations, answer one by
+one, or reply in words. That round writes nothing. Engineering defaults
+and bookkeeping are decided without a question and listed in the approval
+report, where you can change them. Only then does she write
 or patch the PRD and dispatch Wylie for stubs in the same stop.
 Emits a PRD delta and clickable file links; how much of the delta,
 scenarios and coverage shows in chat follows the output setting
@@ -156,8 +164,9 @@ whatever the output setting. Close: 1 ready PR, 2 draft PR,
     agent: 'Agent Lisbon',
     artifact: 'direct: fix + proof · full: PRD + increment',
     question: 'FAST / BUGFIX LANE',
-    detail: `Update lane under /hele. Investigate first. One question pack
-when a rule would change. The direct path is the default: one background
+    detail: `Update lane under /hele. Investigate first, the code behind the
+rules included. One pack of only your questions when a rule would change;
+engineering defaults are decided and listed at the close. The direct path is the default: one background
 engineer writes the smallest failing test, fixes it, runs only the checks
 that reach the changed files, and the close shows the evidence. No
 increment, no plan, no beads. The full path (patch the PRD, stub delta,

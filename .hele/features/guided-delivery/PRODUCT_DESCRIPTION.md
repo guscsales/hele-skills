@@ -1,9 +1,9 @@
 ---
 feature: guided-delivery
 doc: PRODUCT_DESCRIPTION
-version: "1.2"
+version: "1.3"
 status: approved
-updated: 2026-11-25
+updated: 2026-11-26
 ---
 
 # Guided Product Delivery
@@ -153,7 +153,7 @@ A new capability has a meaningful English slug, one current-state product descri
 
 ### BR-2 — Approve product behavior together with acceptance scenarios
 
-On the full path the human reviews the product description and its independently derived acceptance scenarios at one approval stop, and an unapproved new or changed contract does not authorize implementation. Scenario expectations come from the product contract rather than an implementation plan. Coverage recommendations accompany the scenarios without a separate strategy approval. On the direct path (BR-22) there is no approval stop when the rule text is unchanged, or when the human's own words already decide the new rule, meaning Lisbon can write it without making a product choice the human did not state (BR-18): Lisbon patches the description, delivery proceeds, and the rule delta is shown at the close, where the human can correct it. A product doubt the human's words do not settle still stops for the question pack (BR-18) on either path.
+On the full path the human reviews the product description and its independently derived acceptance scenarios at one approval stop, and an unapproved new or changed contract does not authorize implementation. Scenario expectations come from the product contract rather than an implementation plan. Coverage recommendations accompany the scenarios without a separate strategy approval. On the direct path (BR-22) there is no approval stop when the rule text is unchanged, or when the human's own words already decide the new rule, meaning Lisbon can write it without making a product choice the human did not state (BR-18): Lisbon patches the description, delivery proceeds, and the rule delta is shown at the close, where the human can correct it. A product doubt the human's words do not settle still stops for the question pack (BR-18) on either path, unless it is found later and a safe recommendation exists: then it is applied and shown as decided without a question (BR-18).
 
 ### BR-3 — Design participation is conditional
 
@@ -217,7 +217,7 @@ Definition uses two or three search probes in English and the human's language. 
 
 ### BR-18 — Resolve useful questions before writing the contract
 
-Read matching product descriptions and investigate unknown code facts before asking the human. When no useful question remains, do not invent a gate. Otherwise present the remaining questions and foreseeable edge cases together with recommendations: accept all, answer individually or reply freely. Recommendations remain proposals until answered. No new feature folder, registry entry, product description or scenarios are written while those product questions remain unanswered. Newly discovered facts can justify a smaller later question pack. The approval report exposes every new, rewritten and retired rule with the behavior change an informed approval needs, unchanged existing rules where relevant, the scenario and proof-recommendation changes, and links to the complete product description and scenarios. How much appears inline (previous and new wording, the scenario table, the coverage table) follows the effective chat output owned by `project-memory`; an omitted detail stays in the linked documents and can be expanded on request, and product questions, required decisions and the approval options are always shown. Product descriptions contain no unresolved-question section or disguised implementation plan.
+Read matching product descriptions and investigate unknown code facts before asking the human. When the change touches rules that already exist (Fast, Bugfix or a correction), that investigation covers the current code behind those rules and the proof that exists for them, so a doubt that scenario derivation would later surface is in the first pack. A question is useful only when it is the human's to decide: a choice that changes user-visible behavior or the text of a rule, which neither the human's words in this session nor an existing rule already settles. An engineering default (a retry count, a concurrency limit, guarding against duplicates), where the work is recorded (increment, rule numbering, document layout), a fact an existing rule already states, and a question the human already answered in this session are not questions: Lisbon decides them and lists them as decided without a question, where the human can change them at the approval stop, or at the close on the direct path. When no useful question remains, do not invent a gate. Otherwise present the remaining questions and foreseeable edge cases together with recommendations in one pack: accept all, answer individually or reply freely. Recommendations remain proposals until answered. No new feature folder, registry entry, product description or scenarios are written while those product questions remain unanswered. A doubt found later (while writing, during scenario derivation or during build) is applied when a safe recommendation exists and marked as decided by Lisbon in the approval report, or in the close on the direct path, where the human can change it; it becomes a new, smaller pack only when no safe recommendation exists. The approval report exposes every new, rewritten and retired rule with the behavior change an informed approval needs, unchanged existing rules where relevant, the decisions taken without a question, the scenario and proof-recommendation changes, and links to the complete product description and scenarios. How much appears inline (previous and new wording, the scenario table, the coverage table) follows the effective chat output owned by `project-memory`; an omitted detail stays in the linked documents and can be expanded on request, and product questions, required decisions, decisions taken without a question and the approval options are always shown. Product descriptions contain no unresolved-question section or disguised implementation plan.
 
 ### BR-19 — Qualify presentation-only edits narrowly
 
@@ -285,9 +285,12 @@ The direct path creates no increment, no execution plan and no Beads issues. Wha
 | Contract between modules | An interface other parts of the product depend on: an API request or response shape, an event or a shared public type |
 | Reach | A test or check reaches a changed file when it imports it, directly or through other files. The project's test runner makes the selection when it can; otherwise the engineer names the tests he selected and why |
 | Pre-existing failure | A failing check recorded as not caused by the change: one the change does not reach, or a reached one the human chose to record |
+| Safe recommendation | A recommendation that contradicts neither the human's words in this session nor an existing rule, and that the human can change at the approval stop or the close without discarding delivered work |
+| Decided without a question | An engineering default, a bookkeeping choice, a fact an existing rule states, a point already answered in the session, or a late doubt with a safe recommendation, which Lisbon decides and lists for the human to change |
 
 ## Changelog
 
 - v1.0 (2026-11-18) — absorbed from the app. Slices: 001-deliver-approved-features (BR-1–BR-10); 002-continue-and-revise-work (BR-11–BR-14); 003-repair-project-build (BR-15, BR-16); 004-decide-informed-specifications (BR-17, BR-18); 005-apply-presentation-tweaks (BR-19–BR-21).
 - v1.1 (2026-11-24) — direct path for small code changes. Slice: 006-deliver-small-changes-directly (new BR-22–BR-25; rewritten BR-2, BR-4, BR-8, BR-9, BR-11, BR-12, BR-13).
 - v1.2 (2026-11-25) — approval report presentation follows the configurable chat output of project-memory (increment 007-configure-chat-output). Rewritten BR-18.
+- v1.3 (2026-11-26) — fewer question rounds: investigation covers the code behind changed rules before the pack, only human-owned decisions are asked, late doubts with a safe recommendation are applied and shown as decided. Rewritten BR-18 and the last sentence of BR-2; glossary adds Safe recommendation and Decided without a question.

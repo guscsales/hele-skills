@@ -14,8 +14,8 @@ One command called `/hele <your prompt>`. Agent Lisbon, the Builder, detects the
 
 | Lane             | When                                                                  | What happens                                                                                                                                                                                                     |
 | ---------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if anything useful remains (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
-| The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, then one question pack if a rule would change. Takes the direct path by default: one engineer proves and fixes with targeted checks, and you get a close with evidence, with no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when the ask names an excluded surface or the engineer escalates.                                                                                                          |
+| The Feature Lane | The product does not do this yet. This part of the app doesn't exist. | Investigates first, then one question pack if a question is yours to decide (accept all / one by one / reply in words), then PRD + stubs + increment `001`, design when there is a new screen (optional), and the team plans, builds, and checks coverage and selected E2E on its own, with screenshots when useful. |
+| The Fast Lane    | A small addition to what already exists, a product increment.         | Investigates first, the code behind the rules included, then one question pack if a rule would change and the choice is yours. Takes the direct path by default: one engineer proves and fixes with targeted checks, and you get a close with evidence, with no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when the ask names an excluded surface or the engineer escalates.                                                                                                          |
 | The Bugfix Lane  | Today's behavior is wrong.                                            | Question pack only if the rule text would change. Takes the direct path by default, like the Fast lane: one engineer reproduces, fixes and closes with evidence. It follows the full spine of the Fast lane only when the ask names an excluded surface or the engineer escalates.                                                                                          |
 | The Tweak Lane   | Copy, labels, typos, colors, spacing. No rule, no logic.              | One engineer edits and runs only the checks that touch the change, and syncs any PRD quote of the old text. No PRD patch, plan, QA, or manual walk.                                                              |
 | The Open Lane    | Research, review, investigation, design exploration, anything else.   | A conversation, with no PRD, until you pick **Let's formalize or say you're done.**                                                                                                                              |
@@ -75,7 +75,7 @@ Hele Skills Solves That. Welcome to you next level of creation.
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │
- │ ▸ investigate first; ask only what files cannot      │
+ │ ▸ investigate first, code too; ask only your calls   │
  │ ▸ 1 accept all · 2 one by one · 3 reply in words     │
  │ ▸ a recommendation is an option, not a rule          │
  ╰──────────────────────────────────────────────────────╯
@@ -85,6 +85,7 @@ Hele Skills Solves That. Welcome to you next level of creation.
  │ Agent Lisbon + Agent Wylie                           │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
  │ ▸ behavior first, then coverage recommendations     │
+ │ ▸ decided without a question: listed, you can change │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼

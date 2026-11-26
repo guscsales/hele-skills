@@ -11,7 +11,9 @@
   questions section. A question still open means do not create this
   file (new feature) and do not patch it (update). Useful questions
   land in one pack before this file exists (accept all / one by one /
-  open reply). A recommendation belongs in that pack, not in a rule
+  open reply); only human-owned ones, never an engineering default or
+  bookkeeping choice, which Lisbon decides and lists as decided without a
+  question. A recommendation belongs in that pack, not in a rule
   written ahead of the answer.
 - Business rules are numbered (BR-n) and testable — TEST_STUBS reference them.
   Each rule is a ### BR-n — Title heading with enough prose to review alone.

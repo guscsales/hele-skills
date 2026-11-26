@@ -2,6 +2,14 @@
 
 Every released version, newest first. Each entry lists the commits that shipped in it.
 
+## v1.10.0 — 2026-11-26
+
+- feat: fewer question rounds. Before the pack, a background read-only specialist (the owning engineer, or Wylie's coverage scan) reads the code behind the rules a change touches and the existing proof, for Fast, Bugfix, a correction and an update to an existing PRD. The pack is built from its report, so doubts that scenario derivation would later have surfaced are in the first pack. No dispatch when the PRD and your words already settle everything. Lisbon still never reads the code in the main session.
+- feat: question filter. The pack holds only human-owned questions: user-visible behavior or rule text that neither your words this session nor an existing rule settles. Engineering defaults (a retry count, a concurrency limit, duplicate guards), bookkeeping (increment, rule numbering, document layout), facts an existing rule already states and questions you already answered are decided by Lisbon.
+- feat: **Decided without a question** bucket. The approval report (PRD + stubs) and the direct close list every such decision with the reason it was not a question, always shown and never cut by output verbosity. You change any of them at the approval stop, or at the close on the direct path.
+- feat: late doubts no longer open a new stop when they have a safe recommendation. The recommendation is applied and marked decided by Lisbon in the approval report or the direct close. Only a doubt with no safe recommendation becomes a new, smaller pack. The "late questions are allowed" text is gone. Wylie and the direct-path engineer return such doubts as decisions, not questions.
+- chore: guided-delivery PRD v1.3 (BR-18 rewritten). The flow diagram, README, `hele ai`, `.docs`, chat-reports, direct-path and open-channel text and the CLI bundle are updated.
+
 ## v1.9.0 — 2026-11-25
 
 - feat: QA closes test-only gaps without a stop. A `coverage-gap` or `test-defect` that needs only test-file changes (no product code, no contract question) is closed by Wylie in the same QA run, engineer-owned suites included: he adds or corrects the assertion, runs only that test file and reuses the other evidence, with no worktree, install or full-suite run. The report lists each closed gap with its test and result and offers no approval for it. If the new assertion fails on current code it becomes a product bug routed to its engineer and the fix option stays. Wylie still never edits product code.

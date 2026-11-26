@@ -23,7 +23,7 @@ export const FLOW_DIAGRAM = `
     ▼
  ╭─ questions ─────────────────────────────────── STOP ─╮
  │ Agent Lisbon                                         │
- │ ▸ investigate first; ask only what files cannot      │
+ │ ▸ investigate first, code too; ask only your calls   │
  │ ▸ 1 accept all · 2 one by one · 3 reply in words     │
  │ ▸ a recommendation is an option, not a rule          │
  ╰──────────────────────────────────────────────────────╯
@@ -33,6 +33,7 @@ export const FLOW_DIAGRAM = `
  │ Agent Lisbon + Agent Wylie                           │
  │ ▸ PRODUCT_DESCRIPTION.md + TEST_STUBS.md             │
  │ ▸ behavior first, then coverage recommendations     │
+ │ ▸ decided without a question: listed, you can change │
  ╰──────────────────────────────────────────────────────╯
     │
     ▼
