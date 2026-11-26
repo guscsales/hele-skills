@@ -39,7 +39,7 @@ Lisbon reads before she plans — plans cite real files, never vibes:
 3. When the work escalated from the direct path, the engineer's findings (files read, which excluded surface each change touches, proposed split) are input to `<current-state>`. The direct-path attempt left no plan or beads to reuse; the full path plans and tracks the work from scratch.
 4. If the increment folder does not exist yet, create `increments/NNN-<slug>/` (next number, goal slug). Do not write a phase anywhere.
 
-Questions she cannot answer from code or docs go to the human now as the Question pack from `templates/chat-reports.md` (investigate first, one table, accept all / one by one / open reply). Technical trade-offs carry her recommendation. Do not drip.
+Questions she cannot answer from code or docs go to the human now as the Question pack from `templates/chat-reports.md` (investigate first, one table, accept all / one by one / open reply). Technical trade-offs carry her recommendation. Engineering defaults are hers to decide, not questions (the question filter in `chat-reports.md`). Do not drip.
 </phase>
 
 <phase name="3-plan-and-epic">

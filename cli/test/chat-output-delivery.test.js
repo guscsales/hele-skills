@@ -96,10 +96,10 @@ describe('delivery spine follows the effective output', () => {
       assert.match(text, /at every level/i, rel);
       assert.match(text, /expansion request keeps the approval pending with the same options/, rel);
     }
-    // TS-032: the question gate invents nothing, late doubts reuse the pack, no Open questions section, no solutioning in the PRD
+    // TS-032: the question gate invents nothing, a late doubt with a safe recommendation is applied, otherwise a smaller pack, no Open questions section, no solutioning in the PRD
     const feature = read('skills/hele-feature/SKILL.md');
     assert.match(feature, /Do not invent a question to satisfy this gate\./);
-    assert.match(feature, /\*{0,2}Late questions:?\*{0,2}[^\n]*uses the same pack/);
+    assert.match(feature, /\*{0,2}Late doubts:?\*{0,2}[^\n]*smaller pack/);
     assert.match(feature, /There is no Open questions section\./);
     assert.match(feature, /Lisbon does not put technical solutioning in the PRD\./);
   });

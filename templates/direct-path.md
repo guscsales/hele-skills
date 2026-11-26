@@ -19,7 +19,7 @@ The direct path delivers a small code change with one engineer, targeted proof a
 **Rule handling (BR-2), before dispatch.**
 - Rule unchanged (a bug that violates an unchanged rule): no PRD touch, no stop.
 - Rule fully decided by the human's words (writing it needs no product choice the human did not state): Lisbon patches the PRD in this session with a patch version and a changelog line, dispatches without a stop, and shows the delta at the close.
-- Product doubt the human's words do not settle: one Question pack, nothing written, nothing dispatched until the human answers.
+- Product doubt the human's words do not settle: one Question pack, nothing written, nothing dispatched until the human answers. When the change touches existing rules, build the pack from an investigation first: dispatch one background read-only specialist (the owning engineer, or Wylie's coverage scan) to read the code behind those rules and the existing proof, end the turn, and ask only the human-owned questions it leaves (the question filter in `chat-reports.md`, Question pack). No dispatch when the PRD and the human's words already settle everything. Engineering defaults, bookkeeping, a fact an existing rule states and a question already answered this session are decided by Lisbon and shown as Decided without a question at the close, where the human can change them.
 
 **Dispatch.**
 1. One **background** engineer who owns the area: `[AGENT BE] Cho` for server, CLI and contracts, `[AGENT FE] Van Pelt` for UI. `model` from `settings.agents.models` for this runtime (`inherit` omits it). Prompt = his persona + the human's ask + the `<worker>` block below + the repo root. For a correction of the active increment, add the increment folder.
@@ -30,7 +30,7 @@ The direct path delivers a small code change with one engineer, targeted proof a
 **Worker exits.**
 - `DONE` with no real-journey flag → print the "Direct close" block; no Wylie run happens.
 - `DONE` that flags a real journey → dispatch Wylie (`qa-wylie-run`) for that journey only, never the whole suite, end the turn, and print the "Direct close" block when his report arrives.
-- Product doubt: when the engineer's result reports a product doubt, show the Question pack. Nothing more is written until the human answers (BR-2, BR-18).
+- Product doubt: when the engineer's result reports a product doubt with no safe recommendation, show a Question pack of only that doubt. Nothing more is written until the human answers (BR-2, BR-18). A doubt he reports with a safe recommendation is already applied: carry it to the Decided without a question row of the close, marked decided by Lisbon.
 - `ESCALATE` → announce the escalation with its reason (the Escalation line), then run `${CLAUDE_PLUGIN_ROOT}/skills/hele-fast/SKILL.md` on the full path. Pass the engineer's findings to planning (`skills/hele-plan/SKILL.md`) as `<current-state>` input; his partial work stays in the tree.
 - `UNEXPLAINED` → print the "Unexplained failure" stop and call nobody. The free-text reply stays on that stop. On "continue", record the failure as pre-existing and close. On "compare", which the human chose for this delivery, dispatch Wylie (`qa-wylie-run`) to compare that one check against the previous revision, closed scope; then close.
 
@@ -45,7 +45,7 @@ The direct path delivers a small code change with one engineer, targeted proof a
 You are the owning engineer on the direct path. You write the test, the fix and the report. You do not invent requirements.
 
 1. **Investigate and confirm the fit.** Read only what the change needs. If the change turns out to touch an excluded surface (see the conductor list), stop, keep partial work, change nothing more and return `ESCALATE` with findings: files read, what touches which surface, and a proposed split.
-   Product doubt found while investigating (a rule the conductor's check did not settle): stop, keep any partial work, change nothing more, and report the doubt in your result as a question for the human. The conductor shows the Question pack; nothing more is written until the human answers (BR-2, BR-18). This is not a fourth result name.
+   Product doubt found while investigating (a rule the conductor's check did not settle): if you have a safe recommendation (the engineering default, or the choice an existing rule already implies), apply it and list it in your report as decided without a question. With no safe recommendation: stop, keep any partial work, change nothing more, and report the doubt in your result as a question for the human. The conductor shows the Question pack; nothing more is written until the human answers (BR-2, BR-18). This is not a fourth result name.
 2. **Reproduce.** Write the smallest test able to fail for the problem or the new behavior. Run it. Record the failing output.
 3. **Make the change.** Edit the minimum. Run the test again until it is green.
 4. **Run only the checks that reach the changed files.** A test reaches a file when it imports it, directly or through other files. Use the runner's related mode when it exists (`vitest related`, `jest --findRelatedTests`, matched `pytest`); otherwise name the selected tests and why. Add the type and lint checks that apply, scoped to the changed files. Never the whole suite. The engineer never runs Playwright; step 6 only flags a journey and Wylie runs it.
@@ -54,7 +54,7 @@ You are the owning engineer on the direct path. You write the test, the fix and 
    - A failing check the change reaches that you cannot explain: stop, leave the change in place, and return `UNEXPLAINED` with the check name, an error excerpt, an estimated time to continue (record as pre-existing) and an estimated time to compare against the previous revision (only if the human chooses it), each a number or `unknown`.
 6. **Real journey.** You only flag a real journey, you never run it, and only when no smaller test can fail for it: parts that only fail together. Say which journey. Otherwise do not flag one.
 7. **Correction of the active increment.** In that increment's `VERIFY.md`, set the touched flow to `pending` and rewrite its expected result from the corrected rule. Touch no other flow, no plan and no QA_REPORT.
-8. **Report `DONE`:** changed files; proof, with the failing and passing output; related checks run; what was deliberately not run and why (not run and why); pre-existing failures with name and error excerpt; the journey flag when step 6 applies. Never paste whole files.
+8. **Report `DONE`:** changed files; proof, with the failing and passing output; related checks run; what was deliberately not run and why (not run and why); pre-existing failures with name and error excerpt; each doubt you applied under a safe recommendation, one line (decided without a question); the journey flag when step 6 applies. Never paste whole files.
 
 Do not commit, branch or push. Do not run the whole suite.
 </worker>

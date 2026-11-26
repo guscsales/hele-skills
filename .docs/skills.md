@@ -16,8 +16,8 @@ The conductor. Agent Lisbon talks. Specialists work in the background.
 
 | Lane | When | What happens |
 | --- | --- | --- |
-| Feature | The product does not do this yet. | Investigates first, then one question pack if anything useful remains, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. You walk the result in tables. |
-| Fast | A small addition to what already exists. | Investigates first, then one question pack if a rule would change. Direct path by default: one engineer, targeted proof, close with evidence, no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when an excluded surface is named or found. |
+| Feature | The product does not do this yet. | Investigates first, then one question pack if a question is yours to decide, then PRD + stubs + increment `001`. Design when there is a new screen. The team plans, builds, and auto-verifies. You walk the result in tables. |
+| Fast | A small addition to what already exists. | Investigates first, the code behind the rules included, then one question pack if a rule would change and the choice is yours. Direct path by default: one engineer, targeted proof, close with evidence, no increment, plan or beads. The full path (PRD patch, new increment, plan, build, QA) runs when an excluded surface is named or found. |
 | Bugfix | Today's behavior is wrong. | Question pack only if the rule text would change. Direct path by default, like Fast; the full path when an excluded surface is named or found. |
 | Tweak | Copy, labels, typos, colors, spacing. No rule, no logic. | One engineer edits, runs only the checks that touch the change, and syncs PRD quotes of the old text. No plan, QA, or manual walk. Escalates to Fast if a rule shows up. |
 | Open | Research, review, investigation, design exploration. | A conversation, until you pick **Let's formalize** or say you're done. |
@@ -34,11 +34,11 @@ Updates the installed plugin to the latest version. Refreshes the `hele` marketp
 
 ## /hele-feature
 
-Agent Lisbon. Anti-duplicate gate, then she investigates. If useful questions remain, one pack (accept all / one by one / open reply). That round writes nothing. Only then **PRD and stubs in the same stop** (Wylie, blind to the plan). Emits a PRD delta and clickable links. Option `1` goes to design, or to build and auto-verify when design is not needed.
+Agent Lisbon. Anti-duplicate gate, then she investigates; when the change touches existing rules, a read-only background specialist reads the code behind them and the existing proof first. If human-owned questions remain, one pack (accept all / one by one / open reply). Engineering defaults, bookkeeping, facts an existing rule states and questions already answered are decided by Lisbon and shown as **Decided without a question** in the approval report, where you can change them; a late doubt with a safe recommendation is applied and marked the same way. That round writes nothing. Only then **PRD and stubs in the same stop** (Wylie, blind to the plan). Emits a PRD delta and clickable links. Option `1` goes to design, or to build and auto-verify when design is not needed.
 
 ## /hele-fast
 
-Update lane `/hele` runs for Fast and Bugfix: investigate first, then one question pack when a rule would change. The [direct path](#direct-path) is the default. The full path (patch the PRD, stub delta, new increment, then plan, build and auto-verify) runs when the ask names an excluded surface or the engineer escalates; TDD and the named agents never shrink, beads and the increment belong to the full path. A bugfix that violates a rule that stays unchanged never stops to ask, on either path. A failing check the change does not reach is recorded as pre-existing; one the change reaches that nobody can explain stops at the Unexplained failure stop. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
+Update lane `/hele` runs for Fast and Bugfix: investigate first (the code behind the rules a change touches, by a read-only specialist before the pack), then one pack of human-owned questions when a rule would change. The [direct path](#direct-path) is the default. The full path (patch the PRD, stub delta, new increment, then plan, build and auto-verify) runs when the ask names an excluded surface or the engineer escalates; TDD and the named agents never shrink, beads and the increment belong to the full path. A bugfix that violates a rule that stays unchanged never stops to ask, on either path. A failing check the change does not reach is recorded as pre-existing; one the change reaches that nobody can explain stops at the Unexplained failure stop. Schema and security stay with Hightower and Jane. A correction of the increment already in play does not open a new increment.
 
 ## Direct path
 
@@ -52,7 +52,7 @@ Update lane `/hele` runs for Fast and Bugfix: investigate first, then one questi
 
 **Unexplained failure.** A check the change does not reach that fails is recorded as pre-existing, with its name and an error excerpt, and never triaged. A check the change reaches that the engineer cannot explain stops the delivery before anyone else is called, with two choices: continue and record it as pre-existing, or compare that one check against the previous revision. Each carries an estimate, or `unknown`. Hele never orders a previous-revision comparison, a worktree, a dependency install or a second environment unless you chose compare for that delivery. The full-path build follows the same rule.
 
-**Direct close.** One block: what changed, the proof (failing, then passing), the related checks run, what was not run and why, pre-existing failures, and the rule delta (`unchanged` when no rule changed), with the files as links. A new bug or addition closes with ready PR, draft PR, no PR, or more to change. A correction of the active increment offers no PR choices: it returns to the touched flow in manual verify.
+**Direct close.** One block: what changed, the proof (failing, then passing), the related checks run, what was not run and why, pre-existing failures, the decisions taken without a question (`none` when there are none), and the rule delta (`unchanged` when no rule changed), with the files as links. A new bug or addition closes with ready PR, draft PR, no PR, or more to change. A correction of the active increment offers no PR choices: it returns to the touched flow in manual verify.
 
 ## /hele-tweak
 

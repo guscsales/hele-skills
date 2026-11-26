@@ -29,7 +29,7 @@ How much of each report appears in chat comes from the effective output, never f
 - Precedence, strongest first: an explicit request in the current message, a saved override, the saved preset, the plugin default. A request in the message applies to this response only and is never saved unless the human asks to save it. Saving goes through `hele config set` (or `hele config unset` to follow the preset again). A request changes the level of detail only: it cannot hide always-visible content.
 - When `warnings` is not empty, print one short line naming each key and the value used instead, once per session. It is not repeated in later reports.
 - Output is chat presentation only. Documents, evidence, tests run, approval criteria, workflow stages and work state are the same under every setting. Chat text follows `language.chat` and files follow `language.artifacts` under every setting, including summaries, count lines and omission lines.
-- **Always visible.** Under every preset, every section value (`off` included) and whatever the current message asks, the chat still shows at least a summary of: failures, blockers, missing required coverage, product questions, required decisions, workflow options and approvals, and the steps of a verification walk. This content is outside the section levels. Failures, blockers and missing required coverage are outside `maxTableRows`: one line per item with its id and cause, however many there are. Only the detail per item follows the section level. A request to hide them gives less detail, never fewer items.
+- **Always visible.** Under every preset, every section value (`off` included) and whatever the current message asks, the chat still shows at least a summary of: failures, blockers, missing required coverage, product questions, required decisions, decisions taken without a question, workflow options and approvals, and the steps of a verification walk. This content is outside the section levels. Failures, blockers and missing required coverage are outside `maxTableRows`: one line per item with its id and cause, however many there are. Only the detail per item follows the section level. A request to hide them gives less detail, never fewer items.
 - **Row limit.** `maxTableRows` limits informational lists, `full` levels included. A limited list ends with the omission line. English contract: `<shown> of <total> shown · <omitted> more in [<document>](<absolute path>) or ask "show all <thing>"`. Render it in the chat language. Never imply a limited list is complete. Questions that need an answer and items the human must approve are never cut: group or paginate them explicitly (English contract `questions <from>–<to> of <total>`), and the stop does not proceed as answered or approved while any is unseen.
 - **Expansion.** "show all TS", "expand TS-014" and "show the full QA report" re-present information that already exists, for that response only: no phase restart, no test rerun, no approval change, no work-state change, no settings change. A show-all request lifts the row limit for that response, and the omission line is left out when everything is shown. The next report returns to the effective output.
 - **Tables.** `auto` allows prose or a short list for a small amount of information instead of a one-row table. `always` presents structured information as tables. Neither allows box-drawing.
@@ -43,13 +43,13 @@ The checklist names blocks. Each block's level comes from `## Output`; the order
 |---|---|
 | Lane | Lane table (one row) · then continue into that lane |
 | Init | Report frame · Field/Value · Files (links) · continue the ask already in flight |
-| Questions | Question pack (investigate first) · Options 1/2/3 · no files · end the turn |
-| PRD + stubs | Report frame · Field/Value · PRD delta (prdDelta) · Scenarios (testStubs) · Coverage (coverage) · always-visible items · Files (links) · Open these · Options |
+| Questions | Question pack (investigate first, code behind existing rules included) · Options 1/2/3 · no files · end the turn |
+| PRD + stubs | Report frame · Field/Value · PRD delta (prdDelta) · Scenarios (testStubs) · Coverage (coverage) · Decided without a question · always-visible items · Files (links) · Open these · Options |
 | Design | Report frame · Field/Value · Files (links) · Options |
 | Plan | Staff note · Files (links) · no Options — start build (draft DB_CHANGES → Hightower's Options instead) |
 | Build green | short report · no Options — start auto-verify |
 | Unexplained failure | Report frame · Field/Value (check, error, what it reaches) · the two-choice Options table, and nothing after it · call nobody · end the turn |
-| Direct close | Report frame · Field/Value (changed, proof, related checks, not run, pre-existing, rule delta) · Files (links) · Options (PR choices, or walk the touched flow) |
+| Direct close | Report frame · Field/Value (changed, proof, related checks, not run, pre-existing, Decided without a question, rule delta) · Files (links) · Options (PR choices, or walk the touched flow) |
 | Dispatch | Dispatch announcement (dispatch) · one canned line (`Thread is opened, you can talk` / `A thread continua aberta, pode falar.`) · end the turn |
 | QA report | Report frame · Test results (qaResults) with evidence · CI impact · Shots (screenshots) · always-visible items · Files (links) · Open these · Options (continue to manual verify / fix what I saw) |
 | Verify — each flow | Open table · Data table · Steps table (every step row, always) · optional screenshot · Options |
@@ -162,6 +162,20 @@ At `summary`, the Rewritten table has the columns Rule · What changes (the beha
 
 The rows follow the row limit (see Output). A rule that needs the human's approval is never cut: paginate or group it.
 
+## Decided without a question
+
+Whenever the approval report (PRD + stubs) or the Direct close is printed. It lists what Lisbon decided for the human instead of asking: engineering defaults, bookkeeping, a fact an existing rule states, an answer already given this session, and a late doubt that had a safe recommendation (marked decided by Lisbon). Always shown, at every level of `## Output`, and never cut by `maxTableRows`; it is not an informational list. One row per decision, with what was decided and why it was not a question. The human changes any row by saying so: on the full path at the approval stop (free text there is option 2, and the PRD and stubs are patched again), on the direct path at the close (option 4). When nothing was decided that way, one line says `none` in the chat language, never an empty table.
+
+```
+| Decided without a question | Why not a question |
+|---|---|
+| Retry a failed email send 3 times | Engineering default |
+| Work lives in the existing `checkout-discount` PRD | Bookkeeping |
+| Coupons expire at midnight store time | BR-3 already states it |
+| Points apply before the card | Answered in this session |
+| A second coupon is rejected with the standard message | Late doubt, safe recommendation, decided by Lisbon |
+```
+
 ## Open these
 
 ```
@@ -267,12 +281,22 @@ Investigate first. This round writes nothing. No PRD, no stubs, no Files table. 
 
 **Investigate before a single question exists:**
 
-1. The human's words.
+1. The human's words, this session included.
 2. Matching PRDs (`hele find`, then read those `PRODUCT_DESCRIPTION.md` files). That is talking, not exploring the product codebase.
 3. A fact that needs product-code or live-UI truth: dispatch a specialist, end the turn, wait for the report. Do not ask the human what the code already does.
-4. If those sources already decide every rule, skip this stop and write. Do not invent a question to satisfy the gate.
+4. **A change to rules that already exist** (Fast, Bugfix, a correction of the increment in play, an update to an existing PRD): that investigation covers the code behind those rules and the existing proof, and it happens before the pack. Dispatch one background read-only specialist: the owning engineer, or Wylie's coverage scan when the open point is what the tests prove. Read-only means it edits nothing and runs no tests. It returns what the code does today for each changed rule, what proof exists, the engineering defaults it would pick, and each doubt with its safe recommendation or without one. Lisbon never reads the code in the main session. End the turn, and build one pack from its findings. The doubts that scenario derivation would later surface are in this pack, not in a second one. No dispatch when the PRD and the human's words already settle everything.
+5. If those sources already decide every rule, skip this stop and write. Do not invent a question to satisfy the gate.
 
-**Then one pack.** Every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate (update `<slug>` vs new) is a row in this pack when matches exist, not a separate turn. Questions need an answer, so the pack is never cut by the row limit: a pack larger than the limit is paginated or grouped, never cut (see Output).
+**Question filter.** A question is useful only when it is human-owned: a choice that changes user-visible behavior or the text of a rule, which neither the human's words in this session nor an existing rule settles. These are not questions, and Lisbon decides them:
+
+- an engineering default (a retry count, a concurrency limit, guarding against duplicates);
+- bookkeeping: which increment holds the work, rule numbering, whether to create a new rule, document layout;
+- a fact an existing rule already states (name that rule);
+- a question the human already answered in this session, in chat before `/hele` too.
+
+Each one is listed under **Decided without a question**, where the human can change it: at the approval stop on the full path, at the close on the direct path.
+
+**Then one pack.** Every remaining human-owned question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate (update `<slug>` vs new) is a row in this pack when matches exist, not a separate turn. Questions need an answer, so the pack is never cut by the row limit: a pack larger than the limit is paginated or grouped, never cut (see Output).
 
 Print, in this order: Agent/Needs, the question table, then the three Options. Headers and cells are in the chat language. A recommendation is the default she would ship, not a rule already in a file.
 
@@ -301,7 +325,7 @@ Print, in this order: Agent/Needs, the question table, then the three Options. H
 
 **On `3` or free text at this stop:** wait. The next message is the open answer. Free text here is option 3, not option 2. If the reply still leaves a useful question, a second pack of only the remainder. If it answers everything, write.
 
-**Late questions are allowed.** A new doubt that could not have been in the first pack (the human added scope, a contradiction found while writing, a design or QA discovery) uses this same pack. Do not restart a drip interview. Do not drip follow-ups that belonged in the first pack.
+**Late doubts.** A doubt found after the pack (while writing, deriving scenarios or building) that has a safe recommendation is applied and marked as decided by Lisbon in the approval report, or in the direct close, where the human can change it. It does not become a new stop. Only a doubt with no safe recommendation becomes a new, smaller pack. Do not drip follow-ups that belonged in the first pack.
 
 ## Options table
 
@@ -485,7 +509,7 @@ A check the change reaches fails and the owner cannot explain it. The delivery s
 
 ## Direct close
 
-The close of a delivery on the direct path. One engineer proved and fixed the change, so there is no QA report and no plan. Print this shape in the chat language. Every row is one item. The Rule delta row is `unchanged` when no rule changed; when a rule changed, replace that cell with the PRD delta block (prdDelta) above (New / Rewritten / Already the rule / Retired). Files lists the changed files; PRODUCT_DESCRIPTION.md and TEST_STUBS.md only when this delivery patched them.
+The close of a delivery on the direct path. One engineer proved and fixed the change, so there is no QA report and no plan. Print this shape in the chat language. Every row is one item. The Decided without a question row is `none` when nothing was decided that way; otherwise it lists each decision in one line, with why it was not a question. The Rule delta row is `unchanged` when no rule changed; when a rule changed, replace that cell with the PRD delta block (prdDelta) above (New / Rewritten / Already the rule / Retired). Files lists the changed files; PRODUCT_DESCRIPTION.md and TEST_STUBS.md only when this delivery patched them.
 
 ```
 | Report | Scope |
@@ -499,6 +523,7 @@ The close of a delivery on the direct path. One engineer proved and fixed the ch
 | Related checks | <checks that ran and their result> |
 | Not run | <what was deliberately not run, and why> |
 | Pre-existing failures | `<check>` — `<error excerpt>` / none |
+| Decided without a question | <decision — why not a question> / none |
 | Rule delta | unchanged |
 
 | File | Change |

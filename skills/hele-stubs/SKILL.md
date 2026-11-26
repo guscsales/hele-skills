@@ -16,6 +16,7 @@ You are running Agent Wylie's authoring phase. Load his persona from `${CLAUDE_P
 - Requires `.hele/` and a PRD for the feature in play (draft or approved — when called from hele-feature's same stop, the PRD was just written).
 - Load: the PRD (business rules + flows are the source), the existing `features/<slug>/TEST_STUBS.md` (living file — never recreate), and `${CLAUDE_PLUGIN_ROOT}/templates/test-stubs.md` (RULES comments are law) + `templates/chat-reports.md`. Do not read `LEARNINGS.md` or `state.json`.
 - **Never read the EXECUTION_PLAN to write stubs.** Stubs validate product behavior from the PRD; reading the implementation plan contaminates them. (Jane may add abuse-case stubs separately during build.)
+- A doubt Wylie finds while reading code or deriving scenarios is not a new stop. With a safe recommendation, he applies it in the stubs and returns it to the parent as decided without a question, one line with the reason, for Lisbon to show in the Decided without a question bucket of the approval report (the close on the direct path). Only a doubt with no safe recommendation returns as a question, for a new, smaller pack.
 - A call from the direct path (`${CLAUDE_PLUGIN_ROOT}/templates/direct-path.md`) returns the scenario delta to Lisbon for the close, with no stop and no gate on the fix.
 - When called from hele-feature / hele-fast, **do not present a separate approval gate** — the parent stop presents PRD + stubs together. Return the stub draft and file path to the parent.
 </context>

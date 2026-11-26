@@ -37,15 +37,18 @@ No feature is created before searching.
 <phase name="2-interview">
 No `PRODUCT_DESCRIPTION.md` is created or patched while a product question is unanswered. No feature folder, no index registration, no Wylie, no delta, no Files table.
 
-Investigate first, then one pack, then write. Do not drip questions across turns. The shape is the Question pack in `templates/chat-reports.md`.
+Investigate first, then one pack, then write. Do not drip questions across turns. The shape, the investigation and the question filter are the Question pack in `templates/chat-reports.md`.
 
 **Investigate (before any question):**
 1. The human's words.
 2. Matching PRDs — read those `PRODUCT_DESCRIPTION.md` files. Do not ask a question those files already answer.
 3. A fact that needs product-code or live-UI truth: dispatch a specialist, end the turn, wait for the report. Do not ask the human what the code already does.
-4. If the files and the human's words already decide every rule, skip to phase 3 in this turn. Do not invent a question to satisfy this gate.
+4. An update to rules that already exist: dispatch one background read-only specialist before the pack to read the code behind those rules and the existing proof, end the turn, and build the pack from its report. No dispatch when the PRD and the human's words already settle everything.
+5. If the files and the human's words already decide every rule, skip to phase 3 in this turn. Do not invent a question to satisfy this gate.
 
-**The pack:** every remaining useful question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate is a row in this pack when matches exist.
+**Question filter:** ask only human-owned decisions (user-visible behavior or rule text that neither the human's words this session nor an existing rule settles). An engineering default, bookkeeping (increment, rule numbering, document layout), a fact an existing rule states and a question already answered this session are decided by Lisbon and listed under Decided without a question for the approval stop.
+
+**The pack:** every remaining human-owned question, in one table, each with a recommendation. Anticipate the edge cases of each recommendation and put them in this same pack — a follow-up that only exists because you recommended X belongs here, not next turn. Anti-duplicate is a row in this pack when matches exist.
 
 Announce the pack (Agent/Needs, Question/Recommendation, then the three Options). Headers and cells are in the chat language. **End the turn.** Write nothing.
 
@@ -58,7 +61,7 @@ For an update: read the current PRD first. Interview only the delta. Challenge c
 - `2` Answer one by one → AskUserQuestion over the same pack (max 4 per call, widget cap). Do not add new topics. When the last answer is in, run phase 3 now.
 - `3` or free text → wait. The next message is the open answer. Free text at this stop is option 3, not option 2. If the reply still leaves a useful question, a second pack of only the remainder. If it answers everything, run phase 3 now.
 
-**Late questions:** a new doubt that could not have been in the first pack (the human added scope, a contradiction found while writing, a design or QA discovery) uses the same pack. Do not restart a drip interview.
+**Late doubts:** a doubt found after the pack (the human added scope, a contradiction found while writing, a design or QA discovery) with a safe recommendation is applied and marked decided by Lisbon in the approval stop, where the human can change it. Only a doubt with no safe recommendation is a new, smaller pack. Do not restart a drip interview.
 
 Never invent a fact. There is no Open questions section. A recommendation is the default in the Recommendation cell, never a sentence already written into a rule.
 </phase>
@@ -88,7 +91,7 @@ Runs only after phase 2 closed with zero unanswered product questions.
 </phase>
 
 <phase name="4-brief-and-approval">
-Emit the FEATURE BRIEF from Lisbon's persona, then, in order: PRD delta, Scenarios and Coverage at the effective output (`chat-reports.md`, `## Output`; read it with `hele config effective output`), Files, Open these, Options. At every level the stop shows every new, rewritten and retired rule with its behavior change, every product question, every required decision and approval option, and the links to the complete PRD and TEST_STUBS; only the detail around them follows the level. A request such as "show all TS" re-presents what exists for that response only: an expansion request keeps the approval pending with the same options. Every file is a clickable link (file name as the label, absolute path as the target, one line). Never a raw Path column. Never a code fence. Never box-drawing.
+Emit the FEATURE BRIEF from Lisbon's persona, then, in order: PRD delta, Scenarios and Coverage at the effective output (`chat-reports.md`, `## Output`; read it with `hele config effective output`), Decided without a question, Files, Open these, Options. At every level the stop shows every new, rewritten and retired rule with its behavior change, every product question, every required decision, every decision taken without a question (the Decided without a question bucket, after Coverage) and approval option, and the links to the complete PRD and TEST_STUBS; only the detail around them follows the level. A request such as "show all TS" re-presents what exists for that response only: an expansion request keeps the approval pending with the same options. Every file is a clickable link (file name as the label, absolute path as the target, one line). Never a raw Path column. Never a code fence. Never box-drawing.
 
 Option 1:
 

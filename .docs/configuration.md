@@ -227,6 +227,6 @@ Each `warnings` entry is `{ "key": "output.sections.coverage", "saved": "huge", 
 
 | Key | Default | Options or type | What it does |
 | --- | --- | --- | --- |
-| `questions.planning` | `always` | string | When the question pack runs before a PRD. `always` means investigate first, then one pack if a useful question remains. |
+| `questions.planning` | `always` | string | When the question pack runs before a PRD. `always` means investigate first (the code behind existing rules included), then one pack if a human-owned question remains. |
 
 Next: [CLI Reference](cli.md)
